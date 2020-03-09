@@ -1,0 +1,37 @@
+{
+  "name": "qrltips",
+  "version": "0.1.1",
+  "description": "Social TipBot for QRL - Quantum Resistant Ledger. Discord, Twitter ",
+  "keywords": ["tipbot", "discord Tip Bot", "QRL", "Crypto Bot" ],
+  "homepage": "https://github.com/fr1t2/QRL-TipBot#readme",
+  "author": "Fr1t2 <fr1t2@fr1t2.com> (https://fr1t2.com)",
+  
+  "main": "app.js",
+
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "discord.js": "^11.5.1",
+    "eslint": "^6.3.0",
+    "mysql": "^2.18.1",
+    "qrcode": "^1.4.4"
+  },
+  "engines": {
+    "node" : "8.10.0"
+  },
+  "devDependencies": {},
+
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "initDB": "node ./_scripts/db/createAllDBs.js",
+    "addTestData": "node ./_scripts/db/addTestData.js",
+    "DiscordBot": "node ./_scripts/discord/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fr1t2/QRL-TipBot.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fr1t2/QRL-TipBot/issues"
+  }
+}

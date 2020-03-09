@@ -1,0 +1,543 @@
+'use strict';
+const mysql = require('mysql');
+const config = require('../../_config/config.json');
+const wallet = require('../qrl/walletTools');
+
+// connector to the database
+const callmysql = mysql.createPool({
+  connectionLimit: 10,
+  host: `${config.database.db_host}`,
+  user: `${config.database.db_user}`,
+  password: `${config.database.db_pass}`,
+  database: `${config.database.db_name}`,
+});
+
+// async function SendQuanta(args) {
+// this function will send quanta from a wallet address.
+// Will need to get wallet balance, and calculate the fees and if more than one address
+// expects { address_to: address_to, amount: amount, fee: fee, address_from: wallet_pub }
+// }
+
+
+async function CheckUser(args) {
+  /*
+  Check for the user in users database
+  We expect to recieve data about the service requesting { discord || twitter } and the user ID from that service as expected in the DB
+  i.e.: { service: 'discord', user_id: userID }
+  returns { user_found: true, user_id: id } | { user_found: false }
+  */
+  return new Promise(resolve => {
+    if (args !== null) {
+      // args passed, check for the service used
+      const input = JSON.parse(JSON.stringify(args));
+      // console.log('checkuser: ' + JSON.stringify(input));
+      const service = input.service;
+      const input_user_id = input.user_id;
+      // console.log('service: ' + service + '\nuser_id: ' + input_user_id);
+      const searchDB = 'SELECT users.id AS user_id FROM users INNER JOIN ' + service + '_users ON users.discord_user_id = ' + service + '_users.id WHERE ' + service + '_users.' + service + '_id = "' + input_user_id + '"';
+      // console.log('searchDB\n' + searchDB);
+      callmysql.query(searchDB, function(err, result) {
+        if (err) {
+          console.log('[mysql error]', err);
+        }
+        if (result.length) {
+          if (result) {
+            // user has opted out == 1
+            const id = result[0].user_id;
+            // get all users_info data here...
+            const user_infoSearch = 'SELECT users_info.* from users INNER JOIN users_info ON users.id = users_info.user_id WHERE users_info.user_id = "' + id + '"';
+            callmysql.query(user_infoSearch, function(err, user_info) {
+              if (err) {
+                console.log('[mysql error]', err);
+              }
+              /*
+              +----+---------+-------------------------------+-------------------+--------------------------+----------------+---------------------+---------+-------------+---------------------+
+              | id | user_id | user_key                      | user_auto_created | auto_create_date         | signed_up_from | signup_date         | opt_out | optout_date | updated_at          |
+              +----+---------+-------------------------------+-------------------+--------------------------+----------------+---------------------+---------+-------------+---------------------+
+              |  7 |       7 | $2a$25$nYIKY.5GqmSbLbDGkbVhnO |                 0 | 2020-02-10T04:25:16.559Z | discord        | 2020-02-10 04:25:17 |       0 | NULL        | 2020-02-10 04:25:17 |
+              +----+---------+-------------------------------+-------------------+--------------------------+----------------+---------------------+---------+-------------+---------------------+
+
+              */
+              // console.log('discord user ID - result[0] ' + id);
+              // assign results to json and pass to return
+              const searchResult = { user_found: 'true', user_id: id, user_auto_created: user_info[0].user_auto_created, auto_create_date: user_info[0].auto_create_date, signed_up_from: user_info[0].signed_up_from, signup_date: user_info[0].signup_date, opt_out: user_info[0].opt_out, optout_date: user_info[0].optout_date, updated_at: user_info[0].updated_at };
+              const Results = JSON.parse(JSON.stringify(searchResult));
+              // console.log('dbHelper search user_info results: ' + JSON.stringify(Results));
+              resolve(Results);
+              return Results;
+            });
+          }
+        }
+        else {
+          // user not opt_out, return a false value;
+          const searchResult = { user_found: 'false' };
+          const Results = JSON.parse(JSON.stringify(searchResult));
+          // console.log('else\t user found: ' + Results.user_found);
+          // console.log(Results);
+          resolve(Results);
+          return Results;
+        }
+      });
+    }
+  });
+}
+
+async function GetUserID(args) {
+  /*
+  Check for the user in users database
+
+  We expect to recieve data about the service requesting { discord || twitter } and the user ID from that service as expected in the DB
+  i.e.: { service: 'discord', user_id: userID }
+  userID = From the users.idtable:field
+
+  returns { user_found: true, user_id: id } | { user_found: false }
+  */
+  return new Promise(resolve => {
+    if (args !== null) {
+      // args passed, check for the service used
+      const input = JSON.parse(JSON.stringify(args));
+      const service = input.service;
+      const input_user_id = input.user_id;
+      // console.log('service: ' + service + '\nuser_id: ' + user_id);
+      const searchDB = 'SELECT users.id AS user_id FROM users INNER JOIN ' + service + '_users ON users.' + service + '_user_id = ' + service + '_users.id WHERE ' + service + '_users.' + service + '_id = "' + input_user_id + '"';
+      // console.log('searchDB\n' + searchDB);
+      callmysql.query(searchDB, function(err, result) {
+        if (err) {
+          // console.log('[mysql error]', err);
+        }
+        if (result.length) {
+          if (result) {
+            // user has opted out == 1
+            const id = result[0].user_id;
+            // console.log('discord optout_date result[0] ' + id);
+            // assign results to json and pass to return
+            const searchResult = { user_found: 'true', user_id: id };
+            const Results = JSON.parse(JSON.stringify(searchResult));
+            // console.log(Results);
+            resolve(Results);
+            return Results;
+          }
+        }
+        else {
+          // user not opt_out, return a false value;
+          const searchResult = { user_found: 'false' };
+          const Results = JSON.parse(JSON.stringify(searchResult));
+          // console.log('else\t user found: ' + Results.user_found);
+          // console.log(Results);
+          resolve(Results);
+          return Results;
+        }
+      });
+    }
+  });
+}
+
+async function CheckUserOptOut(args) {
+  /*
+  Check if the user has opted out
+  expect args in json format { service: $SERVICENAME, user_id: $SERVICEUSERID }
+  returns:
+    true = { opt_out: 'true', optout_date: optout_date }
+    false = {opt_out: 'false' }
+
+  */
+  return new Promise(resolve => {
+    // if (args !== null) {
+
+    if(args) {
+      // args passed, check for the service used
+      const input = JSON.parse(JSON.stringify(args));
+      // console.log('optout input is: ' + JSON.stringify(input));
+      const service = input.service;
+      const user_id = input.user_id;
+      // console.log('otpout service: ' + service + ', user_id: ' + user_id);
+      const searchDB = 'SELECT users.id AS user_id, users.' + service + '_user_id AS ' + service + '_id, users_info.opt_out AS opt_out, users_info.optout_date AS optout_date FROM users INNER JOIN users_info ON users.id = users_info.user_id WHERE users_info.user_id = "' + user_id + '"';
+      // console.log('CheckUser optout searchDB:\n' + searchDB);
+      callmysql.query(searchDB, function(err, result) {
+        if (err) {
+          console.log('[mysql error]', err);
+        }
+        // console.log('optout user search result: ' + JSON.stringify(result));
+        const opt_out = result[0].opt_out;
+        // console.log('opt_out value is set to: ' + opt_out);
+        if (opt_out === 1) {
+          // user has opted out == 1
+          const optout_date = result[0].optout_date;
+          // console.log('discord optout_date result[0] ' + optout_date);
+          // assign results to json and pass to return
+          const searchResult = { user_found: 'true', opt_out: 'true', optout_date: optout_date };
+          const Results = JSON.parse(JSON.stringify(searchResult));
+          // console.log(Results);
+          resolve(Results);
+          return Results;
+        }
+        else {
+          // user not opt_out, return a false value;
+          const searchResult = { user_found: 'true', opt_out: 'false' };
+          const Results = JSON.parse(JSON.stringify(searchResult));
+          // console.log('else\t user found: ' + Results.user_found);
+          // console.log(Results);
+          resolve(Results);
+          return Results;
+        }
+      });
+    }
+
+    else {
+      // user not found...
+      // console.log('user not found...............');
+      const searchResult = { user_found: 'false' };
+      const Results = JSON.parse(JSON.stringify(searchResult));
+      resolve(Results);
+      return Results;
+    }
+  });
+}
+
+// CheckUserSignUp
+
+async function CheckUserSignup(args) {
+// returns { user_signup: true, signup_date: date, signed_up_from: service } | { user_signup: false }
+  return new Promise(resolve => {
+    // console.log('args: ' + args[0]);
+    if (args !== null) {
+      // args passed, check for the service used
+      const input = JSON.parse(JSON.stringify(args));
+      // console.log('input is set to: ' + JSON.stringify(input));
+      const id = input.user_id;
+      // console.log('service: ' + service + '\nuser_id: ' + user_id);
+      const searchDB = 'SELECT users_info.signed_up_from, users_info.signup_date FROM users INNER JOIN users_info ON users.id = users_info.user_id WHERE users_info.user_id = "' + id + '"';
+      console.log('searchDB\n' + searchDB);
+      callmysql.query(searchDB, function(err, result) {
+        if (err) {
+          console.log('[mysql error]', err);
+        }
+        // console.log('search Results: ' + JSON.stringify(result)) ;
+
+        if (result[0].signed_up_from == 'NULL') {
+          // console.log('Result is null, user not signed up? ' + JSON.stringify(result[0].signed_up_from));
+          return result.signed_up_from;
+        }
+        const signed_up_from = result[0].signed_up_from;
+        // console.log('signed_up_from: ' + result[0].signed_up_from);
+        const signup_date = result[0].signup_date;
+        if (signed_up_from != null) {
+          // the user signed up somewhere
+          // console.log('signed up!\nUser Signed up from: ' + signed_up_from + '\nUser Signedup on: ' + signup_date);
+          const searchResult = { user_signup: 'true', signup_date: signup_date, signed_up_from: signed_up_from };
+          const Results = JSON.parse(JSON.stringify(searchResult));
+          resolve(Results);
+          return Results;
+        }
+        else {
+          // console.log('user has not signed up yet');
+          const searchResult = { user_signup: false };
+          const Results = JSON.parse(JSON.stringify(searchResult));
+          resolve(Results);
+          return Results;
+        }
+
+      });
+    }
+    else {
+      console.log('error somewhere');
+    }
+  });
+}
+
+// GetUserWallet
+// expects { user_id: user_id }
+// returns { wallet_pub: QRLADDRESS }
+async function GetUserWalletPub(args) {
+  return new Promise(resolve => {
+    if (args !== null) {
+      // console.log('GetUserWalletPub args in: ' + JSON.stringify(args));
+      // args passed, check for the service used
+      const input = JSON.parse(JSON.stringify(args));
+      // console.log('GetUserWalletPub args: ' + JSON.stringify(args));
+      const id = input.user_id;
+      // console.log('GetUserWalletPub  user_id: ' + input.user_id);
+      const searchDB = 'SELECT wallets.wallet_pub FROM users INNER JOIN wallets ON users.id = wallets.user_id WHERE wallets.user_id = "' + id + '"';
+      // console.log('GetUserWalletPub searchDB\t' + searchDB);
+      callmysql.query(searchDB, function(err, result) {
+        if (err) {
+          console.log('[mysql error]', err);
+        }
+        const wallet_pub = result[0].wallet_pub;
+        // console.log('GetUserWalletPub Users wallet_pub: ' + wallet_pub);
+        const searchResult = { wallet_pub: wallet_pub };
+        const Results = JSON.parse(JSON.stringify(searchResult));
+        resolve(Results);
+        return Results;
+      });
+    }
+    else {
+      console.log('error somewhere');
+    }
+  });
+}
+
+// GetUserBal
+// expcts { user_id: user_id }
+// returns { wallet_bal: 100.000 }
+async function GetUserWalletBal(args) {
+  return new Promise(resolve => {
+    if (args !== null) {
+      // args passed, check for the service used
+      // console.log('GetUserWalletBal args in: ' + JSON.stringify(args));
+      const input = JSON.parse(JSON.stringify(args));
+
+      const id = input.user_id;
+      // console.log('service: ' + service + '\nuser_id: ' + user_id);
+      const searchDB = 'SELECT wallets.wallet_bal AS wallet_bal, wallets.wallet_pub AS wallet_pub FROM users INNER JOIN wallets ON users.id = wallets.user_id WHERE wallets.user_id = "' + id + '"';
+      // console.log('GetUserWalletBal searchDB\t' + searchDB);
+      callmysql.query(searchDB, function(err, result) {
+        if (err) {
+          console.log('[mysql error]', err);
+        }
+        const wallet_bal = result[0].wallet_bal;
+        const wallet_pub = result[0].wallet_pub;
+        // now check the network for ths balance info and compaire.
+        const NetBalance = wallet.GetBalance;
+        NetBalance(wallet_pub).then(function(NetBal) {
+          // should have netBal value from the network now, compare them
+          const balance = NetBal.balance / 1000000000 ;
+          const OldBal = wallet_bal / 1000000000;
+          if (balance != OldBal) {
+            // the balances are different, update the DB
+            // console.log('Balances differ...\nOld: ' + OldBal + '\nNew: ' + balance);
+            const updateInfo = { user_id: id, new_bal: balance };
+            updateWalletBal(updateInfo).then(function(UpdateBalance) {
+              return UpdateBalance;
+            });
+          }
+          // console.log('GetUserWalletBal wallet_bal: ' + balance);
+          const return_bal = balance;
+          const searchResult = { wallet_bal: return_bal };
+          const Results = JSON.parse(JSON.stringify(searchResult));
+          resolve(Results);
+          return Results;
+        });
+      });
+    }
+    else {
+      console.log('error somewhere');
+    }
+  });
+}
+
+// GetUserWalletQR
+// returns { wallet_qr: QR_CODE }
+async function GetUserWalletQR(args) {
+  return new Promise(resolve => {
+    if (args !== null) {
+      // args passed, check for the service used
+      const input = JSON.parse(JSON.stringify(args));
+      const id = input.user_id;
+      // console.log('service: ' + service + '\nuser_id: ' + user_id);
+      const searchDB = 'SELECT wallets.wallet_qr FROM users INNER JOIN wallets ON users.id = wallets.user_id WHERE wallets.user_id = "' + id + '"';
+      // console.log('searchDB\n' + searchDB);
+      callmysql.query(searchDB, function(err, result) {
+        if (err) {
+          console.log('[mysql error]', err);
+        }
+        const wallet_qr = result[0].wallet_qr;
+        const fileName = 'user_' + id + '_QRcode.png';
+
+        // console.log('signed_up_from: ' + result[0].signed_up_from);
+        const searchResult = { wallet_qr: wallet_qr, fileName: fileName };
+        const Results = JSON.parse(JSON.stringify(searchResult));
+        resolve(Results);
+        return Results;
+      });
+    }
+    else {
+      console.log('error somewhere');
+    }
+  });
+}
+
+async function AddUser(args) {
+  /*
+  We need to collect the following data
+  { service: service, service_id: service_id, user_name: user_name, wallet_pub: wallet_pub, wallet_bal: wallet_bal, user_key: user_key, user_auto_created: user_auto_created, auto_create_date: auto_create_date opt_out, optout_date };
+  */
+  const resultsArray = [];
+  const input = JSON.parse(JSON.stringify(args));
+  // service is submtted from the add.js command, discord or twitter
+  const service = input.service;
+  // service_id is the unique id from the service. Use this to lookup the user in the database.
+  const service_id = input.service_id;
+  // user namer from the service user submitted from
+  const user_name = input.user_name;
+  // if new user this was generated for them to use
+  const wallet_pub = input.wallet_pub;
+  // const wallet_qr = input.wallet_qr;
+  // initial balance of the wallet - 0 default
+  // const wallet_bal = input.wallet_bal;
+  // salt generated for the user
+  const user_key = input.user_key;
+  const user_auto_created = input.user_auto_created;
+  const auto_create_date = input.auto_create_date;
+
+  const opt_out = input.opt_out;
+  // const optout_date = input.optout_date;
+  // console.log('adduser args-' + '\nservice:  ' + service + '\nservice_id: ' + service_id + '\nuser_name: ' + user_name + '\nwallet_pub: ' + wallet_pub + '\nwallet_bal ' + wallet_bal + '\nuser_key: ' + user_key + '\nuser_auto_created: ' + user_auto_created + '\nauto_create_date: ' + auto_create_date);
+  // userID is the users.id for the user given in the request looked up by service_id.
+  // insert functions for the various databases
+  const service_usersValues = [ [ user_name, service_id, new Date()]];
+  const addTo_service_users = 'INSERT INTO ' + service + '_users(user_name, ' + service + '_id, time_stamp) VALUES ?';
+  callmysql.query(addTo_service_users, [service_usersValues], function(err, result) {
+    if (err) {
+      console.log('[mysql error]', err);
+    }
+    // console.log('addTo_service_users results:' + JSON.stringify(result));
+    const insertid = result.insertId;
+    resultsArray.push({ user_id: insertid });
+    console.log('resultsArray result: ' + JSON.stringify(resultsArray));
+
+    // trigger addUserTo_users directly after SERVICE_usersVal
+    const usersValues = [ [insertid, new Date(), new Date()]];
+    const addTo_users = 'INSERT INTO users(' + service + '_user_id, time_stamp, updated_at) VALUES ?';
+    callmysql.query(addTo_users, [usersValues], function(err, result1) {
+      if (err) {
+        console.log('[mysql error]', err);
+      }
+      // console.log('addTo_users results: ' + JSON.stringify(result1));
+      return(result1);
+    });
+    const searchDB = 'SELECT users.id AS user_id FROM users INNER JOIN ' + service + '_users ON users.' + service + '_user_id = ' + service + '_users.id WHERE ' + service + '_users.' + service + '_id = "' + service_id + '"';
+    // console.log(searchDB);
+    callmysql.query(searchDB, function(err, result2) {
+      if (err) {
+        console.log('[mysql error]', err);
+      }
+      console.log('search results: ' + JSON.stringify(result2));
+      const userID = result2[0].user_id;
+      resultsArray.push({ userID: userID });
+      console.log('resultsArray result2: ' + JSON.stringify(resultsArray));
+      // both the addTo_wallet and addTo_users_info need the userID promise filled.
+      const walletValues = [ [userID, wallet_pub, new Date(), new Date()] ];
+      const addTo_wallet = 'INSERT INTO wallets(user_id, wallet_pub, time_stamp, updated_at) VALUES ?';
+      callmysql.query(addTo_wallet, [walletValues], function(err, result3) {
+        if (err) {
+          console.log('[mysql error]', err);
+        }
+        // console.log('addTo_wallet results:' + JSON.stringify(result3));
+        return(result3);
+      });
+
+      const user_infoValues = [ [userID, user_key, user_auto_created, auto_create_date, service, new Date(), opt_out, new Date(), new Date()]];
+      const addTo_users_info = 'INSERT INTO users_info(user_id, user_key, user_auto_created, auto_create_date, signed_up_from, signup_date, opt_out, optout_date, updated_at) VALUES ?';
+      callmysql.query(addTo_users_info, [user_infoValues], function(err, result4) {
+        if (err) {
+          console.log('[mysql error]', err);
+        }
+        // console.log('addTo_users_info results:' + JSON.stringify(result4));
+        resultsArray.push({ user_added: 'true' });
+        console.log('resultsArray result4: ' + JSON.stringify(resultsArray));
+        return(result4);
+      });
+      // return data in results
+      const addToDB_Results = { user_added: 'true', user_id: insertid };
+      const addToDB_ResultsJson = JSON.parse(JSON.stringify(addToDB_Results));
+      console.log('addToDB_ResultJson: ' + JSON.stringify(addToDB_ResultsJson));
+      // resolve(addToDB_ResultsJson);
+      return addToDB_ResultsJson;
+      // end of function
+    });
+  console.log('resultsArray: ' + JSON.stringify(resultsArray));
+  return resultsArray;
+  });
+}
+
+
+// add wallet QR to wallets db
+async function AddWalletQR(args) {
+// expects {user_id: user_id, wallet_pub: wallet_pub };
+  console.log('AddWalletQR Called: ' + JSON.stringify(args));
+  const wallet_pub = args.wallet_pub;
+  const id = args.user_id;
+  // console.log('submitted values to use.\nid: ' + id + '\nwallet_pub: ' + wallet_pub);
+  const QRCode = require('qrcode');
+  const fs = require('fs');
+  const fileName = 'user_' + id + '_QRcode.png';
+  const file = __dirname + '/QR/' + fileName;
+  // console.log('file: ' + file);
+  QRCode.toDataURL(wallet_pub, function(err, url) {
+    fs.writeFile(file, url, function(err) {
+      if (err) throw err;
+      // console.log('File written ');
+    });
+    // console.log('addQR to file: ' + file);
+    callmysql.query('UPDATE wallets SET wallet_qr = ?, updated_at = ? WHERE user_id = ?', [file, new Date(), id], function(err) {
+      if (err) {
+        console.log('[mysql error]', err);
+      }
+    });
+  });
+  const results = JSON.parse(JSON.stringify({ wallet_qr: file, fileName: fileName }));
+  console.log('returning these results: ' + JSON.stringify(results));
+  return results;
+}
+
+async function OptOut(args) {
+  // this function sets the users_info.opt_out to 1 or true
+  // If user has set true dont let tips be sent to them.
+  const input = JSON.parse(JSON.stringify(args));
+  callmysql.query('UPDATE users_info SET opt_out = ?, optout_date = ?, updated_at = ? WHERE user_id = ?', [true, new Date(), new Date(), input.user_id], function(err, result5) {
+    if (err) {
+      console.log('[mysql error]', err);
+    }
+    // console.log('dbHelpers OptOut results: ' + JSON.stringify(result5));
+    return(result5);
+  });
+  const optoutDB_Results = { opt_out: true, optout_date: new Date() };
+  return JSON.stringify(optoutDB_Results);
+}
+
+async function OptIn(args) {
+  // this function sets the users_info.opt_out to 1 or true
+  // If user has set true dont let tips be sent to them.
+  const input = JSON.parse(JSON.stringify(args));
+  callmysql.query('UPDATE users_info SET opt_out = ?, optout_date = ?, updated_at = ? WHERE user_id = ?', [false, new Date(), new Date(), input.user_id], function(err, result6) {
+    if (err) {
+      console.log('[mysql error]', err);
+    }
+    // console.log('dbHelpers OptIn results: ' + JSON.stringify(result6));
+    return(result6);
+  });
+
+  const optinDB_Results = { opt_out: false, optin_date: new Date() };
+  return JSON.stringify(optinDB_Results);
+}
+
+async function updateWalletBal(args) {
+  // expects { user_id: user_id, new_bal: new_bal }
+  // get the balance from the node and send here
+  // console.log('updateWalletBal: ' + JSON.stringify(args));
+  const wallet_bal = args.new_bal;
+  callmysql.query('UPDATE wallets SET wallet_bal = ?, updated_at = ? WHERE user_id = ?', [wallet_bal, new Date(), args.user_id], function(err, result) {
+    if (err) {
+      console.log('[mysql error]', err);
+    }
+    return result;
+  });
+}
+
+
+module.exports = {
+  CheckUser : CheckUser,
+  CheckUserOptOut : CheckUserOptOut,
+  CheckUserSignup : CheckUserSignup,
+  GetUserID : GetUserID,
+  GetUserWalletPub : GetUserWalletPub,
+  GetUserWalletBal : GetUserWalletBal,
+  GetUserWalletQR : GetUserWalletQR,
+  AddUser : AddUser,
+  AddWalletQR: AddWalletQR,
+  OptOut : OptOut,
+  OptIn : OptIn,
+  // addUserToDb : addUserToDb,
+  updateWalletBal :updateWalletBal,
+};

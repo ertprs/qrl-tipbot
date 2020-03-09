@@ -1,0 +1,40 @@
+{ 
+  "bot_details" : {
+    "bot_name"  : "BOT_NAME",
+    "bot_url" : "https://BOT_URL.COM",
+    "explorer_url" : "https://explorer.theqrl.org",
+    "bot_dir" : "/home/{$USER}/qrltips",
+    "bot_donationAddress" : "Q010900978071f5817ece4164123a5b83f80af957a9935876329bb1f015410e4542ed291ee7022f"
+  },
+  "wallet" : {
+    "tx_fee"  : "0.00001",
+    "num_slaves" : "10",
+    "height" : "12",
+    "hash_function" : "shake128",
+    "hold_address" : "Q..."
+  },  
+  "database" : {
+    "db_name" : "DATABASE_NAME",
+    "db_host" : "DATABASE_HOST",
+    "db_pass" : "DATABASE_SECRET_PASSWORD_CHANGE_ME!!",
+    "db_user" : "DATABASE_USER",
+    "db_port" : "3006"
+  },
+  "discord" : {
+    "token"  : "DISCORD_TOKEN_HERE",
+    "cmd_dir" : "/home/{$USER}/qrltips/_scripts/discord/cmd",
+    "prefix" : "+",
+    "bot_admin" : "DISCORD_ID"
+  },
+  "faucet_db" : {
+    "db_name" : "DATABASE_NAME",
+    "db_host" : "DATABASE_HOST",
+    "db_pass" : "DATABASE_SECRET_PASSWORD!!",
+    "db_user" : "DATABASE_USER",
+    "db_port" : "3006"
+  },
+  "faucet" : {
+    "payout" : "100.00",
+    "payout_interval" : "24"
+  }
+}

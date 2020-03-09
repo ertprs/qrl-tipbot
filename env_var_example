@@ -1,0 +1,13 @@
+###################################################################################
+#	DO NOT MODIFY THIS FILE DIRECTLY - IT WILL BE OVERWRITTEN!					  #
+#	Please copy this into the root directory for the tipbot and save as "env_var" #
+#	Modify the variables below as needed to set the variables you may need.		  #
+#	these will be used in teh scripts to set sensitive details for the bot.       #
+#																				  #
+#							DO NOT SHARE										  #
+###################################################################################
+
+
+export TIPBOT_USER_SALT="Place Crazy Secret Data here"
+export TIPBOT_WALLET_SALT="RANDOM-DATA"
+export TIPBOT_USER_WALLET_DIR=/home/tipbot/wallet

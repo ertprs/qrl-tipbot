@@ -1,0 +1,78 @@
+module.exports = {
+  name: 'opt-in',
+  description: 'Opt Into the QRL TipBot',
+  args: false,
+  guildOnly: false,
+  aliases: ['oi'],
+  cooldown: 0,
+  usage: '\n## **opt-in**  __**oi**__ - Opt in to the tipbot.  ',
+  execute(message) {
+    const dbHelper = require('../../db/dbHelper');
+    const uuid = `${message.author}`;
+    const UUID = uuid.slice(1, -1);
+    // get the user_found status
+    // should return either { user_found: true, user_id: id } || { user_found: false }
+    const checkuser = dbHelper.CheckUser;
+    const GetAllUserInfo = dbHelper.GetAllUserInfo;
+    const info = JSON.parse(JSON.stringify({ service: 'discord', user_id: UUID }));
+    const found = checkuser(info);
+    found.then(function(result) {
+      return result;
+    }).then(function(foundRes) {
+      const user_found = foundRes.user_found;
+      if (user_found !== 'true') {
+        // if the user is not found...
+        message.channel.startTyping();
+        setTimeout(function() {
+          message.reply('\nYou\'re now opted out. If you change your mind, `+opt-in`\n:wave: ');
+          message.channel.stopTyping(true);
+        }, 1000);
+        return foundRes;
+      }
+      else {
+
+        if (message.mentions.users.size > 0) {
+          const users_Service_ID = message.mentions.users.first().id;
+          const service_ID = '@' + users_Service_ID;
+          const GetAllUserInfoPromise = GetAllUserInfo({ service: 'discord', service_id: service_ID });
+          GetAllUserInfoPromise.then(function(userInfo) {
+            const users_ID = userInfo[0].user_id;
+            const OptIn = dbHelper.OptIn({ user_id: users_ID });
+            OptIn.then(function(results) {
+              message.reply('User now opted in.\n:wave: ');
+              message.channel.stopTyping(true);
+              return results;
+            });
+          });
+        }
+        // user found, check opt-out and act
+        const user_id = foundRes.user_id;
+        const check_opt_out = dbHelper.CheckUserOptOut;
+        check_opt_out({ service: 'discord', user_id: user_id }).then(function(result) {
+          return result;
+        }).then(function(oiargs) {
+          if (oiargs.opt_out == 'true') {
+            // opted out, opt them back in
+            const opt_in = dbHelper.OptIn;
+            opt_in({ user_id: user_id }).then(function(args) {
+              return args;
+            });
+            message.channel.startTyping();
+            setTimeout(function() {
+              message.reply('You Opted back in! :thumbsup:');
+              message.channel.stopTyping(true);
+            }, 1000);
+          }
+          else {
+            // user is found and not opted out, do nothing and return to user.
+            message.channel.startTyping();
+            setTimeout(function() {
+              message.reply(':thumbsup: Still Opted In.\n`+help` for a list of my commands.');
+              message.channel.stopTyping(true);
+            }, 1000);
+          }
+        });
+      }
+    });
+  },
+};
