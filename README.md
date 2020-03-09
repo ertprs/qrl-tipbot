@@ -2,7 +2,7 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/1bdaf7ba0efe47f1b4979319eda20803)](https://www.codacy.com/manual/fr1t2/qrl-tipbot?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=fr1t2/qrl-tipbot&amp;utm_campaign=Badge_Grade) 
 [![Known Vulnerabilities](https://snyk.io/test/github/fr1t2/qrl-tipbot/badge.svg?targetFile=package.json)](https://snyk.io/test/github/fr1t2/qrl-tipbot?targetFile=package.json)
-[![CircleCI](https://circleci.com/gh/fr1t2/qrl-tipbot/tree/Development.svg?style=svg)](https://circleci.com/gh/fr1t2/qrl-tipbot/tree/Development)
+[![CircleCI](https://circleci.com/gh/fr1t2/qrl-tipbot/tree/master.svg?style=svg)](https://circleci.com/gh/fr1t2/qrl-tipbot/tree/master)
 
 
 
