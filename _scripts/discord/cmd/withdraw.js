@@ -1,0 +1,221 @@
+module.exports = {
+  name: 'withdraw',
+  description: 'Transfer or withdraw QRL from your TipBot account to a personal wallet.',
+  args: false,
+  guildOnly: false,
+  aliases: ['wd', 'transfer', 'cashout'],
+  usage: '\n__**withdraw** { ***wd***, ***transfer***, ***cashout*** }__\nTransfer or withdraw QRL from your TIpBot account to another QRL address.\n`+transfer 2 QRLADDRESS`',
+  execute(message, args) {
+    // console.log('transfer called...');
+    message.channel.startTyping();
+    const dbHelper = require('../../db/dbHelper');
+    const wallet = require('../../qrl/walletTools');
+    const config = require('../../../_config/config.json');
+    const Discord = require('discord.js');
+    // const checkuser = dbHelper.CheckUser;
+    const getAllUserInfo = dbHelper.GetAllUserInfo;
+    const transfer = wallet.sendQuanta;
+    // discord user id uuid is then striped of extra chars as UUID
+    const uuid = `${message.author}`;
+    const UUID = uuid.slice(1, -1);
+    const info = JSON.parse(JSON.stringify({ service: 'discord', service_id: UUID }));
+    // const found = checkuser(info);
+    const found = getAllUserInfo(info);
+    const toShor = 1000000000;
+    const lowestTipValue = 0.000000001;
+    const highestTipValue = 105000000;
+
+    function isQRLValue(str) {
+      // Fail immediately.
+      let test = false;
+      // Check if it's only numeric and periods (no spaces, etc)
+      if(/^[0-9]{0,8}[.]?[0-9]{0,9}$/.test(str)) {
+        // And check for a value between 0.000000001 and 105000000
+        if(str >= lowestTipValue && str <= highestTipValue) {
+          test = true;
+        }
+      }
+      return test;
+    }
+
+    // test the address to the regex pattern
+    function isQRLAddress(addy) {
+      let test = false;
+      if(/^(Q|q)[0-9a-fA-f]{78}$/.test(addy)) {
+        test = true;
+      }
+      return test;
+    }
+    // if not in private message delete the message
+    if(message.guild != null) {
+      // delete the users message and give response
+      message.delete();
+    }
+
+    // check that args are not blank. first args should be all || a number
+    // second args should be qrl address
+    if (args[0] == undefined || args [1] == undefined) {
+      // console.log('no args given');
+      const embed = new Discord.RichEmbed()
+        .setColor(0x000000)
+        .setTitle('Transfer From TipBot')
+        .setDescription('To transfer or withdraw from the tipbot I need some details.')
+        .addField('Transfer given amount', '`+transfer {AMOUNT} {QRLADDRESS}`')
+        .addField('Transfer entire balance', '`+transfer all {QRLADDRESS}`')
+        .addField('To donate to the TipBot', '`+transfer all ' + config.bot_details.bot_donationAddress + '`');
+      message.author.send({ embed })
+        .then(() => {
+          message.channel.stopTyping(true);
+          if (message.channel.type === 'dm') return;
+          // message.reply('I\'ve sent you a DM. ');
+        })
+        .catch(error => {
+          message.channel.stopTyping(true);
+          console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+          message.reply('It seems like I can\'t DM you! Do you have DMs disabled?');
+          return;
+        });
+      return;
+    }
+
+
+    // look for user in DB
+    // If found will return { user_found, wallet_pub, wallet_bal, user_id, user_name, opt_out, otpout_date }
+    found.then(function(result) {
+      // console.log('found results: ' + JSON.stringify(result));
+      const UserFound = result.user_found;
+      if (UserFound !== 'true') {
+        // console.log('user found ' + UserFound);
+        // user is not in the system, fail and return to user
+        message.channel.stopTyping(true);
+        message.author.send('You are not signed up yet!. `+add` to get started.');
+        return;
+      }
+      else {
+        // set known values from getAllUserInfo search
+        const user_id = result[0].user_id;
+        const wallet_pub = result[0].wallet_pub;
+        const wallet_bal = result[0].wallet_bal;
+        const shor_bal = wallet_bal * toShor;
+        const user_name = result[0].user_name;
+        const transfer_to = args[1];
+        const fee = config.wallet.tx_fee * toShor;
+
+        // console.log('user_id ' + user_id);
+        // console.log('wallet_pub ' + wallet_pub);
+        // console.log('wallet_bal ' + wallet_bal);
+        // console.log('shor_bal ' + shor_bal);
+        // console.log('user_name ' + user_name);
+        // console.log('transfer_to ' + transfer_to);
+        // console.log('fee ' + fee);
+        // check for valid qrl address given as args[1]
+        const addressTest = isQRLAddress(transfer_to);
+        if (!addressTest) {
+          message.channel.stopTyping(true);
+          message.author.send('Invalid address given. Please try again.');
+          return;
+        }
+        // check for balance in wallet
+        if (shor_bal <= 0) {
+          // wallet is empty, give error and return
+          message.channel.stopTyping(true);
+          message.reply('No funds to transfer, your TipBot balance is: **' + wallet_bal + '**');
+          return;
+        }
+
+        // transfer all funds called.
+        if (args[0] == 'all') {
+          // transfer all the funds
+          const transArray = [];
+          const addressArray = [];
+          const transfer_amt = (shor_bal - fee);
+          transArray.push(transfer_amt);
+          addressArray.push(transfer_to);
+          const transferInfo = { address_to: addressArray, amount: transArray, fee: fee, address_from: wallet_pub };
+          // console.log('transferInfo ' + JSON.stringify(transferInfo));
+          transfer(transferInfo).then(function(transferQrl) {
+
+
+            const transferOutput = JSON.parse(transferQrl);
+            const tx_hash = transferOutput.tx.transaction_hash;
+            const embed = new Discord.RichEmbed()
+              .setColor(0x000000)
+              .setTitle('Funds Transfered')
+              .setDescription('Your transaction has posted on the network. It may take a few minuets to confirm, see the transaction info in the [QRL Block Explorer](' + config.bot_details.explorer_url + '/tx/' + tx_hash + ')')
+              .addField('Transfer amount', '**' + transfer_amt / toShor + '**')
+              .addField('Transfer fee', '**' + config.wallet.tx_fee + '**')
+              .addField('Transfer To Address', '** ' + transfer_to + '**')
+              .setFooter('The TX Fee is taken from the transfer amount and set by the bot owner. \nThe current fee is set to ' + config.wallet.tx_fee + ' QRL');
+            message.author.send({ embed })
+              .then(() => {
+                if (message.channel.type !== 'dm') return;
+                message.channel.stopTyping(true);
+              })
+              .catch(error => {
+                console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+                message.reply('It seems like I can\'t DM you! Do you have DMs disabled?');
+                message.channel.stopTyping(true);
+              });
+              message.channel.stopTyping(true);
+          });
+          return;
+        }
+        else {
+          // transfer amount given, do some checks and send
+          // check that amount is correct value
+          const trans_amt = args[0];
+          const testQRLValue = isQRLValue(trans_amt);
+          if (!testQRLValue) {
+            message.channel.stopTyping(true);
+            message.reply('Invalid amount. Please try again.');
+            return;
+          }
+          const trans_amt_shor = trans_amt * toShor;
+          const total_transfer = (trans_amt_shor - fee);
+          // check if amount is equal or less than bal
+          // console.log('transfer Details. trans_amt :' + trans_amt + ' trans_amt_shor: ' + trans_amt_shor + ' total_transfer: ' + total_transfer);
+          if (total_transfer > shor_bal) {
+            // more than user has
+            message.channel.stopTyping(true);
+            message.author.send('You\'re trying to transfer more QRL than you have.\nCurrent balance: **' + wallet_bal + '**');
+            return;
+          }
+         // async function transferAmt() {
+            const totalTransArray = [];
+            const addressToArray = [];
+            totalTransArray.push(total_transfer);
+            addressToArray.push(transfer_to);
+            const transferInfo = { address_to: addressToArray, amount: totalTransArray, fee: fee, address_from: wallet_pub };
+              // console.log('transferInfo ' + JSON.stringify(transferInfo));
+              transfer(transferInfo).then(function(transferQrl) {
+                const transferOutput = JSON.parse(transferQrl);
+                // console.log('transferQRL output: ' + JSON.stringify(transferQrl));
+                const tx_hash = transferOutput.tx.transaction_hash;
+                const embed = new Discord.RichEmbed()
+                  .setColor(0x000000)
+                  .setTitle('Funds Transfered')
+                  .setDescription('Your transaction has posted on the network. It may take a few minuets to confirm, see the transaction info in the [QRL Block Explorer](' + config.bot_details.explorer_url + '/tx/' + tx_hash + ')')
+                  .addField('Transfer amount', '**' + total_transfer / toShor + '**')
+                  .addField('Transfer fee', '**' + config.wallet.tx_fee + '**')
+                  .addField('Transfer To Address', '** ' + transfer_to + '**')
+                  .setFooter('The TX Fee is taken from the transfer amount and set by the bot owner. Current fee is set to ' + config.wallet.tx_fee);
+                message.author.send({ embed })
+                  .then(() => {
+                    message.channel.stopTyping(true);
+                    if (message.channel.type !== 'dm') return;
+                  })
+                  .catch(error => {
+                    console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+                    message.reply('It seems like I can\'t DM you! Do you have DMs disabled?');
+                    message.channel.stopTyping(true);
+                  });
+                message.channel.stopTyping(true);
+              });
+            // }
+            // transferAmt();
+            return;
+        }
+      }
+    });
+  },
+};

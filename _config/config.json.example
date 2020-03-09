@@ -4,7 +4,7 @@
     "bot_url" : "https://BOT_URL.COM",
     "explorer_url" : "https://explorer.theqrl.org",
     "bot_dir" : "/home/{$USER}/qrltips",
-    "bot_donationAddress" : "Q010900978071f5817ece4164123a5b83f80af957a9935876329bb1f015410e4542ed291ee7022f"
+    "bot_donationAddress" : "Q010500e9ec3de4d403d59be6ff329134c6d6fab4f94ea40eaa443aff47ab76350519e94fe9326b"
   },
   "wallet" : {
     "tx_fee"  : "0.00001",

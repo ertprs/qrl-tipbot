@@ -2,7 +2,6 @@
 const mysql = require('mysql');
 const config = require('../../_config/config.json');
 const wallet = require('../qrl/walletTools');
-
 // connector to the database
 const callmysql = mysql.createPool({
   connectionLimit: 10,
@@ -39,6 +38,7 @@ async function GetAllUserInfo(args) {
         const infoResult = JSON.parse(JSON.stringify(user_info_update));
         const foundRes = { user_found: 'true' };
         Array.prototype.push.apply(foundRes, infoResult);
+        // console.log(JSON.stringify(foundRes));
         resolve(foundRes);
         return foundRes;
       });

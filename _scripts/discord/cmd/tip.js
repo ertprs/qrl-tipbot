@@ -115,13 +115,14 @@ module.exports = {
           .addField('To opt back in', '`+opt-in`');
         message.author.send({ embed })
           .then(() => {
-            message.channel.reply('There was an error, see your DM');
+            message.reply('There was an error, see your DM');
           })
           .catch(error => {
+            message.channel.stopTyping(true);
             console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-            message.reply('it seems like I can\'t DM you! Do you have DMs disabled?');
             return;
           });
+        return;
       }
       // we have results from user lookup, asign values for tip from user
       const wallet_pub = userInfo[0].wallet_pub;
@@ -144,8 +145,8 @@ module.exports = {
             message.reply('\n:moneybag: You need more funds! :moneybag:');
           })
           .catch(error => {
+            message.channel.stopTyping(true);
             console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-            message.reply('it seems like I can\'t DM you! Do you have DMs disabled?');
             return;
           });
         return;
@@ -264,13 +265,12 @@ module.exports = {
           message.author.send({ embed })
             .then(() => {
               if (message.channel.type !== 'dm') return;
-              message.reply('I\'ve sent you a DM. ');
               message.channel.stopTyping(true);
+              message.reply('I\'ve sent you a DM. ');
             })
             .catch(error => {
-              console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-              message.reply('It seems like I can\'t DM you! Do you have DMs disabled?');
               message.channel.stopTyping(true);
+              console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
             });
           message.channel.stopTyping(true);
           return;
@@ -279,5 +279,6 @@ module.exports = {
       tipAwait();
       return JSON.stringify(userInfo);
     });
+    message.channel.stopTyping(true);
   },
 };

@@ -73,7 +73,7 @@ async function sendQuanta(args) {
   }
   else {
     // no args something is wrong
-    console.log('no args passed to sendQuanta... something is wrong. ');
+    // console.log('no args passed to sendQuanta... something is wrong. ');
     return ;
   }
 

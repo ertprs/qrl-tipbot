@@ -1,8 +1,14 @@
 # qrl-tipbot
 
----
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/1bdaf7ba0efe47f1b4979319eda20803)](https://www.codacy.com/manual/fr1t2/qrl-tipbot?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=fr1t2/qrl-tipbot&amp;utm_campaign=Badge_Grade) 
+[![Known Vulnerabilities](https://snyk.io/test/github/fr1t2/qrl-tipbot/badge.svg?targetFile=package.json)](https://snyk.io/test/github/fr1t2/qrl-tipbot?targetFile=package.json)
+[![CircleCI](https://circleci.com/gh/fr1t2/qrl-tipbot/tree/Development.svg?style=svg)](https://circleci.com/gh/fr1t2/qrl-tipbot/tree/Development)
 
-> **THIS IS A WORK IN PROGRESS!!** Anything may change! *anything*
+
+
+> **THIS IS A WORK IN PROGRESS!!** Things may change!
+
+
 
 The QRL Tipbot has been developed to support multi-platform QRL (*Quantum Resistant Ledger*) tipping from user to user. Each user is given an address and all tips are handeled on-chain.
 
@@ -28,5 +34,11 @@ Depending on the platform, you will issue a message to the bot and the bot will 
 Please refer to [The Docs](https://github.com/fr1t2/qrltips/_docs) before reaching out for help. Chances are its been answered there already!
 
 
-## Happy TipBot'ing
+## Donations
+
+Donations appreciated
+
+**QRL Address**
+
+`Q010500e9ec3de4d403d59be6ff329134c6d6fab4f94ea40eaa443aff47ab76350519e94fe9326b`
 

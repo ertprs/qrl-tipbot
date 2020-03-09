@@ -110,7 +110,8 @@ module.exports = {
                       .setColor(0x000000)
                       .setTitle('Tipbot Balance - ' + new_bal + ' QRL')
                       .addField('Balance:', `\`${new_bal} QRL\``, true)
-                      .addField('Explorer:', '[explorer.theqrl.org](' + config.bot_details.explorer_url + '/a/' + UserAddress + ')', true);
+                      .addField('Explorer:', '[explorer.theqrl.org](' + config.bot_details.explorer_url + '/a/' + UserAddress + ')', true)
+                      .setFooter('Transactions may take a some time to post. Please be patient');
                     message.author.send({ embed })
                       .then(() => {
                         if (message.channel.type === 'dm') return;
