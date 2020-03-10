@@ -239,7 +239,7 @@ module.exports = {
           message.delete();
         }
         message.channel.stopTyping(true);
-        message.reply('Tipped ' + userList + ' `' + tipAmountQuanta + '` QRL.\n*Note: This transaction will tbe unconfirmed while it\'s being mined into a block, please be patient!*');
+        message.reply('Tipped ' + userList + ' `' + tipAmountQuanta + '` QRL.\n*Tip will tbe unconfirmed while it\'s being mined into a block. All tips are on-chain!*');
         const send_to_addresses = found_addressTo.concat(not_found_addressTo);
         const send_to_amount = found_tipAmount.concat(not_found_tipAmount);
         const tipToInfo = { amount: send_to_amount, fee: fee, address_from: wallet_pub, address_to: send_to_addresses };
