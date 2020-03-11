@@ -131,8 +131,7 @@ module.exports = {
         else if (faucetCheck[0][1].drip_found == false) {
           // no drip found. Do things here.
           console.log('no drips found. Adding to db and sending a drip')
-          message.react(':droplet:')
-                      .then(() => message.react('🇶'))
+          message.react('🇶')
                       .then(() => message.react('🇷'))
                       .then(() => message.react('🇱'))
                       .catch(() => console.error('One of the emojis failed to react.'));
