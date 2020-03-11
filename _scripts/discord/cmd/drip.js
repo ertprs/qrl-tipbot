@@ -82,11 +82,14 @@ module.exports = {
     return UserChecks;
     }
 
-    usercheck().then(function(res) {
+    checkUser(service_id).then(function(checkresults) {
       console.log('UserChecks ' + JSON.stringify(res));
       console.log('userInfoArray ' + JSON.stringify(userInfoArray));
+    })
 
-
+    usercheck().then(function(res) {
+      //console.log('UserChecks ' + JSON.stringify(res));
+      //console.log('userInfoArray ' + JSON.stringify(userInfoArray));
     });
 /*
 
