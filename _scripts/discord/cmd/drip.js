@@ -20,7 +20,8 @@ module.exports = {
     // const info = JSON.parse(JSON.stringify({ service: 'discord', service_id: UUID }));
     // const found = GetAllUserInfo(info);
 
-    function checkUser(user) {
+    async function checkUser(user) {
+   	  return new Promise(resolve => {
       const check_info = { service: 'discord', service_id: user };
       const checkPromise = GetAllUserInfo(check_info);
       // fail from the start
@@ -31,7 +32,6 @@ module.exports = {
         const user_found = results.user_found;
         const opt_out = results[0].opt_out;
         const agree = results[0].agree;
-
         // check if user found
         if (user_found) {
           console.log('user found: ' + user_found);
@@ -45,28 +45,32 @@ module.exports = {
               let checkUserPassed = true;
               userInfoArray.push({ CheckUserPassed: true });
               console.log('userInfoArray in function ' + JSON.stringify(userInfoArray));
-              return userInfoArray;
+              // return userInfoArray;
            }
            else {
             // not agreed to terms
              console.log('need to agree to terms');
-             message.reply('You will need to agree to my `+terms` to use the bot. `+agree`')
+             message.reply('You will need to agree to my `+terms` to use the bot. `+agree`');
+             return;
            }
          }
          else{
            // user has opted out
            console.log('User Opted out');
            message.reply('I see you have opted out. Please `+opt-in` to recieve faucet funds');
+           return;
          }
         }
         else{
           // user not found
           console.log('user is not found');
           message.reply('User is not found, are you signed up?');
+          return;
         }
-        return userInfoArray;
+        resolve(userInfoArray);
+        return;
       });
-      return userInfoArray;
+    });
     }
 
     async function usercheck() {
