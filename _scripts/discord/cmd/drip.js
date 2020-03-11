@@ -20,12 +20,12 @@ module.exports = {
     // const info = JSON.parse(JSON.stringify({ service: 'discord', service_id: UUID }));
     // const found = GetAllUserInfo(info);
 
-    async function checkUser(user) {
+    function checkUser(user) {
       const check_info = { service: 'discord', service_id: user };
       const checkPromise = GetAllUserInfo(check_info);
       // fail from the start
       let checkUserPassed = false;
-      await checkPromise.then(function(results) {
+      checkPromise.then(function(results) {
       	console.log(JSON.stringify(results));
         userInfoArray.push(results);
         const user_found = results.user_found;
@@ -67,11 +67,14 @@ module.exports = {
       });
       return userInfoArray;
     }
-    
-    const UserChecks = checkUser(service_id);
-    UserChecks;
 
+    async function usercheck() {
+    const UserChecks = checkUser(service_id);
     console.log('UserChecks ' + JSON.stringify(UserChecks));
+    return await UserChecks;
+    }
+
+    usercheck();
 /*
 
     if(message.guild != null) {
