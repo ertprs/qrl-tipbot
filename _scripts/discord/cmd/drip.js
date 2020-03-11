@@ -83,7 +83,7 @@ module.exports = {
     }
 
     checkUser(service_id).then(function(checkresults) {
-      console.log('UserChecks ' + JSON.stringify(res));
+      console.log('UserChecks ' + JSON.stringify(checkresults));
       console.log('userInfoArray ' + JSON.stringify(userInfoArray));
     })
 
