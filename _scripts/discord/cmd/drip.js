@@ -2,7 +2,7 @@ module.exports = {
   name: 'drip',
   description: 'Collect some free qrl from the faucet, if there is any to have. Once a day at most please.',
   args: false,
-  aliases: ['faucet', 'freeqrl', 'free'],
+  aliases: ['faucet', 'freeqrl', 'free', 'drop'],
   guildOnly: false,
   usage: ' \n##',
   // cooldown: 86399,
