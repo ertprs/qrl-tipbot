@@ -1,6 +1,5 @@
 # MySQL Tables Definition
 
-
 ## Tipbot Tables
 
 ### `Users` Table

@@ -57,11 +57,6 @@ async function Drip(args) {
       const compair_time = time_now - (config.faucet.payout_interval * one_hour);
       const lastDrip_DBcheck = 'SELECT * FROM  '
 
-
-
-
-
-
       console.log('user has met conditions, get address and drip away\n... add the user to the payout db');
       // lookup the wallet address of the user
       const wallet_searchDB = 'SELECT wallets.wallet_pub FROM users INNER JOIN wallets ON users.id = wallets.user_id WHERE wallets.user_id = "' + user_id + '"';

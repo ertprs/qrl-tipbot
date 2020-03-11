@@ -173,7 +173,6 @@ module.exports = {
       // tip_id created, sort the users found and not-found
       async function tip() {
         const iterator = UserIDList.entries();
-        // for (let i = 0; i < message.mentions.users.size; i++) {
         for (const Service_ID of message.mentions.users) {
           const Value = iterator.next().value;
           // set the users values to variables from the iterator.next().value we got from above
@@ -208,7 +207,6 @@ module.exports = {
               const usernNotFoundInfo = { service: 'discord', user_id: serviceid, user_name: serviceUserName, tip_from: userID, tip_amount: tipAmountQuanta };
               const addTo_Future_tipsPromise = addFutureTips(usernNotFoundInfo);
               addTo_Future_tipsPromise.then(function() {
-                // do anything here that is needed... maybe DM the tipped user and explain where their tip is...
               });
             }
           });
@@ -224,7 +222,6 @@ module.exports = {
           not_found_tipAmount.push(tip_to_hold);
         }
         if (not_found_count == 0 && found_count == 0) {
-          // message users that the tip is on the way.
           // if in a chat, delete their tip message and reply with the list of tipped users
           if(message.guild != null) {
             message.delete();
@@ -233,7 +230,6 @@ module.exports = {
           message.reply('sorry, no users found or they have opted out. No tip sent...');
           return;
         }
-        // message users that the tip is on the way.
         // if in a chat, delete their tip message and reply with the list of tipped users
         if(message.guild != null) {
           message.delete();
