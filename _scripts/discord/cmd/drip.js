@@ -10,7 +10,7 @@ module.exports = {
   execute(message, args) {
 
     const dbHelper = require('../../db/dbHelper');
-    const faucetHelper = require('../../db/faucetDB_Helper');
+    const faucetHelper = require('../../faucet/faucetDB_Helper');
     const uuid = `${message.author}`;
     const service_id = uuid.slice(1, -1);
     const GetAllUserInfo = dbHelper.GetAllUserInfo;
