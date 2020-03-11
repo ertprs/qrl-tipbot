@@ -21,7 +21,7 @@ module.exports = {
     // const found = GetAllUserInfo(info);
 
     function checkUser(user) {
-      const check_info = { service: 'discord', user_id: user };
+      const check_info = { service: 'discord', service_id: user };
       const checkPromise = GetAllUserInfo(check_info);
       // fail from the start
       let checkUserPassed = false;
