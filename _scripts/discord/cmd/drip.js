@@ -121,7 +121,7 @@ module.exports = {
         }
       }
       checkFaucet(service_id).then(function(faucetCheck) {
-        console.log('faucetCheck results' + faucetCheck);
+        console.log('faucetCheck results' + JSON.stringify(faucetCheck));
       });
     });
 
