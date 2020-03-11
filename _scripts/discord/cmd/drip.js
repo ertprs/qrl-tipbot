@@ -23,58 +23,63 @@ module.exports = {
     async function checkUser(user) {
       return new Promise(resolve => {
         const check_info = { service: 'discord', service_id: user };
-      const checkPromise = GetAllUserInfo(check_info);
-      // fail from the start
-      let checkUserPassed = false;
-      checkPromise.then(function(results) {
-        // console.log(JSON.stringify('results: ' + results));
-        userInfoArray.push(results);
-        const user_found = results.user_found;
-        const opt_out = results[0].opt_out;
-        const agree = results[0].agree;
-        // check if user found
-        if (user_found) {
-          console.log('user found: ' + user_found);
-          // check if opt out
-          if (!opt_out) {
-            console.log('user is not opted out:  ' + opt_out);
-            // check if agreed
-             if (agree) {
-              console.log('user has agreed ' + agree);
-            // set checkUserPassed to true and return
-              let checkUserPassed = true;
-              userInfoArray.push({ checkUserPassed: true });
-              // return userInfoArray;
+        const checkPromise = GetAllUserInfo(check_info);
+        // fail from the start
+        let checkUserPassed = false;
+        checkPromise.then(function(results) {
+          // console.log(JSON.stringify('results: ' + results));
+          userInfoArray.push(results);
+          const user_found = results.user_found;
+          const opt_out = results[0].opt_out;
+          const agree = results[0].agree;
+          // check if user found
+          if (user_found) {
+            console.log('user found: ' + user_found);
+            // check if opt out
+            if (!opt_out) {
+              console.log('user is not opted out:  ' + opt_out);
+              // check if agreed
+              if (agree) {
+                console.log('user has agreed ' + agree);
+                // set checkUserPassed to true and return
+                let checkUserPassed = true;
+                userInfoArray.push({ checkUserPassed: true });
+                // return userInfoArray;
+             }
+             else {
+              // not agreed to terms
+               console.log('need to agree to terms');
+               userInfoArray.push({ checkUserPassed: false, checkUserPassedError: 'not_agreed' });
+               message.reply('You will need to agree to my `+terms` to use the bot. `+agree`');
+               return;
+             }
            }
-           else {
-            // not agreed to terms
-             console.log('need to agree to terms');
-             userInfoArray.push({ checkUserPassed: false, checkUserPassedError: 'not_agreed' });
-             message.reply('You will need to agree to my `+terms` to use the bot. `+agree`');
+           else{
+             // user has opted out
+             console.log('User Opted out');
+             userInfoArray.push({ checkUserPassed: false, checkUserPassedError: 'opted_out' });
+             message.reply('I see you have opted out. Please `+opt-in` to recieve faucet funds');
              return;
            }
-         }
-         else{
-           // user has opted out
-           console.log('User Opted out');
-           userInfoArray.push({ checkUserPassed: false, checkUserPassedError: 'opted_out' });
-           message.reply('I see you have opted out. Please `+opt-in` to recieve faucet funds');
-           return;
-         }
-        }
-        else{
-          // user not found
-          console.log('user is not found');
-          userInfoArray.push({ checkUserPassed: false, checkUserPassedError: 'not_found' });
-          message.reply('User is not found, are you signed up?');
+          }
+          else{
+            // user not found
+            console.log('user is not found');
+            userInfoArray.push({ checkUserPassed: false, checkUserPassedError: 'not_found' });
+            message.reply('User is not found, are you signed up?');
+            return;
+          }
+          resolve(userInfoArray);
           return;
-        }
-        resolve(userInfoArray);
-        return;
+        });
       });
-    });
     }
+    async function checkFaucetPayouts(user_id) {
+      return new Promise(resolve => {
 
+
+      });
+    }
     // async function usercheck() {
     // const UserChecks = checkUser(service_id);
     // await UserChecks;
@@ -83,7 +88,7 @@ module.exports = {
     // }
 
     checkUser(service_id).then(function(checkresults) {
-      console.log('UserChecks ' + JSON.stringify(checkresults));
+      // console.log('UserChecks ' + JSON.stringify(checkresults));
       console.log('userInfoArray ' + JSON.stringify(userInfoArray));
       if (!userInfoArray[1].checkUserPassed) {
         const userCheckError = userInfoArray[1].checkUserPassedError;
@@ -104,9 +109,8 @@ module.exports = {
         default:
           console.log('Default called in error block. SOmething is wrong');
         }
-
       }
-
+      const checkFaucetPayouts()
     });
 
     // usercheck().then(function(res) {

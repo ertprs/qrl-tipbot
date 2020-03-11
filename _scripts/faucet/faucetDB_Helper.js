@@ -68,23 +68,29 @@ async function Drip(args) {
         const wallet_pub = wallet_result;
         console.log('users wallet_pub: ' + wallet_pub);
 
-        // send config.faucet.payout amount to the users wallet. 
+        // send config.faucet.payout amount to the users wallet.
         // set the wallet address and payout amount in the faucet payout database and let the faucet payout on its timer..
-        // curently this is set to the testnet-faucet.ADMIN table as thats whats configured. 
+        // curently this is set to the testnet-faucet.ADMIN table as thats whats configured.
 
         // This will need to change TO-DO
-        
+
         // service = args.service
         // service user id = args.input_user_id
-        
+
         // from admin database...
         // PayoutSqlQuery = "select QRL_ADDR from ADMIN where (QRL_ADDR = '". $address ."' )";
         // values ID(), TX_ID, QRL_ADDR, IP_ADDR, PAYOUT, PAID, DATETIME
         // $PayOutSQL = "INSERT INTO ADMIN VALUES (id, NULL, '".$address."', '".$ipHash."', ".$faucetAmmount.", 1, now() )";
-        
+
 
       });
     });
+  });
+}
+
+async function checkPayments(args) {
+  return new Promise(resolve => {
+
   });
 }
 

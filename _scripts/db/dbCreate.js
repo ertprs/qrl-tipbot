@@ -361,29 +361,13 @@ const createUserAgree = `create table if not exists users_agree(
     // console.log(results);
   });
 
-  const createFaucetPayouts = `create table if not exists faucet_payouts(
-                                id int primary key auto_increment,
-                                user_ids varchar(600) not null,
-                                tx_hash varchar(255) not null, 
-                                total_payout_amt DECIMAL(24,9) not null,
-                                time_stamp DATETIME not null
-                             )`;
-
-
-  callmysql.query(createFaucetPayouts, function(err, results) {
-    if (err) {
-      console.log(err.message);
-    }
-    // log the output of sql command
-    // console.log('createFaucetPayouts results:');
-    // console.log(results);
-  });
-
-    const createFaucetRequests = `create table if not exists faucet_requests(
+    const createFaucetPayouts = `create table if not exists faucet_payouts(
                                 id int primary key auto_increment,
                                 user_id int not null,
                                 service ENUM('discord', 'keybase', 'github', 'reddit', 'trello', 'twitter', 'slack', 'telegram', 'whatsapp'),
                                 drip_amt DECIMAL(24,9) not null,
+                                paid BOOLEAN default 0,
+                                tx_hash varchar(255), 
                                 updated_at DATETIME not null,
                                 time_stamp DATETIME not null
                              )`;

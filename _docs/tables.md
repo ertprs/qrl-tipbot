@@ -274,6 +274,19 @@ Useed to track the payouts from the faucet. This will store all of the transacti
 - **total_payout_amt** - total amount sent through the faucet
 - **time_stamp** the timestamp of entry
 
+```sql
+describe faucet_payouts;
++------------------+---------------+------+-----+---------+----------------+
+| Field            | Type          | Null | Key | Default | Extra          |
++------------------+---------------+------+-----+---------+----------------+
+| id               | int(11)       | NO   | PRI | NULL    | auto_increment |
+| user_ids         | varchar(600)  | NO   |     | NULL    |                |
+| tx_hash          | varchar(255)  | NO   |     | NULL    |                |
+| total_payout_amt | decimal(24,9) | NO   |     | NULL    |                |
+| time_stamp       | datetime      | NO   |     | NULL    |                |
++------------------+---------------+------+-----+---------+----------------+
+```
+
 
 ```
  ____________________________________________________________________
