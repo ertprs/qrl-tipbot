@@ -21,8 +21,8 @@ module.exports = {
     // const found = GetAllUserInfo(info);
 
     async function checkUser(user) {
-   	  return new Promise(resolve => {
-      const check_info = { service: 'discord', service_id: user };
+      return new Promise(resolve => {
+        const check_info = { service: 'discord', service_id: user };
       const checkPromise = GetAllUserInfo(check_info);
       // fail from the start
       let checkUserPassed = false;
@@ -49,7 +49,7 @@ module.exports = {
            else {
             // not agreed to terms
              console.log('need to agree to terms');
-             userInfoArray.push({ checkUserPassed: false });
+             userInfoArray.push({ checkUserPassed: false, checkUserPassedError: 'not_agreed' });
              message.reply('You will need to agree to my `+terms` to use the bot. `+agree`');
              return;
            }
@@ -57,7 +57,7 @@ module.exports = {
          else{
            // user has opted out
            console.log('User Opted out');
-           userInfoArray.push({ checkUserPassed: false });
+           userInfoArray.push({ checkUserPassed: false, checkUserPassedError: 'opted_out' });
            message.reply('I see you have opted out. Please `+opt-in` to recieve faucet funds');
            return;
          }
@@ -65,7 +65,7 @@ module.exports = {
         else{
           // user not found
           console.log('user is not found');
-          userInfoArray.push({ checkUserPassed: false });
+          userInfoArray.push({ checkUserPassed: false, checkUserPassedError: 'not_found' });
           message.reply('User is not found, are you signed up?');
           return;
         }
@@ -75,22 +75,44 @@ module.exports = {
     });
     }
 
-    //async function usercheck() {
-    //const UserChecks = checkUser(service_id);
-    //await UserChecks;
+    // async function usercheck() {
+    // const UserChecks = checkUser(service_id);
+    // await UserChecks;
     // console.log('async function userchecks: ' + UserChecks)
-    //return UserChecks;
-    //}
+    // return UserChecks;
+    // }
 
     checkUser(service_id).then(function(checkresults) {
       console.log('UserChecks ' + JSON.stringify(checkresults));
       console.log('userInfoArray ' + JSON.stringify(userInfoArray));
-    })
+      if (!userInfoArray[1].checkUserPassed) {
+        const userCheckError = userInfoArray[1].checkUserPassedError;
+        console.log('the user check failed with error:' + userCheckError);
+        switch (userCheckError) {
+          case 'not_found':
+          console.log('user is not found, error given.' + userCheckError);
+          message.reply('Sorry, looks like there is an error. error is `User ' + userCheckError + '`');
+          break;
+        case 'opted_out':
+          console.log('user is opt_out, error given.' + userCheckError);
+          message.reply('Sorry, looks like there is an error. error is `User ' + userCheckError + '`');
+          break;
+        case 'not_agreed':
+          console.log('user is not agreed to terma, error given.' + userCheckError);
+          message.reply('Sorry, looks like there is an error. error is `User ' + userCheckError + '`');
+          break;
+        default:
+          console.log('Default called in error block. SOmething is wrong');
+        }
 
-    //usercheck().then(function(res) {
-      //console.log('UserChecks ' + JSON.stringify(res));
-      //console.log('userInfoArray ' + JSON.stringify(userInfoArray));
-    //});
+      }
+
+    });
+
+    // usercheck().then(function(res) {
+      // console.log('UserChecks ' + JSON.stringify(res));
+      // console.log('userInfoArray ' + JSON.stringify(userInfoArray));
+    // });
 /*
 
     if(message.guild != null) {
