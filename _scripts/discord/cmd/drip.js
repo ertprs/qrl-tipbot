@@ -120,8 +120,7 @@ module.exports = {
           console.log('Default called in error block. SOmething is wrong');
         }
       }
-      const checkFaucetPaid = checkFaucet();
-      checkFaucetPaid(service_id).then(function(faucetCheck) {
+      checkFaucet(service_id).then(function(faucetCheck) {
         console.log('faucetCheck results' + faucetCheck);
       });
     });
