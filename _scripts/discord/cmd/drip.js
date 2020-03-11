@@ -8,7 +8,7 @@ module.exports = {
   // cooldown: 86399,
 
   execute(message, args) {
-    
+
     const dbHelper = require('../../db/dbHelper');
     // const faucetHelper = require('../../db/dbHelper');
     const uuid = `${message.author}`;
@@ -26,7 +26,7 @@ module.exports = {
       // fail from the start
       let checkUserPassed = false;
       checkPromise.then(function(results) {
-      	console.log(JSON.stringify(results));
+        console.log(JSON.stringify(results));
         userInfoArray.push(results);
         const user_found = results.user_found;
         const opt_out = results[0].opt_out;
@@ -70,11 +70,14 @@ module.exports = {
 
     async function usercheck() {
     const UserChecks = checkUser(service_id);
-    console.log('UserChecks ' + JSON.stringify(UserChecks));
     return await UserChecks;
     }
 
-    usercheck();
+    usercheck().then(function(res) {
+      console.log('UserChecks ' + JSON.stringify(res));
+
+
+    });
 /*
 
     if(message.guild != null) {
