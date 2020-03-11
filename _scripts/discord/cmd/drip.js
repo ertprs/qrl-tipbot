@@ -14,7 +14,7 @@ module.exports = {
     const uuid = `${message.author}`;
     const service_id = uuid.slice(1, -1);
     const GetAllUserInfo = dbHelper.GetAllUserInfo;
-    const checkFaucetPayouts = faucetHelper.
+    const checkFaucetPayouts = faucetHelper.checkPayments;
     const userInfoArray = [];
 
     // const checkAgree = dbHelper.CheckAgree;

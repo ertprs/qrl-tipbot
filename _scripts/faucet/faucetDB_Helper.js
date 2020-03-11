@@ -90,10 +90,24 @@ async function Drip(args) {
 
 async function checkPayments(args) {
   return new Promise(resolve => {
+    // check the faucet_oayments db for the last time user recieved a tip, if ever. 
+    // check to curent time and if less than one day no tip...
+    // set all results to an array to respond to user.
+    
+
+    // resolve the array
 
   });
 }
 
 module.exports = {
   Drip : Drip,
+  checkPayments: checkPayments,
 };
+
+
+
+//
+/*
+INSERT INTO faucet_payouts('user_id, tx_hash, drip_amt time_stamp) VALUES ?';
+*/
