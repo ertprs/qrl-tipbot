@@ -95,7 +95,7 @@ async function checkPayments(args) {
     // check to curent time and if less than one day no tip...
     // set all results to an array to respond to user.
     const checkPaymentsArray = [];
-    const service_id = args[0].service_id;
+    const service_id = args.service_id;
     const service = args[0].service;
     // search for user mentionend in the last config.faucer.payout_interval time. set in the config file
     const FaucetSearch = 'SELECT faucet_payouts.* FROM faucet_payouts, ' + service + '_users, users WHERE users.' + service + '_user_id = ' + service + '_users.id AND users.id = faucet_payouts.user_id AND ' + service + '_users.' + service + '_id = "' + service_id + '" AND faucet_payouts.time_stamp <= NOW() - INTERVAL ' + config.faucet.payout_interval + ' HOUR';
