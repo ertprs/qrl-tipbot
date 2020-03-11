@@ -125,7 +125,7 @@ module.exports = {
         console.log('faucetCheck results' + JSON.stringify(faucetCheck));
         if (faucetCheck[0][1].drip_found == true) {
           console.log('user has been found recently, no drips');
-          message.reply('You have received a tip recently. Please come back ***' + config.faucet.payout_interval + '*** hours after your last drip on ***' + faucetCheck[0][0][0].time_stamp + '*** to request more funds.');
+          message.reply('You have received a tip recently :no_entry_sign: \nPlease come back ***' + config.faucet.payout_interval + '*** hours after your last drip on ***' + faucetCheck[0][0][0].time_stamp + '*** to request more funds.');
           return;
         }
         else if (faucetCheck[0][1].drip_found == false) {
