@@ -75,7 +75,7 @@ module.exports = {
         });
       });
     }
-    async function checkFaucetPayouts(user_id) {
+    async function checkFaucet(user_id) {
       return new Promise(resolve => {
         const check_info = { service: 'discord', service_id: user };
         const checkPromise = GetAllUserInfo(check_info);
@@ -116,7 +116,7 @@ module.exports = {
           console.log('Default called in error block. SOmething is wrong');
         }
       }
-      const checkFaucetPaid = checkFaucetPayouts();
+      const checkFaucetPaid = checkPayments();
     });
 
     // usercheck().then(function(res) {
