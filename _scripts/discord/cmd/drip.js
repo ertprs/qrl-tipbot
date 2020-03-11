@@ -124,8 +124,8 @@ module.exports = {
       checkFaucet(service_id).then(function(faucetCheck) {
         console.log('faucetCheck results' + JSON.stringify(faucetCheck));
         if (faucetCheck[0][1].drip_found == true) {
-          console.log('user has been found reciently, no drips');
-          message.reply('You have recieved a tip in the last ***' + config.faucet.payout_interval + '*** hours. Please come back ***' + config.faucet.payout_interval + '*** hours after your last drip on ***' + faucetCheck[0][0][0].time_stamp + '*** to request more funds.');
+          console.log('user has been found recently, no drips');
+          message.reply('You have received a tip recently. Please come back ***' + config.faucet.payout_interval + '*** hours after your last drip on ***' + faucetCheck[0][0][0].time_stamp + '*** to request more funds.');
           return;
         }
         else if (faucetCheck[0][1].drip_found == false) {
