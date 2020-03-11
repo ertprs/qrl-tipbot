@@ -16,7 +16,7 @@ module.exports = {
     const GetAllUserInfo = dbHelper.GetAllUserInfo;
     const checkFaucetPayouts = faucetHelper.checkPayments;
     const userInfoArray = [];
-
+    const faucetInfoArray = [];
     // const checkAgree = dbHelper.CheckAgree;
     // const info = JSON.parse(JSON.stringify({ service: 'discord', service_id: UUID }));
     // const found = GetAllUserInfo(info);
@@ -75,17 +75,21 @@ module.exports = {
         });
       });
     }
+
     async function checkFaucet(user_id) {
       return new Promise(resolve => {
-        const check_info = { service: 'discord', service_id: user };
-        const checkPromise = GetAllUserInfo(check_info);
+        const check_info = { service: 'discord', service_id: user_id };
+        const checkFaucetPromise = checkFaucetPayouts(check_info);
         // fail from the start
         let checkUserPassed = false;
-        checkPromise.then(function(results) {
-          console.log()
+        checkFaucetPromise.then(function(results) {
+          console.log('checkFaucetPromise results ' + JSON.stringify(results));
+          faucetInfoArray.push(results);
+          resolve(faucetInfoArray);
         });
       });
     }
+
     // async function usercheck() {
     // const UserChecks = checkUser(service_id);
     // await UserChecks;
@@ -117,6 +121,9 @@ module.exports = {
         }
       }
       const checkFaucetPaid = checkFaucet();
+      checkFaucetPaid(service_id).then(function(faucetCheck) {
+        console.log('faucetCheck results' + faucetCheck);
+      });
     });
 
     // usercheck().then(function(res) {

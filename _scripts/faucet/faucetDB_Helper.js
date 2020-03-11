@@ -55,7 +55,7 @@ async function Drip(args) {
       const time_now = new Date();
       const one_hour = 60 * 60 * 1000;
       const compair_time = time_now - (config.faucet.payout_interval * one_hour);
-      const lastDrip_DBcheck = 'SELECT * FROM  '
+      const lastDrip_DBcheck = 'SELECT * FROM  ';
 
       console.log('user has met conditions, get address and drip away\n... add the user to the payout db');
       // lookup the wallet address of the user
@@ -89,25 +89,51 @@ async function Drip(args) {
 }
 
 async function checkPayments(args) {
+  // expect { service, service_id }
   return new Promise(resolve => {
-    // check the faucet_oayments db for the last time user recieved a tip, if ever. 
+    // check the faucet_oayments db for the last time user recieved a tip, if ever.
     // check to curent time and if less than one day no tip...
     // set all results to an array to respond to user.
-    
-
-    // resolve the array
-
+    const checkPaymentsArray = [];
+    const service_id = args[0].service_id;
+    const service = args[0].service;
+    // search for user mentionend in the last config.faucer.payout_interval time. set in the config file
+    const FaucetSearch = 'SELECT faucet_payouts.* FROM faucet_payouts, ' + service + '_users, users WHERE users.' + service + '_user_id = ' + service + '_users.id AND users.id = faucet_payouts.user_id AND ' + service + '_users.' + service + '_id = "' + service_id + '" AND faucet_payouts.time_stamp <= NOW() - INTERVAL ' + config.faucet.payout_interval + ' HOUR';
+    callmysqlTipBot.query(FaucetSearch, function(err, faucet_result) {
+      if (err) {
+        console.log('[mysql error]', err);
+      }
+      console.log('users faucet results: ' + JSON.stringify(faucet_result));
+      checkPaymentsArray.push(faucet_result);
+      if (!faucet_result.length) {
+        console.log('empty results');
+        checkPaymentsArray.push({ drip_found: false });
+        resolve(checkPaymentsArray);
+        return checkPaymentsArray;
+      }
+      // drip found in db for user
+      checkPaymentsArray.push({ drip_found: true });
+      // returns for found { drip_found, drip_service, last_drip_amt, request_date, paid, tx_hash, paid_date }
+      // returns for not found { drip_found }
+      resolve(checkPaymentsArray);
+    });
   });
 }
+
 
 module.exports = {
   Drip : Drip,
   checkPayments: checkPayments,
 };
-
-
-
 //
 /*
-INSERT INTO faucet_payouts('user_id, tx_hash, drip_amt time_stamp) VALUES ?';
+INSERT INTO faucet_payouts('user_id, service, drip_amt, updated_at, time_stamp)
+  VALUES(1, 'discord', .002, NOW(), NOW());
+
+SELECT * FROM faucet_payouts WHERE user_id="1";
+
+
+SELECT faucet_payouts.* FROM faucet_payouts, discord_users, users WHERE users.discord_user_id = discord_users.id AND users.id = faucet_payouts.user_id AND discord_users.discord_id = "@328611434177101835";
+
+
 */

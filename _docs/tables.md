@@ -275,16 +275,18 @@ Useed to track the payouts from the faucet. This will store all of the transacti
 - **time_stamp** the timestamp of entry
 
 ```sql
-describe faucet_payouts;
-+------------------+---------------+------+-----+---------+----------------+
-| Field            | Type          | Null | Key | Default | Extra          |
-+------------------+---------------+------+-----+---------+----------------+
-| id               | int(11)       | NO   | PRI | NULL    | auto_increment |
-| user_ids         | varchar(600)  | NO   |     | NULL    |                |
-| tx_hash          | varchar(255)  | NO   |     | NULL    |                |
-| total_payout_amt | decimal(24,9) | NO   |     | NULL    |                |
-| time_stamp       | datetime      | NO   |     | NULL    |                |
-+------------------+---------------+------+-----+---------+----------------+
++------------+----------------------------------------------------------------------------------------------+------+-----+---------+----------------+
+| Field      | Type                                                                                         | Null | Key | Default | Extra          |
++------------+----------------------------------------------------------------------------------------------+------+-----+---------+----------------+
+| id         | int(11)                                                                                      | NO   | PRI | NULL    | auto_increment |
+| user_id    | int(11)                                                                                      | NO   |     | NULL    |                |
+| service    | enum('discord','keybase','github','reddit','trello','twitter','slack','telegram','whatsapp') | YES  |     | NULL    |                |
+| drip_amt   | decimal(24,9)                                                                                | NO   |     | NULL    |                |
+| paid       | tinyint(1)                                                                                   | YES  |     | 0       |                |
+| tx_hash    | varchar(255)                                                                                 | YES  |     | NULL    |                |
+| updated_at | datetime                                                                                     | NO   |     | NULL    |                |
+| time_stamp | datetime                                                                                     | NO   |     | NULL    |                |
++------------+----------------------------------------------------------------------------------------------+------+-----+---------+----------------+
 ```
 
 
