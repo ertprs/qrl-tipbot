@@ -20,12 +20,12 @@ module.exports = {
     // const info = JSON.parse(JSON.stringify({ service: 'discord', service_id: UUID }));
     // const found = GetAllUserInfo(info);
 
-    function checkUser(user) {
+    async function checkUser(user) {
       const check_info = { service: 'discord', service_id: user };
       const checkPromise = GetAllUserInfo(check_info);
       // fail from the start
       let checkUserPassed = false;
-      checkPromise.then(function(results) {
+      await checkPromise.then(function(results) {
       	console.log(JSON.stringify(results));
         userInfoArray.push(results);
         const user_found = results.user_found;
@@ -40,7 +40,7 @@ module.exports = {
             console.log('user is not opted out:  ' + opt_out);
             // check if agreed
              if (agree) {
-              console.log('user has agreed' + agree);
+              console.log('user has agreed ' + agree);
             // set checkUserPassed to true and return
               let checkUserPassed = true;
               userInfoArray.push({ CheckUserPassed: true });
@@ -67,8 +67,10 @@ module.exports = {
       });
       return userInfoArray;
     }
+    
     const UserChecks = checkUser(service_id);
     UserChecks;
+
     console.log('UserChecks ' + JSON.stringify(UserChecks));
 /*
 
