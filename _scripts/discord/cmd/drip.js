@@ -39,7 +39,7 @@ module.exports = {
           if (!opt_out) {
             console.log('user is not opted out:  ' + opt_out);
             // check if agreed
-             if (!agree) {
+             if (agree) {
               console.log('user has agreed' + agree);
             // set checkUserPassed to true and return
               let checkUserPassed = true;
