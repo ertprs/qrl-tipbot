@@ -10,10 +10,11 @@ module.exports = {
   execute(message, args) {
 
     const dbHelper = require('../../db/dbHelper');
-    // const faucetHelper = require('../../db/dbHelper');
+    const faucetHelper = require('../../db/faucetDB_Helper');
     const uuid = `${message.author}`;
     const service_id = uuid.slice(1, -1);
     const GetAllUserInfo = dbHelper.GetAllUserInfo;
+    const checkFaucetPayouts = faucetHelper.
     const userInfoArray = [];
 
     // const checkAgree = dbHelper.CheckAgree;
@@ -76,8 +77,13 @@ module.exports = {
     }
     async function checkFaucetPayouts(user_id) {
       return new Promise(resolve => {
-
-
+        const check_info = { service: 'discord', service_id: user };
+        const checkPromise = GetAllUserInfo(check_info);
+        // fail from the start
+        let checkUserPassed = false;
+        checkPromise.then(function(results) {
+          console.log()
+        });
       });
     }
     // async function usercheck() {
