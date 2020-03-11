@@ -76,6 +76,7 @@ module.exports = {
 
     usercheck().then(function(res) {
       console.log('UserChecks ' + JSON.stringify(res));
+      console.log('userInfoArray ' + JSON.stringify(userInfoArray));
 
 
     });
