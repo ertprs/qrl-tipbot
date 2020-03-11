@@ -27,7 +27,7 @@ module.exports = {
       // fail from the start
       let checkUserPassed = false;
       checkPromise.then(function(results) {
-        console.log(JSON.stringify(results));
+        console.log(JSON.stringify('results: ' + results));
         userInfoArray.push(results);
         const user_found = results.user_found;
         const opt_out = results[0].opt_out;
@@ -43,13 +43,13 @@ module.exports = {
               console.log('user has agreed ' + agree);
             // set checkUserPassed to true and return
               let checkUserPassed = true;
-              userInfoArray.push({ CheckUserPassed: true });
-              console.log('userInfoArray in function ' + JSON.stringify(userInfoArray));
+              userInfoArray.push(CheckUserPassed);
               // return userInfoArray;
            }
            else {
             // not agreed to terms
              console.log('need to agree to terms');
+             userInfoArray.push(CheckUserPassed);
              message.reply('You will need to agree to my `+terms` to use the bot. `+agree`');
              return;
            }
@@ -57,6 +57,7 @@ module.exports = {
          else{
            // user has opted out
            console.log('User Opted out');
+           userInfoArray.push(CheckUserPassed);
            message.reply('I see you have opted out. Please `+opt-in` to recieve faucet funds');
            return;
          }
@@ -64,6 +65,7 @@ module.exports = {
         else{
           // user not found
           console.log('user is not found');
+          userInfoArray.push(CheckUserPassed);
           message.reply('User is not found, are you signed up?');
           return;
         }
