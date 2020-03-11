@@ -44,6 +44,7 @@ module.exports = {
             // set checkUserPassed to true and return
               let checkUserPassed = true;
               userInfoArray.push({ CheckUserPassed: true });
+              console.log('userInfoArray in function ' + JSON.stringify(userInfoArray));
               return userInfoArray;
            }
            else {
