@@ -122,6 +122,15 @@ module.exports = {
       }
       checkFaucet(service_id).then(function(faucetCheck) {
         console.log('faucetCheck results' + JSON.stringify(faucetCheck));
+        if (faucetCheck[0][1].drip_found == true) {
+          console.log('user has been found reciently, no drips');
+          message.reply('You have recieved a tip in the last ' + config.faucet.faucet_interval + '');
+          return;
+        }
+        else if (faucetCheck[0][1].drip_found == false) {
+          // no drip found. Do things here.
+          console.log('no drips found. Adding to db and sending a drip')
+        }
       });
     });
 
