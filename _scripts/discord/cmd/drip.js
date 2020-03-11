@@ -11,6 +11,7 @@ module.exports = {
 
     const dbHelper = require('../../db/dbHelper');
     const faucetHelper = require('../../faucet/faucetDB_Helper');
+    const config = require('../../../_config/config.json');
     const uuid = `${message.author}`;
     const service_id = uuid.slice(1, -1);
     const GetAllUserInfo = dbHelper.GetAllUserInfo;
