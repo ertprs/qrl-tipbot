@@ -70,7 +70,7 @@ module.exports = {
 
     async function usercheck() {
     const UserChecks = checkUser(service_id);
-    return await UserChecks;
+    await UserChecks;
     }
 
     usercheck().then(function(res) {
