@@ -75,22 +75,22 @@ module.exports = {
     });
     }
 
-    async function usercheck() {
-    const UserChecks = checkUser(service_id);
-    await UserChecks;
-    console.log('async function userchecks: ' + UserChecks)
-    return UserChecks;
-    }
+    //async function usercheck() {
+    //const UserChecks = checkUser(service_id);
+    //await UserChecks;
+    // console.log('async function userchecks: ' + UserChecks)
+    //return UserChecks;
+    //}
 
     checkUser(service_id).then(function(checkresults) {
       console.log('UserChecks ' + JSON.stringify(checkresults));
       console.log('userInfoArray ' + JSON.stringify(userInfoArray));
     })
 
-    usercheck().then(function(res) {
+    //usercheck().then(function(res) {
       //console.log('UserChecks ' + JSON.stringify(res));
       //console.log('userInfoArray ' + JSON.stringify(userInfoArray));
-    });
+    //});
 /*
 
     if(message.guild != null) {
