@@ -136,6 +136,7 @@ module.exports = {
                       .then(() => message.react('🇱'))
                       .catch(() => console.error('One of the emojis failed to react.'));
                     message.channel.stopTyping(true);
+          message.reply(':droptlet: Faucet Payment sent! :droptlet')
         }
       });
     });
