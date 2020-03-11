@@ -26,6 +26,7 @@ module.exports = {
       // fail from the start
       let checkUserPassed = false;
       checkPromise.then(function(results) {
+      	console.log(JSON.stringify(results));
         userInfoArray.push(results);
         const user_found = results.user_found;
         const opt_out = results[0].opt_out;
