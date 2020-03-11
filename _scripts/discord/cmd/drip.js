@@ -116,7 +116,7 @@ module.exports = {
           console.log('Default called in error block. SOmething is wrong');
         }
       }
-      const checkFaucetPayouts()
+      const checkFaucetPaid = checkFaucetPayouts();
     });
 
     // usercheck().then(function(res) {
