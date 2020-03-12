@@ -112,7 +112,7 @@ module.exports = {
           .setDescription('You have Opted Out of the TipBot. To tip you must opt back in.')
           .setColor(0x000000)
           .addField('Opt-Out', userInfo[4].opt_out)
-          .addField('Opt-Out Date', userInfo[4].opt_out)
+          .addField('Opt-Out Date', userInfo[4].optout_date)
           .addField('To opt back in', '`+opt-in`');
         message.author.send({ embed })
           .then(() => {
@@ -176,6 +176,7 @@ module.exports = {
         const iterator = UserIDList.entries();
         for (const Service_ID of message.mentions.users) {
           const Value = iterator.next().value;
+          console.log('VALUE: ' + JSON.stringify(Value))
           // set the users values to variables from the iterator.next().value we got from above
           const serviceid = Value[1].Service_ID;
           const serviceUserName = Value[1].service_user_name;
