@@ -42,7 +42,8 @@ async function GetAllUserInfo(args) {
         const foundRes = { user_agree: 'true' };
         Array.prototype.push.apply(foundRes, get_agree);
         console.log(JSON.stringify(foundRes));
-        // return 
+        resolve(foundRes);
+        return foundRes;
       });
       
       callmysql.query(getAllInfoSearch, function(err, user_info_update) {
