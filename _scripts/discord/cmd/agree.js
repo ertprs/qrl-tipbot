@@ -16,7 +16,7 @@ module.exports = {
     const found = GetAllUserInfo(info);
 
     function checkUserAgree(user) {
-      const check_info = { service: 'discord', user_id: user };
+      const check_info = { service: 'discord', service_id: user };
       const checkPromise = checkAgree(check_info);
       checkPromise.then(function(Agree) {
         return Agree;
