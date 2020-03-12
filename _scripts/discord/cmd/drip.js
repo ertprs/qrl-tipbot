@@ -8,7 +8,7 @@ module.exports = {
   // cooldown: 86399,
 
   execute(message, args) {
-
+    const Discord = require('discord.js');
     const dbHelper = require('../../db/dbHelper');
     const faucetHelper = require('../../faucet/faucetDB_Helper');
     const config = require('../../../_config/config.json');
