@@ -92,6 +92,7 @@ module.exports = {
     }
     // get  tip-from-user info values from database since correct input(args) were given
     GetAllUserInfoPromise.then(function(userInfo) {
+      console.log('GETALLUSRERINFO: ' + JSON.stringify(userInfo));
       const found = userInfo[0].user_found;
       if (found == 'false') {
         message.channel.stopTyping(true);
