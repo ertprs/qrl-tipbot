@@ -50,13 +50,13 @@ module.exports = {
           const opt_out = results.opt_out;
           const agree = results.agree;
           // check if user found
-          if (user_found == true) {
+          if (user_found) {
             console.log('user found: ' + user_found);
             // check if opt out
-            if (opt_out  == false) {
+            if (!opt_out) {
               console.log('user is not opted out:  ' + opt_out);
               // check if agreed
-              if (agree == true) {
+              if (agree) {
                 console.log('user has agreed ' + agree);
                 // set checkUserPassed to true and return
                 let checkUserPassed = true;
