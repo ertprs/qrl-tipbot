@@ -34,7 +34,8 @@
     "db_port" : "3006"
   },
   "faucet" : {
-    "payout" : "100.00",
-    "payout_interval" : "24"
+    "payout_interval" : "24",
+    "min_payout" : "0.000000001",
+    "max_payout" : "0.5"
   }
 }

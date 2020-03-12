@@ -16,11 +16,20 @@ module.exports = {
     const service_id = uuid.slice(1, -1);
     const GetAllUserInfo = dbHelper.GetAllUserInfo;
     const checkFaucetPayouts = faucetHelper.checkPayments;
+    const faucetDrip = faucetHelper.Drip;
     const userInfoArray = [];
     const faucetInfoArray = [];
     // const checkAgree = dbHelper.CheckAgree;
     // const info = JSON.parse(JSON.stringify({ service: 'discord', service_id: UUID }));
     // const found = GetAllUserInfo(info);
+
+    function dripAmount(min, max) {
+      return Math.floor(
+        Math.random() * (max - min + 1) + min
+        );
+      // generate a randm number from a range set in the config file.
+
+    }
 
     async function checkUser(user) {
       return new Promise(resolve => {
@@ -91,6 +100,16 @@ module.exports = {
       });
     }
 
+    async function drip(DripArgs) {
+      return new Promise(resolve => {
+        const drip_info = DripArgs;
+        faucetDrip(drip_info).then(function(dripReturn) {
+          console.log(JSON.stringify(dripReturn));
+          resolve(dripReturn);
+        });
+      });
+    }
+
     // async function usercheck() {
     // const UserChecks = checkUser(service_id);
     // await UserChecks;
@@ -130,9 +149,18 @@ module.exports = {
         }
         else if (faucetCheck[0][1].drip_found == false) {
           // no drip found. Do things here.
-          console.log('no drips found. Adding to db and sending a drip')
+          // insert into faucet_payments to request a payment
+          const user_id = faucetCheck[0][0][0].user_id;
+          const Drip = dripAmount(config.faucet.min_payout, config.faucet.max_payout);
+          console.log('no drips found. Adding to db and sending a drip');
+          const dripInfo = { user_id: user_id, service: 'discord', drip_amt: Drip };
+          drip(dripInfo).then(function(ResDrip) {
+            console.log('all done, tipped and returned values\n' + ResDrip);
+
+
+          });
           message.channel.stopTyping(true);
-          message.reply(':droplet: Faucet Payment sent! :droplet:')
+          message.reply(':droplet: Faucet funds sent! :droplet:');
         }
       });
     });
