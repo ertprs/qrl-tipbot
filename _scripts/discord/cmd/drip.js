@@ -50,8 +50,10 @@ module.exports = {
           const opt_out = results.opt_out;
           const agree = results.agree;
           // check if user found
-          if (user_found) {
+          if (user_found == true) {
             console.log('user found: ' + user_found);
+            
+
             // check if opt out
             if (!opt_out) {
               console.log('user is not opted out:  ' + opt_out);
