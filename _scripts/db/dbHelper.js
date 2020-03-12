@@ -25,7 +25,7 @@ async function GetAllUserInfo(args) {
       if (err) {
         console.log('[mysql error]', err);
       }
-      console.log('user_info:' + JSON.stringify(user_info))
+      console.log('user_info: ' + JSON.stringify(user_info))
       if(user_info.length == 0) {
         const Results = { user_found: 'false' };
         foundResArray.push({ user_found: 'false' })
@@ -58,7 +58,7 @@ async function GetAllUserInfo(args) {
         // const foundRes = { user_agree: 'true' };
         // Array.prototype.push.apply(foundRes, get_agree);
         Array.prototype.push.apply(foundResArray, get_agree);
-        console.log(JSON.stringify(foundResArray));
+        console.log('agree foundResArray ' + JSON.stringify(foundResArray));
         //resolve(foundRes);
         // return foundRes;
       }
@@ -72,7 +72,7 @@ async function GetAllUserInfo(args) {
         // const foundRes = { user_found: 'true' };
         foundResArray.push({ user_found: 'true' });
         Array.prototype.push.apply(foundResArray, infoResult);
-        console.log(JSON.stringify(foundResArray));
+        console.log('getAllInfoSearch foundResArray ' + JSON.stringify(foundResArray));
         resolve(foundResArray);
         //return foundRes;
       });
