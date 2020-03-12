@@ -75,7 +75,7 @@ async function GetAllUserInfo(args) {
         resolve(foundResArray);
         //return foundRes;
       });
-      resolve()
+      resolve(foundResArray)
     });
   });
 }
