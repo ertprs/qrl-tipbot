@@ -67,13 +67,12 @@ module.exports = {
               // not agreed to terms
                console.log('need to agree to terms');
                userInfoArray.push({ checkUserPassed: false, checkUserPassedError: 'not_agreed' });
-               message.reply('You will need to agree to my `+terms` to use the bot. `+agree`');
+               // message.reply('You will need to agree to my `+terms` to use the bot. `+agree`');
                message.channel.stopTyping(true);
                 const embed = new Discord.RichEmbed()
                   .setColor(0x000000)
-                  .setTitle('ERROR')
-                  .setDescription('You will need to agree to my `+terms` to use the bot. `+agree`')
-                  .addField('List of commands', '`+help`');
+                  .setTitle('ERROR: You must agree to the terms')
+                  .setDescription('`+terms` to read the terms and conditions, `+agree` to start using the faucet')
                 message.reply({ embed });
                return;
              }
