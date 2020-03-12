@@ -25,6 +25,7 @@ async function GetAllUserInfo(args) {
       if (err) {
         console.log('[mysql error]', err);
       }
+      console.log('user_info:' + JSON.stringify(user_info))
       if(user_info.length == 0) {
         const Results = { user_found: 'false' };
         foundResArray.push({ user_found: 'false' })
