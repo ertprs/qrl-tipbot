@@ -53,7 +53,7 @@ module.exports = {
           if (user_found == 'true') {
             console.log('user found: ' + user_found);
             // check if opt out
-            if (opt_out == 'false') {
+            if (opt_out == '0') {
               console.log('user is not opted out:  ' + opt_out);
               // check if agreed
               if (agree == 'true') {
