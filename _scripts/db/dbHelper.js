@@ -40,7 +40,7 @@ async function GetAllUserInfo(args) {
         const infoResult = JSON.parse(JSON.stringify(user_info_update));
         const foundRes = { user_found: 'true' };
         Array.prototype.push.apply(foundRes, infoResult);
-        // console.log(JSON.stringify(foundRes));
+        console.log(JSON.stringify(foundRes));
         resolve(foundRes);
         return foundRes;
       });
@@ -393,7 +393,7 @@ async function AddUser(args) {
                 resultsArray.push({ future_tip_amount: future_tip_amount });
                 const agreeValues = [ [userID, 0, new Date()] ]
                 const agree_default = 'INSERT INTO users_agree(user_id, agree, time_stamp) VALUES ?'
-                callmysql.query(futureTips_payout, function(err, futureTipped) {
+                callmysql.query(futureTips_payout, [agreeValues], function(err, futureTipped) {
                   if (err) {
                     console.log('[mysql error]', err);
                   }

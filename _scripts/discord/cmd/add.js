@@ -163,6 +163,7 @@ module.exports = {
         else if (found === 'false') {
           // user is not found in database. Do things here to add them
           // Create user wallet
+          message.reply('Adding your address to the system. This will take a bit.')
           const qrlWal = wallet.CreateQRLWallet;
           const WalletPromise = qrlWal(config.wallet.height, config.wallet.num_slaves, config.wallet.hash_function);
           WalletPromise.then(function(address) {
