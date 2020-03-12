@@ -45,7 +45,7 @@ module.exports = {
         let checkUserPassed = false;
         checkPromise.then(function(results) {
           // console.log(JSON.stringify('results: ' + results));
-          userInfoArray.push(JSON.stringify(results));
+          userInfoArray.push(JSON.parse(results));
           const user_found = results.user_found;
           const opt_out = results[0].opt_out;
           const agree = results[0].agree;
