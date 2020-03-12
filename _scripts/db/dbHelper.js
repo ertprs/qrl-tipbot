@@ -391,7 +391,14 @@ async function AddUser(args) {
                 }
                 const future_tip_amount = futureTipped[0].future_tip_amount * 1000000000;
                 resultsArray.push({ future_tip_amount: future_tip_amount });
-                resolve(resultsArray);
+                const agreeValues = [ [userID, 0, new Date()] ]
+                const agree_default = 'INSERT INTO users_agree(user_id, agree, time_stamp) VALUES ?'
+                callmysql.query(futureTips_payout, function(err, futureTipped) {
+                  if (err) {
+                    console.log('[mysql error]', err);
+                  }
+                  resolve(resultsArray);
+                });
               });
             });
           });
