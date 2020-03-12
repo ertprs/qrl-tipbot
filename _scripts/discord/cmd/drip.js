@@ -26,7 +26,7 @@ module.exports = {
     function dripAmount(min, max) {
     	console.log('min: ' + min + ' max: ' + max);
       const randomNumber = Math.floor(
-        Math.random() * (max - min + 1) + min
+        Math.random() * (max - min) + min
         );
       const num = randomNumber;
       console.log('Random number ' + num);
