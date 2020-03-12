@@ -27,6 +27,7 @@ module.exports = {
     }
     // check for the message author. If not found fail
     found.then(function(foundRes) {
+      console.log('foundRes ' + JSON.stringify(foundRes));
       const user_found = foundRes.user_found;
       if (user_found !== 'true') {
         // if the user is not found...
