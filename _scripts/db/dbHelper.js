@@ -33,6 +33,19 @@ async function GetAllUserInfo(args) {
       const user_id = user_info[0].user_id;
       // update the balance in the wallet database and refresh info
       // GetUserWalletBal({ user_id: user_id });
+      
+      const getAgreeSearch = 'SELECT users_agree.* FROM users_agree WHERE users_agree.user_id = "' + user_id + '"';
+      callmysql.query(getAgreeSearch, function(err, get_agree) {
+        if (err) {
+          console.log('[mysql error]', err);
+        }
+        const infoResult = JSON.parse(JSON.stringify(get_agree));
+        const foundRes = { user_found: 'true' };
+        Array.prototype.push.apply(foundRes, get_agree);
+        console.log(JSON.stringify(foundRes));
+        // return 
+      });
+      
       callmysql.query(getAllInfoSearch, function(err, user_info_update) {
         if (err) {
           console.log('[mysql error]', err);
@@ -42,7 +55,7 @@ async function GetAllUserInfo(args) {
         Array.prototype.push.apply(foundRes, infoResult);
         console.log(JSON.stringify(foundRes));
         resolve(foundRes);
-        return foundRes;
+        //return foundRes;
       });
 
     });
