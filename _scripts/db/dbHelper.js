@@ -74,9 +74,9 @@ async function GetAllUserInfo(args) {
         Array.prototype.push.apply(foundResArray, infoResult);
         console.log('getAllInfoSearch foundResArray ' + JSON.stringify(foundResArray));
         resolve(foundResArray);
-        //return foundRes;
+        return foundResArray;
       });
-      resolve(foundResArray)
+      // resolve(foundResArray)
     });
   });
 }
