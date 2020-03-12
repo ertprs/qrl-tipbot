@@ -68,13 +68,14 @@ async function GetAllUserInfo(args) {
           console.log('[mysql error]', err);
         }
         const infoResult = JSON.parse(JSON.stringify(user_info_update));
-        const foundRes = { user_found: 'true' };
-        Array.prototype.push.apply(foundRes, infoResult);
-        console.log(JSON.stringify(foundRes));
-        resolve(foundRes);
+        // const foundRes = { user_found: 'true' };
+        foundResArray.push({ user_found: 'true' });
+        Array.prototype.push.apply(foundResArray, infoResult);
+        console.log(JSON.stringify(foundResArray));
+        resolve(foundResArray);
         //return foundRes;
       });
-
+      resolve()
     });
   });
 }
