@@ -158,7 +158,7 @@ module.exports = {
           console.log('no drips found. Adding to db and sending a drip');
           const dripInfo = { user_id: user_id, service: 'discord', drip_amt: Drip };
           drip(dripInfo).then(function(ResDrip) {
-            console.log('all done, tipped and returned values\n' + ResDrip);
+            console.log('all done, dripped and returned values\n' + JSON.sringify(ResDrip));
 
 
           });
