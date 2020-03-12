@@ -39,7 +39,7 @@ async function GetAllUserInfo(args) {
           console.log('[mysql error]', err);
         }
         const infoResult = JSON.parse(JSON.stringify(get_agree));
-        const foundRes = { user_agree: 'true' };
+        let foundRes = { user_agree: 'true' };
         Array.prototype.push.apply(foundRes, get_agree);
         console.log(JSON.stringify(foundRes));
         resolve(foundRes);
