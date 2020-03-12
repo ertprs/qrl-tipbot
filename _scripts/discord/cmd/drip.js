@@ -30,8 +30,8 @@ module.exports = {
       const randomNumber = Math.floor(
         Math.random() * (maxAmt - minAmt) + minAmt
         );
-      const num = randomNumber;
-      console.log('Random number ' + num / 1000000000);
+      const num = randomNumber / 1000000000;
+      console.log('Random number ' + num);
       return num;
       // generate a randm number from a range set in the config file.
 
