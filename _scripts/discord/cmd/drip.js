@@ -4,7 +4,7 @@ module.exports = {
   args: false,
   aliases: ['faucet', 'freeqrl', 'free', 'drop'],
   guildOnly: false,
-  usage: ' \n##',
+  usage: ' ',
   // cooldown: 86399,
 
   execute(message, args) {
@@ -68,6 +68,13 @@ module.exports = {
                console.log('need to agree to terms');
                userInfoArray.push({ checkUserPassed: false, checkUserPassedError: 'not_agreed' });
                message.reply('You will need to agree to my `+terms` to use the bot. `+agree`');
+               message.channel.stopTyping(true);
+                const embed = new Discord.RichEmbed()
+                  .setColor(0x000000)
+                  .setTitle('ERROR')
+                  .setDescription('You will need to agree to my `+terms` to use the bot. `+agree`')
+                  .addField('List of commands', '`+help`');
+                message.reply({ embed });
                return;
              }
            }
