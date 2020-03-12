@@ -37,6 +37,7 @@ async function GetAllUserInfo(args) {
       }
 
       const user_id = user_info[0].user_id;
+      console.log('\n\nuser_id' + user_id)
       // update the balance in the wallet database and refresh info
       GetUserWalletBal({ user_id: user_id });
       const getAgreeSearch = 'SELECT users_agree.* FROM users_agree WHERE users_agree.user_id = "' + user_id + '"';
