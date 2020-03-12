@@ -150,7 +150,7 @@ module.exports = {
         else if (faucetCheck[0][1].drip_found == false) {
           // no drip found. Do things here.
           // insert into faucet_payments to request a payment
-          const user_id = faucetCheck[0][0][0].user_id;
+          const user_id = userInfoArray[0].0.user_id;
           const Drip = dripAmount(config.faucet.min_payout, config.faucet.max_payout);
           console.log('no drips found. Adding to db and sending a drip');
           const dripInfo = { user_id: user_id, service: 'discord', drip_amt: Drip };
