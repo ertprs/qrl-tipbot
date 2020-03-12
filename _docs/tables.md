@@ -71,11 +71,15 @@ The `users_agree` table collects the user agreement from the user. This allows t
 - **time_stamp** - time agreed
 
 ```
- ___________________________________________
-|  id  |  user_id   |  agree  | time_stamp |
-|------|------------|---------|------------|
-| *int |     int    | boolean |  DATETIME  |
---------------------------------------------
++------------+----------------------------------------------------------------------------------------------+------+-----+---------+----------------+
+| Field      | Type                                                                                         | Null | Key | Default | Extra          |
++------------+----------------------------------------------------------------------------------------------+------+-----+---------+----------------+
+| id         | int(11)                                                                                      | NO   | PRI | NULL    | auto_increment |
+| user_id    | int(11)                                                                                      | NO   |     | NULL    |                |
+| agree      | tinyint(1)                                                                                   | NO   |     | NULL    |                |
+| service    | enum('discord','keybase','github','reddit','trello','twitter','slack','telegram','whatsapp') | YES  |     | NULL    |                |
+| time_stamp | datetime                                                                                     | NO   |     | NULL    |                |
++------------+----------------------------------------------------------------------------------------------+------+-----+---------+----------------+
 ```
 
 
