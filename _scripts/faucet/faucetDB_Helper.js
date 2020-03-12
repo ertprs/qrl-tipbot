@@ -43,7 +43,7 @@ async function Drip(args) {
         resultsArray.push({ error: err });
         resolve(resultsArray);
       }
-      console.log('result from sql entry: ' + JSON.stringify(result));
+      // console.log('result from sql entry: ' + JSON.stringify(result));
       resultsArray.push(result);
       resolve(resultsArray);
     });

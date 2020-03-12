@@ -24,9 +24,9 @@ module.exports = {
     // const found = GetAllUserInfo(info);
 
     function dripAmount(min, max) {
-    	const minAmt = min * 1000000000;
-    	const maxAmt = max * 1000000000;
-    	console.log('min: ' + minAmt + ' max: ' + maxAmt);
+      const minAmt = min * 1000000000;
+      const maxAmt = max * 1000000000;
+      console.log('min: ' + minAmt + ' max: ' + maxAmt);
       const randomNumber = Math.floor(
         Math.random() * (maxAmt - minAmt) + minAmt
         );
@@ -72,7 +72,7 @@ module.exports = {
                 const embed = new Discord.RichEmbed()
                   .setColor(0x000000)
                   .setTitle('ERROR: You must agree to the terms')
-                  .setDescription('`+terms` to read the terms and conditions, `+agree` to start using the faucet')
+                  .setDescription('`+terms` to read the terms and conditions, `+agree` to start using the faucet');
                 message.reply({ embed });
                return;
              }
@@ -167,7 +167,7 @@ module.exports = {
           console.log('no drips found. Adding to db and sending a drip');
           const dripInfo = { user_id: user_id, service: 'discord', drip_amt: Drip };
           drip(dripInfo).then(function(ResDrip) {
-            console.log('all done, dripped and returned values\n' + JSON.stringify(ResDrip));
+            //console.log('all done, dripped and returned values\n' + JSON.stringify(ResDrip));
 
 
           });
