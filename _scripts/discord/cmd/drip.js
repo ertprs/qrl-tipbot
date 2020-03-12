@@ -47,8 +47,8 @@ module.exports = {
           console.log('results: ' + JSON.stringify(results));
           userInfoArray.push(results);
           const user_found = results.user_found;
-          const opt_out = results[0].opt_out;
-          const agree = results[0].agree;
+          const opt_out = results.opt_out;
+          const agree = results.agree;
           // check if user found
           if (user_found) {
             console.log('user found: ' + user_found);
