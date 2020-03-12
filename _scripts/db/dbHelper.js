@@ -31,8 +31,8 @@ async function GetAllUserInfo(args) {
       }
 
       const user_id = user_info[0].user_id;
-      // update the balance iin the wallet database and refresh info
-      GetUserWalletBal({ user_id: user_id });
+      // update the balance in the wallet database and refresh info
+      // GetUserWalletBal({ user_id: user_id });
       callmysql.query(getAllInfoSearch, function(err, user_info_update) {
         if (err) {
           console.log('[mysql error]', err);
@@ -44,6 +44,7 @@ async function GetAllUserInfo(args) {
         resolve(foundRes);
         return foundRes;
       });
+
     });
   });
 }
