@@ -16,7 +16,7 @@ module.exports = {
     const found = GetAllUserInfo(info);
 
     function checkUserAgree(user) {
-      const check_info = { service: 'discord', service_id: user };
+      const check_info = { service: 'discord', user_id: user };
       const checkPromise = checkAgree(check_info);
       checkPromise.then(function(Agree) {
         return Agree;
@@ -49,6 +49,7 @@ module.exports = {
           const GetAllUserInfoPromise = GetAllUserInfo({ service: 'discord', service_id: service_ID });
 
           GetAllUserInfoPromise.then(function(userInfo) {
+            console.log('userInfo ' + JSON.stringify(userInfo));
             const users_ID = userInfo[0].user_id;
             const agree = dbHelper.userAgree({ service: 'discord', user_id: users_ID });
             agree.then(function(results) {
