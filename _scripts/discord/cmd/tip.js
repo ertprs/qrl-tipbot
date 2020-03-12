@@ -92,7 +92,7 @@ module.exports = {
     }
     // get  tip-from-user info values from database since correct input(args) were given
     GetAllUserInfoPromise.then(function(userInfo) {
-      const found = userInfo.user_found;
+      const found = userInfo[0].user_found;
       if (found == 'false') {
         message.channel.stopTyping(true);
         const embed = new Discord.RichEmbed()
@@ -104,7 +104,7 @@ module.exports = {
         return;
       }
       // check for opt out
-      if (userInfo[0].opt_out == '1') {
+      if (userInfo[3].opt_out == '1') {
         message.channel.stopTyping(true);
         const embed = new Discord.RichEmbed()
           .setTitle('ERROR')
@@ -125,8 +125,8 @@ module.exports = {
         return;
       }
       // we have results from user lookup, asign values for tip from user
-      const wallet_pub = userInfo[0].wallet_pub;
-      const wallet_bal = userInfo[0].wallet_bal;
+      const wallet_pub = userInfo[3].wallet_pub;
+      const wallet_bal = userInfo[3].wallet_bal;
       const total_tip = tipUserCount * tipAmount + fee;
       // check that the users balance is enough to tip the request
       const wallet_bal_shor = wallet_bal * 1000000000;

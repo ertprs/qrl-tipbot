@@ -46,9 +46,9 @@ module.exports = {
         checkPromise.then(function(results) {
           console.log('results: ' + JSON.stringify(results));
           userInfoArray.push(results);
-          const user_found = results.user_found;
-          const opt_out = results.opt_out;
-          const agree = results.agree;
+          const user_found = results[0].user_found;
+          const opt_out = results[3].opt_out;
+          const agree = results[1].user_agree;
           // check if user found
           if (user_found == 'true') {
             console.log('user found: ' + user_found);
