@@ -24,9 +24,12 @@ module.exports = {
     // const found = GetAllUserInfo(info);
 
     function dripAmount(min, max) {
-      return Math.floor(
+      const randomNumber = Math.floor(
         Math.random() * (max - min + 1) + min
         );
+      const num = randomNumber;
+      console.log('Random number ' + num);
+      return num;
       // generate a randm number from a range set in the config file.
 
     }
