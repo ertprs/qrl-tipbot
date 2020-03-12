@@ -17,6 +17,7 @@ async function GetAllUserInfo(args) {
     const input = JSON.parse(JSON.stringify(args));
     const service_id = input.service_id;
     const service = input.service;
+    letconst foundResArray.push({  }) foundResArray = [];
     // get all users_info data here...
     const getAllInfoSearch = 'SELECT wallets.wallet_pub AS wallet_pub, wallets.wallet_bal AS wallet_bal, users.id AS user_id, ' + service + '_users.user_name AS user_name, users_info.opt_out AS opt_out, users_info.optout_date AS optout_date FROM wallets, users, ' + service + '_users, users_info WHERE users.id = wallets.user_id AND users.' + service + '_user_id = ' + service + '_users.id AND users.id = users_info.user_id AND ' + service + '_users.' + service + '_id = "' + service_id + '"';
     console.log('getAllInfoSearch: ' + getAllInfoSearch);
@@ -26,8 +27,12 @@ async function GetAllUserInfo(args) {
       }
       if(user_info.length == 0) {
         const Results = { user_found: 'false' };
-        resolve(Results);
-        return Results;
+        const foundResArray.push({ user_found: 'false' })
+        // resolve(Results);
+        // return Results;
+      }
+      else {
+        const foundResArray.push({ user_found: 'true' })
       }
 
       const user_id = user_info[0].user_id;
@@ -38,12 +43,24 @@ async function GetAllUserInfo(args) {
         if (err) {
           console.log('[mysql error]', err);
         }
+      if(get_agree.length == 0) {
+        const Results = { user_agree: 'false' };
+        const foundResArray.push({ user_agree: 'false' })
+        // resolve(Results);
+        // return Results;
+      }
+      else {
+
         const infoResult = JSON.parse(JSON.stringify(get_agree));
-        const foundRes = { user_agree: 'true' };
-        Array.prototype.push.apply(foundRes, get_agree);
-        console.log(JSON.stringify(foundRes));
+        //check for user agree results
+        const foundResArray.push({ user_agree: 'true' })
+        // const foundRes = { user_agree: 'true' };
+        // Array.prototype.push.apply(foundRes, get_agree);
+        Array.prototype.push.apply(foundResArray, get_agree);
+        console.log(JSON.stringify(foundResArray));
         //resolve(foundRes);
         // return foundRes;
+      }
       });
       
       callmysql.query(getAllInfoSearch, function(err, user_info_update) {
