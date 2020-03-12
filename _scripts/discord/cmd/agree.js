@@ -46,7 +46,7 @@ module.exports = {
         if (message.mentions.users.size > 0) {
           const users_Service_ID = message.mentions.users.first().id;
           const service_ID = '@' + users_Service_ID;
-          const GetAllUserInfoPromise = GetAllUserInfo({ service: 'discord', service_id: service_ID });
+          const GetAllUserInfoPromise = GetAllUserInfo({ service: 'discord', service_id: UUID });
 
           GetAllUserInfoPromise.then(function(userInfo) {
             console.log('userInfo ' + JSON.stringify(userInfo));
