@@ -104,14 +104,14 @@ module.exports = {
         return;
       }
       // check for opt out
-      if (userInfo[3].opt_out == '1') {
+      if (userInfo[4].opt_out == '1') {
         message.channel.stopTyping(true);
         const embed = new Discord.RichEmbed()
           .setTitle('ERROR')
           .setDescription('You have Opted Out of the TipBot. To tip you must opt back in.')
           .setColor(0x000000)
-          .addField('Opt-Out', userInfo[0].opt_out)
-          .addField('Opt-Out Date', userInfo[0].opt_out)
+          .addField('Opt-Out', userInfo[4].opt_out)
+          .addField('Opt-Out Date', userInfo[4].opt_out)
           .addField('To opt back in', '`+opt-in`');
         message.author.send({ embed })
           .then(() => {
@@ -125,8 +125,8 @@ module.exports = {
         return;
       }
       // we have results from user lookup, asign values for tip from user
-      const wallet_pub = userInfo[3].wallet_pub;
-      const wallet_bal = userInfo[3].wallet_bal;
+      const wallet_pub = userInfo[4].wallet_pub;
+      const wallet_bal = userInfo[4].wallet_bal;
       const total_tip = tipUserCount * tipAmount + fee;
       // check that the users balance is enough to tip the request
       const wallet_bal_shor = wallet_bal * 1000000000;
@@ -183,7 +183,7 @@ module.exports = {
           await GetAllTipedUserInfoPromise.then(function(tippedUserInfo) {
             const tippedUserFound = tippedUserInfo.user_found;
             if (tippedUserFound == 'true') {
-              const tippedUsedOptOut = tippedUserInfo[0].opt_out;
+              const tippedUsedOptOut = tippedUserInfo[4].opt_out;
               if (tippedUsedOptOut !== 1) {
               // check if tipping self and fail if found
                 const message_auth = '@' + message.author.id;
