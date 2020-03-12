@@ -19,7 +19,7 @@ async function GetAllUserInfo(args) {
     const service = input.service;
     // get all users_info data here...
     const getAllInfoSearch = 'SELECT wallets.wallet_pub AS wallet_pub, wallets.wallet_bal AS wallet_bal, users.id AS user_id, ' + service + '_users.user_name AS user_name, users_info.opt_out AS opt_out, users_info.optout_date AS optout_date, users_agree.agree FROM wallets, users, ' + service + '_users, users_info, users_agree WHERE users.id = wallets.user_id AND users.' + service + '_user_id = ' + service + '_users.id AND users.id = users_info.user_id AND users_agree.user_id = users.id AND ' + service + '_users.' + service + '_id = "' + service_id + '"';
-    // console.log('getAllInfoSearch: ' + getAllInfoSearch);
+    console.log('getAllInfoSearch: ' + getAllInfoSearch);
     callmysql.query(getAllInfoSearch, function(err, user_info) {
       if (err) {
         console.log('[mysql error]', err);
