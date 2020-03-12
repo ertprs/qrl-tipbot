@@ -43,7 +43,7 @@ async function GetAllUserInfo(args) {
         Array.prototype.push.apply(foundRes, get_agree);
         console.log(JSON.stringify(foundRes));
         resolve(foundRes);
-        return foundRes;
+        // return 
       });
       
       callmysql.query(getAllInfoSearch, function(err, user_info_update) {
