@@ -183,6 +183,7 @@ module.exports = {
           const GetAllTipedUserInfoPromise = GetAllUserInfo({ service: 'discord', service_id: serviceid });
           // search for the tipto user here in the database with info from above
           await GetAllTipedUserInfoPromise.then(function(tippedUserInfo) {
+            console.log('tippedUserInfo ' + JSON.stringify(tippedUserInfo));
             const tippedUserFound = tippedUserInfo.user_found;
             if (tippedUserFound == 'true') {
               const tippedUsedOptOut = tippedUserInfo[4].opt_out;
