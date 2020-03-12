@@ -29,8 +29,8 @@ async function GetAllUserInfo(args) {
       if(user_info.length == 0) {
         const Results = { user_found: 'false' };
         foundResArray.push({ user_found: 'false' })
-        resolve(foundResArray);
-        return foundResArray;
+        resolve(Results);
+        return Results;
       }
       else {
         foundResArray.push({ user_found: 'true' })
@@ -48,8 +48,8 @@ async function GetAllUserInfo(args) {
       if(get_agree.length == 0) {
         const Results = { user_agree: 'false' };
         foundResArray.push({ user_agree: 'false' })
-        resolve(foundResArray);
-        return foundResArray;
+        resolve(Results);
+        return Results;
       }
       else {
 
