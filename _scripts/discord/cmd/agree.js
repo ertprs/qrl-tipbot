@@ -28,7 +28,7 @@ module.exports = {
     // check for the message author. If not found fail
     found.then(function(foundRes) {
       console.log('foundRes ' + JSON.stringify(foundRes));
-      const user_found = foundRes.user_found;
+      const user_found = foundRes[0].user_found;
       if (user_found !== 'true') {
         // if the user is not found...
         message.channel.startTyping();
@@ -39,7 +39,7 @@ module.exports = {
         return;
       }
       else {
-        const user_id = foundRes[0].user_id;
+        const user_id = foundRes[3].user_id;
 
 
 // used to test the function, remove before going live
@@ -50,7 +50,7 @@ module.exports = {
 
           GetAllUserInfoPromise.then(function(userInfo) {
             console.log('userInfo ' + JSON.stringify(userInfo));
-            const users_ID = userInfo[0].user_id;
+            const users_ID = userInfo[3].user_id;
             const agree = dbHelper.userAgree({ service: 'discord', user_id: users_ID });
             agree.then(function(results) {
             // message user of status
