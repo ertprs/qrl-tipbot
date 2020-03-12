@@ -32,7 +32,7 @@ async function GetAllUserInfo(args) {
         // return Results;
       }
       else {
-        const foundResArray.push({ user_found: 'true' })
+        foundResArray.push({ user_found: 'true' })
       }
 
       const user_id = user_info[0].user_id;
