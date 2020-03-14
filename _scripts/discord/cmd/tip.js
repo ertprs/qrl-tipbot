@@ -105,7 +105,7 @@ module.exports = {
         return;
       }
       // check for opt out
-      if (userInfo[4].opt_out == '1') {
+      if (userInfo[0].opt_out == '1') {
         message.channel.stopTyping(true);
         const embed = new Discord.RichEmbed()
           .setTitle('ERROR')
