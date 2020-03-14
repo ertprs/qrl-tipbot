@@ -52,7 +52,7 @@ async function GetAllUserInfo(args) {
       if(get_agree.length == 0) {
         const Results = { user_agree: 'false', user_found: 'true' };
         foundResArray.push({ user_agree: 'false', user_found: 'true' });
-        resolve(Results);
+        resolve(foundResArray);
         return Results;
       }
 
