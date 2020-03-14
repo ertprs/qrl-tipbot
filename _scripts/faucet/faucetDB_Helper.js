@@ -60,7 +60,7 @@ async function checkPayments(args) {
     const service_id = args.service_id;
     const service = args.service;
     // search for user mentionend in the last config.faucer.payout_interval time. set in the config file
-    const FaucetSearch = 'SELECT faucet_payouts.* FROM faucet_payouts, ' + service + '_users, users WHERE users.' + service + '_user_id = ' + service + '_users.id AND users.id = faucet_payouts.user_id AND ' + service + '_users.' + service + '_id = "' + service_id + '" AND faucet_payouts.time_stamp >= NOW() - INTERVAL ' + config.faucet.payout_interval + ' HOUR';
+    const FaucetSearch = 'SELECT faucet_payouts.* FROM faucet_payouts, ' + service + '_users, users WHERE users.' + service + '_user_id = ' + service + '_users.id AND users.id = faucet_payouts.user_id AND ' + service + '_users.' + service + '_id = "' + service_id + '" AND faucet_payouts.time_stamp >= NOW() - INTERVAL ' + config.faucet.payout_interval + ' MINUTE';
     console.log('FaucerSearch' + FaucetSearch);
     callmysqlTipBot.query(FaucetSearch, function(err, faucet_result) {
       if (err) {

@@ -34,7 +34,8 @@
     "db_port" : "3006"
   },
   "faucet" : {
-    "payout_interval" : "24",
+    "faucet_wallet_pub" : "Q...",
+    "payout_interval" : "1440",
     "min_payout" : "0.000000001",
     "max_payout" : "0.5"
   }
