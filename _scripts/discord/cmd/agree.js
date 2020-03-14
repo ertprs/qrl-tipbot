@@ -49,9 +49,10 @@ module.exports = {
           const GetAllUserInfoPromise = GetAllUserInfo({ service: 'discord', service_id: UUID });
 
           GetAllUserInfoPromise.then(function(userInfo) {
-            console.log('userInfo ' + JSON.stringify(userInfo));
+            console.log('\n\n\nuserInfo ' + JSON.stringify(userInfo) + '\n\n');
+
             const users_ID = userInfo[3].user_id;
-            const agree = dbHelper.userAgree({ service: 'discord', user_id: users_ID });
+            const agree = dbHelper.agree({ service: 'discord', user_id: users_ID });
             agree.then(function(results) {
             // message user of status
               message.channel.startTyping();

@@ -23,7 +23,7 @@ with open('/home/fr1t2/test-qrl-tipbot/_config/config.json') as json_data_file:
 logging.getLogger("requests").setLevel(logging.WARNING)
 logging.basicConfig(format='%(asctime)s %(message)s', filename='/home/fr1t2/test-qrl-tipbot/faucet.log', level=logging.INFO)
 
-logging.info('******************** payout script ************************')
+#logging.info('******************** payout script ************************')
 
 # db settings from config file
 host = conf['database']['db_host']
@@ -68,7 +68,7 @@ for address in who:
         addresses_to.append(address[0])
 
 if not who:
-        logging('\nno drips found, exit\n')
+        #logging('\nno drips found, exit\n')
         exit()
 else:
     master_address = conf['faucet']['faucet_wallet_pub']
@@ -92,5 +92,5 @@ UpdateSQL = ("UPDATE faucet_payouts SET faucet_payouts.paid = 1, faucet_payouts.
 mycursor.execute(UpdateSQL)
 mydb.commit()
 mydb.close()
-logging.info('ADMIN test:\n   amount = %s \n   payees = %s \n   fee = %s\n   masterAddress = %s\n%s ADMIN test:\n', amount_toSend, addresses_to, feeShor, master_address, current_time)
+#logging.info('ADMIN test:\n   amount = %s \n   payees = %s \n   fee = %s\n   masterAddress = %s\n%s ADMIN test:\n', amount_toSend, addresses_to, feeShor, master_address, current_time)
 exit()
