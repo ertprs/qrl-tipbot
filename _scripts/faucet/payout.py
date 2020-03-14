@@ -90,5 +90,5 @@ UpdateSQL = ("UPDATE faucet_payouts SET faucet_payouts.paid = 1, faucet_payouts.
 mycursor.execute(UpdateSQL)
 mydb.commit()
 mydb.close()
-logging.info('ADMIN test:\n   amount = %s \n   payees = %s \n   fee = %s\n   masterAddress = %s\n%s ADMIN test:\n', amount, payees, fee, masterAddress, current_time)
+logging.info('ADMIN test:\n   amount = %s \n   payees = %s \n   fee = %s\n   masterAddress = %s\n%s ADMIN test:\n', amount_toSend, addresses_to, feeShor, masterAddress, current_time)
 exit()
