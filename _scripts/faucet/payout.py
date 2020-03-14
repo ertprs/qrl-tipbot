@@ -23,6 +23,8 @@ logging.basicConfig(format='%(asctime)s %(message)s', filename='/home/fr1t2/.qrl
 with open('../../_config/config.json') as json_data_file:
     conf = json.load(json_data_file)
 
+logging.info('******************** payout script ************************')
+
 # db settings from config file
 host = conf['database']['db_host']
 user = conf['database']['db_user']
@@ -88,5 +90,5 @@ UpdateSQL = ("UPDATE faucet_payouts SET faucet_payouts.paid = 1, faucet_payouts.
 mycursor.execute(UpdateSQL)
 mydb.commit()
 mydb.close()
-#logging.info('ADMIN test:\n   amount = %s \n   payees = %s \n   fee = %s\n   masterAddress = %s\n%s ADMIN test:\n', amount, payees, fee, masterAddress, current_time)
+logging.info('ADMIN test:\n   amount = %s \n   payees = %s \n   fee = %s\n   masterAddress = %s\n%s ADMIN test:\n', amount, payees, fee, masterAddress, current_time)
 exit()
