@@ -16,12 +16,12 @@ import mysql.connector
 import datetime
 import logging
 from decimal import *
-# logging settings
-logging.getLogger("requests").setLevel(logging.WARNING)
-logging.basicConfig(format='%(asctime)s %(message)s', filename='/home/fr1t2/.qrl/faucet.log', level=logging.INFO)
 # load the config file (find it at "data['TOPIC']['SETTING'])"
 with open('../../_config/config.json') as json_data_file:
     conf = json.load(json_data_file)
+# logging settings
+logging.getLogger("requests").setLevel(logging.WARNING)
+logging.basicConfig(format='%(asctime)s %(message)s', filename='%s/faucet.log', config['bot_details']['bot_dir'], level=logging.INFO)
 
 logging.info('******************** payout script ************************')
 
@@ -68,9 +68,11 @@ for address in who:
         addresses_to.append(address[0])
 
 if not who:
+        logging('\nno drips found, exit\n')
         exit()
 else:
     master_address = conf['faucet']['faucet_wallet_pub']
+    logging('drips found, send from address %s', master_address)
 
 def relayTransferTxnBySlave(addresses_to, amounts, feeShor, master_address):
   payload = {'addresses_to': addresses_to, 'amounts': amounts, 'fee': int(feeShor), 'master_address': master_address }
@@ -78,7 +80,7 @@ def relayTransferTxnBySlave(addresses_to, amounts, feeShor, master_address):
   response = QRLrequest.text
   relayTransferTxnBySlaveResp = json.loads(response)
   jsonResponse = relayTransferTxnBySlaveResp
-  logging.info('payout.py :\n   amount = %s \n   payees = %s \n   fee = %s\n   masterAddress = %s\n%s ADMIN test:\n', amounts, addresses_to, feeShor, master_address, current_time)
+  #logging.info('payout.py :\n   amount = %s \n   payees = %s \n   fee = %s\n   masterAddress = %s\n%s ADMIN test:\n', amounts, addresses_to, feeShor, master_address, current_time)
   #print(f'ADMIN test:\n   amount = {amounts} \n   payees = {addresses_to} \n   fee = {feeShor}\n   masterAddress = {master_address}\n{current_time} ADMIN test:\n')
   return(jsonResponse)
 
