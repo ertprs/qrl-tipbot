@@ -52,12 +52,12 @@ module.exports = {
           // check if user found
           if (user_found == 'true') {
             console.log('user found: ' + user_found);
-            // check if agreed
-            if (agree == 'true') {
-              console.log('user has agreed ' + agree);
-              // check if opt out
-              if (opt_out == '0') {
-                console.log('user is not opted out:  ' + opt_out);
+            // check if opt out
+            if (opt_out == '0') {
+              console.log('user is not opted out:  ' + opt_out);
+              // check if agreed
+              if (agree == 'true') {
+                console.log('user has agreed ' + agree);
                 // set checkUserPassed to true and return
                 let checkUserPassed = true;
                 userInfoArray.push({ checkUserPassed: true });

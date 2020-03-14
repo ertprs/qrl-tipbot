@@ -28,9 +28,9 @@ async function GetAllUserInfo(args) {
       console.log('user_info: ' + JSON.stringify(user_info))
       if(user_info.length == 0) {
         const Results = { user_found: 'false' };
-        foundResArray.push({ user_found: 'false' })
-        resolve(Results);
-        return Results;
+        foundResArray.push({ user_found: 'false', user_agree: 'false', opt_out: 'false' });
+        resolve(foundResArray);
+        return foundResArray;
       }
       else {
         foundResArray.push({ user_found: 'true' })
@@ -51,7 +51,7 @@ async function GetAllUserInfo(args) {
 
       if(get_agree.length == 0) {
         const Results = { user_agree: 'false', user_found: 'true' };
-        foundResArray.push({ user_agree: 'false', user_found: 'true' });
+        foundResArray.push({ user_agree: 'false', user_found: 'true', opt_out: 'false' });
         resolve(foundResArray);
         return Results;
       }
