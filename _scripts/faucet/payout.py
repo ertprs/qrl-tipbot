@@ -1,4 +1,4 @@
-#!/usr/bin/python3.6
+#!/usr/bin/python3.5
 # ****************************************************************
 #                 FaucetPayout Script
 # 
@@ -21,7 +21,7 @@ with open('../../_config/config.json') as json_data_file:
     conf = json.load(json_data_file)
 # logging settings
 logging.getLogger("requests").setLevel(logging.WARNING)
-logging.basicConfig(format='%(asctime)s %(message)s', filename='%s/faucet.log', config['bot_details']['bot_dir'], level=logging.INFO)
+logging.basicConfig(format='%(asctime)s %(message)s', filename='/home/fr1t2/test-qrl-tipbot/faucet.log', level=logging.INFO)
 
 logging.info('******************** payout script ************************')
 
