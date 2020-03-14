@@ -29,7 +29,7 @@ module.exports = {
     found.then(function(foundRes) {
       console.log('foundRes ' + JSON.stringify(foundRes));
       // check for user found
-      const user_found = foundRes[0].user_found;
+      const user_found = foundRes.user_found;
       if (user_found !== 'true') {
         // if the user is not found...
         message.channel.startTyping();
