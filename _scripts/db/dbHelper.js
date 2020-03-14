@@ -28,9 +28,9 @@ async function GetAllUserInfo(args) {
       console.log('user_info: ' + JSON.stringify(user_info))
       if(user_info.length == 0) {
         const Results = { user_found: 'false' };
-        foundResArray.push(Results)
-        resolve(foundResArray);
-        return foundResArray;
+        foundResArray.push({ user_found: 'false' })
+        resolve(Results);
+        return Results;
       }
       else {
         foundResArray.push({ user_found: 'true' })
@@ -50,10 +50,10 @@ async function GetAllUserInfo(args) {
         }
 
       if(get_agree.length == 0) {
-        const Results = { user_agree: 'false', user_found: 'true' };
-        foundResArray.push(Results);
-        resolve(foundResArray);
-        return foundResArray;
+        const Results = { user_agree: 'false' };
+        foundResArray.push({ user_agree: 'false' })
+        resolve(Results);
+        return Results;
       }
 
 
@@ -61,7 +61,7 @@ async function GetAllUserInfo(args) {
 
         const infoResult = JSON.parse(JSON.stringify(get_agree));
         //check for user agree results
-        foundResArray.push({ user_agree: 'true', user_found: 'true' })
+        foundResArray.push({ user_agree: 'true' })
         // const foundRes = { user_agree: 'true' };
         // Array.prototype.push.apply(foundRes, get_agree);
         Array.prototype.push.apply(foundResArray, get_agree);
@@ -594,7 +594,7 @@ async function addTransaction(args) {
 
 async function agree(args) {
   // expect { service: , user_id: }
-  console.log('\nargee args:' + JSON.stringify(args))
+  console.log('\nargee args:' + JSON.stringify(args)
   return new Promise(resolve => {
     const txArray = [];
     const user_id = args.user_id;
