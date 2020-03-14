@@ -72,7 +72,7 @@ if not who:
         exit()
 else:
     master_address = conf['faucet']['faucet_wallet_pub']
-    logging('drips found, send from address %s', master_address)
+    logging('drips found, send drips')
 
 def relayTransferTxnBySlave(addresses_to, amounts, feeShor, master_address):
   payload = {'addresses_to': addresses_to, 'amounts': amounts, 'fee': int(feeShor), 'master_address': master_address }
