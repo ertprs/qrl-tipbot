@@ -32,9 +32,6 @@ database = conf['database']['db_name']
 fee = conf['wallet']['tx_fee'] # in shor X/10^9=quanta
 feeShor = (float(fee) * 1000000000)
 current_time = datetime.datetime.now()
-#tx_hash = ''
-
-print(int(feeShor))
 
 # SQL queries
 addressInfo = "SELECT wallets.wallet_pub FROM wallets, faucet_payouts WHERE faucet_payouts.paid = 0 AND faucet_payouts.user_id = wallets.user_id"
@@ -60,8 +57,6 @@ for row in howMuch:
   sendAmt = float(userAmt) * 10**9
   amount_toSend.append(int(sendAmt))
 
-print(amount_toSend)
-
 # Collect the addresses to send to
 mycursor.execute(addressInfo)
 who = mycursor.fetchall()
@@ -70,45 +65,25 @@ addresses_to = []
 for address in who:
         addresses_to.append(address[0])
 
-print(json.dumps(addresses_to))
-
-print(current_time)
-
 if not who:
         exit()
 else:
     master_address = conf['faucet']['faucet_wallet_pub']
-    print(master_address)
 
 def relayTransferTxnBySlave(addresses_to, amounts, feeShor, master_address):
-  print(type(amounts))
   payload = {'addresses_to': addresses_to, 'amounts': amounts, 'fee': int(feeShor), 'master_address': master_address }
-  print(payload)
   QRLrequest = requests.post("http://127.0.0.1:5359/api/RelayTransferTxnBySlave", json=payload)
   response = QRLrequest.text
   relayTransferTxnBySlaveResp = json.loads(response)
   jsonResponse = relayTransferTxnBySlaveResp
-  tx_hash = jsonResponse['tx']['transaction_hash']
-  print('tx_hash')
-  print(tx_hash)
-  #logging.info('TX HASH: %s', json.dumps(jsonResponse['tx']['transaction_hash']))
   logging.info('ADMIN test:\n   amount = %s \n   payees = %s \n   fee = %s\n   masterAddress = %s\n%s ADMIN test:\n', amounts, addresses_to, feeShor, master_address, current_time)
-  #print('ADMIN test:\n   amount = %s \n   payees = %s \n   fee = %s\n   masterAddress = %s\n%s ADMIN test:\n', amounts, addresses_to, feeShor, master_address, current_time)
-  print(f'ADMIN test:\n   amount = {amounts} \n   payees = {addresses_to} \n   fee = {feeShor}\n   masterAddress = {master_address}\n{current_time} ADMIN test:\n')
+  #print(f'ADMIN test:\n   amount = {amounts} \n   payees = {addresses_to} \n   fee = {feeShor}\n   masterAddress = {master_address}\n{current_time} ADMIN test:\n')
   return(jsonResponse)
 
 tx = relayTransferTxnBySlave(addresses_to, amount_toSend, feeShor, master_address)
 
-print(json.dumps(tx))
-
-print(tx['tx']['transaction_hash'])
-
 tx_hash = tx['tx']['transaction_hash']
 UpdateSQL = ("UPDATE faucet_payouts SET faucet_payouts.paid = 1, faucet_payouts.updated_at = '%s', faucet_payouts.tx_hash = '%s' WHERE faucet_payouts.paid = 0" % (current_time, tx_hash))
-print(UpdateSQL)
-
-
-
 
 mycursor.execute(UpdateSQL)
 mydb.commit()
