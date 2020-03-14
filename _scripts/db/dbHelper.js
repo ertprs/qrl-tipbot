@@ -51,7 +51,7 @@ async function GetAllUserInfo(args) {
 
       if(get_agree.length == 0) {
         const Results = { user_agree: 'false' };
-        foundResArray.push({ user_agree: 'false' })
+        foundResArray.push({ user_agree: 'false' });
         resolve(Results);
         return Results;
       }
@@ -594,7 +594,7 @@ async function addTransaction(args) {
 
 async function agree(args) {
   // expect { service: , user_id: }
-  console.log('\nargee args:' + JSON.stringify(args)
+  console.log('\nargee args:' + JSON.stringify(args))
   return new Promise(resolve => {
     const txArray = [];
     const user_id = args.user_id;
