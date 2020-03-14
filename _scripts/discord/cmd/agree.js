@@ -28,6 +28,7 @@ module.exports = {
     // check for the message author. If not found fail
     found.then(function(foundRes) {
       console.log('foundRes ' + JSON.stringify(foundRes));
+      // check for user found
       const user_found = foundRes[0].user_found;
       if (user_found !== 'true') {
         // if the user is not found...
@@ -39,7 +40,8 @@ module.exports = {
         return;
       }
       else {
-        const user_id = foundRes[3].user_id;
+        // set the user ID
+        const user_id = foundRes[2].user_id;
 
 
 // used to test the function, remove before going live
