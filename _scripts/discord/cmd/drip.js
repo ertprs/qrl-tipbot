@@ -52,38 +52,7 @@ module.exports = {
           // check if user found
           if (user_found == 'true') {
             console.log('user found: ' + user_found);
-            // check if opt out
-            if (opt_out == '0') {
-              console.log('user is not opted out:  ' + opt_out);
-              // check if agreed
-              if (agree == 'true') {
-                console.log('user has agreed ' + agree);
-                // set checkUserPassed to true and return
-                let checkUserPassed = true;
-                userInfoArray.push({ checkUserPassed: true });
-                // return userInfoArray;
-             }
-             else {
-              // not agreed to terms
-               console.log('need to agree to terms');
-               userInfoArray.push({ checkUserPassed: false, checkUserPassedError: 'not_agreed' });
-               // message.reply('You will need to agree to my `+terms` to use the bot. `+agree`');
-               message.channel.stopTyping(true);
-                const embed = new Discord.RichEmbed()
-                  .setColor(0x000000)
-                  .setTitle('ERROR: You must agree to the terms')
-                  .setDescription('`+terms` to read the terms and conditions, `+agree` to start using the faucet');
-                message.reply({ embed });
-               return;
-             }
-           }
-           else{
-             // user has opted out
-             console.log('User Opted out');
-             userInfoArray.push({ checkUserPassed: false, checkUserPassedError: 'opted_out' });
-             message.reply('I see you have opted out. Please `+opt-in` to recieve faucet funds');
-             return;
-           }
+
           }
           else{
             // user not found
@@ -92,8 +61,40 @@ module.exports = {
             message.reply('User is not found, are you signed up?');
             return;
           }
-          resolve(userInfoArray);
-          return;
+          // check if agreed
+          if (agree == 'true') {
+            console.log('user has agreed ' + agree);
+            // set checkUserPassed to true and return
+            let checkUserPassed = true;
+            userInfoArray.push({ checkUserPassed: true });
+            // return userInfoArray;
+         }
+         else {
+           // not agreed to terms
+           console.log('need to agree to terms');
+           userInfoArray.push({ checkUserPassed: false, checkUserPassedError: 'not_agreed' });
+           // message.reply('You will need to agree to my `+terms` to use the bot. `+agree`');
+           message.channel.stopTyping(true);
+            const embed = new Discord.RichEmbed()
+              .setColor(0x000000)
+              .setTitle('ERROR: You must agree to the terms')
+              .setDescription('`+terms` to read the terms and conditions, `+agree` to start using the faucet');
+            message.reply({ embed });
+           return;
+         }
+          // check if opt out
+          if (opt_out == '0') {
+          console.log('user is not opted out:  ' + opt_out);
+          }
+          else{
+           // user has opted out
+           console.log('User Opted out');
+           userInfoArray.push({ checkUserPassed: false, checkUserPassedError: 'opted_out' });
+           message.reply('I see you have opted out. Please `+opt-in` to recieve faucet funds');
+           return;
+          }
+         resolve(userInfoArray);
+         return;
         });
       });
     }
