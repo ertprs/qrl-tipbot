@@ -38,19 +38,25 @@ async function GetAllUserInfo(args) {
 
       const user_id = user_info[0].user_id;
       console.log('\n\nuser_id' + user_id)
+
+
       // update the balance in the wallet database and refresh info
       GetUserWalletBal({ user_id: user_id });
+
       const getAgreeSearch = 'SELECT users_agree.* FROM users_agree WHERE users_agree.user_id = "' + user_id + '"';
       callmysql.query(getAgreeSearch, function(err, get_agree) {
         if (err) {
           console.log('[mysql error]', err);
         }
+
       if(get_agree.length == 0) {
         const Results = { user_agree: 'false' };
         foundResArray.push({ user_agree: 'false' })
         resolve(Results);
         return Results;
       }
+
+
       else {
 
         const infoResult = JSON.parse(JSON.stringify(get_agree));
@@ -60,8 +66,8 @@ async function GetAllUserInfo(args) {
         // Array.prototype.push.apply(foundRes, get_agree);
         Array.prototype.push.apply(foundResArray, get_agree);
         console.log('agree foundResArray ' + JSON.stringify(foundResArray));
-        resolve(foundResArray);
-        return foundResArray;
+        //resolve(foundResArray);
+        //return foundResArray;
       }
       });
       
