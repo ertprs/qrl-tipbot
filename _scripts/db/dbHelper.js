@@ -59,12 +59,12 @@ async function GetAllUserInfo(args) {
 
       else {
 
-        const infoResult = JSON.parse(JSON.stringify(get_agreed));
+        const infoResult = JSON.parse(JSON.stringify(get_agree));
         //check for user agree results
         foundResArray.push({ user_agree: 'true', user_found: 'true' })
         // const foundRes = { user_agree: 'true' };
         // Array.prototype.push.apply(foundRes, get_agree);
-        Array.prototype.push.apply(foundResArray, get_agreed);
+        Array.prototype.push.apply(foundResArray, get_agree);
         console.log('agree foundResArray ' + JSON.stringify(foundResArray));
         //resolve(foundResArray);
         //return foundResArray;
