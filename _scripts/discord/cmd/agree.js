@@ -8,7 +8,7 @@ module.exports = {
   // execute(message, args) {
   execute(message) {
     const dbHelper = require('../../db/dbHelper');
-    const uuid = `${// message.author}`;
+    const uuid = `${message.author}`;
     const UUID = uuid.slice(1, -1);
     const GetAllUserInfo = dbHelper.GetAllUserInfo;
     const checkAgree = dbHelper.CheckAgree;
