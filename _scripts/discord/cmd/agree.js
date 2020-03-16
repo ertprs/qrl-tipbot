@@ -43,7 +43,7 @@ module.exports = {
         
         // set the user ID
         const user_id = foundRes[1].user_id;
-
+        console.log('user_id: ' + user_id)
 
 // used to test the function, remove before going live
         if (message.mentions.users.size > 0) {
