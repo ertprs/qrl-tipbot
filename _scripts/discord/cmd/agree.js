@@ -88,7 +88,7 @@ module.exports = {
             });
           }
           else {
-            message.author.send('You have already agreed!');
+            message.reply('You have already agreed!');
             return;
           }
           return;
