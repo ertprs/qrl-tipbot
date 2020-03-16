@@ -42,7 +42,7 @@ module.exports = {
       else {
 
         // set the user ID
-        const user_id = foundRes[1].user_id;
+        const user_id = foundRes[2].user_id;
         console.log('user_id: ' + user_id);
       // user found, check for alreeady set agree
         const check_info = { service: 'discord', user_id: user_id };
