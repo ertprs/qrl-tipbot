@@ -27,7 +27,7 @@ module.exports = {
     }
     // check for the message author. If not found fail
     found.then(function(foundRes) {
-      console.log('foundRes ' + JSON.stringify(foundRes));
+      // console.log('foundRes ' + JSON.stringify(foundRes));
       // check for user found
       const user_found = foundRes[0].user_found;
       if (user_found !== 'true') {
@@ -43,7 +43,7 @@ module.exports = {
         
         // set the user ID
         const user_id = foundRes[2].user_id;
-        console.log('user_id: ' + user_id)
+        // console.log('user_id: ' + user_id)
 
 // used to test the function, remove before going live
         if (message.mentions.users.size > 0) {
@@ -52,7 +52,7 @@ module.exports = {
           const GetAllUserInfoPromise = GetAllUserInfo({ service: 'discord', service_id: UUID });
 
           GetAllUserInfoPromise.then(function(userInfo) {
-            console.log('\n\n\nuserInfo ' + JSON.stringify(userInfo) + '\n\n');
+            // console.log('\n\n\nuserInfo ' + JSON.stringify(userInfo) + '\n\n');
 
             const users_ID = userInfo[1].user_id;
             const agree = dbHelper.agree({ service: 'discord', user_id: users_ID });
