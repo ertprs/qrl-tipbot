@@ -23,7 +23,7 @@ module.exports = {
       });
     }
     if(message.guild != null) {
-      //message.delete();
+      // message.delete();
     }
     // check for the message author. If not found fail
     found.then(function(foundRes) {
@@ -40,61 +40,36 @@ module.exports = {
         return;
       }
       else {
-        
+
         // set the user ID
         const user_id = foundRes[1].user_id;
-        console.log('user_id: ' + user_id)
-
-// used to test the function, remove before going live
-        if (message.mentions.users.size > 0) {
-          const users_Service_ID = message.mentions.users.first().id;
-          const service_ID = '@' + users_Service_ID;
-          const GetAllUserInfoPromise = GetAllUserInfo({ service: 'discord', service_id: UUID });
-
-          GetAllUserInfoPromise.then(function(userInfo) {
-            // console.log('\n\n\nuserInfo ' + JSON.stringify(userInfo) + '\n\n');
-
-            const users_ID = userInfo[1].user_id;
-            const agree = dbHelper.agree({ service: 'discord', user_id: users_ID });
-            agree.then(function(results) {
+        console.log('user_id: ' + user_id);
+      // user found, check for alreeady set agree
+        const check_info = { service: 'discord', user_id: user_id };
+        console.log('check_info: ' + JSON.stringify(check_info));
+        const checkPromise = checkAgree(check_info);
+        checkPromise.then(function(Agree) {
+          console.log('Agree returns for us:' + JSON.stringify(Agree));
+        // fail if not agreed
+        if (Agree.agreed == 'false') {
+          const agree = dbHelper.agree({ service: 'discord', user_id: user_id });
+          agree.then(function(results) {
             // message user of status
-              message.channel.startTyping();
-              setTimeout(function() {
-                message.author.send('Thanks! you can start using the bot. ');
-                message.channel.stopTyping(true);
-              }, 500);
-              return results;
-            });
+            message.channel.startTyping();
+            setTimeout(function() {
+              message.author.send('Thanks for giving your consent to use this service!');
+              message.channel.stopTyping(true);
+            }, 500);
+            return results;
           });
         }
         else {
-          // user found, check for alreeady set agree
-          const check_info = { service: 'discord', user_id: user_id };
-          console.log('check_info: ' + JSON.stringify(check_info));
-          const checkPromise = checkAgree(check_info);
-          checkPromise.then(function(Agree) {
-            console.log('Agree returns for us:' + JSON.stringify(Agree))
-          // fail if not agreed
-          if (Agree.agreed == 'false') {
-            const agree = dbHelper.agree({ service: 'discord', user_id: user_id });
-            agree.then(function(results) {
-              // message user of status
-              message.channel.startTyping();
-              setTimeout(function() {
-                message.author.send('Thanks for giving your consent to use this service!');
-                message.channel.stopTyping(true);
-              }, 500);
-              return results;
-            });
-          }
-          else {
-            message.author.send('You have already agreed!');
-            return;
-          }
+          message.author.send('You have already agreed!');
           return;
-          });
         }
         return;
+        });
+       return;
       }
     });
   },

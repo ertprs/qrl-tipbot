@@ -622,15 +622,18 @@ async function CheckAgree(args) {
       const input = JSON.parse(JSON.stringify(args));
       const service = input.service;
       const user_id = input.user_id;
+      const chechAgreeArray = [];
       const searchDB = 'SELECT users.id AS user_id, users.' + service + '_user_id AS ' + service + '_id, users_agree.agree AS agree FROM users INNER JOIN users_agree ON users.id = users_agree.user_id WHERE users_agree.user_id = "' + user_id + '"';
       callmysql.query(searchDB, function(err, result) {
         if (err) {
           console.log('[mysql error]', err);
         }
+        chechAgreeArray.push(result);
         if (result.length == 0) {
           const searchResult = { agreed: 'false' };
           const Results = JSON.parse(JSON.stringify(searchResult));
-          resolve(Results);
+          chechAgreeArray.push(Results);
+          resolve(chechAgreeArray);
           return;
         }
         else {
@@ -638,8 +641,9 @@ async function CheckAgree(args) {
           // assign results to json and pass to return
           const searchResult = { agreed: 'true' };
           const Results = JSON.parse(JSON.stringify(searchResult));
-          resolve(Results);
-          return Results;
+          chechAgreeArray.push(Results)
+          resolve(chechAgreeArray);
+          return;
         }
       });
     }
