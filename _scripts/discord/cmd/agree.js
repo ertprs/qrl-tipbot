@@ -32,10 +32,10 @@ module.exports = {
       const user_found = foundRes[0].user_found;
       if (user_found !== 'true') {
         // if the user is not found...
-        message.channel.startTyping();
+        // message.channel.startTyping();
         setTimeout(function() {
-          message.channel.stopTyping(true);
-          message.reply('\nPlease sign up first, `+add`');
+          // message.channel.stopTyping(true);
+          // message.reply('\nPlease sign up first, `+add`');
         }, 1000);
         return;
       }
@@ -58,10 +58,10 @@ module.exports = {
             const agree = dbHelper.agree({ service: 'discord', user_id: users_ID });
             agree.then(function(results) {
             // message user of status
-              message.channel.startTyping();
+              // message.channel.startTyping();
               setTimeout(function() {
                 // message.author.send('Thanks! you can start using the bot. ');
-                message.channel.stopTyping(true);
+                // message.channel.stopTyping(true);
               }, 500);
               return results;
             });
@@ -79,16 +79,16 @@ module.exports = {
             const agree = dbHelper.agree({ service: 'discord', user_id: user_id });
             agree.then(function(results) {
               // message user of status
-              message.channel.startTyping();
+              // message.channel.startTyping();
               setTimeout(function() {
                 // message.author.send('Thanks for giving your consent to use this service!');
-                message.channel.stopTyping(true);
+                // message.channel.stopTyping(true);
               }, 500);
               return results;
             });
           }
           else {
-            message.reply('You have already agreed!');
+            //message.reply('You have already agreed!');
             return;
           }
           return;
