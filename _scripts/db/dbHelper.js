@@ -20,12 +20,12 @@ async function GetAllUserInfo(args) {
     let foundResArray = [];
     // get all users_info data here...
     const getAllInfoSearch = 'SELECT wallets.wallet_pub AS wallet_pub, wallets.wallet_bal AS wallet_bal, users.id AS user_id, ' + service + '_users.user_name AS user_name, users_info.opt_out AS opt_out, users_info.optout_date AS optout_date FROM wallets, users, ' + service + '_users, users_info WHERE users.id = wallets.user_id AND users.' + service + '_user_id = ' + service + '_users.id AND users.id = users_info.user_id AND ' + service + '_users.' + service + '_id = "' + service_id + '"';
-    console.log('getAllInfoSearch: ' + getAllInfoSearch);
+    // console.log('getAllInfoSearch: ' + getAllInfoSearch);
     callmysql.query(getAllInfoSearch, function(err, user_info) {
       if (err) {
         console.log('[mysql error]', err);
       }
-      console.log('user_info: ' + JSON.stringify(user_info))
+      // console.log('user_info: ' + JSON.stringify(user_info))
       if(user_info.length == 0) {
         const Results = { user_found: 'false' };
         foundResArray.push({ user_found: 'false', user_agree: 'false', opt_out: 'false' });
@@ -37,7 +37,7 @@ async function GetAllUserInfo(args) {
       }
 
       const user_id = user_info[0].user_id;
-      console.log('\n\nuser_id: ' + user_id)
+      // console.log('\n\nuser_id: ' + user_id)
 
 
       // update the balance in the wallet database and refresh info
@@ -64,7 +64,7 @@ async function GetAllUserInfo(args) {
         // const foundRes = { user_agree: 'true' };
         // Array.prototype.push.apply(foundRes, get_agree);
         Array.prototype.push.apply(foundResArray, get_agree);
-        console.log('agree foundResArray ' + JSON.stringify(foundResArray));
+        // console.log('agree foundResArray ' + JSON.stringify(foundResArray));
         //resolve(foundResArray);
         //return foundResArray;
       }
@@ -78,7 +78,7 @@ async function GetAllUserInfo(args) {
         // const foundRes = { user_found: 'true' };
         foundResArray.push({ user_found: 'true' });
         Array.prototype.push.apply(foundResArray, infoResult);
-        console.log('getAllInfoSearch foundResArray ' + JSON.stringify(foundResArray));
+        // console.log('getAllInfoSearch foundResArray ' + JSON.stringify(foundResArray));
         resolve(foundResArray);
         return foundResArray;
       });
