@@ -8,7 +8,7 @@ module.exports = {
   // execute(message, args) {
   execute(message) {
     const dbHelper = require('../../db/dbHelper');
-    const uuid = `${message.author}`;
+    const uuid = `${// message.author}`;
     const UUID = uuid.slice(1, -1);
     const GetAllUserInfo = dbHelper.GetAllUserInfo;
     const checkAgree = dbHelper.CheckAgree;
@@ -60,7 +60,7 @@ module.exports = {
             // message user of status
               message.channel.startTyping();
               setTimeout(function() {
-                message.author.send('Thanks! you can start using the bot. ');
+                // message.author.send('Thanks! you can start using the bot. ');
                 message.channel.stopTyping(true);
               }, 500);
               return results;
@@ -81,7 +81,7 @@ module.exports = {
               // message user of status
               message.channel.startTyping();
               setTimeout(function() {
-                message.author.send('Thanks for giving your consent to use this service!');
+                // message.author.send('Thanks for giving your consent to use this service!');
                 message.channel.stopTyping(true);
               }, 500);
               return results;
