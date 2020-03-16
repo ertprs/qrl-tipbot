@@ -40,6 +40,7 @@ module.exports = {
         return;
       }
       else {
+        
         // set the user ID
         const user_id = foundRes[2].user_id;
 

@@ -37,7 +37,7 @@ async function GetAllUserInfo(args) {
       }
 
       const user_id = user_info[0].user_id;
-      console.log('\n\nuser_id' + user_id)
+      console.log('\n\nuser_id: ' + user_id)
 
 
       // update the balance in the wallet database and refresh info
@@ -51,14 +51,13 @@ async function GetAllUserInfo(args) {
 
       if(get_agree.length == 0) {
         const Results = { user_agree: 'false', user_found: 'true' };
-        foundResArray.push({ user_agree: 'false', user_found: 'true', opt_out: 'false' });
+        foundResArray.push({ user_agree: 'false', user_found: 'true', opt_out: 'false', user_id: user_id });
         resolve(foundResArray);
-        return Results;
+        //return Results;
       }
 
 
       else {
-
         const infoResult = JSON.parse(JSON.stringify(get_agree));
         //check for user agree results
         foundResArray.push({ user_agree: 'true' })
