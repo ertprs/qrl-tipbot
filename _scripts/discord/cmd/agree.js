@@ -14,8 +14,6 @@ module.exports = {
     const checkAgree = dbHelper.CheckAgree;
     const info = JSON.parse(JSON.stringify({ service: 'discord', service_id: UUID }));
     const found = GetAllUserInfo(info);
-    const Discord = require('discord.js');
-    const client = new Discord.Client();
 
     function checkUserAgree(user) {
       const check_info = { service: 'discord', user_id: user };
@@ -42,13 +40,13 @@ module.exports = {
         return;
       }
       else {
-
+        
         // set the user ID
         const user_id = foundRes[1].user_id;
 
 
 // used to test the function, remove before going live
-        if (message.mentions.users.size > 0 && message.isMemberMentioned(client.user)) {
+        if (message.mentions.users.size > 0) {
           const users_Service_ID = message.mentions.users.first().id;
           const service_ID = '@' + users_Service_ID;
           const GetAllUserInfoPromise = GetAllUserInfo({ service: 'discord', service_id: UUID });
@@ -74,7 +72,7 @@ module.exports = {
           const check_info = { service: 'discord', user_id: user_id };
           const checkPromise = checkAgree(check_info);
           checkPromise.then(function(Agree) {
-            console.log('Agree returns for us:' + JSON.stringify(Agree));
+            console.log('Agree returns for us:' + JSON.stringify(Agree))
           // fail if not agreed
           if (Agree.agreed == 'false') {
             const agree = dbHelper.agree({ service: 'discord', user_id: user_id });
