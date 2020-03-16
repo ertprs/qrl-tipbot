@@ -48,7 +48,7 @@ module.exports = {
 
 
 // used to test the function, remove before going live
-        if (message.mentions.users.size > 0 && !message.isMemberMentioned(client.user)) {
+        if (message.mentions.users.size > 0 && message.isMemberMentioned(client.user)) {
           const users_Service_ID = message.mentions.users.first().id;
           const service_ID = '@' + users_Service_ID;
           const GetAllUserInfoPromise = GetAllUserInfo({ service: 'discord', service_id: UUID });
