@@ -616,6 +616,7 @@ async function agree(args) {
 
 async function CheckAgree(args) {
   return new Promise(resolve => {
+    console.log('CheckAgree args: ' + JSON.stringify(args));
     if(args) {
       // args passed, check for the service used
       const input = JSON.parse(JSON.stringify(args));
