@@ -79,16 +79,16 @@ module.exports = {
             const agree = dbHelper.agree({ service: 'discord', user_id: user_id });
             agree.then(function(results) {
               // message user of status
-              // message.channel.startTyping();
+              message.author.startTyping();
               setTimeout(function() {
-                // message.author.send('Thanks for giving your consent to use this service!');
-                // message.channel.stopTyping(true);
+                message.author.send('Thanks for giving your consent to use this service!');
+                message.author.stopTyping(true);
               }, 500);
               return results;
             });
           }
           else {
-            //message.reply('You have already agreed!');
+            message.author.send('You have already agreed!');
             return;
           }
           return;
