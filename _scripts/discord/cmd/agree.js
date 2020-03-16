@@ -58,10 +58,10 @@ module.exports = {
             const agree = dbHelper.agree({ service: 'discord', user_id: users_ID });
             agree.then(function(results) {
             // message user of status
-              message.author.startTyping();
+              message.channel.startTyping();
               setTimeout(function() {
                 message.author.send('Thanks! you can start using the bot. ');
-                message.author.stopTyping(true);
+                message.channel.stopTyping(true);
               }, 500);
               return results;
             });
@@ -79,10 +79,10 @@ module.exports = {
             const agree = dbHelper.agree({ service: 'discord', user_id: user_id });
             agree.then(function(results) {
               // message user of status
-              message.author.startTyping();
+              message.channel.startTyping();
               setTimeout(function() {
                 message.author.send('Thanks for giving your consent to use this service!');
-                message.author.stopTyping(true);
+                message.channel.stopTyping(true);
               }, 500);
               return results;
             });
