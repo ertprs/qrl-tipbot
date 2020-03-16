@@ -54,7 +54,7 @@ module.exports = {
           GetAllUserInfoPromise.then(function(userInfo) {
             console.log('\n\n\nuserInfo ' + JSON.stringify(userInfo) + '\n\n');
 
-            const users_ID = userInfo[3].user_id;
+            const users_ID = userInfo[1].user_id;
             const agree = dbHelper.agree({ service: 'discord', user_id: users_ID });
             agree.then(function(results) {
             // message user of status
