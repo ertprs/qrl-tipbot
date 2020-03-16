@@ -51,7 +51,7 @@ module.exports = {
         checkPromise.then(function(Agree) {
           console.log('Agree returns for us:' + JSON.stringify(Agree));
         // fail if not agreed
-        if (Agree.agreed == 'false') {
+        if (Agree[1].agreed == 'false') {
           const agree = dbHelper.agree({ service: 'discord', user_id: user_id });
           agree.then(function(results) {
             // message user of status
