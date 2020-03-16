@@ -49,7 +49,7 @@ module.exports = {
         console.log('check_info: ' + JSON.stringify(check_info));
         const checkPromise = checkAgree(check_info);
         checkPromise.then(function(Agree) {
-          console.log('Agree returns for us:' + JSON.stringify(Agree[1]));
+          console.log('Agree returns for us:' + JSON.stringify(Agree[1].agreed));
         // fail if not agreed
         if (Agree[1].agreed == 'false') {
           const agree = dbHelper.agree({ service: 'discord', user_id: user_id });
