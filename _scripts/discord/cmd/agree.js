@@ -3,7 +3,7 @@ module.exports = {
   description: 'Agree to the terms of the bot',
   args: false,
   guildOnly: false,
-  cooldown: 30,
+  cooldown: 0,
   usage: '\n## **agree** - Agree to the terms and conditions of the tipbot.  ',
   // execute(message, args) {
   execute(message) {
@@ -32,10 +32,10 @@ module.exports = {
       const user_found = foundRes[0].user_found;
       if (user_found !== 'true') {
         // if the user is not found...
-        // message.channel.startTyping();
+        message.channel.startTyping();
         setTimeout(function() {
-          // message.channel.stopTyping(true);
-          // message.reply('\nPlease sign up first, `+add`');
+          message.channel.stopTyping(true);
+          message.reply('\nPlease sign up first, `+add`');
         }, 1000);
         return;
       }
@@ -58,10 +58,10 @@ module.exports = {
             const agree = dbHelper.agree({ service: 'discord', user_id: users_ID });
             agree.then(function(results) {
             // message user of status
-              // message.channel.startTyping();
+              message.author.startTyping();
               setTimeout(function() {
-                // message.author.send('Thanks! you can start using the bot. ');
-                // message.channel.stopTyping(true);
+                message.author.send('Thanks! you can start using the bot. ');
+                message.author.stopTyping(true);
               }, 500);
               return results;
             });
