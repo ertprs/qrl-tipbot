@@ -33,13 +33,13 @@ async function GetAllUserInfo(args) {
         return foundResArray;
       }
 
-      //else {
+      // else {
         // user found in database
-        //foundResArray.push({ user_found: 'true' });
-      //}
+        // foundResArray.push({ user_found: 'true' });
+      // }
 
       console.log('userfound foundResArray: ' + JSON.stringify(foundResArray));
-      
+
 
       const user_id = user_info[0].user_id;
       // update the balance in the wallet database and refresh info
@@ -58,13 +58,13 @@ async function GetAllUserInfo(args) {
         }
         else {
           // const infoResult = JSON.parse(JSON.stringify(get_agree));
-          //foundResArray.push({ user_agree: 'true' });
-          //console.log('user_agree == true pushed to foundResArray: ' + JSON.stringify(foundResArray));
-          //foundResArray.push(get_agree);
+          // foundResArray.push({ user_agree: 'true' });
+          // console.log('user_agree == true pushed to foundResArray: ' + JSON.stringify(foundResArray));
+          // foundResArray.push(get_agree);
           console.log('get_agree pushed to foundResArray: ' + JSON.stringify(foundResArray));
           // const foundRes = { user_agree: 'true' };
           // Array.prototype.push.apply(foundRes, get_agree);
-          //Array.prototype.push.apply(foundResArray, get_agree);
+          // Array.prototype.push.apply(foundResArray, get_agree);
           console.log('Array.prototype.push.apply foundResArray: ' + JSON.stringify(foundResArray));
           // console.log('agree foundResArray ' + JSON.stringify(foundResArray));
           // resolve(foundResArray);
@@ -77,10 +77,16 @@ async function GetAllUserInfo(args) {
           console.log('[mysql error]', err);
         }
         const infoResult = JSON.parse(JSON.stringify(user_info_update));
-        console.log('infoResult: ' + JSON.stringify(infoResult))
+        console.log('infoResult: ' + JSON.stringify(infoResult));
+        const wallet_pub = infoResult[0].wallet_pub;
+        const wallet_bal = infoResult[0].wallet_bal;
+        const U_id = infoResult[0].user_id;
+        const user_name = infoResult[0].user_name;
+        const opt_out = infoResult[0].opt_out;
+        const optout_date = infoResult[0].optout_date;
         // const foundRes = { user_found: 'true' };
-        foundResArray.push({ user_found: 'true', infoResult });
-        //Array.prototype.push.apply(foundResArray, infoResult);
+        foundResArray.push({ user_found: 'true', wallet_pub: wallet_pub, wallet_bal: wallet_bal, user_id: U_id, user_name: user_name, opt_out: opt_out, optout_date: optout_date });
+        // Array.prototype.push.apply(foundResArray, infoResult);
         // console.log('getAllInfoSearch foundResArray ' + JSON.stringify(foundResArray));
         resolve(foundResArray);
         return foundResArray;
