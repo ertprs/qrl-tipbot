@@ -82,7 +82,7 @@ module.exports = {
     // look for user in DB
     // If found will return { user_found, wallet_pub, wallet_bal, user_id, user_name, opt_out, otpout_date }
     found.then(function(result) {
-      // console.log('found results: ' + JSON.stringify(result));
+      console.log('found results: ' + JSON.stringify(result));
       const UserFound = result.user_found;
       if (UserFound !== 'true') {
         // console.log('user found ' + UserFound);
