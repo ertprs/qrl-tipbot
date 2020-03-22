@@ -301,7 +301,7 @@ async function GetUserWalletBal(args) {
           // should have netBal value from the network now, compare them
           const balance = NetBal.balance / 1000000000 ;
           const OldBal = wallet_bal / 1000000000;
-          console.log('balance\'s returned. NetBal: ' + NetBal + ' balance: ' + balance + ' OldBal: ' + OldBal);
+          console.log('balance\'s returned. NetBal: ' + JSON.stringify(NetBal) + ' balance: ' + balance + ' OldBal: ' + OldBal);
           if (balance != OldBal) {
             // the balances are different, update the DB
             const updateInfo = { user_id: id, new_bal: balance };
