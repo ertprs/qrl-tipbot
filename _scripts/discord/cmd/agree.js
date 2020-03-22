@@ -41,7 +41,7 @@ module.exports = {
         return;
       }
       else {
-
+        // user found, check for agree
         // set the user ID
         const user_id = foundRes[0].user_id;
         console.log('user_id: ' + user_id);
