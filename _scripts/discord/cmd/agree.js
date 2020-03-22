@@ -11,17 +11,8 @@ module.exports = {
     const uuid = `${message.author}`;
     const UUID = uuid.slice(1, -1);
     const GetAllUserInfo = dbHelper.GetAllUserInfo;
-    const checkAgree = dbHelper.CheckAgree;
     const info = JSON.parse(JSON.stringify({ service: 'discord', service_id: UUID }));
     const found = GetAllUserInfo(info);
-
-    function checkUserAgree(user) {
-      const check_info = { service: 'discord', user_id: user };
-      const checkPromise = checkAgree(check_info);
-      checkPromise.then(function(Agree) {
-        return Agree;
-      });
-    }
 
     if(message.guild != null) {
       // message.delete();
@@ -48,11 +39,8 @@ module.exports = {
       // user found, check for alreeady set agree
         const check_info = { service: 'discord', user_id: user_id };
         console.log('check_info: ' + JSON.stringify(check_info));
-        const checkPromise = checkAgree(check_info);
-        checkPromise.then(function(Agree) {
-          console.log('Agree returns for us:' + JSON.stringify(Agree[1].agreed));
-        // fail if not agreed
-        if (Agree[1].agreed == 'false') {
+        if (foundRes[0].user_agree == 'false') {
+          // user has not agreed...
           const agree = dbHelper.agree({ service: 'discord', user_id: user_id });
           agree.then(function(results) {
             // message user of status
@@ -68,8 +56,6 @@ module.exports = {
           message.author.send('You have already agreed!');
           return;
         }
-        return;
-        });
        return;
       }
     });
