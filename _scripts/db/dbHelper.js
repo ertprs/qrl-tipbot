@@ -20,27 +20,15 @@ async function GetAllUserInfo(args) {
     let foundResArray = [];
     // get all users_info data here...
     const getAllInfoSearch = 'SELECT wallets.wallet_pub AS wallet_pub, wallets.wallet_bal AS wallet_bal, users.id AS user_id, ' + service + '_users.user_name AS user_name, users_info.opt_out AS opt_out, users_info.optout_date AS optout_date FROM wallets, users, ' + service + '_users, users_info WHERE users.id = wallets.user_id AND users.' + service + '_user_id = ' + service + '_users.id AND users.id = users_info.user_id AND ' + service + '_users.' + service + '_id = "' + service_id + '"';
-    // console.log('getAllInfoSearch: ' + getAllInfoSearch);
     callmysql.query(getAllInfoSearch, function(err, user_info) {
       if (err) {
         console.log('[mysql error]', err);
       }
-      // console.log('user_info: ' + JSON.stringify(user_info))
       if(user_info.length == 0) {
-        // const Results = { user_found: 'false' };
         foundResArray.push({ user_found: 'false', user_agree: 'false', opt_out: 'false' });
         resolve(foundResArray);
         return foundResArray;
       }
-
-      // else {
-        // user found in database
-        // foundResArray.push({ user_found: 'true' });
-      // }
-
-      console.log('userfound foundResArray: ' + JSON.stringify(foundResArray));
-
-
       const user_id = user_info[0].user_id;
       // update the balance in the wallet database and refresh info
       GetUserWalletBal({ user_id: user_id });
@@ -53,22 +41,7 @@ async function GetAllUserInfo(args) {
         if(get_agree.length == 0) {
           // user has not agreed, not found in db users_agree but user is found
           foundResArray.push({ user_found: 'true', user_agree: 'false', opt_out: 'false', user_id: user_id });
-          console.log('get_agree == 0 foundResArray: ' + JSON.stringify(foundResArray));
           resolve(foundResArray);
-        }
-        else {
-          // const infoResult = JSON.parse(JSON.stringify(get_agree));
-          // foundResArray.push({ user_agree: 'true' });
-          // console.log('user_agree == true pushed to foundResArray: ' + JSON.stringify(foundResArray));
-          // foundResArray.push(get_agree);
-          console.log('get_agree pushed to foundResArray: ' + JSON.stringify(foundResArray));
-          // const foundRes = { user_agree: 'true' };
-          // Array.prototype.push.apply(foundRes, get_agree);
-          // Array.prototype.push.apply(foundResArray, get_agree);
-          console.log('Array.prototype.push.apply foundResArray: ' + JSON.stringify(foundResArray));
-          // console.log('agree foundResArray ' + JSON.stringify(foundResArray));
-          // resolve(foundResArray);
-          // return foundResArray;
         }
       });
       // search the db again to pickup the updated balance and return good values to user
@@ -77,21 +50,16 @@ async function GetAllUserInfo(args) {
           console.log('[mysql error]', err);
         }
         const infoResult = JSON.parse(JSON.stringify(user_info_update));
-        console.log('infoResult: ' + JSON.stringify(infoResult));
         const wallet_pub = infoResult[0].wallet_pub;
         const wallet_bal = infoResult[0].wallet_bal;
         const U_id = infoResult[0].user_id;
         const user_name = infoResult[0].user_name;
         const opt_out = infoResult[0].opt_out;
         const optout_date = infoResult[0].optout_date;
-        // const foundRes = { user_found: 'true' };
         foundResArray.push({ user_found: 'true', wallet_pub: wallet_pub, wallet_bal: wallet_bal, user_id: U_id, user_name: user_name, opt_out: opt_out, optout_date: optout_date });
-        // Array.prototype.push.apply(foundResArray, infoResult);
-        // console.log('getAllInfoSearch foundResArray ' + JSON.stringify(foundResArray));
         resolve(foundResArray);
         return foundResArray;
       });
-      // resolve(foundResArray)
     });
   });
 }
