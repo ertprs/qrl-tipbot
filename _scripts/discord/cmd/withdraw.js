@@ -103,7 +103,7 @@ module.exports = {
 
          console.log('user_id ' + user_id);
          console.log('wallet_pub ' + wallet_pub);
-         console.log('wallet_bal ' + wallet_bal * 1000000000);
+         console.log('wallet_bal ' + wallet_bal);
          console.log('shor_bal ' + shor_bal);
          console.log('user_name ' + user_name);
          console.log('transfer_to ' + transfer_to);
@@ -169,6 +169,7 @@ module.exports = {
             return;
           }
           const trans_amt_shor = trans_amt * toShor;
+          console.log('trans_amt: ' + trans_amt + ' trans_amt_shor: ' + trans_amt_shor);
           const total_transfer = (trans_amt_shor - fee);
           // check if amount is equal or less than bal
           // console.log('transfer Details. trans_amt :' + trans_amt + ' trans_amt_shor: ' + trans_amt_shor + ' total_transfer: ' + total_transfer);
