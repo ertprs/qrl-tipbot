@@ -149,7 +149,7 @@ module.exports = {
       }
       checkFaucet(service_id).then(function(faucetCheck) {
         console.log('faucetCheck results' + JSON.stringify(faucetCheck));
-        if (faucetCheck[0][0].drip_found == true) {
+        if (faucetCheck[0].drip_found == true) {
           console.log('user has been found recently, no drips');
           message.reply('You have received a tip recently :no_entry_sign: \nPlease come back in  ***' + config.faucet.payout_interval + ' minutes*** from ***' + faucetCheck[0][0][0].time_stamp + '*** to request more funds.');
           return;
@@ -157,7 +157,7 @@ module.exports = {
         else if (faucetCheck[0].drip_found == false) {
           // no drip found. Do things here.
           // insert into faucet_payments to request a payment
-          const user_id = userInfoArray[0].user_id;
+          const user_id = userInfoArray[0][0].user_id;
           const Drip = dripAmount(config.faucet.min_payout, config.faucet.max_payout);
           console.log('no drips found. Adding to db and sending a drip');
           const dripInfo = { user_id: user_id, service: 'discord', drip_amt: Drip };
