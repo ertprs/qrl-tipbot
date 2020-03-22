@@ -103,7 +103,7 @@ module.exports = {
 
          console.log('user_id ' + user_id);
          console.log('wallet_pub ' + wallet_pub);
-         console.log('wallet_bal ' + wallet_bal);
+         console.log('wallet_bal ' + wallet_bal * 100000000);
          console.log('shor_bal ' + shor_bal);
          console.log('user_name ' + user_name);
          console.log('transfer_to ' + transfer_to);
