@@ -19,7 +19,7 @@ module.exports = {
     found.then(function(result) {
       return result;
     }).then(function(foundRes) {
-      const user_found = foundRes.user_found;
+      const user_found = foundRes[0].user_found;
       if (user_found !== 'true') {
         // if the user is not found...
         message.channel.startTyping();
