@@ -11,7 +11,7 @@ const callmysql = mysql.createPool({
   database: `${config.database.db_name}`,
 });
 // expects { service: service, service_id: service_id }
-// returns { user_found, wallet_pub, wallet_bal, user_id, user_name, opt_out optout_date 
+// returns { user_found, wallet_pub, wallet_bal, user_id, user_name, opt_out optout_date
 async function GetAllUserInfo(args) {
   return new Promise(resolve => {
     const input = JSON.parse(JSON.stringify(args));
@@ -27,34 +27,37 @@ async function GetAllUserInfo(args) {
       }
       // console.log('user_info: ' + JSON.stringify(user_info))
       if(user_info.length == 0) {
-        const Results = { user_found: 'false' };
+        // const Results = { user_found: 'false' };
         foundResArray.push({ user_found: 'false', user_agree: 'false', opt_out: 'false' });
         resolve(foundResArray);
         return foundResArray;
       }
-      else {
+      
+      //else {
         // user found in database
-        foundResArray.push({ user_found: 'true' })
-      }
+        //foundResArray.push({ user_found: 'true' });
+      //}
+
       console.log('userfound foundResArray: ' + JSON.stringify(foundResArray));
+      
+
       const user_id = user_info[0].user_id;
       // update the balance in the wallet database and refresh info
       GetUserWalletBal({ user_id: user_id });
+      // check for user agree results
       const getAgreeSearch = 'SELECT users_agree.* FROM users_agree WHERE users_agree.user_id = "' + user_id + '"';
       callmysql.query(getAgreeSearch, function(err, get_agree) {
         if (err) {
           console.log('[mysql error]', err);
         }
         if(get_agree.length == 0) {
-          // user has not agreed, not found in db users_agree
+          // user has not agreed, not found in db users_agree but user is found
           foundResArray.push({ user_found: 'true', user_agree: 'false', opt_out: 'false', user_id: user_id });
           console.log('get_agree == 0 foundResArray: ' + JSON.stringify(foundResArray));
           resolve(foundResArray);
         }
-
         else {
-          const infoResult = JSON.parse(JSON.stringify(get_agree));
-          //check for user agree results
+          // const infoResult = JSON.parse(JSON.stringify(get_agree));
           foundResArray.push({ user_agree: 'true' });
           console.log('user_agree == true pushed to foundResArray: ' + JSON.stringify(foundResArray));
           foundResArray.push(get_agree);
@@ -64,8 +67,8 @@ async function GetAllUserInfo(args) {
           Array.prototype.push.apply(foundResArray, get_agree);
           console.log('Array.prototype.push.apply foundResArray: ' + JSON.stringify(foundResArray));
           // console.log('agree foundResArray ' + JSON.stringify(foundResArray));
-          //resolve(foundResArray);
-          //return foundResArray;
+          // resolve(foundResArray);
+          // return foundResArray;
         }
       });
       // search the db again to pickup the updated balance and return good values to user
@@ -543,7 +546,7 @@ async function addFutureTip(args) {
     const tip_paidout = '0';
     const user_infoValues = [ [service, user_id, user_name, tip_from, tip_amount, tip_paidout, time_stamp] ];
     const addTo_users_info = 'INSERT INTO future_tips(service, user_id, user_name, tip_from, tip_amount, tip_paidout, time_stamp) VALUES ?';
-    console.log('addToFutureTipsInfo: ' + addTo_users_info + ' ' + user_infoValues)
+    console.log('addToFutureTipsInfo: ' + addTo_users_info + ' ' + user_infoValues);
     callmysql.query(addTo_users_info, [user_infoValues], function(err, addFutureTipRes) {
       if (err) {
         console.log('[mysql error]', err);
@@ -572,7 +575,7 @@ async function addTransaction(args) {
   // exepct { tip_id: fromTipDB, tx_hash: fromTX_HASH }
   return new Promise(resolve => {
     const txArray = [];
-    const input = JSON.parse(JSON.stringify(args));
+    // const input = JSON.parse(JSON.stringify(args));
     const tip_id = args.tip_id;
     const tx_hash = args.tx_hash;
     // insert data into transactions db
@@ -592,7 +595,7 @@ async function addTransaction(args) {
 
 async function agree(args) {
   // expect { service: , user_id: }
-  console.log('\nargee args:' + JSON.stringify(args))
+  console.log('\nargee args:' + JSON.stringify(args));
   return new Promise(resolve => {
     const txArray = [];
     const user_id = args.user_id;
@@ -640,7 +643,7 @@ async function CheckAgree(args) {
           // assign results to json and pass to return
           const searchResult = { agreed: 'true' };
           const Results = JSON.parse(JSON.stringify(searchResult));
-          chechAgreeArray.push(Results)
+          chechAgreeArray.push(Results);
           resolve(chechAgreeArray);
           return;
         }

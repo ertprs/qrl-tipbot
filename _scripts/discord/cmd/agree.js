@@ -22,7 +22,7 @@ module.exports = {
         return Agree;
       });
     }
-    
+
     if(message.guild != null) {
       // message.delete();
     }
