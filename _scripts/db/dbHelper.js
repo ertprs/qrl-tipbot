@@ -78,7 +78,8 @@ async function GetAllUserInfo(args) {
         }
         const infoResult = JSON.parse(JSON.stringify(user_info_update));
         // const foundRes = { user_found: 'true' };
-        user_info_update.push(user_found = true)
+        const user_found = true;
+        user_info_update.push(user_found)
         foundResArray.push({ user_info_update });
         //Array.prototype.push.apply(foundResArray, infoResult);
         // console.log('getAllInfoSearch foundResArray ' + JSON.stringify(foundResArray));
