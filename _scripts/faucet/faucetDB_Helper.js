@@ -1,16 +1,16 @@
 'use strict';
 const mysql = require('mysql');
 const config = require('../../_config/config.json');
-const wallet = require('../qrl/walletTools');
+// const wallet = require('../qrl/walletTools');
 
 // connector to the database
-const callmysqlFaucet = mysql.createPool({
-  connectionLimit: 10,
-  host: `${config.faucet_db.db_host}`,
-  user: `${config.faucet_db.db_user}`,
-  password: `${config.faucet_db.db_pass}`,
-  database: `${config.faucet_db.db_name}`,
-});
+// const callmysqlFaucet = mysql.createPool({
+  // connectionLimit: 10,
+  // host: `${config.faucet_db.db_host}`,
+  // user: `${config.faucet_db.db_user}`,
+  // password: `${config.faucet_db.db_pass}`,
+  // database: `${config.faucet_db.db_name}`,
+// });
 
 const callmysqlTipBot = mysql.createPool({
   connectionLimit: 10,
@@ -51,7 +51,7 @@ async function Drip(args) {
 }
 
 async function checkPayments(args) {
-  // expect { service, service_id }
+  // expect { service: 'discord, service_id: service_id }
   return new Promise(resolve => {
     // check the faucet_oayments db for the last time user recieved a tip, if ever.
     // check to curent time and if less than one day no tip...
@@ -66,8 +66,9 @@ async function checkPayments(args) {
       if (err) {
         console.log('[mysql error]', err);
       }
-      console.log('users faucet results: ' + JSON.stringify(faucet_result));
-      checkPaymentsArray.push(faucet_result);
+      console.log('fauces_result: ' + JSON.stringify(faucet_result));
+      console.log('faucet_result.length: ' + faucet_result.length);
+
       if (!faucet_result.length) {
         console.log('empty results');
         checkPaymentsArray.push({ drip_found: false });
@@ -76,6 +77,8 @@ async function checkPayments(args) {
       }
       // drip found in db for user
       checkPaymentsArray.push({ drip_found: true });
+      checkPaymentsArray.push(faucet_result);
+      console.log('found checkPaymentsArray: ' + JSON.stringify(checkPaymentsArray));
       // returns for found { drip_found, drip_service, last_drip_amt, request_date, paid, tx_hash, paid_date }
       // returns for not found { drip_found }
       resolve(checkPaymentsArray);

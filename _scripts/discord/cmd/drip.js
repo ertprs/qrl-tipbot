@@ -127,6 +127,7 @@ module.exports = {
       // console.log('UserChecks ' + JSON.stringify(checkresults));
       console.log('userInfoArray ' + JSON.stringify(userInfoArray));
       if (!userInfoArray[1].checkUserPassed) {
+      	// if the userCheck failed
         const userCheckError = userInfoArray[1].checkUserPassedError;
         console.log('the user check failed with error:' + userCheckError);
         switch (userCheckError) {
