@@ -83,7 +83,7 @@ module.exports = {
     // If found will return { user_found, wallet_pub, wallet_bal, user_id, user_name, opt_out, otpout_date }
     found.then(function(result) {
       console.log('found results: ' + JSON.stringify(result));
-      const UserFound = result.user_found;
+      const UserFound = result[0].user_found;
       if (UserFound !== 'true') {
         // console.log('user found ' + UserFound);
         // user is not in the system, fail and return to user
@@ -101,13 +101,13 @@ module.exports = {
         const transfer_to = args[1];
         const fee = config.wallet.tx_fee * toShor;
 
-        // console.log('user_id ' + user_id);
-        // console.log('wallet_pub ' + wallet_pub);
-        // console.log('wallet_bal ' + wallet_bal);
-        // console.log('shor_bal ' + shor_bal);
-        // console.log('user_name ' + user_name);
-        // console.log('transfer_to ' + transfer_to);
-        // console.log('fee ' + fee);
+         console.log('user_id ' + user_id);
+         console.log('wallet_pub ' + wallet_pub);
+         console.log('wallet_bal ' + wallet_bal);
+         console.log('shor_bal ' + shor_bal);
+         console.log('user_name ' + user_name);
+         console.log('transfer_to ' + transfer_to);
+         console.log('fee ' + fee);
         // check for valid qrl address given as args[1]
         const addressTest = isQRLAddress(transfer_to);
         if (!addressTest) {
@@ -134,8 +134,6 @@ module.exports = {
           const transferInfo = { address_to: addressArray, amount: transArray, fee: fee, address_from: wallet_pub };
           // console.log('transferInfo ' + JSON.stringify(transferInfo));
           transfer(transferInfo).then(function(transferQrl) {
-
-
             const transferOutput = JSON.parse(transferQrl);
             const tx_hash = transferOutput.tx.transaction_hash;
             const embed = new Discord.RichEmbed()
