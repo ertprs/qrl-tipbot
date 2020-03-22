@@ -309,7 +309,8 @@ async function GetUserWalletBal(args) {
               return UpdateBalance;
             });
           }
-          const return_bal = balance;
+          // const return_bal = balance;
+          const return_bal = NetBal.balance;
           const searchResult = { wallet_bal: return_bal };
           const Results = JSON.parse(JSON.stringify(searchResult));
           resolve(Results);
