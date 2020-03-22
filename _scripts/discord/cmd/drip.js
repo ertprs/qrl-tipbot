@@ -167,7 +167,7 @@ module.exports = {
 
           });
           message.channel.stopTyping(true);
-          message.reply(':droplet: Faucet funds sent! :droplet:');
+          message.reply(':droplet: Faucet funds sent! Expect ' + Drip + ' Quanta in your TipBot address very soon! :droplet:');
         }
       });
     });
