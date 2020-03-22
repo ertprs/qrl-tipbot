@@ -32,7 +32,7 @@ async function GetAllUserInfo(args) {
         resolve(foundResArray);
         return foundResArray;
       }
-      
+
       //else {
         // user found in database
         //foundResArray.push({ user_found: 'true' });
@@ -58,13 +58,13 @@ async function GetAllUserInfo(args) {
         }
         else {
           // const infoResult = JSON.parse(JSON.stringify(get_agree));
-          foundResArray.push({ user_agree: 'true' });
-          console.log('user_agree == true pushed to foundResArray: ' + JSON.stringify(foundResArray));
-          foundResArray.push(get_agree);
+          //foundResArray.push({ user_agree: 'true' });
+          //console.log('user_agree == true pushed to foundResArray: ' + JSON.stringify(foundResArray));
+          //foundResArray.push(get_agree);
           console.log('get_agree pushed to foundResArray: ' + JSON.stringify(foundResArray));
           // const foundRes = { user_agree: 'true' };
           // Array.prototype.push.apply(foundRes, get_agree);
-          Array.prototype.push.apply(foundResArray, get_agree);
+          //Array.prototype.push.apply(foundResArray, get_agree);
           console.log('Array.prototype.push.apply foundResArray: ' + JSON.stringify(foundResArray));
           // console.log('agree foundResArray ' + JSON.stringify(foundResArray));
           // resolve(foundResArray);
