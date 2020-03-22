@@ -20,7 +20,7 @@ module.exports = {
       return result;
     }).then(function(foundRes) {
       console.log('foundRes: ' + JSON.stringify(foundRes));
-      const user_found = foundRes[0].user_found;
+      const user_found = foundRes.user_found;
       if (user_found !== 'true') {
         // if the user is not found...
         message.channel.startTyping();
@@ -37,6 +37,7 @@ module.exports = {
           const service_ID = '@' + users_Service_ID;
           const GetAllUserInfoPromise = GetAllUserInfo({ service: 'discord', service_id: service_ID });
           GetAllUserInfoPromise.then(function(userInfo) {
+            console.log('user_info: ' + JSON.stringify(userInfo));
             const users_ID = userInfo[0].user_id;
             const OptIn = dbHelper.OptIn({ user_id: users_ID });
             OptIn.then(function(results) {
