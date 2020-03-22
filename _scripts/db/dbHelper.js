@@ -33,43 +33,42 @@ async function GetAllUserInfo(args) {
         return foundResArray;
       }
       else {
+        // user found in database
         foundResArray.push({ user_found: 'true' })
       }
-
+      console.log('userfound foundResArray: ' + JSON.stringify(foundResArray));
       const user_id = user_info[0].user_id;
-      // console.log('\n\nuser_id: ' + user_id)
-
-
       // update the balance in the wallet database and refresh info
       GetUserWalletBal({ user_id: user_id });
-
       const getAgreeSearch = 'SELECT users_agree.* FROM users_agree WHERE users_agree.user_id = "' + user_id + '"';
       callmysql.query(getAgreeSearch, function(err, get_agree) {
         if (err) {
           console.log('[mysql error]', err);
         }
+        if(get_agree.length == 0) {
+          // user has not agreed, not found in db users_agree
+          foundResArray.push({ user_found: 'true', user_agree: 'false', opt_out: 'false', user_id: user_id });
+          console.log('get_agree == 0 foundResArray: ' + JSON.stringify(foundResArray));
+          resolve(foundResArray);
+        }
 
-      if(get_agree.length == 0) {
-        const Results = { user_agree: 'false', user_found: 'true' };
-        foundResArray.push({ user_agree: 'false', user_found: 'true', opt_out: 'false', user_id: user_id });
-        resolve(foundResArray);
-        //return Results;
-      }
-
-
-      else {
-        const infoResult = JSON.parse(JSON.stringify(get_agree));
-        //check for user agree results
-        foundResArray.push({ user_agree: 'true' })
-        // const foundRes = { user_agree: 'true' };
-        // Array.prototype.push.apply(foundRes, get_agree);
-        Array.prototype.push.apply(foundResArray, get_agree);
-        // console.log('agree foundResArray ' + JSON.stringify(foundResArray));
-        //resolve(foundResArray);
-        //return foundResArray;
-      }
+        else {
+          const infoResult = JSON.parse(JSON.stringify(get_agree));
+          //check for user agree results
+          foundResArray.push({ user_agree: 'true' });
+          console.log('user_agree == true pushed to foundResArray: ' + JSON.stringify(foundResArray));
+          foundResArray.push(get_agree);
+          console.log('get_agree pushed to foundResArray: ' + JSON.stringify(foundResArray));
+          // const foundRes = { user_agree: 'true' };
+          // Array.prototype.push.apply(foundRes, get_agree);
+          Array.prototype.push.apply(foundResArray, get_agree);
+          console.log('Array.prototype.push.apply foundResArray: ' + JSON.stringify(foundResArray));
+          // console.log('agree foundResArray ' + JSON.stringify(foundResArray));
+          //resolve(foundResArray);
+          //return foundResArray;
+        }
       });
-      
+      // search the db again to pickup the updated balance and return good values to user
       callmysql.query(getAllInfoSearch, function(err, user_info_update) {
         if (err) {
           console.log('[mysql error]', err);
