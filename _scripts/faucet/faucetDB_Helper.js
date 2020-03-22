@@ -71,9 +71,11 @@ async function checkPayments(args) {
 
       if (!faucet_result.length) {
         console.log('empty results');
-        checkPaymentsArray.push({ drip_found: false });
-        resolve(checkPaymentsArray);
-        return checkPaymentsArray;
+        const drip_found = 0;
+        // checkPaymentsArray.push({ drip_found: false });
+        // resolve(checkPaymentsArray);
+        resolve(drip_found);
+        return;
       }
       // drip found in db for user
       checkPaymentsArray.push({ drip_found: true });
