@@ -107,8 +107,8 @@ module.exports = {
         let checkUserPassed = false;
         checkFaucetPromise.then(function(results) {
           console.log('checkFaucetPromise results ' + JSON.stringify(results));
-          faucetInfoArray.push(results);
-          resolve(faucetInfoArray);
+          // faucetInfoArray.push(results);
+          resolve(results);
         });
       });
     }
