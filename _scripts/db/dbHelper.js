@@ -77,7 +77,7 @@ async function GetAllUserInfo(args) {
           console.log('[mysql error]', err);
         }
         const infoResult = JSON.parse(JSON.stringify(user_info_update));
-        console.log('infoResult: ' + infoResult)
+        console.log('infoResult: ' + JSON.stringify(infoResult))
         // const foundRes = { user_found: 'true' };
         foundResArray.push({ user_found: 'true', infoResult });
         //Array.prototype.push.apply(foundResArray, infoResult);
