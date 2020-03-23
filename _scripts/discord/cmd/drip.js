@@ -167,7 +167,7 @@ module.exports = {
 
           });
           message.channel.stopTyping(true);
-          message.reply(':droplet: Faucet funds sent! Expect ' + Drip + ' Quanta in your TipBot address soon, funds take up to 5 min to deposit. :droplet:');
+          message.reply(':droplet: Faucet funds sent! Expect ' + Drip + ' Quanta in your TipBot address soon. :droplet:\n*Funds take up to 5 min to deposit.*');
         }
       });
     });
