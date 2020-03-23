@@ -253,6 +253,7 @@ module.exports = {
           addTransactionPromise.then(function(txRes) {
             return txRes;
           });
+          message.channel.stopTyping(true);
           const embed = new Discord.RichEmbed()
             .setColor(0x000000)
             .setTitle('Tip Sent!')
@@ -264,8 +265,6 @@ module.exports = {
           message.author.send({ embed })
             .then(() => {
               if (message.channel.type !== 'dm') return;
-              message.channel.stopTyping(true);
-              message.reply('I\'ve sent you a DM. ');
             })
             .catch(error => {
               message.channel.stopTyping(true);
