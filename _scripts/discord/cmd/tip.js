@@ -253,7 +253,7 @@ module.exports = {
           const txInfo = { tip_id: tip_id, tx_hash: tx_hash };
           const addTransactionPromise = addTransaction(txInfo);
           addTransactionPromise.then(function(txRes) {
-            console.log(txRes);
+            console.log('txRes' + JSON.stringify(txRes));
             return txRes;
           });
           message.channel.stopTyping(true);
