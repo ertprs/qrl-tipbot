@@ -26,10 +26,10 @@ async function Drip(args) {
   // send a payment request to the faucet for users address.
   // expects { service: service, user_id: user_id, drip_amt: drip_amt }
   if (args == null) {
-    console.log('No args given to DRIP:');
+    // console.log('No args given to DRIP:');
     return;
   }
-  console.log('args into Drip function: ' + JSON.stringify(args));
+  // console.log('args into Drip function: ' + JSON.stringify(args));
 
   // INSERT INTO faucet_payouts(user_id, service, drip_amt, updated_at, time_stamp)   VALUES(1, 'discord', .002, NOW(), NOW());
   const user_id = args.user_id;
@@ -61,16 +61,16 @@ async function checkPayments(args) {
     const service = args.service;
     // search for user mentionend in the last config.faucer.payout_interval time. set in the config file
     const FaucetSearch = 'SELECT faucet_payouts.* FROM faucet_payouts, ' + service + '_users, users WHERE users.' + service + '_user_id = ' + service + '_users.id AND users.id = faucet_payouts.user_id AND ' + service + '_users.' + service + '_id = "' + service_id + '" AND faucet_payouts.time_stamp >= NOW() - INTERVAL ' + config.faucet.payout_interval + ' MINUTE';
-    console.log('FaucerSearch' + FaucetSearch);
+    // console.log('FaucerSearch' + FaucetSearch);
     callmysqlTipBot.query(FaucetSearch, function(err, faucet_result) {
       if (err) {
         console.log('[mysql error]', err);
       }
-      console.log('fauces_result: ' + JSON.stringify(faucet_result));
-      console.log('faucet_result.length: ' + faucet_result.length);
+      // console.log('fauces_result: ' + JSON.stringify(faucet_result));
+      // console.log('faucet_result.length: ' + faucet_result.length);
 
       if (!faucet_result.length) {
-        console.log('empty results');
+        // console.log('empty results');
         checkPaymentsArray.push({ drip_found: false });
         resolve(checkPaymentsArray);
         return;
@@ -78,7 +78,7 @@ async function checkPayments(args) {
       // drip found in db for user
       checkPaymentsArray.push({ drip_found: true });
       checkPaymentsArray.push(faucet_result);
-      console.log('found checkPaymentsArray: ' + JSON.stringify(checkPaymentsArray));
+      // console.log('found checkPaymentsArray: ' + JSON.stringify(checkPaymentsArray));
       // returns for found { drip_found, drip_service, last_drip_amt, request_date, paid, tx_hash, paid_date }
       // returns for not found { drip_found }
       resolve(checkPaymentsArray);

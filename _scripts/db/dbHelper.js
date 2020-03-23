@@ -54,7 +54,7 @@ async function GetAllUserInfo(args) {
           console.log('[mysql error]', err);
         }
         const infoResult = JSON.parse(JSON.stringify(user_info_update));
-        console.log('infoResult: ' + JSON.stringify(infoResult));
+        // console.log('infoResult: ' + JSON.stringify(infoResult));
         const wallet_pub = infoResult[0].wallet_pub;
         const wallet_bal = infoResult[0].wallet_bal;
         const U_id = infoResult[0].user_id;
@@ -301,7 +301,7 @@ async function GetUserWalletBal(args) {
           // should have netBal value from the network now, compare them
           const balance = NetBal.balance / 1000000000 ;
           const OldBal = wallet_bal / 1000000000;
-          console.log('balance\'s returned. NetBal: ' + JSON.stringify(NetBal) + ' wallet_bal: ' + wallet_bal+ ' balance: ' + balance + ' OldBal: ' + OldBal);
+          // console.log('balance\'s returned. NetBal: ' + JSON.stringify(NetBal) + ' wallet_bal: ' + wallet_bal+ ' balance: ' + balance + ' OldBal: ' + OldBal);
           if (balance != OldBal) {
             // the balances are different, update the DB
             const updateInfo = { user_id: id, new_bal: balance };
