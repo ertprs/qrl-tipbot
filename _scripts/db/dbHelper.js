@@ -498,7 +498,7 @@ async function addTip(args) {
   // { from_user_id, to_users_id, tip_amount, from_service, time_stamp }
   // function to add tip to tips db
     const addTipResultsArray = [];
-    const trans_id = '3333333';
+    const trans_id = '';
     const from_user_id = args.from_user_id;
     const to_users_id = args.to_users_id;
     const tip_amount = args.tip_amount;
@@ -578,6 +578,8 @@ async function addTransaction(args) {
     });
   });
 }
+
+
 
 async function addTipTo(args) {
   // exepct { tip_id: fromTipDB, tip_amt: user_id, tip_amt: tip_amt }
@@ -688,7 +690,6 @@ module.exports = {
   clearFutureTips : clearFutureTips,
   addTransaction : addTransaction,
   addTipTo : addTipTo,
-  addTipFrom : addTipFrom,
   agree : agree,
   CheckAgree: CheckAgree,
   updateWalletBal : updateWalletBal,
