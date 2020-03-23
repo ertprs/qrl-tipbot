@@ -192,13 +192,16 @@ after this timeframe is up the bot will keep these tips in internal wallets.
 
 lookup table for the tip from party. this is joined to the `tips_to` table for lookups
 
-- **id** *primary_key* is created at entry time 
-- **tip_id** from `tips.id` table.field
-- **user_id** the `users.id` that initiated the tip. Use their wallet
-- **total_tip** total amount that was transfered from their wallet
-- **tip_to_count** number of accounts to tip, max 100.
-- **time_stamp** is created at entry time `NOW()`  
-
+- **id**  int primary key auto_increment,
+- **service**  ENUM('discord', 'keybase', 'github', 'reddit', 'trello', 'twitter', 'slack', 'telegram', 'whatsapp'),
+- **user_id**  varchar(255) not null,
+- **user_name**  varchar(255) not null,
+- **tip_from**  varchar(255) not null,
+- **tip_amount**  DECIMAL(24,9) not null,
+- **tip_paidout**  BOOLEAN default 0,
+- **tip_donated**  BOOLEAN default 0,
+- **donated_time_stamp**  DATETIME,
+- **time_stamp**  DATETIME not null
 
 ```
 # tips_from

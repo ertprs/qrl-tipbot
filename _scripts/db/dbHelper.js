@@ -579,6 +579,30 @@ async function addTransaction(args) {
   });
 }
 
+async function addTipTo(args) {
+  // exepct { tip_id: fromTipDB, tip_amt: user_id, tip_amt: tip_amt }
+  return new Promise(resolve => {
+    const txArray = [];
+    // const input = JSON.parse(JSON.stringify(args));
+    const tip_id = args.tip_id;
+    const user_id = args.user_id;
+    const tip_amt = args.tip_amt;
+
+    // insert data into transactions db
+    const tip_info_values = [ [tip_id, user_id, tip_amt, new Date()] ];
+    const addto_tips_to_table = 'INSERT INTO tips_to(tip_id, user_id, tip_amt, time_stamp) VALUES ?';
+    callmysql.query(addto_tips_to_table, [tip_info_values], function(err, addFutureTipRes) {
+      if (err) {
+        console.log('[mysql error]', err);
+      }
+      const DB_InsertId = addFutureTipRes.insertId;
+      txArray.push({ transaction_db_id: DB_InsertId });
+      resolve(txArray);
+      return txArray;
+    });
+  });
+}
+
 async function agree(args) {
   // expect { service: , user_id: }
   console.log('\nargee args:' + JSON.stringify(args));
@@ -663,6 +687,8 @@ module.exports = {
   addTip : addTip,
   clearFutureTips : clearFutureTips,
   addTransaction : addTransaction,
+  addTipTo : addTipTo,
+  addTipFrom : addTipFrom,
   agree : agree,
   CheckAgree: CheckAgree,
   updateWalletBal : updateWalletBal,

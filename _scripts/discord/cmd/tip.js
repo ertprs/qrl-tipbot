@@ -176,7 +176,7 @@ module.exports = {
         const iterator = UserIDList.entries();
         for (const Service_ID of message.mentions.users) {
           const Value = iterator.next().value;
-          console.log('VALUE: ' + JSON.stringify(Value))
+          console.log('VALUE: ' + JSON.stringify(Value));
           // set the users values to variables from the iterator.next().value we got from above
           const serviceid = Value[1].Service_ID;
           const serviceUserName = Value[1].service_user_name;
@@ -210,6 +210,7 @@ module.exports = {
               const usernNotFoundInfo = { service: 'discord', user_id: serviceid, user_name: serviceUserName, tip_from: userID, tip_amount: tipAmountQuanta };
               const addTo_Future_tipsPromise = addFutureTips(usernNotFoundInfo);
               addTo_Future_tipsPromise.then(function() {
+                console.log('f');
               });
             }
           });
@@ -242,6 +243,7 @@ module.exports = {
         const send_to_addresses = found_addressTo.concat(not_found_addressTo);
         const send_to_amount = found_tipAmount.concat(not_found_tipAmount);
         const tipToInfo = { amount: send_to_amount, fee: fee, address_from: wallet_pub, address_to: send_to_addresses };
+        // transfer the funds here
         const transfer = wallet.sendQuanta;
         transfer(tipToInfo).then(function(transferQrl) {
           const transferOutput = JSON.parse(transferQrl);
@@ -251,6 +253,7 @@ module.exports = {
           const txInfo = { tip_id: tip_id, tx_hash: tx_hash };
           const addTransactionPromise = addTransaction(txInfo);
           addTransactionPromise.then(function(txRes) {
+            console.log(txRes);
             return txRes;
           });
           message.channel.stopTyping(true);
@@ -274,6 +277,7 @@ module.exports = {
           return;
         });
       }
+      // send the tip here
       tipAwait();
       return JSON.stringify(userInfo);
     });

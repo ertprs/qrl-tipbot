@@ -259,6 +259,7 @@ callmysql.connect(function(err) {
                               service ENUM('discord', 'keybase', 'github', 'reddit', 'trello', 'twitter', 'slack', 'telegram', 'whatsapp'),
                               user_id varchar(255) not null,
                               user_name varchar(255) not null,
+                              tip_id int,
                               tip_from varchar(255) not null,
                               tip_amount DECIMAL(24,9) not null,
                               tip_paidout BOOLEAN default 0,
@@ -348,6 +349,7 @@ const createUserAgree = `create table if not exists users_agree(
                                 user_id int not null,
                                 tx_hash varchar(255) not null,
                                 service ENUM('discord', 'keybase', 'github', 'reddit', 'trello', 'twitter', 'slack', 'telegram', 'whatsapp'),
+                                to_address varchar(80) not null,
                                 time_stamp DATETIME not null
                              )`;
 
