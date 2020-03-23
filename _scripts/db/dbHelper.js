@@ -498,14 +498,14 @@ async function addTip(args) {
   // { from_user_id, to_users_id, tip_amount, from_service, time_stamp }
   // function to add tip to tips db
     const addTipResultsArray = [];
-    const trans_id = '';
+    // const trans_id = '3333333';
     const from_user_id = args.from_user_id;
     const to_users_id = args.to_users_id;
     const tip_amount = args.tip_amount;
     const from_service = args.from_service;
     const time_stamp = args.time_stamp;
-    const addTip_Values = [ [trans_id, from_user_id, to_users_id, tip_amount, from_service, time_stamp]];
-    const addTip_info = 'INSERT INTO tips(trans_id, from_user_id, to_users_id, tip_amount, from_service, time_stamp ) VALUES ?';
+    const addTip_Values = [ [from_user_id, to_users_id, tip_amount, from_service, time_stamp]];
+    const addTip_info = 'INSERT INTO tips(from_user_id, to_users_id, tip_amount, from_service, time_stamp ) VALUES ?';
     callmysql.query(addTip_info, [addTip_Values], function(err, addTip_ValuesResult) {
       if (err) {
         console.log('[mysql error]', err);
