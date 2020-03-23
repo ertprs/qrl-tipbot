@@ -19,7 +19,7 @@ module.exports = {
     }
     // check for the message author. If not found fail
     found.then(function(foundRes) {
-      console.log('foundRes ' + JSON.stringify(foundRes));
+      // console.log('foundRes ' + JSON.stringify(foundRes));
       // check for user found
       const user_found = foundRes[0].user_found;
       if (user_found !== 'true') {
@@ -35,10 +35,10 @@ module.exports = {
         // user found, check for agree
         // set the user ID
         const user_id = foundRes[0].user_id;
-        console.log('user_id: ' + user_id);
+        // console.log('user_id: ' + user_id);
       // user found, check for alreeady set agree
         const check_info = { service: 'discord', user_id: user_id };
-        console.log('check_info: ' + JSON.stringify(check_info));
+        // console.log('check_info: ' + JSON.stringify(check_info));
         if (foundRes[0].user_agree == 'false') {
           // user has not agreed...
           const agree = dbHelper.agree({ service: 'discord', user_id: user_id });
