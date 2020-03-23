@@ -5,7 +5,7 @@ module.exports = {
   aliases: ['faucet', 'freeqrl', 'free', 'drop'],
   guildOnly: false,
   usage: ' ',
-  cooldown: 1440, // 1440 is one day
+  cooldown: 1440 * 60, // 1440 is one day
 
   execute(message, args) {
     const Discord = require('discord.js');
