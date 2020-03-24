@@ -209,7 +209,7 @@ module.exports = {
                   const tip_id = addToTipsArgsArray[0].tip_id;
                   const add_tip_to_info = { tip_id: tip_id, tip_amt: tipAmountQuanta, user_id: user_id };
                   add_tip_to(add_tip_to_info).then(function(tip_toResults) {
-                    console.log('tip_toResults: ' + JSON.stringify(tip_toResults));
+                    //console.log('tip_toResults: ' + JSON.stringify(tip_toResults));
                   });
                 }
               }
@@ -224,7 +224,7 @@ module.exports = {
                 console.log('f' + JSON.stringify(futureTipsID));
                 //add to tips_to database and mark as a future tip with the tipID
                 //
-                console.log('addToTipsArgsArray not found: ' + JSON.stringify(addToTipsArgsArray));
+                // console.log('addToTipsArgsArray not found: ' + JSON.stringify(addToTipsArgsArray));
                 const user_id = userInfo[0].user_id;
                 const tip_id = addToTipsArgsArray[0].tip_id;
                 const future_tip_id = futureTipsID[0].tip_id;
