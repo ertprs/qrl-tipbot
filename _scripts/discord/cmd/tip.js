@@ -224,6 +224,7 @@ module.exports = {
                 console.log('f' + JSON.stringify(futureTipsID));
                 //add to tips_to database and mark as a future tip with the tipID
                 //
+                console.log('addToTipsArgsArray not found: ' + JSON.stringify(addToTipsArgsArray));
                 const user_id = userInfo[0].user_id;
                 const tip_id = addToTipsArgsArray[0].tip_id;
                 const future_tip_id = futureTipsID[0].tip_id;
