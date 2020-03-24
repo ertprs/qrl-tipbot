@@ -157,6 +157,7 @@ module.exports = {
         return id.id;
       });
       const stringUserIDs = allServiceIDs.join();
+      console.log('stringUserIDs' + stringUserIDs);
       // add users to the tips db and create a tip_id to track this tip through
       // we need to send { trans_id, from_user_id, to_users_id, tip_amount, from_service, time_stamp}
       const addToTipsDBinfo = { from_user_id: userID, to_users_id: stringUserIDs, tip_amount: tipAmountQuanta, from_service: 'discord', time_stamp: new Date() };
@@ -171,6 +172,7 @@ module.exports = {
       });
       let found_count = 0;
       let not_found_count = 0;
+
       // tip_id created, sort the users found and not-found
       async function tip() {
         const iterator = UserIDList.entries();
@@ -200,6 +202,9 @@ module.exports = {
                   const tipTo_user_wallet = tippedUserInfo[0].wallet_pub;
                   found_addressTo.push(tipTo_user_wallet);
                   found_tipAmount.push(tipAmount);
+                  // add user to tip_to here?
+                  //
+
                 }
               }
             }
@@ -254,6 +259,7 @@ module.exports = {
           const addTransactionPromise = addTransaction(txInfo);
           addTransactionPromise.then(function(txRes) {
             console.log('txRes' + JSON.stringify(txRes));
+
             return txRes;
           });
           message.channel.stopTyping(true);

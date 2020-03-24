@@ -237,7 +237,6 @@ callmysql.connect(function(err) {
   // create the `tips` table to hold all info from a tip event
   const createTips = `create table if not exists tips(
                               id int primary key auto_increment,
-                              trans_id int,
                               from_user_id varchar(255) not null,
                               to_users_id varchar(600) not null,
                               tip_amount DECIMAL(24,9) not null,
@@ -276,23 +275,6 @@ callmysql.connect(function(err) {
     // console.log(results);
   });
 
-
-  const createTipsFrom = `create table if not exists tips_from(
-                        id int primary key auto_increment,
-                        tip_id int not null,
-                        user_id int not null,
-                        total_tip DECIMAL(24,9) not null,
-                        tip_to_count int not null,
-                        time_stamp DATETIME not null
-                      )`;
-  callmysql.query(createTipsFrom, function(err, results) {
-    if (err) {
-      console.log(err.message);
-    }
-    // log the output of sql command
-    // console.log('createTipsFrom results:');
-    // console.log(results);
-  });
 
   const createTipsTo = `create table if not exists tips_to(
                         id int primary key auto_increment,
