@@ -18,6 +18,7 @@ module.exports = {
     const GetAllUserInfo = dbHelper.GetAllUserInfo;
     const addFutureTips = dbHelper.addFutureTip;
     const addTransaction = dbHelper.addTransaction;
+    const add_tip_to = dbHelper.addTipTo;
     const addToTips = dbHelper.addTip;
     const username = `${message.author}`;
     const userID = username.slice(1, -1);
@@ -203,8 +204,13 @@ module.exports = {
                   found_addressTo.push(tipTo_user_wallet);
                   found_tipAmount.push(tipAmount);
                   // add user to tip_to here?
-                  //
-
+                  //add_tip_to
+                  const user_id = userInfo[0].user_id;
+                  const tip_id = addToTipsArgsArray[0].tip_id;
+                  const add_tip_to_info = { tip_id: tip_id, tip_amt: tipAmount, user_id: user_id };
+                  add_tip_to(add_tip_to_info).then(function(tip_toResults) {
+                    console.log('tip_toResults: ' + JSON.stringify(tip_toResults));
+                  });
                 }
               }
             }
@@ -214,8 +220,17 @@ module.exports = {
               // We need to send { service: SERVICE, user_id: SERVICE_ID, user_name: SERVICE_user_name, tip_from: tipFrom_user_id, tip_amount: tip_to_user_amount, time_stamp: date_tip_was_made }
               const usernNotFoundInfo = { service: 'discord', user_id: serviceid, user_name: serviceUserName, tip_from: userID, tip_amount: tipAmountQuanta };
               const addTo_Future_tipsPromise = addFutureTips(usernNotFoundInfo);
-              addTo_Future_tipsPromise.then(function() {
-                console.log('f');
+              addTo_Future_tipsPromise.then(function(futureTipsID) {
+                console.log('f' + JSON.stringify(futureTipsID));
+                //add to tips_to database and mark as a future tip with the tipID
+                //
+                const user_id = userInfo[0].user_id;
+                const tip_id = addToTipsArgsArray[0].tip_id;
+                const future_tip_id = futureTipsID[0].tip_id;
+                const add_tip_to_info = { tip_id: tip_id, tip_amt: tipAmount, user_id: user_id, future_tip_id: future_tip_id };
+                add_tip_to(add_tip_to_info).then(function(tip_toResults) {
+                  console.log('tip_toResults: ' + JSON.stringify(tip_toResults));
+                })
               });
             }
           });

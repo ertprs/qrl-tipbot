@@ -277,8 +277,9 @@ callmysql.connect(function(err) {
 
   const createTipsTo = `create table if not exists tips_to(
                         id int primary key auto_increment,
-                        tip_id int not null,
+                        tip_id int,
                         user_id int not null,
+                        future_tip_id int,
                         tip_amt DECIMAL(24,9) not null,
                         time_stamp DATETIME not null
                       )`;
