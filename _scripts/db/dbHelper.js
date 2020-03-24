@@ -532,7 +532,7 @@ async function addFutureTip(args) {
     const tip_paidout = '0';
     const user_infoValues = [ [service, user_id, user_name, tip_from, tip_amount, tip_paidout, time_stamp] ];
     const addTo_users_info = 'INSERT INTO future_tips(service, user_id, user_name, tip_from, tip_amount, tip_paidout, time_stamp) VALUES ?';
-    console.log('addToFutureTipsInfo: ' + addTo_users_info + ' ' + user_infoValues);
+    // console.log('addToFutureTipsInfo: ' + addTo_users_info + ' ' + user_infoValues);
     callmysql.query(addTo_users_info, [user_infoValues], function(err, addFutureTipRes) {
       if (err) {
         console.log('[mysql error]', err);
@@ -608,7 +608,7 @@ async function addTipTo(args) {
 
 async function agree(args) {
   // expect { service: , user_id: }
-  console.log('\nargee args:' + JSON.stringify(args));
+  // console.log('\nargee args:' + JSON.stringify(args));
   return new Promise(resolve => {
     const txArray = [];
     const user_id = args.user_id;
@@ -631,7 +631,7 @@ async function agree(args) {
 
 async function CheckAgree(args) {
   return new Promise(resolve => {
-    console.log('CheckAgree args: ' + JSON.stringify(args));
+    // console.log('CheckAgree args: ' + JSON.stringify(args));
     if(args) {
       // args passed, check for the service used
       const input = JSON.parse(JSON.stringify(args));
