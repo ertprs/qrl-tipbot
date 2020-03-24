@@ -238,7 +238,6 @@ callmysql.connect(function(err) {
   const createTips = `create table if not exists tips(
                               id int primary key auto_increment,
                               from_user_id varchar(255) not null,
-                              to_users_id varchar(600) not null,
                               tip_amount DECIMAL(24,9) not null,
                               from_service ENUM('discord', 'keybase', 'github', 'reddit', 'trello', 'twitter', 'slack', 'telegram', 'whatsapp'),
                               time_stamp DATETIME not null
