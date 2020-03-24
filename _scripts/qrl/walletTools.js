@@ -114,7 +114,8 @@ async function totalBalance() {
 async function GetBalance(args) {
   // using the wallet API get this info and return to script
   if (args !== null) {
-    const { stdout, stderr } = await exec('curl -s -XGET ' + config.bot_details.explorer_url + '/api/a/' + args + ' |jq .state.balance');
+    // const { stdout, stderr } = await exec('curl -s -XGET ' + config.bot_details.explorer_url + '/api/a/' + args + ' |jq .state.balance');
+    const { stdout, stderr } = await exec('curl -XPOST http://127.0.0.1:5359/api/GetBalance -d \'{"address": "Q010600a9313090b8b7c63f55b1e98eb098d2a7a844ba283a1efc34c8da9fd68378365af3213673"}\' |jq .balance');
     if (stderr) {
       console.error(`error: ${stderr}`);
     }
