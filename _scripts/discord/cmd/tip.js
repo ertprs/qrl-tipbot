@@ -207,10 +207,22 @@ module.exports = {
                   //add_tip_to
                   const user_id = userInfo[0].user_id;
                   const tip_id = addToTipsArgsArray[0].tip_id;
+                  // check that tip_id is there, else wait for it...
+                  const check_tip_id = function() {
+                    if (tip_id !== undefined) {
+                      console.log('tip_id is set yet ' + tip_id);
+                    }
+                    else {
+                      setTimeout(check, 100); //check again in a sec
+                    }
+                  }
+                  check_tip_id();
+
                   const add_tip_to_info = { tip_id: tip_id, tip_amt: tipAmountQuanta, user_id: user_id };
                   add_tip_to(add_tip_to_info).then(function(tip_toResults) {
                     // console.log('tip_toResults: ' + JSON.stringify(tip_toResults));
                   });
+                    }
                 }
               }
             }
