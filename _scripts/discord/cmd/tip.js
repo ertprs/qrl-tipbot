@@ -207,7 +207,7 @@ module.exports = {
                   //add_tip_to
                   const user_id = userInfo[0].user_id;
                   const tip_id = addToTipsArgsArray[0].tip_id;
-                  const add_tip_to_info = { tip_id: tip_id, tip_amt: tipAmount, user_id: user_id };
+                  const add_tip_to_info = { tip_id: tip_id, tip_amt: tipAmountQuanta, user_id: user_id };
                   add_tip_to(add_tip_to_info).then(function(tip_toResults) {
                     console.log('tip_toResults: ' + JSON.stringify(tip_toResults));
                   });
@@ -227,7 +227,7 @@ module.exports = {
                 const user_id = userInfo[0].user_id;
                 const tip_id = addToTipsArgsArray[0].tip_id;
                 const future_tip_id = futureTipsID[0].tip_id;
-                const add_tip_to_info = { tip_id: tip_id, tip_amt: tipAmount, user_id: user_id, future_tip_id: future_tip_id };
+                const add_tip_to_info = { tip_id: tip_id, tip_amt: tipAmountQuanta, user_id: user_id, future_tip_id: future_tip_id };
                 add_tip_to(add_tip_to_info).then(function(tip_toResults) {
                   console.log('tip_toResults: ' + JSON.stringify(tip_toResults));
                 })
