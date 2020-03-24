@@ -204,25 +204,23 @@ module.exports = {
                   found_addressTo.push(tipTo_user_wallet);
                   found_tipAmount.push(tipAmount);
                   // add user to tip_to here?
-                  //add_tip_to
+                  // add_tip_to
                   const user_id = userInfo[0].user_id;
                   const tip_id = addToTipsArgsArray[0].tip_id;
-                  // check that tip_id is there, else wait for it...
+                  // check that tip_id is ther, else wait for it...
+
                   const check_tip_id = function() {
-                    if (tip_id !== undefined) {
-                      console.log('tip_id is set yet ' + tip_id);
+                    if(tip_id == undefined) {
+                      // check again in a second
+                      setTimeout(check_tip_id, 1000);
                     }
-                    else {
-                      setTimeout(check, 100); //check again in a sec
-                    }
-                  }
+                  };
                   check_tip_id();
 
                   const add_tip_to_info = { tip_id: tip_id, tip_amt: tipAmountQuanta, user_id: user_id };
                   add_tip_to(add_tip_to_info).then(function(tip_toResults) {
                     // console.log('tip_toResults: ' + JSON.stringify(tip_toResults));
                   });
-                    }
                 }
               }
             }
@@ -239,11 +237,19 @@ module.exports = {
                 // console.log('addToTipsArgsArray not found: ' + JSON.stringify(addToTipsArgsArray));
                 const user_id = userInfo[0].user_id;
                 const tip_id = addToTipsArgsArray[0].tip_id;
+                // check that tip_id is ther, else wait for it...
+                const check_tip_id = function() {
+                 if(tip_id == undefined) {
+                    // check again in a second
+                    setTimeout(check_tip_id, 1000);
+                  }
+                };
+                check_tip_id();
                 const future_tip_id = futureTipsID[0].tip_id;
                 const add_tip_to_info = { tip_id: tip_id, tip_amt: tipAmountQuanta, user_id: user_id, future_tip_id: future_tip_id };
                 add_tip_to(add_tip_to_info).then(function(tip_toResults) {
                   // console.log('tip_toResults: ' + JSON.stringify(tip_toResults));
-                })
+                });
               });
             }
           });
