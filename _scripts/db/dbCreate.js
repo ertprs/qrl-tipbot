@@ -295,6 +295,7 @@ callmysql.connect(function(err) {
   const createTransactions = `create table if not exists transactions(
                                 id int primary key auto_increment,
                                 tip_id int not null,
+                                tx_type ENUM('faucet', 'tip', 'withdraw'),
                                 tx_hash varchar(255) not null,
                                 time_stamp DATETIME not null
                              )`;

@@ -93,7 +93,7 @@ module.exports = {
     }
     // get  tip-from-user info values from database since correct input(args) were given
     GetAllUserInfoPromise.then(function(userInfo) {
-      console.log('GETALLUSRERINFO: ' + JSON.stringify(userInfo));
+      // console.log('GETALLUSRERINFO: ' + JSON.stringify(userInfo));
       const found = userInfo[0].user_found;
       if (found == 'false') {
         message.channel.stopTyping(true);
@@ -158,7 +158,7 @@ module.exports = {
         return id.id;
       });
       const stringUserIDs = allServiceIDs.join();
-      console.log('stringUserIDs' + stringUserIDs);
+      // console.log('stringUserIDs' + stringUserIDs);
       // add users to the tips db and create a tip_id to track this tip through
       // we need to send { trans_id, from_user_id, to_users_id, tip_amount, from_service, time_stamp}
       const addToTipsDBinfo = { from_user_id: userID, to_users_id: stringUserIDs, tip_amount: tipAmountQuanta, from_service: 'discord', time_stamp: new Date() };
@@ -179,14 +179,14 @@ module.exports = {
         const iterator = UserIDList.entries();
         for (const Service_ID of message.mentions.users) {
           const Value = iterator.next().value;
-          console.log('VALUE: ' + JSON.stringify(Value));
+          // console.log('VALUE: ' + JSON.stringify(Value));
           // set the users values to variables from the iterator.next().value we got from above
           const serviceid = Value[1].Service_ID;
           const serviceUserName = Value[1].service_user_name;
           const GetAllTipedUserInfoPromise = GetAllUserInfo({ service: 'discord', service_id: serviceid });
           // search for the tipto user here in the database with info from above
           await GetAllTipedUserInfoPromise.then(function(tippedUserInfo) {
-            console.log('tippedUserInfo ' + JSON.stringify(tippedUserInfo));
+            // console.log('tippedUserInfo ' + JSON.stringify(tippedUserInfo));
             const tippedUserFound = tippedUserInfo.user_found;
             if (tippedUserFound == 'true') {
               const tippedUsedOptOut = tippedUserInfo[4].opt_out;
@@ -209,7 +209,7 @@ module.exports = {
                   const tip_id = addToTipsArgsArray[0].tip_id;
                   const add_tip_to_info = { tip_id: tip_id, tip_amt: tipAmountQuanta, user_id: user_id };
                   add_tip_to(add_tip_to_info).then(function(tip_toResults) {
-                    //console.log('tip_toResults: ' + JSON.stringify(tip_toResults));
+                    // console.log('tip_toResults: ' + JSON.stringify(tip_toResults));
                   });
                 }
               }
@@ -221,8 +221,8 @@ module.exports = {
               const usernNotFoundInfo = { service: 'discord', user_id: serviceid, user_name: serviceUserName, tip_from: userID, tip_amount: tipAmountQuanta };
               const addTo_Future_tipsPromise = addFutureTips(usernNotFoundInfo);
               addTo_Future_tipsPromise.then(function(futureTipsID) {
-                console.log('f' + JSON.stringify(futureTipsID));
-                //add to tips_to database and mark as a future tip with the tipID
+                // console.log('f' + JSON.stringify(futureTipsID));
+                // add to tips_to database and mark as a future tip with the tipID
                 //
                 // console.log('addToTipsArgsArray not found: ' + JSON.stringify(addToTipsArgsArray));
                 const user_id = userInfo[0].user_id;
@@ -230,7 +230,7 @@ module.exports = {
                 const future_tip_id = futureTipsID[0].tip_id;
                 const add_tip_to_info = { tip_id: tip_id, tip_amt: tipAmountQuanta, user_id: user_id, future_tip_id: future_tip_id };
                 add_tip_to(add_tip_to_info).then(function(tip_toResults) {
-                  console.log('tip_toResults: ' + JSON.stringify(tip_toResults));
+                  // console.log('tip_toResults: ' + JSON.stringify(tip_toResults));
                 })
               });
             }
@@ -271,10 +271,10 @@ module.exports = {
           const tx_hash = transferOutput.tx.transaction_hash;
           // write to transactions db
           const tip_id = addToTipsArgsArray[0].tip_id;
-          const txInfo = { tip_id: tip_id, tx_hash: tx_hash };
+          const txInfo = { tip_id: tip_id, tx_type: 'tip', tx_hash: tx_hash };
           const addTransactionPromise = addTransaction(txInfo);
           addTransactionPromise.then(function(txRes) {
-            console.log('txRes' + JSON.stringify(txRes));
+            // console.log('txRes' + JSON.stringify(txRes));
 
             return txRes;
           });

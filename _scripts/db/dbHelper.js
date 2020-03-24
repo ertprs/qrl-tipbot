@@ -563,10 +563,11 @@ async function addTransaction(args) {
     const txArray = [];
     // const input = JSON.parse(JSON.stringify(args));
     const tip_id = args.tip_id;
+    const tx_type = args.tx_type;
     const tx_hash = args.tx_hash;
     // insert data into transactions db
-    const user_infoValues = [ [tip_id, tx_hash, new Date()] ];
-    const addto_Transaction_table = 'INSERT INTO transactions(tip_id, tx_hash, time_stamp) VALUES ?';
+    const user_infoValues = [ [tip_id, tx_type, tx_hash, new Date()] ];
+    const addto_Transaction_table = 'INSERT INTO transactions(tip_id, tx_type, tx_hash, time_stamp) VALUES ?';
     callmysql.query(addto_Transaction_table, [user_infoValues], function(err, addFutureTipRes) {
       if (err) {
         console.log('[mysql error]', err);
