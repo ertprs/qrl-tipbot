@@ -582,7 +582,7 @@ async function addTransaction(args) {
 
 
 async function addTipTo(args) {
-  // exepct { tip_id: fromTipDB, tip_amt: user_id, tip_amt: tip_amt }
+  // exepct { tip_id: fromTipDB, user_id: user_id, tip_amt: tip_amt, future_tip_id: future_tip_id }
   return new Promise(resolve => {
     const txArray = [];
     // const input = JSON.parse(JSON.stringify(args));
