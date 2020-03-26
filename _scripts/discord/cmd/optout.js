@@ -166,7 +166,7 @@ module.exports = {
                     // transfer to the bot donate address set in the config.bot_details.bot_donationAddress setting.
                     const transferInfo = { address_to: address_to, amount: amount, fee: fee, address_from: wallet_pub };
                     console.log('transferInfo: ' + JSON.stringify(transferInfo));
-                    transfer(transferInfo);
+                    transfer(transferInfo)
                       .then(function(transferQrl) {
                         const transferOutput = JSON.stringify(transferQrl);
                         console.log('transferOutput: ' + transferOutput)
