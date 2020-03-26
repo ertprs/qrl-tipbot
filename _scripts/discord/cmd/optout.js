@@ -134,7 +134,7 @@ module.exports = {
                       OptOut.then(function(results) {
                         console.log('results: ' + JSON.stringify(results));
                         message.channel.stopTyping(true);
-                        message.auhor.send('\nUser now opted out.\n:wave: ');
+                        message.auhor.send('User now opted out.\n:wave: ');
                         return results;
                       });
                     });
