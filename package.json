@@ -22,9 +22,9 @@
 
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "initDB": "node ./_scripts/db/createAllDBs.js",
-    "addTestData": "node ./_scripts/db/addTestData.js",
-    "DiscordBot": "node ./_scripts/discord/index.js"
+    "initDB": "nodejs ./_scripts/db/createAllDBs.js",
+    "addTestData": "nodejs ./_scripts/db/addTestData.js",
+    "DiscordBot": "nodejs ./_scripts/discord/index.js"
   },
   "repository": {
     "type": "git",
