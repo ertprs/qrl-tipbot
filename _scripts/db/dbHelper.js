@@ -64,7 +64,7 @@ async function GetAllUserInfo(args) {
         // const foundRes = { user_found: 'true' };
         foundResArray.push({ user_found: 'true', user_agree: 'true', wallet_pub: wallet_pub, wallet_bal: wallet_bal, user_id: U_id, user_name: user_name, opt_out: opt_out, optout_date: optout_date });
         // Array.prototype.push.apply(foundResArray, infoResult);
-        // console.log('getAllInfoSearch foundResArray ' + JSON.stringify(foundResArray));
+        console.log('getAllInfoSearch foundResArray ' + JSON.stringify(foundResArray));
         resolve(foundResArray);
         return foundResArray;
       });
