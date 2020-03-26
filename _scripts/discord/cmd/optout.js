@@ -113,9 +113,10 @@ module.exports = {
                   if (message.mentions.users.size > 0) {
                     const users_Service_ID = message.mentions.users.first().id;
                     const service_ID = '@' + users_Service_ID;
-                    console.log('users serviceID mentioned' + service_ID);
+                    console.log('users serviceID mentioned: ' + service_ID);
                     const GetAllUserInfoPromise = GetAllUserInfo({ service: 'discord', service_id: service_ID });
                     GetAllUserInfoPromise.then(function(userInfo) {
+                      console.log('userInfo: ' + JSON.stringify(userInfo));
                       if (userInfo[0].user_id == undefined) {
                         console.log('user not found' + userInfo[0].user_id);
                         return;
