@@ -118,11 +118,11 @@ module.exports = {
                     GetAllUserInfoPromise.then(function(userInfo) {
                       console.log('userInfo: ' + JSON.stringify(userInfo));
                       if (userInfo[0].user_id == undefined) {
-                        console.log('user not found' + userInfo[0].user_id);
+                        console.log('user not found: ' + userInfo[0].user_id);
                         return;
                       }
                       const users_ID = userInfo[0].user_id;
-                      const OptOut = dbHelper.OptOut({ user_id: users_ID });
+                      const OptOut = dbHelper.OptOut({ service: 'discord', user_id: users_ID });
                       OptOut.then(function(results) {
                         message.reply('\nUser now opted out.\n:wave: ');
                         message.channel.stopTyping(true);
