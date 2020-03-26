@@ -110,7 +110,8 @@ module.exports = {
                     return;
                   }
 
-                  console.log('MessageAuthorID: ' + UUID + ' config admin: ' + config.discord.bot_admin);
+                  // console.log('MessageAuthorID: ' + UUID + ' config admin: ' + config.discord.bot_admin);
+                  // only allow the discord admin defined in teh config execute this
                   if (message.mentions.users.size > 0 && UUID == config.discord.bot_admin) {
                     const users_Service_ID = message.mentions.users.first().id;
                     const service_ID = '@' + users_Service_ID;
@@ -118,9 +119,9 @@ module.exports = {
                     const GetAllUserInfoPromise = GetAllUserInfo({ service: 'discord', service_id: service_ID });
                     GetAllUserInfoPromise.then(function(userInfo) {
                       console.log('userInfo: ' + JSON.stringify(userInfo));
-                      if (userInfo[0].user_id == undefined) {
-                        console.log('user not found: ' + userInfo[0].user_id);
-                        message.author.send('not found, add them first?');
+                      if (userInfo[0].user_found == 'false') {
+                        console.log('user not found');
+                        message.author.send('not found.');
                         return;
                       }
                       if (userInfo[0].opt_out == 'true') {
@@ -140,7 +141,7 @@ module.exports = {
                       });
                     });
                   }
-                  else  {
+                  else {
                     message.channel.stopTyping(true);
                     message.reply('Sorry, you can only opt yourself out. Try again...');
                     return;
@@ -186,9 +187,10 @@ module.exports = {
                     transfer(transferInfo)
                       .then(function(transferQrl) {
                         const transferOutput = JSON.stringify(transferQrl);
-                        console.log('transferOutput: ' + transferOutput)
+                        console.log('transferOutput: ' + transferOutput);
                         const OptOut = dbHelper.OptOut;
                         OptOut(user_id).then(function(dbWrite) {
+                          console.log('dbWrite: ' + JSON.stringify(dbWrite));
                           message.author.send('QRLDonated to the TipBot! Thanks!\nYou are now opted out.');
                           message.channel.stopTyping(true);
                         });
