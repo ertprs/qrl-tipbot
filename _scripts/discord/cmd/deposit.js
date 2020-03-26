@@ -48,6 +48,7 @@ module.exports = {
                 .addField('For all of my commands:\t', '`+help`');
               message.author.send({ embed })
                 .then(() => {
+                  message.author.send(wallet_pub)
                   if (message.channel.type === 'dm') return;
                   message.reply('Details in your DM');
                   message.channel.stopTyping(true);
