@@ -121,6 +121,7 @@ module.exports = {
                       console.log('userInfo: ' + JSON.stringify(userInfo));
                       if (userInfo[0].user_id == undefined) {
                         console.log('user not found: ' + userInfo[0].user_id);
+                        message.author.send('not found, add them first?');
                         return;
                       }
                       const users_ID = userInfo[0].user_id;
@@ -132,6 +133,10 @@ module.exports = {
                         return results;
                       });
                     });
+                  }
+                  else  {
+                    message.reply('Sorry, you can only opt yourself out. Try again...')
+                    return;
                   }
                   // :::: TO-DO:::::
                   // - add write to withdrawls db
