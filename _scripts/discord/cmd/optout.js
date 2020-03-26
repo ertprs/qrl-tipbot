@@ -110,7 +110,9 @@ module.exports = {
                     return;
                   }
 
-                  if (message.mentions.users.size > 0) {
+                  console.log('MessageAuthorID: ' + MessageAuthorID + ' config admin: ' + config.discord.bot_admin)
+                  
+                  if (message.mentions.users.size > 0 && MessageAuthorID == config.discord.bot_admin) {
                     const users_Service_ID = message.mentions.users.first().id;
                     const service_ID = '@' + users_Service_ID;
                     console.log('users serviceID mentioned: ' + service_ID);
