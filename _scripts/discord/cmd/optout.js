@@ -124,6 +124,11 @@ module.exports = {
                         message.author.send('not found, add them first?');
                         return;
                       }
+                      if (userInfo[0].opt_out == 'true') {
+                        console.log('User already opted out' + userInfo)
+                        message.author.send('opted out already?');
+                        return;
+                      }
                       const users_ID = userInfo[0].user_id;
                       const OptOut = dbHelper.OptOut({ service: 'discord', user_id: users_ID });
                       OptOut.then(function(results) {
