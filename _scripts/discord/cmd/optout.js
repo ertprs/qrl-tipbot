@@ -124,8 +124,9 @@ module.exports = {
                       const users_ID = userInfo[0].user_id;
                       const OptOut = dbHelper.OptOut({ service: 'discord', user_id: users_ID });
                       OptOut.then(function(results) {
-                        message.reply('\nUser now opted out.\n:wave: ');
+                        console.log('results: ' + JSON.stringify(results));
                         message.channel.stopTyping(true);
+                        message.reply('\nUser now opted out.\n:wave: ');
                         return results;
                       });
                     });
