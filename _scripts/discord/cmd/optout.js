@@ -109,11 +109,17 @@ module.exports = {
                     message.channel.stopTyping(true);
                     return;
                   }
+
                   if (message.mentions.users.size > 0) {
                     const users_Service_ID = message.mentions.users.first().id;
                     const service_ID = '@' + users_Service_ID;
+                    console.log('users serviceID mentioned' + service_ID);
                     const GetAllUserInfoPromise = GetAllUserInfo({ service: 'discord', service_id: service_ID });
                     GetAllUserInfoPromise.then(function(userInfo) {
+                      if (userInfo[0].user_id == undefined) {
+                        console.log('user not found' + userInfo[0].user_id);
+                        return;
+                      }
                       const users_ID = userInfo[0].user_id;
                       const OptOut = dbHelper.OptOut({ user_id: users_ID });
                       OptOut.then(function(results) {
@@ -158,9 +164,12 @@ module.exports = {
                     const fee = config.wallet.tx_fee * 1000000000;
                     const address_to = config.bot_details.bot_donationAddress;
                     // transfer to the bot donate address set in the config.bot_details.bot_donationAddress setting.
-                    transfer({ address_to: address_to, amount: amount, fee: fee, address_from: wallet_pub })
+                    const transferInfo = { address_to: address_to, amount: amount, fee: fee, address_from: wallet_pub };
+                    console.log('transferInfo: ' + JSON.stringify(transferInfo));
+                    transfer(transferInfo);
                       .then(function(transferQrl) {
                         const transferOutput = JSON.stringify(transferQrl);
+                        console.log('transferOutput: ' + transferOutput)
                         const OptOut = dbHelper.OptOut;
                         OptOut(user_id).then(function(dbWrite) {
                           message.author.send('QRLDonated to the TipBot! Thanks!\nYou are now opted out.');
