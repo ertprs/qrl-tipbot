@@ -110,8 +110,7 @@ module.exports = {
                     return;
                   }
 
-                  console.log('MessageAuthorID: ' + UUID + ' config admin: ' + config.discord.bot_admin)
-                  
+                  console.log('MessageAuthorID: ' + UUID + ' config admin: ' + config.discord.bot_admin);
                   if (message.mentions.users.size > 0 && UUID == config.discord.bot_admin) {
                     const users_Service_ID = message.mentions.users.first().id;
                     const service_ID = '@' + users_Service_ID;
@@ -126,6 +125,7 @@ module.exports = {
                       }
                       if (userInfo[0].opt_out == 'true') {
                         console.log('User already opted out' + userInfo);
+                        message.channel.stopTyping(true);
                         message.author.send('opted out already?');
                         return;
                       }
@@ -141,7 +141,8 @@ module.exports = {
                     });
                   }
                   else  {
-                    message.reply('Sorry, you can only opt yourself out. Try again...')
+                    message.channel.stopTyping(true);
+                    message.reply('Sorry, you can only opt yourself out. Try again...');
                     return;
                   }
                   // :::: TO-DO:::::
@@ -161,9 +162,10 @@ module.exports = {
                       const address_to = args[1];
                       transfer({ address_to: address_to, amount: amount, fee: fee, address_from: wallet_pub })
                         .then(function(transferQrl) {
-                          const transferOutput = JSON.stringify(transferQrl);
+                          // const transferOutput = JSON.stringify(transferQrl);
                           const OptOut = dbHelper.OptOut;
                           OptOut(user_id).then(function(dbWrite) {
+                            console.log('dbWrite: ' + JSON.stringify(dbWrite));
                             message.author.send('QRL Transfered to the address given. Look for it in the [QRL Explorer](https://explorer.theqrl.org/a/' + transferQrl.tx + '\nYou are now opted out of the Tip Bot.');
                             message.channel.stopTyping(true);
                           });
