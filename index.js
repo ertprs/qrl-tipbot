@@ -4,7 +4,7 @@
 const health = require('./_test/health/healthcheck');
 const fs = require('fs');
 const service = '';
-
+console.log('1');
 
 // from https://nodejs.org/api/child_process.html#child_process_child_process_spawn_command_args_options
 const { spawn } = require('child_process');
@@ -12,33 +12,45 @@ const { spawn } = require('child_process');
 //const err = fs.openSync('./' + service + 'out.log', 'a');
 
 const pwd = spawn("pwd", ["./"]);
+console.log('2');
 
 
 pwd.stdout.on("data", data => {
     console.log(`stdout: ${data}`);
 });
+console.log('3');
 
 pwd.stderr.on("data", data => {
     console.log(`stderr: ${data}`);
 });
+console.log('4');
 
 pwd.on('error', (error) => {
     console.log(`error: ${error.message}`);
 });
+console.log('5');
+
 
 pwd.on("close", code => {
     console.log(`child process exited with code ${code}`);
 });
 
 
+console.log('');
 
 
 
 
 function spawnDiscordBot() {
+	console.log('1.1');
+
   const service = 'discord';
   const out = fs.openSync('./' + service + 'out.log', 'a');
+  console.log('1.2');
+
   const err = fs.openSync('./' + service + 'out.log', 'a');
+  console.log('1.3');
+
   const spawnDiscord = spawn('nodejs ', ['./_scripts/discord/index.js'] , {
     detached: true,
     stdio: [ 'ignore', out, err ]
