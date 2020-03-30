@@ -60,7 +60,12 @@ module.exports = {
             });
           });
         }
-        
+        else {
+          message.channel.stopTyping(true);
+          message.reply('Sorry, you can only opt yourself out. Try again...');
+          return;
+        }
+
         // user found, check opt-out and act
         const user_id = foundRes.user_id;
         const check_opt_out = dbHelper.CheckUserOptOut;
