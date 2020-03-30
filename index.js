@@ -1,11 +1,13 @@
+#!/bin/sh
+':' //; exec "$(command -v nodejs || command -v node)" "$0" "$@"
+
+
 'use strict';
 // require the health check script
 
 const health = require('./_test/health/healthcheck');
 const fs = require('fs');
 const service = '';
-console.log('1');
-
 // from https://nodejs.org/api/child_process.html#child_process_child_process_spawn_command_args_options
 const { spawn } = require('child_process');
 //const out = fs.openSync('./' + service + 'out.log', 'a');
@@ -20,17 +22,14 @@ function spawnDiscordBot() {
 spawnDiscord.stdout.on("data", data => {
     console.log(`stdout: ${data}`);
 });
-console.log('3');
 
 spawnDiscord.stderr.on("data", data => {
     console.log(`stderr: ${data}`);
 });
-console.log('4');
 
 spawnDiscord.on('error', (error) => {
     console.log(`error: ${error.message}`);
 });
-console.log('5');
 
 
 spawnDiscord.on("close", code => {
