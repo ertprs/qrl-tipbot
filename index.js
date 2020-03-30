@@ -11,37 +11,12 @@ const { spawn } = require('child_process');
 //const out = fs.openSync('./' + service + 'out.log', 'a');
 //const err = fs.openSync('./' + service + 'out.log', 'a');
 
-const pwd = spawn("pwd", ["./"]);
-console.log('2');
-
-
-pwd.stdout.on("data", data => {
-    console.log(`stdout: ${data}`);
-});
-console.log('3');
-
-pwd.stderr.on("data", data => {
-    console.log(`stderr: ${data}`);
-});
-console.log('4');
-
-pwd.on('error', (error) => {
-    console.log(`error: ${error.message}`);
-});
-console.log('5');
-
-
-pwd.on("close", code => {
-    console.log(`child process exited with code ${code}`);
-});
-
-
 
 function spawnDiscordBot() {
 	console.log('1.1');
 
   const spawnDiscord = spawn('/usr/bin/nodejs ', ['./_scripts/discord/index.js']);
-  
+
 spawnDiscord.stdout.on("data", data => {
     console.log(`stdout: ${data}`);
 });
