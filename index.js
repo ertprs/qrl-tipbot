@@ -39,7 +39,7 @@ function spawnDiscordBot() {
   const service = 'discord';
   const out = fs.openSync('./' + service + 'out.log', 'a');
   const err = fs.openSync('./' + service + 'out.log', 'a');
-  const spawnDiscord = spawn('nodejs ', ['./_script/discord/index.js'] , {
+  const spawnDiscord = spawn('nodejs ', ['./_scripts/discord/index.js'] , {
     detached: true,
     stdio: [ 'ignore', out, err ]
   })
@@ -49,7 +49,7 @@ function spawnDiscordBot() {
   spawnDiscord.unref();
 }
 
-// spawnDiscordBot();
+spawnDiscordBot();
 
 
 /*
