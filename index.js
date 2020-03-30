@@ -11,7 +11,7 @@ const { spawn } = require('child_process');
 //const out = fs.openSync('./' + service + 'out.log', 'a');
 //const err = fs.openSync('./' + service + 'out.log', 'a');
 
-const pwd = spawn("pwd", ["."]);
+const pwd = spawn("pwd", ["./"]);
 
 
 pwd.stdout.on("data", data => {
