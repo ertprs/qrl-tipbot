@@ -36,29 +36,31 @@ pwd.on("close", code => {
 });
 
 
-console.log('');
-
-
-
 
 function spawnDiscordBot() {
 	console.log('1.1');
 
-  const service = 'discord';
-  const out = fs.openSync('./' + service + 'out.log', 'a');
-  console.log('1.2');
+  const spawnDiscord = spawn('/usr/bin/nodejs ', ['./_scripts/discord/index.js']);
+  
+spawnDiscord.stdout.on("data", data => {
+    console.log(`stdout: ${data}`);
+});
+console.log('3');
 
-  const err = fs.openSync('./' + service + 'out.log', 'a');
-  console.log('1.3');
+spawnDiscord.stderr.on("data", data => {
+    console.log(`stderr: ${data}`);
+});
+console.log('4');
 
-  const spawnDiscord = spawn('/usr/bin/nodejs ', ['./_scripts/discord/index.js'] , {
-    detached: true,
-    stdio: [ 'ignore', out, err ]
-  })
-  // spawnDiscord.on('error', (err) => {
-    // console.error('Failed to start Discord Bot.');
-  // });
-  spawnDiscord.unref();
+spawnDiscord.on('error', (error) => {
+    console.log(`error: ${error.message}`);
+});
+console.log('5');
+
+
+spawnDiscord.on("close", code => {
+    console.log(`child process exited with code ${code}`);
+});
 }
 
 spawnDiscordBot();
