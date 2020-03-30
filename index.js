@@ -13,7 +13,7 @@ const { spawn } = require('child_process');
 console.log(`pwd`)
 
 
-spawn("pwd", ['./'], (error, stdout, stderr) => {
+spawn("pwd ./", (error, stdout, stderr) => {
     if (error) {
         console.log(`error: ${error.message}`);
         return;
