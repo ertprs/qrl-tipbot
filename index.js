@@ -1,7 +1,7 @@
 'use strict';
 // require the health check script
 
-const health = require('_test/health/healthCheck');
+const health = require('./_test/health/healthCheck');
 const fs = require('fs');
 const service = '';
 
