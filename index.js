@@ -12,7 +12,7 @@ const out = fs.openSync('./' + service + 'out.log', 'a');
 const err = fs.openSync('./' + service + 'out.log', 'a');
 
 
-function spawnDiscordBot() {
+
   const service = 'discord';
   const out = fs.openSync('./' + service + 'out.log', 'a');
   const err = fs.openSync('./' + service + 'out.log', 'a');
@@ -24,9 +24,7 @@ function spawnDiscordBot() {
     // console.error('Failed to start Discord Bot.');
   // });
   spawnDiscord.unref();
-}
 
-spawnDiscordBot();
 
 
 /*
