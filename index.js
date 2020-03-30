@@ -1,26 +1,34 @@
 'use strict';
 // require the health check script
 
-const health = require('./_test/health/healthcheck.js');
+const health = require('./_test/health/healthcheck');
 const fs = require('fs');
-// const service = '';
-  const service = 'discord';
+const service = '';
 
 
 // from https://nodejs.org/api/child_process.html#child_process_child_process_spawn_command_args_options
 const { spawn } = require('child_process');
-const spawnDiscord = spawn('nodejs ', ['_script/discord/index.js']);
-spawnDiscord.stdout.on('data', (data) => {
-  console.log(`stdout: ${data}`);
-});
+//const out = fs.openSync('./' + service + 'out.log', 'a');
+//const err = fs.openSync('./' + service + 'out.log', 'a');
 
-spawnDiscord.stderr.on('data', (data) => {
-  console.error(`stderr: ${data}`);
-});
 
-spawnDiscord.on('close', (code) => {
-  console.log(`child process exited with code ${code}`);
-});
+function spawnDiscordBot() {
+  const service = 'discord';
+  const out = fs.openSync('./' + service + 'out.log', 'a');
+  const err = fs.openSync('./' + service + 'out.log', 'a');
+  const spawnDiscord = spawn('nodejs ', ['./_script/discord/index.js'] , {
+    detached: true,
+    stdio: [ 'ignore', out, err ]
+  })
+  // spawnDiscord.on('error', (err) => {
+    // console.error('Failed to start Discord Bot.');
+  // });
+  spawnDiscord.unref();
+}
+
+spawnDiscordBot();
+
+
 /*
 const nodeCheck = health.NodeCheck();
 
