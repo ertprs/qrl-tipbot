@@ -17,7 +17,7 @@ const { spawn } = require('child_process');
 function spawnDiscordBot() {
 	console.log('1.1');
 
-  const spawnDiscord = spawn('nodejs ', ['./_scripts/discord/index.js']);
+  const spawnDiscord = spawn('./_scripts/discord/index.js');
 
 spawnDiscord.stdout.on("data", data => {
     console.log(`stdout: ${data}`);
