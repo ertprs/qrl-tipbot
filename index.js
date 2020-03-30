@@ -49,7 +49,7 @@ function spawnDiscordBot() {
   spawnDiscord.unref();
 }
 
-spawnDiscordBot();
+// spawnDiscordBot();
 
 
 /*
