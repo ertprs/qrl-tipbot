@@ -9,22 +9,18 @@ const fs = require('fs');
 
 // from https://nodejs.org/api/child_process.html#child_process_child_process_spawn_command_args_options
 const { spawn } = require('child_process');
-const out = fs.openSync('./' + service + 'out.log', 'a');
-const err = fs.openSync('./' + service + 'out.log', 'a');
+const spawnDiscord = spawn('nodejs ', ['_script/discord/index.js']);
+spawnDiscord.stdout.on('data', (data) => {
+  console.log(`stdout: ${data}`);
+});
 
-  const spawnDiscord = spawn('nodejs ', ['_script/discord/index.js']);
+spawnDiscord.stderr.on('data', (data) => {
+  console.error(`stderr: ${data}`);
+});
 
-  // , {
-//    detached: true,
-//    stdio: [ 'ignore', out, err ]
-//  })
-  // spawnDiscord.on('error', (err) => {
-    // console.error('Failed to start Discord Bot.');
-  // });
-  spawnDiscord.unref();
-
-
-
+spawnDiscord.on('close', (code) => {
+  console.log(`child process exited with code ${code}`);
+});
 /*
 const nodeCheck = health.NodeCheck();
 
