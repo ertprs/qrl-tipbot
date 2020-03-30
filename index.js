@@ -3,7 +3,8 @@
 
 const health = require('./_test/health/healthcheck.js');
 const fs = require('fs');
-const service = '';
+// const service = '';
+  const service = 'discord';
 
 
 // from https://nodejs.org/api/child_process.html#child_process_child_process_spawn_command_args_options
@@ -13,7 +14,6 @@ const err = fs.openSync('./' + service + 'out.log', 'a');
 
 
 
-  const service = 'discord';
   const out = fs.openSync('./' + service + 'out.log', 'a');
   const err = fs.openSync('./' + service + 'out.log', 'a');
   const spawnDiscord = spawn('nodejs ', ['_script/discord/index.js'] , {
