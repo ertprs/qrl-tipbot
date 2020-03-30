@@ -1,8 +1,6 @@
 #!/bin/sh
 ':' //; exec "$(command -v nodejs || command -v node)" "$0" "$@"
 
-
-'use strict';
 // require the health check script
 
 const health = require('./_test/health/healthcheck');
