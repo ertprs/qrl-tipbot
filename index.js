@@ -12,10 +12,6 @@ const { spawn } = require('child_process');
 const out = fs.openSync('./' + service + 'out.log', 'a');
 const err = fs.openSync('./' + service + 'out.log', 'a');
 
-
-
-  const out = fs.openSync('./' + service + 'out.log', 'a');
-  const err = fs.openSync('./' + service + 'out.log', 'a');
   const spawnDiscord = spawn('nodejs ', ['_script/discord/index.js'] , {
     detached: true,
     stdio: [ 'ignore', out, err ]
