@@ -51,7 +51,7 @@ function spawnDiscordBot() {
   const err = fs.openSync('./' + service + 'out.log', 'a');
   console.log('1.3');
 
-  const spawnDiscord = spawn('nodejs ', ['./_scripts/discord/index.js'] , {
+  const spawnDiscord = spawn('/usr/bin/nodejs ', ['./_scripts/discord/index.js'] , {
     detached: true,
     stdio: [ 'ignore', out, err ]
   })
