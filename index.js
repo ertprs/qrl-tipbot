@@ -1,11 +1,11 @@
-#!/bin/sh
-':' //; exec "$(command -v nodejs || command -v node)" "$0" "$@"
-
+'use strict';
 // require the health check script
 
 const health = require('./_test/health/healthcheck');
 const fs = require('fs');
 const service = '';
+console.log('1');
+
 // from https://nodejs.org/api/child_process.html#child_process_child_process_spawn_command_args_options
 const { spawn } = require('child_process');
 //const out = fs.openSync('./' + service + 'out.log', 'a');
@@ -15,24 +15,21 @@ const { spawn } = require('child_process');
 function spawnDiscordBot() {
 	console.log('1.1');
 
-  const spawnDiscord = spawn('./_scripts/discord/index.js');
+  const service = 'discord';
+  const out = fs.openSync('./' + service + 'out.log', 'a');
+  console.log('1.2');
 
-spawnDiscord.stdout.on("data", data => {
-    console.log(`stdout: ${data}`);
-});
+  const err = fs.openSync('./' + service + 'out.log', 'a');
+  console.log('1.3');
 
-spawnDiscord.stderr.on("data", data => {
-    console.log(`stderr: ${data}`);
-});
-
-spawnDiscord.on('error', (error) => {
-    console.log(`error: ${error.message}`);
-});
-
-
-spawnDiscord.on("close", code => {
-    console.log(`child process exited with code ${code}`);
-});
+  const spawnDiscord = spawn('./_scripts/discord/index.js' , {
+    detached: true,
+    stdio: [ 'ignore', out, err ]
+  })
+  // spawnDiscord.on('error', (err) => {
+    // console.error('Failed to start Discord Bot.');
+  // });
+  spawnDiscord.unref();
 }
 
 spawnDiscordBot();
