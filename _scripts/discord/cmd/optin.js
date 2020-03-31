@@ -32,7 +32,7 @@ module.exports = {
         return foundRes;
       }
       else {
-        console.log('MessageAuthorID: ' + UUID + ' config admin: ' + config.discord.bot_admin);
+        // console.log('MessageAuthorID: ' + UUID + ' config admin: ' + config.discord.bot_admin);
         // only allow the discord admin defined in teh config execute this
         if (message.mentions.users.size > 0 && UUID == config.discord.bot_admin) {
           const users_Service_ID = message.mentions.users.first().id;
