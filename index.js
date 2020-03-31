@@ -23,7 +23,7 @@ function spawnDiscordBot() {
   console.log('1.3');
 
   const spawnDiscord = spawn('./_scripts/discord/index.js' , {
-    detached: true,
+    detached: false,
     stdio: [ 'ignore', out, err ]
   })
   // spawnDiscord.on('error', (err) => {
