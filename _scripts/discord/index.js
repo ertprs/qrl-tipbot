@@ -40,13 +40,14 @@ for (const file of commandFiles) {
 // define cooldowns const
 const cooldowns = new Discord.Collection();
 // start the bot
+const now = new DATE();
 client.on('ready', () => {
   //console.log('client.users ' + JSON.stringify(client.users.cache));
   //console.log('client.cache ' + JSON.stringify(client.channels.cache));
   //console.log('client.guild ' + JSON.stringify(client.guilds.cache));
   console.log(chalk`
 {green ==========================}
-{cyan Discord TipBot Started ${new DATE()}}
+{cyan Discord TipBot Started ${now}}
 {blue {green !}\tConnected to {red ${client.guilds.cache.size}} guilds }
 {blue {green !}\tConnected to {red ${client.users.cache.size}} users } 
 {blue {green !}\tConnected to {red ${client.channels.cache.size}} channels }
