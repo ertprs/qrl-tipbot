@@ -79,7 +79,7 @@ client.on('message', message => {
 
   const commandName = args.shift().toLowerCase();
   // log everthing with ${config.discord.prefix} to console
-  console.log(chalk.cyan('Msg from: ') + chalk.green(message.author.username) + chalk.cyan(' msg: ') + chalk.green.underline(message.content));
+  console.log(chalk.cyan('Msg from: ') + chalk.green(message.author.username + ' id: <@' + message.author.id + '>' ) + chalk.cyan(' msg: ') + chalk.green.underline(message.content));
   //  if (!client.commands.has(commandName)) return;
   //    const command = client.commands.get(commandName);
   const command = client.commands.get(commandName)
