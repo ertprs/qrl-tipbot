@@ -7,9 +7,6 @@ module.exports = {
   usage: ' \n## Add your user to the QRL TipBot, creates an address and allows tipping.',
   cooldown: 0,
   execute(message) {
-    if(message.guild != null) {
-      message.delete();
-    }
     message.author.send(` 
             __**TipBot Terms and Conditions**__
 Use of this TipBot and any function it may provide to you, as the user, is at your risk. By using this service you agree to hold Tipbot, it's operators and all parties involved at no financial responsibility for any loss or perceived loss you may incur by using this service. By using this service you agree to not hold liable, for any reasons the owner, operators or any affiliates of the QRL TipBot, qrl.tips or any other party associated with this service. By using this service, you agree to not abuse or misuse the service. Abuse of this service may result in a ban from the service and if warrented legal action may be taken. By using this service you as the user agree to share information about your social media aaccount that was used to sign up to the service. At no point will this information be sold or used for any purpose other than this TipBot service.
@@ -30,6 +27,9 @@ Use of this TipBot and any function it may provide to you, as the user, is at yo
 __**IF YOU AGREE TO THESE TERMS**__ \`+agree\`
 __**IF YOU DO NOT AGREE TO THESE TERMS**__ \`+opt-out\`
     `)
+    if(message.guild != null) {
+      message.delete();
+    }
   },
 
 
