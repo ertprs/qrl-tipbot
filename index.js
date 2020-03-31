@@ -6,7 +6,11 @@ const fs = require('fs');
 const chalk = require('chalk');
 const service = '';
 
-setTimeout(console.log('Starting the ' + chalk.bgBlue.black('QRL TipBot')), 1500);
+setTimeout(function() {
+  console.log('Starting the ' + chalk.bgBlue.black('QRL TipBot'))
+  }, 1500);
+
+
 
 //console.log('Starting the ' + chalk.black.bgBlue.bold('QRL TipBot'));
 
@@ -18,7 +22,6 @@ const { spawn } = require('child_process');
 
 function spawnDiscordBot() {
 	console.log('Spawning the ' + chalk.bgCyan.black('Discord Bot') + '...');
-
   const service = 'discord';
   const out = fs.openSync('./' + service + '_bot.log', 'a');
 
