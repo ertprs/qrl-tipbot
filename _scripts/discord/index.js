@@ -47,7 +47,7 @@ client.on('ready', () => {
   console.log(chalk`
 ==========================
 Discord TipBot Started
- U+213x Connected to {blue ${client.guilds.cache.size}} guilds.
+ \U+213x Connected to {blue ${client.guilds.cache.size}} guilds.
  ℹ️ With {red ${client.users.cache.size}} users 
  ℹ️ in {green ${client.channels.cache.size}} channels 
 ==========================
