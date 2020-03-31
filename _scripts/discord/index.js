@@ -47,12 +47,12 @@ client.on('ready', () => {
   //console.log('client.cache ' + JSON.stringify(client.channels.cache));
   //console.log('client.guild ' + JSON.stringify(client.guilds.cache));
   console.log(chalk`
-{green ==========================}
+{green ==========================================}
 {cyan Discord TipBot Started at: ${nownow}}
   {blue {green !} Connected to {red ${client.guilds.cache.size}} guilds }
   {blue {green !} Connected to {red ${client.users.cache.size}} users } 
   {blue {green !} Connected to {red ${client.channels.cache.size}} channels }
-{green ==========================}
+{green ==========================================}
     `);
   client.user.setActivity('Tipping $$ QRL $$');
 });
