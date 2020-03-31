@@ -40,7 +40,7 @@ for (const file of commandFiles) {
 // define cooldowns const
 const cooldowns = new Discord.Collection();
 // start the bot
-const now = new DATE();
+const now = new.DATE();
 client.on('ready', () => {
   //console.log('client.users ' + JSON.stringify(client.users.cache));
   //console.log('client.cache ' + JSON.stringify(client.channels.cache));
