@@ -42,7 +42,6 @@ const cooldowns = new Discord.Collection();
 // start the bot
 client.on('ready', () => {
   console.log('client.users ' + JSON.stringify(client.users.cache));
-  console.log('client.users ' + JSON.stringify(client.client.channels));
   console.log(`Discord Bot has started, with ${client.users.cache.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`);
   client.user.setActivity('Tipping $$ QRL $$');
 });
