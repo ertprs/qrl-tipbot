@@ -24,9 +24,7 @@ function spawnDiscordBot() {
 	console.log('Spawning the ' + chalk.bgCyan.black('Discord Bot') + '...');
   const service = 'discord';
   const out = fs.openSync('./' + service + '_bot.log', 'a');
-
   const err = fs.openSync('./' + service + '_bot.log', 'a');
-  console.log('1.3');
 
   const spawnDiscord = spawn('./_scripts/discord/index.js' , {
     detached: true,
@@ -36,6 +34,8 @@ function spawnDiscordBot() {
     // console.error('Failed to start Discord Bot.');
   // });
   spawnDiscord.unref();
+  
+  console.log('PID: ' + spawnDiscord.pid);
 }
 
 spawnDiscordBot();
