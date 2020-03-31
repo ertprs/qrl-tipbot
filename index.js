@@ -5,7 +5,7 @@ const health = require('./_test/health/healthcheck');
 const fs = require('fs');
 const chalk = require('chalk');
 const service = '';
-console.log('Starting the ' + chalk.black.bgBlue.bold(QRL TipBot));
+console.log('Starting the ' + chalk.black.bgBlue.bold('QRL TipBot'));
 
 // from https://nodejs.org/api/child_process.html#child_process_child_process_spawn_command_args_options
 const { spawn } = require('child_process');
@@ -14,7 +14,7 @@ const { spawn } = require('child_process');
 
 
 function spawnDiscordBot() {
-	console.log('Spawning the ' + chalk.bgCyan.black(Discord Bot) + '...');
+	console.log('Spawning the ' + chalk.bgCyan.black('Discord Bot') + '...');
 
   const service = 'discord';
   const out = fs.openSync('./' + service + '_bot.log', 'a');
