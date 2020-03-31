@@ -17,6 +17,11 @@ module.exports = {
     const GetAllUserInfo = dbHelper.GetAllUserInfo;
     const info = JSON.parse(JSON.stringify({ service: 'discord', user_id: UUID }));
     const found = checkuser(info);
+    
+    if(message.guild != null) {
+      message.delete();
+    }
+
     found.then(function(result) {
       return result;
     }).then(function(foundRes) {
