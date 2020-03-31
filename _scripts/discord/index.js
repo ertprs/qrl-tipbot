@@ -48,7 +48,7 @@ client.on('ready', () => {
   //console.log('client.guild ' + JSON.stringify(client.guilds.cache));
   console.log(chalk`
 {cyan ==========================================}
-{cyan Discord TipBot Started at: ${nownow}}
+{cyan Discord TipBot Started at: {grey ${nownow}}}
   {blue {cyan !} Connected to {grey ${client.guilds.cache.size}} guilds }
   {blue {cyan !} Connected to {grey ${client.users.cache.size}} users } 
   {blue {cyan !} Connected to {grey ${client.channels.cache.size}} channels }
