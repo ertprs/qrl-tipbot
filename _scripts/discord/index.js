@@ -47,7 +47,7 @@ client.on('ready', () => {
   console.log(chalk`
 ==========================
 Discord TipBot Started
- {blue.bold !} Connected to {bgBlue ${client.guilds.cache.size} guilds.}
+ {blue.bold !} Connected to {bgBlue ${client.guilds.cache.size} guilds}
  {blue.bold !} With {bgBlue ${client.users.cache.size} users} 
  {blue.bold !} In {bgBlue ${client.channels.cache.size} channels}
 ==========================
