@@ -6,7 +6,7 @@ const fs = require('fs');
 const chalk = require('chalk');
 const service = '';
 
-setTimeout(console.log('Starting the ' + chalk.bgBlue.black.('QRL TipBot')), 1500);
+setTimeout(console.log('Starting the ' + chalk.bgBlue.black('QRL TipBot')), 1500);
 
 //console.log('Starting the ' + chalk.black.bgBlue.bold('QRL TipBot'));
 
