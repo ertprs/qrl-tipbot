@@ -39,7 +39,7 @@ module.exports = {
           const service_ID = '@' + users_Service_ID;
           const GetAllUserInfoPromise = GetAllUserInfo({ service: 'discord', service_id: service_ID });
           GetAllUserInfoPromise.then(function(userInfo) {
-            console.log('user_info: ' + JSON.stringify(userInfo));
+            // console.log('user_info: ' + JSON.stringify(userInfo));
             if (userInfo[0].user_found == 'false') {
               console.log('user not found');
               message.author.send('not found.');
