@@ -40,8 +40,8 @@ for (const file of commandFiles) {
 // define cooldowns const
 const cooldowns = new Discord.Collection();
 // start the bot
-const now = new Date();
-const nownow = now.toDateString();
+const NOW = new Date();
+const nownow = NOW.toDateString();
 client.on('ready', () => {
   //console.log('client.users ' + JSON.stringify(client.users.cache));
   //console.log('client.cache ' + JSON.stringify(client.channels.cache));
@@ -54,6 +54,7 @@ client.on('ready', () => {
   {blue {cyan {bold !}} Connected to {grey ${client.channels.cache.size}} channels }
 {cyan ==========================================}
     `);
+  // modify this to set the activity of the bot
   client.user.setActivity('Tipping $$ QRL $$');
 });
 
@@ -73,12 +74,12 @@ client.on('message', message => {
 
 
   // check that the message starts with our prefix called out in the config file
-  //if (!message.content.startsWith(config.discord.prefix) || message.author.bot) return;
-  //const args = message.content.slice(config.discord.prefix.length).split(/ +/);
+  // if (!message.content.startsWith(config.discord.prefix) || message.author.bot) return;
+  // const args = message.content.slice(config.discord.prefix.length).split(/ +/);
 
   const commandName = args.shift().toLowerCase();
   // log everthing with ${config.discord.prefix} to console
-  console.log(message.content);
+  console.log(chalk.magenta.underline(message.content));
   //  if (!client.commands.has(commandName)) return;
   //    const command = client.commands.get(commandName);
   const command = client.commands.get(commandName)
