@@ -46,9 +46,9 @@ client.on('ready', () => {
   //console.log('client.guild ' + JSON.stringify(client.guilds.cache));
   console.log(chalk`
     Discord Bot started...
-    connected to {green ${client.users.cache.size} users%}, 
-    {green ${client.channels.cache.size} channels%} 
-    {blue of ${client.guilds.cache.size} guilds.%}
+    connected to {blue ${client.guilds.cache.size}%} guilds.
+    With {red ${client.users.cache.size}%} users 
+    in {green ${client.channels.cache.size}%} channels 
     `);
   client.user.setActivity('Tipping $$ QRL $$');
 });
