@@ -48,8 +48,8 @@ client.on('ready', () => {
 ==========================
 Discord TipBot Started
  {blue.bold !} Connected to {bgBlue ${client.guilds.cache.size} guilds.}
- {blue.bold !} With {red ${client.users.cache.size} users} 
- {blue.bold !} In {green ${client.channels.cache.size} channels}
+ {blue.bold !} With {bgBlue ${client.users.cache.size} users} 
+ {blue.bold !} In {bgBlue ${client.channels.cache.size} channels}
 ==========================
     `);
   client.user.setActivity('Tipping $$ QRL $$');
