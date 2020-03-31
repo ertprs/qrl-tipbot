@@ -15,7 +15,7 @@ module.exports = {
     const found = GetAllUserInfo(info);
 
     if(message.guild != null) {
-      // message.delete();
+      message.delete();
     }
     // check for the message author. If not found fail
     found.then(function(foundRes) {
