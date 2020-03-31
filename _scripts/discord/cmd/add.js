@@ -78,7 +78,7 @@ module.exports = {
           return response;
         }).then(function(userresponse) {
           const userAddress = userInfo.wallet_pub;
-          const embed = new Discord.RichEmbed()
+          const embed = new Discord.MessageEmbed()
             .setColor(0x000000)
             .setTitle('**TipBot Account Info**')
             .setDescription('Account information.')
@@ -136,7 +136,7 @@ module.exports = {
               return returnData;
             }).then(function(reply) {
               //  embed a message to the user with account details
-              const embed = new Discord.RichEmbed()
+              const embed = new Discord.MessageEmbed()
                 .setColor(0x000000)
                 .setTitle('**TipBot Account Info**')
                 .setDescription('Here is your TipBot account information.')
@@ -207,7 +207,7 @@ module.exports = {
               return response;
             }).then(function(userresponse) {
               const userAddress = userInfo.wallet_pub;
-              const embed = new Discord.RichEmbed()
+              const embed = new Discord.MessageEmbed()
                 .setColor(0x000000)
                 .setTitle('**TipBot Account Info**')
                 .setDescription('Here is your TipBot account information.')

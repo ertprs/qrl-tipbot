@@ -47,7 +47,7 @@ module.exports = {
         BalancePromise.then(function(balanceResult) {
           const results = balanceResult.balance;
           const res = results / 1000000000;
-          const embed = new Discord.RichEmbed()
+          const embed = new Discord.MessageEmbed()
             .setColor(0x000000)
             .setTitle('**Address Balance**')
             .setDescription('Details from the balance query.')
@@ -106,7 +106,7 @@ module.exports = {
                   const update_wal_bal = dbHelper.updateWalletBal;
                   update_wal_bal({ user_id: user_id, new_bal: new_bal }).then(function(UpdateBalance) {
                     message.channel.stopTyping(true);
-                    const embed = new Discord.RichEmbed()
+                    const embed = new Discord.MessageEmbed()
                       .setColor(0x000000)
                       .setTitle('Tipbot Balance - ' + new_bal + ' QRL')
                       .addField('Balance:', `\`${new_bal} QRL\``, true)

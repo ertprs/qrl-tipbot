@@ -56,7 +56,7 @@ module.exports = {
     // second args should be qrl address
     if (args[0] == undefined || args [1] == undefined) {
       // console.log('no args given');
-      const embed = new Discord.RichEmbed()
+      const embed = new Discord.MessageEmbed()
         .setColor(0x000000)
         .setTitle('Transfer From TipBot')
         .setDescription('To transfer or withdraw from the tipbot I need some details.')
@@ -136,7 +136,7 @@ module.exports = {
           transfer(transferInfo).then(function(transferQrl) {
             const transferOutput = JSON.parse(transferQrl);
             const tx_hash = transferOutput.tx.transaction_hash;
-            const embed = new Discord.RichEmbed()
+            const embed = new Discord.MessageEmbed()
               .setColor(0x000000)
               .setTitle('Funds Transfered')
               .setDescription('Your transaction has posted on the network. It may take a few minuets to confirm, see the transaction info in the [QRL Block Explorer](' + config.bot_details.explorer_url + '/tx/' + tx_hash + ')')
@@ -190,7 +190,7 @@ module.exports = {
                 const transferOutput = JSON.parse(transferQrl);
                 // console.log('transferQRL output: ' + JSON.stringify(transferQrl));
                 const tx_hash = transferOutput.tx.transaction_hash;
-                const embed = new Discord.RichEmbed()
+                const embed = new Discord.MessageEmbed()
                   .setColor(0x000000)
                   .setTitle('Funds Transfered')
                   .setDescription('Your transaction has posted on the network. It may take a few minuets to confirm, see the transaction info in the [QRL Block Explorer](' + config.bot_details.explorer_url + '/tx/' + tx_hash + ')')

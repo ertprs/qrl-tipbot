@@ -97,7 +97,7 @@ module.exports = {
       const found = userInfo[0].user_found;
       if (found == 'false') {
         message.channel.stopTyping(true);
-        const embed = new Discord.RichEmbed()
+        const embed = new Discord.MessageEmbed()
           .setTitle('ERROR')
           .setDescription('user not found, please sign up with `+add`')
           .setColor(0x000000)
@@ -108,7 +108,7 @@ module.exports = {
       // check for opt out
       if (userInfo[0].opt_out == '1') {
         message.channel.stopTyping(true);
-        const embed = new Discord.RichEmbed()
+        const embed = new Discord.MessageEmbed()
           .setTitle('ERROR')
           .setDescription('You have Opted Out of the TipBot. To tip you must opt back in.')
           .setColor(0x000000)
@@ -135,7 +135,7 @@ module.exports = {
       if ((wallet_bal_shor - total_tip) < 0) {
         // not enough funds...
         message.channel.stopTyping(true);
-        const embed = new Discord.RichEmbed()
+        const embed = new Discord.MessageEmbed()
           .setTitle('ERROR - Not enough funds in user wallet')
           .setDescription('[Check your address on the explorer](' + config.bot_details.explorer_url + '/a/' + wallet_pub + ')')
           .setColor(0x000000)
@@ -297,7 +297,7 @@ module.exports = {
             return txRes;
           });
           message.channel.stopTyping(true);
-          const embed = new Discord.RichEmbed()
+          const embed = new Discord.MessageEmbed()
             .setColor(0x000000)
             .setTitle('Tip Sent!')
             .setDescription('Your tip was posted on the network. It may take a few minuets to confirm, see the transaction info in the [QRL Block Explorer](' + config.bot_details.explorer_url + '/tx/' + tx_hash + ')')

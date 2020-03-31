@@ -46,7 +46,7 @@ module.exports = {
             // user found, return the results
             // console.log('result\t' + id + ' has been found ' + found);
 
-            const embed = new Discord.RichEmbed()
+            const embed = new Discord.MessageEmbed()
               .setColor(0x000000)
               .addField('User_found: ', `\`${found}\``)
               .addField('User_id: ', `\`${id}\``)
@@ -73,7 +73,7 @@ module.exports = {
             const returnData = { found: 'false' };
             // console.log('returnData: ' + returnData);
             // console.log('User found:\t' + found);
-            const embed = new Discord.RichEmbed()
+            const embed = new Discord.MessageEmbed()
               .setColor(0x000000)
               .addField('User Found:\t', `\`${found}\``);
             message.channel.send({ embed })
@@ -98,7 +98,7 @@ module.exports = {
           const RETURNDATA = JSON.parse(JSON.stringify(returnData));
           // user found, return the results
           // console.log('result\t' + id + ' has been found ' + found);
-          const embed = new Discord.RichEmbed()
+          const embed = new Discord.MessageEmbed()
             .setColor(0x000000)
             .addField('User_found: ', `\`${found}\``)
             .addField('User_id: ', `\`${id}\``)
@@ -127,7 +127,7 @@ module.exports = {
           const returnData = { found: 'false' };
           // console.log('returnData: ' + returnData);
           // console.log('User found:\t' + found);
-          const embed = new Discord.RichEmbed()
+          const embed = new Discord.MessageEmbed()
             .setColor(0x000000)
             .addField('User Found:\t', `\`${found}\``);
           message.channel.send({ embed })
@@ -144,7 +144,7 @@ module.exports = {
         // console.log('found = ' + found)
         if (found !== 'true') {
           // user not found
-          const embed = new Discord.RichEmbed()
+          const embed = new Discord.MessageEmbed()
             .setColor(0x000000)
             .setDescription('Looks like you are not found.\n`+add` to add and account `+help` for the rest.')
             .addField('User Found:\t', `\`${found}\``);
@@ -156,7 +156,7 @@ module.exports = {
         }
         else {
           const id = check.user_id;
-          const embed = new Discord.RichEmbed()
+          const embed = new Discord.MessageEmbed()
             .setColor(0x000000)
             .addField('User id:\t', `\`${id}\``);
           message.author.send({ embed })
@@ -177,7 +177,7 @@ module.exports = {
         // console.log('found = ' + found)
         if (found !== 'true') {
           // user not found
-          const embed = new Discord.RichEmbed()
+          const embed = new Discord.MessageEmbed()
             .setColor(0x000000)
             .setDescription('Looks like you are not found.\n`+add` to add and account `+help` for the rest.')
             .addField('User Found:\t', `\`${found}\``);
@@ -201,7 +201,7 @@ module.exports = {
             // user opted out
             const optout_date = result.optout_date;
             // console.log('opt_out = ' + opt_out + ' On ' + optout_date);
-            const embed = new Discord.RichEmbed()
+            const embed = new Discord.MessageEmbed()
               .setColor(0x000000)
               .addField('User Opt-Out:\t', `\`${opt_out}\``)
               .addField('Opt-Out Date:\t', `\`${optout_date}\``);
@@ -217,7 +217,7 @@ module.exports = {
           else {
             // user not opted out
             // console.log('opt_out = ' + opt_out);
-            const embed = new Discord.RichEmbed()
+            const embed = new Discord.MessageEmbed()
               .setColor(0x000000)
               .addField('User Opt-Out:\t', `\`${opt_out}\``);
             message.channel.send({ embed })
@@ -348,7 +348,7 @@ module.exports = {
           console.log('checkUserWalletqr: ' + newBuff);
 
 
-          const embed = new Discord.RichEmbed()
+          const embed = new Discord.MessageEmbed()
             .setColor(0x000000)
             .setTitle('**TipBot Account Info**')
             .setDescription('Wallet QR attached.')

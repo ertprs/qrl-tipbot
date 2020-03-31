@@ -60,7 +60,7 @@ module.exports = {
             userInfoArray.push({ checkUserPassed: false, checkUserPassedError: 'not_found' });
             // message.reply('Are you signed up?');
             message.channel.stopTyping(true);
-            const embed = new Discord.RichEmbed()
+            const embed = new Discord.MessageEmbed()
               .setColor(0x000000)
               .setTitle('ERROR: You\'re not signed up...')
               .setDescription('`+add` to sign-up, `+agree` to start using the faucet');
@@ -82,7 +82,7 @@ module.exports = {
            userInfoArray.push({ checkUserPassed: false, checkUserPassedError: 'not_agreed' });
            // message.reply('You will need to agree to my `+terms` to use the bot. `+agree`');
            message.channel.stopTyping(true);
-            const embed = new Discord.RichEmbed()
+            const embed = new Discord.MessageEmbed()
               .setColor(0x000000)
               .setTitle('ERROR: You must agree to the terms')
               .setDescription('`+terms` to read the terms and conditions, `+agree` to start using the faucet');

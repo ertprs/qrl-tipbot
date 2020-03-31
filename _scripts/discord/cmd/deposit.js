@@ -38,7 +38,7 @@ module.exports = {
             const wallet_pub = result.wallet_pub;
             const qr = result.wallet_qr;
             if (qr !== undefined) {
-              const embed = new Discord.RichEmbed()
+              const embed = new Discord.MessageEmbed()
                 .setColor(0x000000)
                 .setTitle('**TipBot Deposit Info**')
                 .setDescription('Deposit funds to the address shown below to begin tipping. Please don\'t make large deposits or store funds here.')
@@ -73,7 +73,7 @@ module.exports = {
             // we should now have user results from the QR code, add them to the message and return
               const fileName = userReturn.fileName;
               console.log(fileName);
-              const embed = new Discord.RichEmbed()
+              const embed = new Discord.MessageEmbed()
                 .setColor(0x000000)
                 .setTitle('**TipBot Deposit Info**')
                 .setDescription('Deposit funds to the address shown below to begin tipping. Please don\'t make large deposits or store funds here.')
