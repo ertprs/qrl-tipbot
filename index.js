@@ -1,3 +1,6 @@
+#!/bin/sh
+':' //; exec "$(command -v nodejs || command -v node)" "$0" "$@"
+
 'use strict';
 // require the health check script
 
@@ -5,10 +8,12 @@ const health = require('./_test/health/healthcheck');
 const fs = require('fs');
 const chalk = require('chalk');
 const service = '';
+console.log(chalk.bgBlue.black.underline('Starting the QRL TipBot'))
+
+
 
 setTimeout(function() {
-  console.log('Starting the ' + chalk.bgBlue.black('QRL TipBot'))
-  }, 1500);
+  }, 100);
 
 
 
