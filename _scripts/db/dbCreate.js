@@ -37,14 +37,17 @@ callmysql.connect(function(err) {
       console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
     // log the output of sql command
-    // console.log('createUsers results:');
-    console.log(chalk.cyan('✔️ ') + chalk.blue(' createUsers results: ') + chalk.grey(JSON.stringify(results)));
-    // console.log(results);
+    if (results.warningCount == '0') {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' createUsers results: ') + chalk.grey(' SQL table created'));
+    }
+    else if (results.warningCount == '1') {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' Users already exists'));
+    }
+    else {
+      console.log(chalk.red('! ') + chalk.bgRed('Something else happened with createUsers...') + chalk.grey(' SQL warningCount: ' + results.warningCount));
+    }
   });
-
-  // user_info db used to store info on our users
-  // opt_out, signed up from service, dates, and any other user settings we want to add
-
+  // create `users_info` table to store various user account data
   const createUsersInfo = `create table if not exists users_info(
                           id int primary key auto_increment,
                           user_id int not null,
@@ -60,15 +63,20 @@ callmysql.connect(function(err) {
                       )`;
   callmysql.query(createUsersInfo, function(err, results) {
     if (err) {
-      console.log(err.message);
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
     // log the output of sql command
-    // console.log('createUsersInfo results:');
-    // console.log(results);
+    if (results.warningCount == '0') {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' createUsersInfo results: ') + chalk.grey(' SQL table created'));
+    }
+    else if (results.warningCount == '1') {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' UsersInfo already exists'));
+    }
+    else {
+      console.log(chalk.red('! ') + chalk.bgRed('Something else happened with createUsersInfo...') + chalk.grey(' SQL warningCount: ' + results.warningCount));
+    }
   });
-
   // Create the 'discord_users' table to store to users info from Discord
-  // the id from here is inserted into the `users.discord_id` table and field
   const createDiscordUsers = `create table if not exists discord_users(
                                id int primary key auto_increment,
                                user_name varchar(255) not null,
@@ -77,16 +85,20 @@ callmysql.connect(function(err) {
                              )`;
   callmysql.query(createDiscordUsers, function(err, results) {
     if (err) {
-      console.log(err.message);
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
     // log the output of sql command
-    // console.log('createDiscordUsers results:');
-    // console.log(results);
+    if (results.warningCount == '0') {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' createDiscordUsers results: ') + chalk.grey(' SQL table created'));
+    }
+    else if (results.warningCount == '1') {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' DiscordUsers already exists'));
+    }
+    else {
+      console.log(chalk.red('! ') + chalk.bgRed('Something else happened with createDiscordUsers...') + chalk.grey(' SQL warningCount: ' + results.warningCount));
+    }
   });
-
-
   // Create the 'twitter_users' table to store to users info from Twitter
-  // the id from here is inserted into the `users.twitter_id` table and field
   const createTwitterUsers = `create table if not exists twitter_users(
                                id int primary key auto_increment,
                                user_name varchar(255) not null,
@@ -95,17 +107,20 @@ callmysql.connect(function(err) {
                              )`;
   callmysql.query(createTwitterUsers, function(err, results) {
     if (err) {
-      console.log(err.message);
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
     // log the output of sql command
     if (results.warningCount == '0') {
-      console.log(chalk.cyan('✔ ') + chalk.blue(' createTwitterUsers results: ') + chalk.grey(JSON.stringify(results)));
+      console.log(chalk.cyan('✔ ') + chalk.blue(' createTwitterUsers results: ') + chalk.grey(' SQL table created'));
+    }
+    else if (results.warningCount == '1') {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' TwitterUsers already exists'));
     }
     else {
-      console.log(chalk.cyan('✔ ') + chalk.blue(' Twitter Users already exists'));
+      console.log(chalk.red('! ') + chalk.bgRed('Something else happened with createTwitterUsers...') + chalk.grey(' SQL warningCount: ' + results.warningCount));
     }
   });
-
+  // Create the 'reddit_users' table to store to users info from Twitter
   const createRedditUsers = `create table if not exists reddit_users(
                                id int primary key auto_increment,
                                user_name varchar(255) not null,
@@ -114,15 +129,20 @@ callmysql.connect(function(err) {
                              )`;
   callmysql.query(createRedditUsers, function(err, results) {
     if (err) {
-      console.log(err.message);
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
     // log the output of sql command
-    // console.log('createRedditUsers results:');
-    // console.log(results);
+    if (results.warningCount == '0') {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' createRedditUsers results: ') + chalk.grey(' SQL table created'));
+    }
+    else if (results.warningCount == '1') {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' RedditUsers already exists'));
+    }
+    else {
+      console.log(chalk.red('! ') + chalk.bgRed('Something else happened with createRedditUsers...') + chalk.grey(' SQL warningCount: ' + results.warningCount));
+    }
   });
-
-
-
+  // Create the 'keybase_users' table to store to users info from Twitter
   const createKeybaseUsers = `create table if not exists keybase_users(
                                id int primary key auto_increment,
                                user_name varchar(255) not null,
@@ -131,13 +151,20 @@ callmysql.connect(function(err) {
                              )`;
   callmysql.query(createKeybaseUsers, function(err, results) {
     if (err) {
-      console.log(err.message);
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
     // log the output of sql command
-    // console.log('createKeybaseUsers results:');
-    // console.log(results);
+    if (results.warningCount == '0') {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' createKeybaseUsers results: ') + chalk.grey(' SQL table created'));
+    }
+    else if (results.warningCount == '1') {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' KeybaseUsers already exists'));
+    }
+    else {
+      console.log(chalk.red('! ') + chalk.bgRed('Something else happened with createKeybaseUsers...') + chalk.grey(' SQL warningCount: ' + results.warningCount));
+    }
   });
-
+  // Create the 'github_users' table to store to users info from Twitter
   const createGithubUsers = `create table if not exists github_users(
                                id int primary key auto_increment,
                                user_name varchar(255) not null,
@@ -146,13 +173,20 @@ callmysql.connect(function(err) {
                              )`;
   callmysql.query(createGithubUsers, function(err, results) {
     if (err) {
-      console.log(err.message);
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
     // log the output of sql command
-    // console.log('createGithubUsers results:');
-    // console.log(results);
+    if (results.warningCount == '0') {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' createGithubUsers results: ') + chalk.grey(' SQL table created'));
+    }
+    else if (results.warningCount == '1') {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' GithubUsers already exists'));
+    }
+    else {
+      console.log(chalk.red('! ') + chalk.bgRed('Something else happened with createGithubUsers...') + chalk.grey(' SQL warningCount: ' + results.warningCount));
+    }
   });
-
+  // Create the 'trello_users' table to store to users info from Twitter
   const createTrelloUsers = `create table if not exists trello_users(
                                id int primary key auto_increment,
                                user_name varchar(255) not null,
@@ -161,13 +195,20 @@ callmysql.connect(function(err) {
                              )`;
   callmysql.query(createTrelloUsers, function(err, results) {
     if (err) {
-      console.log(err.message);
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
     // log the output of sql command
-    // console.log('createTrelloUsers results:');
-    // console.log(results);
+    if (results.warningCount == '0') {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' createTrelloUsers results: ') + chalk.grey(' SQL table created'));
+    }
+    else if (results.warningCount == '1') {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' TrelloUsers already exists'));
+    }
+    else {
+      console.log(chalk.red('! ') + chalk.bgRed('Something else happened with createTrelloUsers...') + chalk.grey(' SQL warningCount: ' + results.warningCount));
+    }
   });
-
+  // Create the 'slack_users' table to store to users info from Twitter
   const createSlackUsers = `create table if not exists slack_users(
                                id int primary key auto_increment,
                                user_name varchar(255) not null,
@@ -176,12 +217,20 @@ callmysql.connect(function(err) {
                              )`;
   callmysql.query(createSlackUsers, function(err, results) {
     if (err) {
-      console.log(err.message);
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
     // log the output of sql command
-    // console.log('createSlackUsers results:');
-    // console.log(results);
+    if (results.warningCount == '0') {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' createSlackUsers results: ') + chalk.grey(' SQL table created'));
+    }
+    else if (results.warningCount == '1') {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' SlackUsers already exists'));
+    }
+    else {
+      console.log(chalk.red('! ') + chalk.bgRed('Something else happened with createSlackUsers...') + chalk.grey(' SQL warningCount: ' + results.warningCount));
+    }
   });
+  // Create the 'slack_users' table to store to users info from Twitter
   const createTelegramUsers = `create table if not exists telegram_users(
                                id int primary key auto_increment,
                                user_name varchar(255) not null,
@@ -190,12 +239,20 @@ callmysql.connect(function(err) {
                              )`;
   callmysql.query(createTelegramUsers, function(err, results) {
     if (err) {
-      console.log(err.message);
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
     // log the output of sql command
-    // console.log('createTelegramUsers results:');
-    // console.log(results);
+    if (results.warningCount == '0') {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' createTelegramUsers results: ') + chalk.grey(' SQL table created'));
+    }
+    else if (results.warningCount == '1') {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' TelegramUsers already exists'));
+    }
+    else {
+      console.log(chalk.red('! ') + chalk.bgRed('Something else happened with createTelegramUsers...') + chalk.grey(' SQL warningCount: ' + results.warningCount));
+    }
   });
+  // Create the 'whatsapp_users' table to store to users info from Twitter
   const createWhatsAppUsers = `create table if not exists whatsapp_users(
                                id int primary key auto_increment,
                                user_name varchar(255) not null,
@@ -204,15 +261,21 @@ callmysql.connect(function(err) {
                              )`;
   callmysql.query(createWhatsAppUsers, function(err, results) {
     if (err) {
-      console.log(err.message);
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
     // log the output of sql command
-    // console.log('createWhatsAppUsers results:');
-    // console.log(results);
+    if (results.warningCount == '0') {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' createWhatsAppUsers results: ') + chalk.grey(' SQL table created'));
+    }
+    else if (results.warningCount == '1') {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' WhatsAppUsers already exists'));
+    }
+    else {
+      console.log(chalk.red('! ') + chalk.bgRed('Something else happened with createWhatsAppUsers...') + chalk.grey(' SQL warningCount: ' + results.warningCount));
+    }
   });
 
   // create `wallet` table to store user wallet info
-  // get the user_id from the 'users.id' table to join later...
   const createWallets = `create table if not exists wallets(
                           id int primary key auto_increment,
                           user_id int not null,
@@ -224,13 +287,19 @@ callmysql.connect(function(err) {
                         )`;
   callmysql.query(createWallets, function(err, results) {
     if (err) {
-      console.log(err.message);
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
     // log the output of sql command
-    // console.log('createWallets results:');
-    // console.log(results);
+    if (results.warningCount == '0') {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' createWallets results: ') + chalk.grey(' SQL table created'));
+    }
+    else if (results.warningCount == '1') {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' Wallets already exists'));
+    }
+    else {
+      console.log(chalk.red('! ') + chalk.bgRed('Something else happened with createWallets...') + chalk.grey(' SQL warningCount: ' + results.warningCount));
+    }
   });
-
   // create the `tips` table to hold all info from a tip event
   const createTips = `create table if not exists tips(
                               id int primary key auto_increment,
@@ -241,13 +310,19 @@ callmysql.connect(function(err) {
                       )`;
   callmysql.query(createTips, function(err, results) {
     if (err) {
-      console.log(err.message);
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
     // log the output of sql command
-    // console.log('createTips results:');
-    // console.log(results);
+    if (results.warningCount == '0') {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' createTips results: ') + chalk.grey(' SQL table created'));
+    }
+    else if (results.warningCount == '1') {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' Tips already exists'));
+    }
+    else {
+      console.log(chalk.red('! ') + chalk.bgRed('Something else happened with createTips...') + chalk.grey(' SQL warningCount: ' + results.warningCount));
+    }
   });
-
   // create the `tips` table to hold all info from a tip event
   const createFutureTips = `create table if not exists future_tips(
                               id int primary key auto_increment,
@@ -264,14 +339,20 @@ callmysql.connect(function(err) {
                       )`;
   callmysql.query(createFutureTips, function(err, results) {
     if (err) {
-      console.log(err.message);
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
     // log the output of sql command
-    // console.log('createFutureTips results:');
-    // console.log(results);
+    if (results.warningCount == '0') {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' createFutureTips results: ') + chalk.grey(' SQL table created'));
+    }
+    else if (results.warningCount == '1') {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' FutureTips already exists'));
+    }
+    else {
+      console.log(chalk.red('! ') + chalk.bgRed('Something else happened with createFutureTips...') + chalk.grey(' SQL warningCount: ' + results.warningCount));
+    }
   });
-
-
+  // Create the 'tips_to' table to store to users info from Twitter
   const createTipsTo = `create table if not exists tips_to(
                         id int primary key auto_increment,
                         tip_id int,
@@ -282,13 +363,20 @@ callmysql.connect(function(err) {
                       )`;
   callmysql.query(createTipsTo, function(err, results) {
     if (err) {
-      console.log(err.message);
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
     // log the output of sql command
-    // console.log('createTipsTo results:');
-    // console.log(results);
+    if (results.warningCount == '0') {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' createTipsTo results: ') + chalk.grey(' SQL table created'));
+    }
+    else if (results.warningCount == '1') {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' TipsTo already exists'));
+    }
+    else {
+      console.log(chalk.red('! ') + chalk.bgRed('Something else happened with createTipsTo...') + chalk.grey(' SQL warningCount: ' + results.warningCount));
+    }
   });
-
+  // Create the 'transactions' table to store to users info from Twitter
   const createTransactions = `create table if not exists transactions(
                                 id int primary key auto_increment,
                                 tip_id int not null,
@@ -300,14 +388,21 @@ callmysql.connect(function(err) {
 
   callmysql.query(createTransactions, function(err, results) {
     if (err) {
-      console.log(err.message);
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
     // log the output of sql command
-    // console.log('createTransactions results:');
-    // console.log(results);
+    if (results.warningCount == '0') {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' createTransactions results: ') + chalk.grey(' SQL table created'));
+    }
+    else if (results.warningCount == '1') {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' Transactions already exists'));
+    }
+    else {
+      console.log(chalk.red('! ') + chalk.bgRed('Something else happened with createTransactions...') + chalk.grey(' SQL warningCount: ' + results.warningCount));
+    }
   });
 
-
+// Create the 'user_agree' table to store to users info from Twitter
 const createUserAgree = `create table if not exists users_agree(
                           id int primary key auto_increment,
                           user_id int not null,
@@ -317,13 +412,20 @@ const createUserAgree = `create table if not exists users_agree(
                           )`;
   callmysql.query(createUserAgree, function(err, results) {
     if (err) {
-      console.log(err.message);
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
     // log the output of sql command
-    // console.log('createUserAgree results:');
-    // console.log(results);
+    if (results.warningCount == '0') {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' createUserAgree results: ') + chalk.grey(' SQL table created'));
+    }
+    else if (results.warningCount == '1') {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' UserAgree already exists'));
+    }
+    else {
+      console.log(chalk.red('! ') + chalk.bgRed('Something else happened with createUserAgree...') + chalk.grey(' SQL warningCount: ' + results.warningCount));
+    }
   });
-  
+    // Create the 'withdrawls' table to store to users info from Twitter
   const createWithdrawls = `create table if not exists withdrawls(
                                 id int primary key auto_increment,
                                 user_id int not null,
@@ -336,13 +438,20 @@ const createUserAgree = `create table if not exists users_agree(
 
   callmysql.query(createWithdrawls, function(err, results) {
     if (err) {
-      console.log(err.message);
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
     // log the output of sql command
-    // console.log('createWithdrawls results:');
-    // console.log(results);
+    if (results.warningCount == '0') {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' createWithdrawls results: ') + chalk.grey(' SQL table created'));
+    }
+    else if (results.warningCount == '1') {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' Withdrawls already exists'));
+    }
+    else {
+      console.log(chalk.red('! ') + chalk.bgRed('Something else happened with createWithdrawls...') + chalk.grey(' SQL warningCount: ' + results.warningCount));
+    }
   });
-
+  // Create the 'fauccet_payouts' table to store to users info from Twitter
     const createFaucetPayouts = `create table if not exists faucet_payouts(
                                 id int primary key auto_increment,
                                 user_id int not null,
@@ -357,17 +466,24 @@ const createUserAgree = `create table if not exists users_agree(
 
   callmysql.query(createFaucetPayouts, function(err, results) {
     if (err) {
-      console.log(err.message);
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
     // log the output of sql command
-    // console.log('createFaucetPayouts results:');
-    // console.log(results);
+    if (results.warningCount == '0') {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' createFaucetPayouts results: ') + chalk.grey(' SQL table created'));
+    }
+    else if (results.warningCount == '1') {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' FaucetPayouts already exists'));
+    }
+    else {
+      console.log(chalk.red('! ') + chalk.bgRed('Something else happened with createFaucetPayouts...') + chalk.grey(' SQL warningCount: ' + results.warningCount));
+    }
   });
 
   // close the sql connection
   callmysql.end(function(err) {
     if (err) {
-      return console.log(err.message);
+      return console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
   });
 });
