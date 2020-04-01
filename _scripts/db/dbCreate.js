@@ -3,8 +3,7 @@ const mysql = require('mysql');
 const chalk = require('chalk');
 const config = require('../../_config/config.json');
 
-console.log(chalk.cyan('Create All Databases Called'));
-
+console.log(chalk.cyan('\nCreate All Databases Called') + chalk.grey('./_scripts/db/dbCreate.js\n'));
 // connector to the database
 const callmysql = mysql.createConnection({
   host: `${config.database.db_host}`,
@@ -39,7 +38,7 @@ callmysql.connect(function(err) {
     }
     // log the output of sql command
     // console.log('createUsers results:');
-    console.log(chalk.cyan('✔️ ') + chalk.blue('createUsers results: ') + chalk.grey(results));
+    console.log(chalk.cyan('✔️ ') + chalk.blue(' createUsers results: ') + chalk.grey(JSON.stringify(results)));
     // console.log(results);
   });
 
@@ -99,7 +98,7 @@ callmysql.connect(function(err) {
       console.log(err.message);
     }
     // log the output of sql command
-    console.log(chalk.cyan('✔️ ') + chalk.blue('createTwitterUsers results: ') + chalk.grey(results));
+    console.log(chalk.cyan('✔️ ') + chalk.blue(' createTwitterUsers results: ') + chalk.grey(results));
     // console.log(results);
   });
 
