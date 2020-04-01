@@ -98,8 +98,12 @@ callmysql.connect(function(err) {
       console.log(err.message);
     }
     // log the output of sql command
-    console.log(chalk.cyan('✔️ ') + chalk.blue(' createTwitterUsers results: ') + chalk.grey(JSON.stringify(results)));
-    // console.log(results);
+    if (results.warningCount == '0') {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' createTwitterUsers results: ') + chalk.grey(JSON.stringify(results)));
+    }
+    else {
+      console.log(chalk.cyan('✔ ') + chalk.blue(' Twitter Users already exists'));
+    }
   });
 
   const createRedditUsers = `create table if not exists reddit_users(
