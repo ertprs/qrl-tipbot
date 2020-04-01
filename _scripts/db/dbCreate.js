@@ -98,7 +98,7 @@ callmysql.connect(function(err) {
       console.log(err.message);
     }
     // log the output of sql command
-    console.log(chalk.cyan('✔️ ') + chalk.blue(' createTwitterUsers results: ') + chalk.grey(results));
+    console.log(chalk.cyan('✔️ ') + chalk.blue(' createTwitterUsers results: ') + chalk.grey(JSON.stringify(results)));
     // console.log(results);
   });
 
