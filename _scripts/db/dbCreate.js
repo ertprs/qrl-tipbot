@@ -1,10 +1,9 @@
 'use strict';
 const mysql = require('mysql');
-// check for config file where we expect it
-
-
-// config file location from here...
+const chalk = require('chalk');
 const config = require('../../_config/config.json');
+
+consloe.log(chalk.cyan('Create All Databases Called'));
 
 // connector to the database
 const callmysql = mysql.createConnection({
@@ -20,12 +19,6 @@ callmysql.connect(function(err) {
     return console.error('error: ' + err.message);
   }
   // create `users` table to store various user account data
-  //  'users' table gives single id to use between accounts, and pulls user_id from '$SERVICE_users.id' table primary key.
-  //  insert into this every time a user signs-up a new account.
-  //  create $SERVICE_users table entry and enter the primary key from that insert to this table...
-  //  Update this table with new account info from a previous account to link...
-  //  User signs up --> creates an entry in both `users` and `$SERVICE_users`
-  //  user links account from new service --> updates `user` table entry adding new `$SERVICE_users` table primary key 'id' into "$SERVICE_user_id" field
   const createUsers = `create table if not exists users(
                           id int primary key auto_increment,
                           discord_user_id int,
@@ -42,12 +35,11 @@ callmysql.connect(function(err) {
                       )`;
   callmysql.query(createUsers, function(err, results) {
     if (err) {
-      console.log(err.message);
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
     // log the output of sql command
-    // console.log('createUsers results:');
-    // console.log(results);
-  });
+    console.log(chalk.cyan('✔️ ') + chalk.blue('createUsers results: ') + chalk.grey(results));
+    ;
 
   // user_info db used to store info on our users
   // opt_out, signed up from service, dates, and any other user settings we want to add
@@ -67,10 +59,10 @@ callmysql.connect(function(err) {
                       )`;
   callmysql.query(createUsersInfo, function(err, results) {
     if (err) {
-      console.log(err.message);
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
     // log the output of sql command
-    // console.log('createUsersInfo results:');
+    // console.log(chalk.cyan('✔️ ') + chalk.blue('createUsersInfo results: ') + chalk.grey(results));
     // console.log(results);
   });
 
@@ -84,9 +76,10 @@ callmysql.connect(function(err) {
                              )`;
   callmysql.query(createDiscordUsers, function(err, results) {
     if (err) {
-      console.log(err.message);
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
     // log the output of sql command
+    // console.log(chalk.cyan('✔️ ') + chalk.blue('createDiscordUsers results: ') + chalk.grey(results));
     // console.log('createDiscordUsers results:');
     // console.log(results);
   });
@@ -102,10 +95,10 @@ callmysql.connect(function(err) {
                              )`;
   callmysql.query(createTwitterUsers, function(err, results) {
     if (err) {
-      console.log(err.message);
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
     // log the output of sql command
-    // console.log('createTwitterUsers results:');
+    console.log(chalk.cyan('✔️ ') + chalk.blue('createTwitterUsers results: ') + chalk.grey(results));
     // console.log(results);
   });
 
@@ -117,7 +110,7 @@ callmysql.connect(function(err) {
                              )`;
   callmysql.query(createRedditUsers, function(err, results) {
     if (err) {
-      console.log(err.message);
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
     // log the output of sql command
     // console.log('createRedditUsers results:');
@@ -134,7 +127,7 @@ callmysql.connect(function(err) {
                              )`;
   callmysql.query(createKeybaseUsers, function(err, results) {
     if (err) {
-      console.log(err.message);
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
     // log the output of sql command
     // console.log('createKeybaseUsers results:');
@@ -149,7 +142,7 @@ callmysql.connect(function(err) {
                              )`;
   callmysql.query(createGithubUsers, function(err, results) {
     if (err) {
-      console.log(err.message);
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
     // log the output of sql command
     // console.log('createGithubUsers results:');
@@ -164,7 +157,7 @@ callmysql.connect(function(err) {
                              )`;
   callmysql.query(createTrelloUsers, function(err, results) {
     if (err) {
-      console.log(err.message);
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
     // log the output of sql command
     // console.log('createTrelloUsers results:');
@@ -179,7 +172,7 @@ callmysql.connect(function(err) {
                              )`;
   callmysql.query(createSlackUsers, function(err, results) {
     if (err) {
-      console.log(err.message);
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
     // log the output of sql command
     // console.log('createSlackUsers results:');
@@ -193,7 +186,7 @@ callmysql.connect(function(err) {
                              )`;
   callmysql.query(createTelegramUsers, function(err, results) {
     if (err) {
-      console.log(err.message);
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
     // log the output of sql command
     // console.log('createTelegramUsers results:');
@@ -207,7 +200,7 @@ callmysql.connect(function(err) {
                              )`;
   callmysql.query(createWhatsAppUsers, function(err, results) {
     if (err) {
-      console.log(err.message);
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
     // log the output of sql command
     // console.log('createWhatsAppUsers results:');
@@ -227,7 +220,7 @@ callmysql.connect(function(err) {
                         )`;
   callmysql.query(createWallets, function(err, results) {
     if (err) {
-      console.log(err.message);
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
     // log the output of sql command
     // console.log('createWallets results:');
@@ -244,7 +237,7 @@ callmysql.connect(function(err) {
                       )`;
   callmysql.query(createTips, function(err, results) {
     if (err) {
-      console.log(err.message);
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
     // log the output of sql command
     // console.log('createTips results:');
@@ -267,7 +260,7 @@ callmysql.connect(function(err) {
                       )`;
   callmysql.query(createFutureTips, function(err, results) {
     if (err) {
-      console.log(err.message);
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
     // log the output of sql command
     // console.log('createFutureTips results:');
@@ -285,7 +278,7 @@ callmysql.connect(function(err) {
                       )`;
   callmysql.query(createTipsTo, function(err, results) {
     if (err) {
-      console.log(err.message);
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
     // log the output of sql command
     // console.log('createTipsTo results:');
@@ -303,7 +296,7 @@ callmysql.connect(function(err) {
 
   callmysql.query(createTransactions, function(err, results) {
     if (err) {
-      console.log(err.message);
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
     // log the output of sql command
     // console.log('createTransactions results:');
@@ -320,7 +313,7 @@ const createUserAgree = `create table if not exists users_agree(
                           )`;
   callmysql.query(createUserAgree, function(err, results) {
     if (err) {
-      console.log(err.message);
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
     // log the output of sql command
     // console.log('createUserAgree results:');
@@ -339,7 +332,7 @@ const createUserAgree = `create table if not exists users_agree(
 
   callmysql.query(createWithdrawls, function(err, results) {
     if (err) {
-      console.log(err.message);
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
     // log the output of sql command
     // console.log('createWithdrawls results:');
@@ -360,7 +353,7 @@ const createUserAgree = `create table if not exists users_agree(
 
   callmysql.query(createFaucetPayouts, function(err, results) {
     if (err) {
-      console.log(err.message);
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
     // log the output of sql command
     // console.log('createFaucetPayouts results:');
@@ -370,7 +363,7 @@ const createUserAgree = `create table if not exists users_agree(
   // close the sql connection
   callmysql.end(function(err) {
     if (err) {
-      return console.log(err.message);
+      return console.log(chalk.red('! ') + chalk.bgRed(err.message));
     }
   });
 });

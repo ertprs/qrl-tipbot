@@ -6,7 +6,7 @@
   "homepage": "https://github.com/fr1t2/QRL-TipBot#readme",
   "author": "Fr1t2 <fr1t2@fr1t2.com> (https://fr1t2.com)",
   
-  "main": "app.js",
+  "main": "index.js",
 
   "dependencies": {
     "bcryptjs": "^2.4.3",
