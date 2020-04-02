@@ -38,7 +38,7 @@ callmysql.connect(function(err) {
     }
     // log the output of sql command
     if (results.warningCount == '0') {
-      console.log(chalk.cyan(' ✔ ') + chalk.blue(' createUsers results: ') + chalk.cyan(' Table created'));
+      console.log(chalk.cyan(' ✔ ') + chalk.blue(' createUsers results: ') + chalk.green(' Table created!'));
     }
     else if (results.warningCount == '1') {
       console.log(chalk.yellow(' ⚠ ') + chalk.blue(' createUsers results: ') + chalk.grey(' Table exists'));
@@ -473,7 +473,7 @@ const createUserAgree = `create table if not exists users_agree(
       console.log(chalk.cyan(' ✔ ') + chalk.blue(' createFaucetPayouts results: ') + chalk.grey(' SQL table created'));
     }
     else if (results.warningCount == '1') {
-      console.log(chalk.yellow('⚠ ') + chalk.blue(' createFaucetPayouts results: ') + chalk.grey(' Table exists'));
+      console.log(chalk.yellow(' ⚠ ') + chalk.blue(' createFaucetPayouts results: ') + chalk.grey(' Table exists'));
     }
     else {
       console.log(chalk.red('! ') + chalk.bgRed('Something else happened with createFaucetPayouts...') + chalk.grey(' SQL warningCount: ' + results.warningCount));
