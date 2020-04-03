@@ -18,7 +18,7 @@ Time is: {green {dim ${now}}}}
  // check for the config file
     fs.access('_config/config.json', error => {
       if (error) {
-        console.log(chalk`  {red {bold ℹ} Config NOT Found...}{grey Copy from /_config.config.json.example and fill out}
+        console.log(chalk`  {red {bold ℹ} Config NOT Found...}{grey \nCopy from /_config.config.json.example and fill out}
         `);
         return;
       }
@@ -26,25 +26,25 @@ Time is: {green {dim ${now}}}}
 const config = require('./_config/config.json');
 console.log(chalk`{green {cyan {bold ℹ}} Config Found!!}
   {cyan Bot Details}
-  {blue {cyan {bold ℹ}} bot_name: {grey ${config.bot_details.bot_name}}}
-  {blue {cyan {bold ℹ}} bot_url: {grey ${config.bot_details.bot_url}}}
-  {blue {cyan {bold ℹ}} bot_donationAddress: {grey ${config.bot_details.bot_donationAddress}}}
+  {blue {cyan {bold ℹ}} bot_name: {grey \n${config.bot_details.bot_name}}}
+  {blue {cyan {bold ℹ}} bot_url: {grey \n${config.bot_details.bot_url}}}
+  {blue {cyan {bold ℹ}} bot_donationAddress: {grey \n${config.bot_details.bot_donationAddress}}}
   {cyan Wallet Details}
-  {blue {cyan {bold ℹ}} tx_fee: {grey ${config.wallet.tx_fee}}}
-  {blue {cyan {bold ℹ}} hold_address: {grey ${config.wallet.hold_address}}}
+  {blue {cyan {bold ℹ}} tx_fee: {grey \n${config.wallet.tx_fee}}}
+  {blue {cyan {bold ℹ}} hold_address: {grey \n${config.wallet.hold_address}}}
   {cyan TipBot Database Details}
-  {blue {cyan {bold ℹ}} db_name: {grey ${config.database.db_name}}}
-  {blue {cyan {bold ℹ}} db_host: {grey ${config.database.db_host}}}
-  {blue {cyan {bold ℹ}} db_user: {grey ${config.database.db_user}}}
-  {blue {cyan {bold ℹ}} db_port: {grey ${config.database.db_port}}}
+  {blue {cyan {bold ℹ}} db_name: {grey \n${config.database.db_name}}}
+  {blue {cyan {bold ℹ}} db_host: {grey \n${config.database.db_host}}}
+  {blue {cyan {bold ℹ}} db_user: {grey \n${config.database.db_user}}}
+  {blue {cyan {bold ℹ}} db_port: {grey \n${config.database.db_port}}}
   {cyan Discord Bot Details}
-  {blue {cyan {bold ℹ}} prefix: {grey ${config.discord.prefix}}}
-  {blue {cyan {bold ℹ}} bot_admin: {grey ${config.discord.bot_admin}}}  
+  {blue {cyan {bold ℹ}} prefix: {grey \n${config.discord.prefix}}}
+  {blue {cyan {bold ℹ}} bot_admin: {grey \n${config.discord.bot_admin}}}  
   {cyan Faucet Details}
-  {blue {cyan {bold ℹ}} faucet_wallet_pub: {grey ${config.faucet.faucet_wallet_pub}}}
-  {blue {cyan {bold ℹ}} payout_interval: {grey ${config.faucet.payout_interval}}}  
-  {blue {cyan {bold ℹ}} min_payout: {grey ${config.faucet.min_payout}}}  
-  {blue {cyan {bold ℹ}} max_payout: {grey ${config.faucet.max_payout}}}`);
+  {blue {cyan {bold ℹ}} faucet_wallet_pub: {grey \n${config.faucet.faucet_wallet_pub}}}
+  {blue {cyan {bold ℹ}} payout_interval: {grey \n${config.faucet.payout_interval}}}  
+  {blue {cyan {bold ℹ}} min_payout: {grey \n${config.faucet.min_payout}}}  
+  {blue {cyan {bold ℹ}} max_payout: {grey \n${config.faucet.max_payout}}}`);
 
 
 // MySQL
@@ -118,7 +118,7 @@ BotWalPubQuery()
   // console.log('bot_wallet_pub' + config.bot_details.bot_donationAddress);
 
   if (bot_wallet_pub !== config.bot_details.bot_donationAddress) {
-    console.log(chalk`  {red {bold ℹ} Bot Address and config address don't match... }{grey ensure the bot is user 1 in the database and has the same address as the bot_donationAddress}`);
+    console.log(chalk`  {red {bold ℹ} Bot Address and config address don't match... }{grey \nensure the bot is user 1 in the database and has the same address as the bot_donationAddress}`);
     // return;
   }
   else {
@@ -130,7 +130,7 @@ FaucetCheckReq()
 .then(function(FaucetCheckReqRes) {
   // console.log('FaucetCheckReqRes: ' + FaucetCheckReqRes);
   if (!FaucetCheckReqRes) {
-    console.log(chalk`  {red {bold ℹ} Failed to find the config.faucet.faucet_wallet_pub address you have set in the config.json in the walletd.json file... }{grey This address must exist in the walletd.json!!}`);
+    console.log(chalk`  {red {bold ℹ} Failed to find the config.faucet.faucet_wallet_pub address you have set in the config.json in the walletd.json file... }{grey \nThis address must exist in the walletd.json!!}`);
   }
   else {
     console.log(chalk`  {blue {cyan {bold ℹ}} Faucet Address Set Correct!}`);
@@ -139,7 +139,7 @@ FaucetCheckReq()
 HoldCheckReq()
 .then(function(HoldCheckReqRes) {
     if (!HoldCheckReqRes) {
-    console.log(chalk`  {red {bold ℹ} Failed to find the config.wallet.hold_address you have set in the config.json in the walletd.json file... }{grey This address must exist in the walletd.json!!}`);
+    console.log(chalk`  {red {bold ℹ} Failed to find the config.wallet.hold_address you have set in the config.json in the walletd.json file... }{grey \nThis address must exist in the walletd.json!!}`);
   }
   else {
     console.log(chalk`  {blue {cyan {bold ℹ}} Hold Address Set Correct!}`);
@@ -152,7 +152,7 @@ HoldCheckReq()
  // console.log(homeDir);
     fs.access(homeDir + '/.qrl/data/state/LOCK', error => {
       if (error) {
-        console.log(chalk`  {red {bold ℹ} QRL Dir NOT Found...}{grey Copy from /_config.config.json.example and fill out}
+        console.log(chalk`  {red {bold ℹ} QRL Dir NOT Found...}{grey \nCopy from /_config.config.json.example and fill out}
         `);
         return;
       }
@@ -167,7 +167,7 @@ Give output like
   console.log(chalk`
 
   {blue {cyan {bold ℹ}} Discord Bot Started!}
-  {blue {cyan {bold ℹ}} Discord Bot PID: {grey ${spawnDiscord.pid}}}
+  {blue {cyan {bold ℹ}} Discord Bot PID: {grey \n${spawnDiscord.pid}}}
   `);
 
 */
@@ -190,7 +190,7 @@ function spawnDiscordBot() {
 }
 // spawn all bots here into background processes
     spawnDiscordBot();
-    console.log(chalk`  {blue {cyan {bold ℹ}} Checks Complete... {grey All Services started}}
+    console.log(chalk`  {blue {cyan {bold ℹ}} Checks Complete... {grey \nAll Services started}}
     `);
   });
 });
