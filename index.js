@@ -61,8 +61,7 @@ mySQLPromise.then(function(results) {
     return;
   }
   else {
-    console.log(chalk`  {green {cyan {bold ℹ}} MySQL COnnected!!}
-    }
+    console.log(chalk`  {green {cyan {bold ℹ}} MySQL COnnected!!}`);
   }
 });
 
