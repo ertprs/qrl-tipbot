@@ -46,8 +46,7 @@ console.log(chalk`  {blue {cyan {bold ℹ}} Config Found!!}
   {blue {cyan {bold ℹ}} :\t {grey ${config.faucet.faucet_wallet_pub}}}
   {blue {cyan {bold ℹ}} :\t {grey ${config.faucet.payout_interval}}}  
   {blue {cyan {bold ℹ}} :\t {grey ${config.faucet.min_payout}}}  
-  {blue {cyan {bold ℹ}} :\t {grey ${config.faucet.max_payout}}}  
-`);
+  {blue {cyan {bold ℹ}} :\t {grey ${config.faucet.max_payout}}}`);
 
 // check SQL
 /*
@@ -93,8 +92,7 @@ function spawnDiscordBot() {
   spawnDiscord.unref();
   // console.log('PID: ' + spawnDiscord.pid);
   console.log(chalk`  {blue {cyan {bold ℹ}} Discord Bot Started!}
-  {blue {cyan {bold ℹ}} Discord Bot PID:\t {grey ${spawnDiscord.pid}}}
-  `);
+  {blue {cyan {bold ℹ}} Discord Bot PID:\t {grey ${spawnDiscord.pid}}}`);
 }
 
 
