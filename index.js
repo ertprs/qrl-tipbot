@@ -91,11 +91,11 @@ BotWalPubQuery()
 
 // query the list of addresses and make sure both faucet and hold address exist in the list
 
-  const listAddresses = wallet.list;
+  const listAddresses = wallet.listAll;
   listAddresses().then(function(addresses) {
     console.log(typeof(addresses));
     var re = /"\n|"\n"|"\n/; // split on colon space or comma space
-    var ar = addresses.split();
+    var ar = addresses.split(re);
     console.log(ar);
 
   });
