@@ -25,8 +25,7 @@ Time is: {green {dim ${now}}}}
       }
       else {
         console.log(chalk`
-        {blue Bot Details}
-          {blue {cyan {bold ℹ}} Config Found!!}
+  {blue {cyan {bold ℹ}} Config Found!!}
           `);
       }
     });
@@ -112,7 +111,6 @@ spawnDiscordBot();
 console.log(chalk`
 
   {blue {cyan {bold ℹ}} Checks Complete... {grey All Services started}}
-{cyan ==========================================}
 `);
 
 
