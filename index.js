@@ -20,6 +20,7 @@ Time is: {green {dim ${now}}}}
 const confCheck = health.ConfigCheck;
 const checkPromise = confCheck();
 console.log(checkPromise);
+console.log(confCheck);
 checkPromise.then(function(results) {
   console.log('results to confCheck: ' + JSON.stringify(results));
   if (!results[0].config_found) {
