@@ -2,48 +2,122 @@
 ':' //; exec "$(command -v nodejs || command -v node)" "$0" "$@"
 
 'use strict';
-// require the health check script
-
 const health = require('./_test/health/healthcheck');
+
 const fs = require('fs');
 const chalk = require('chalk');
-const service = '';
-console.log(chalk.bgBlue.black.underline('Starting the QRL TipBot'))
-
-
-
-setTimeout(function() {
-  }, 100);
-
-
-
-//console.log('Starting the ' + chalk.black.bgBlue.bold('QRL TipBot'));
-
-// from https://nodejs.org/api/child_process.html#child_process_child_process_spawn_command_args_options
+const now = new Date();
 const { spawn } = require('child_process');
-//const out = fs.openSync('./' + service + 'out.log', 'a');
-//const err = fs.openSync('./' + service + 'out.log', 'a');
+
+console.log(chalk`
+{cyan ==========================================}
+{cyan Discord Starting the QRL TipBot 
+  Time is: {green {dim ${now}}}}
+  {blue {cyan {bold ℹ}} Running Checks...}
+    `);
 
 
+// check for config file
+const confCheck = health.ConfigCheck;
+confCheck.then(function(results) {
+  console.log('results to confCheck: ' + JSON.stringify(results));
+  if (!results[0].config_found) {
+    console.log(`
+    {red {bold ℹ} Config NOT Found...}{grey Copy from /_config.config.json.example and fill out}
+    `);
+    return;
+  }
+  else {
+  console.log(`
+  {blue {cyan {bold ℹ}} Config FIle Found!}
+  `);
+  }
+});
+
+const config = require('./_config/config.json');
+console.log(`
+{blue Bot Details}
+  {blue {cyan {bold ℹ}} :\t {grey ${config.bot_details.bot_name}}}
+  {blue {cyan {bold ℹ}} :\t {grey ${config.bot_details.bot_url}}}
+  {blue {cyan {bold ℹ}} :\t {grey ${config.bot_details.bot_donationAddress}}}
+{blue Wallet Details}
+  {blue {cyan {bold ℹ}} :\t {grey ${config.wallet.tx_fee}}}
+  {blue {cyan {bold ℹ}} :\t {grey ${config.wallet.hold_address}}}
+{blue TipBot Database Details}
+  {blue {cyan {bold ℹ}} :\t {grey ${config.database.db_name}}}
+  {blue {cyan {bold ℹ}} :\t {grey ${config.database.db_host}}}
+  {blue {cyan {bold ℹ}} :\t {grey ${config.database.db_user}}}
+  {blue {cyan {bold ℹ}} :\t {grey ${config.database.db_port}}}
+{blue Discord Bot Details}
+  {blue {cyan {bold ℹ}} :\t {grey ${config.discord.prefix}}}
+  {blue {cyan {bold ℹ}} :\t {grey ${config.discord.bot_admin}}}  
+{blue Faucet Details}
+  {blue {cyan {bold ℹ}} :\t {grey ${config.faucet.faucet_wallet_pub}}}
+  {blue {cyan {bold ℹ}} :\t {grey ${config.faucet.payout_interval}}}  
+  {blue {cyan {bold ℹ}} :\t {grey ${config.faucet.min_payout}}}  
+  {blue {cyan {bold ℹ}} :\t {grey ${config.faucet.max_payout}}}  
+`);
+
+// check SQL
+
+const confCheck = health.ConfigCheck;
+confCheck.then(function(results) {
+  console.log('results to confCheck: ' + JSON.stringify(results));
+  if (!results[0].config_found) {
+    console.log(`
+    {red {bold ℹ} Discord Bot FAILED to start!}
+    `);
+    return;
+  }
+});
+const config = require('./_config/config.json');
+
+
+
+
+/*
+Spawn bots here.
+Functions for each bot here. Using the healthcheck script add checks here to run for each bot
+Give output like
+
+  console.log(`
+
+  {blue {cyan {bold ℹ}} Discord Bot Started!}
+  {blue {cyan {bold ℹ}} Discord Bot PID:\t {grey ${spawnDiscord.pid}}}
+  `);
+
+*/
 function spawnDiscordBot() {
 	console.log('Spawning the ' + chalk.bgCyan.black('Discord Bot') + '...');
   const service = 'discord';
   const out = fs.openSync('./' + service + '_bot.log', 'a');
   const err = fs.openSync('./' + service + '_bot.log', 'a');
 
-  const spawnDiscord = spawn('./_scripts/discord/index.js' , {
+  const spawnDiscord = spawn('./_scripts/discord/index.js', {
     detached: true,
-    stdio: [ 'ignore', out, err ]
-  })
-  // spawnDiscord.on('error', (err) => {
-    // console.error('Failed to start Discord Bot.');
-  // });
+    stdio: [ 'ignore', out, err ],
+  });
+  spawnDiscord.on('error', (err) => {
+    console.error(chalk.red(' ! ') + chalk.bgRed(' Failed to start Discord Bot.' + err));
+  });
   spawnDiscord.unref();
-  
-  console.log('PID: ' + spawnDiscord.pid);
+  // console.log('PID: ' + spawnDiscord.pid);
+  console.log(`
+
+  {blue {cyan {bold ℹ}} Discord Bot Started!}
+  {blue {cyan {bold ℹ}} Discord Bot PID:\t {grey ${spawnDiscord.pid}}}
+  `);
 }
 
+
+// spawn all bots here into background processes
 spawnDiscordBot();
+
+console.log(`
+
+  {blue {cyan {bold ℹ}} Checks Complete... {grey All Services started}}
+{cyan ==========================================}
+`);
 
 
 /*
@@ -61,13 +135,11 @@ nodeCheck.then(function(reutrns) {
 })
 
 if (!nodeCheck) {
-	// the node is not running or not synced. 
-	if 
+	// the node is not running or not synced.
+	if
 }
 
-
 health.ConfigCheck()
-
 
 // check for the config file
 fs.access('_config/config.json', error => {
@@ -82,8 +154,3 @@ fs.access('_config/config.json', error => {
   }
 });
 */
-
-
-
-
-

@@ -26,13 +26,6 @@
     "prefix" : "+",
     "bot_admin" : "DISCORD_ID"
   },
-  "faucet_db" : {
-    "db_name" : "DATABASE_NAME",
-    "db_host" : "DATABASE_HOST",
-    "db_pass" : "DATABASE_SECRET_PASSWORD!!",
-    "db_user" : "DATABASE_USER",
-    "db_port" : "3006"
-  },
   "faucet" : {
     "faucet_wallet_pub" : "Q...",
     "payout_interval" : "1440",

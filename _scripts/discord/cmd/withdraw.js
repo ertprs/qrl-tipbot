@@ -48,7 +48,6 @@ module.exports = {
     }
     // if not in private message delete the message
     if(message.guild != null) {
-      // delete the users message and give response
       message.delete();
     }
     message.reply('Check your DM\'s');
@@ -101,13 +100,13 @@ module.exports = {
         const transfer_to = args[1];
         const fee = config.wallet.tx_fee * toShor;
 
-         console.log('user_id ' + user_id);
-         console.log('wallet_pub ' + wallet_pub);
-         console.log('wallet_bal ' + wallet_bal);
-         console.log('shor_bal ' + shor_bal);
-         console.log('user_name ' + user_name);
-         console.log('transfer_to ' + transfer_to);
-         console.log('fee ' + fee);
+        console.log('user_id ' + user_id);
+        console.log('wallet_pub ' + wallet_pub);
+        console.log('wallet_bal ' + wallet_bal);
+        console.log('shor_bal ' + shor_bal);
+        console.log('user_name ' + user_name);
+        console.log('transfer_to ' + transfer_to);
+        console.log('fee ' + fee);
         // check for valid qrl address given as args[1]
         const addressTest = isQRLAddress(transfer_to);
         if (!addressTest) {

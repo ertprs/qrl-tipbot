@@ -1,16 +1,22 @@
 'use strict';
-const assert = require('assert');
+const mysql = require('mysql');
 const config = require('../../_config/config.json');
 const fs = require('fs');
+const returnArray = [];
 // this script will run and check all of the various things required to run the service.
 // Add a new file in this directory for each service to check and refer to them here.
 // call this periodicly and when the service starts
 
 
-function NodeCheck() {
-	// check for the qrl node
-	// should return true if all tests passed
-	// test for - run, sync, blockheight matches explorer,
+async function NodeCheck() {
+  return new Promise(resolve => {
+    // check for the qrl node
+    // should return true if all tests passed
+    // test for - run, sync, blockheight matches explorer,
+
+
+    // returnArray.push({ results...})
+  });
 }
 
 
@@ -24,28 +30,55 @@ function walletAPICheck() {
 
 }
 
-
-function ConfigCheck() {
-	// check for the config file and make sure it is filled in correctly
-	// check for the config file
-  fs.access('_config/config.json', error => {
-    if (!error) {
-      // The check succeeded
-      // console.log('Config Found!');
-    }
-    else {
-    // The check failed
-      console.log('Config NOT Found!');
-      return;
-    }
+// ConfigCheck returns true if file is found
+async function ConfigCheck() {
+  return new Promise(resolve => {
+    // check for the config file
+    fs.access('_config/config.json', error => {
+      if (error) {
+        returnArray.push({ config_found: 'false' });
+      }
+      else {
+        returnArray.push({ config_found: 'true' });
+      }
+    });
+    resolve(returnArray);
+    return;
   });
-    // check for database info, wallet info, at least one service info sections
-    //
-    // check for qrl address format
-    assert.doesNotMatch('' + config.bot_details.bot_donationAddress + '', /^(Q|q)[0-9a-fA-f]{78}$/);
-    assert.doesNotMatch('' + config.wallet.hold_address + '', /^(Q|q)[0-9a-fA-f]{78}$/);
-    assert.doesNotMatch('' + config.faucet.faucet_wallet_pub + '', /^(Q|q)[0-9a-fA-f]{78}$/);
 }
+
+
+// MysqlCheck returns true if database is connectable and found
+async function MysqlCheck() {
+  return new Promise(resolve => {
+    // database connection info found in the config file
+    const callmysql = mysql.createConnection({
+      host: `${config.database.db_host}`,
+      user: `${config.database.db_user}`,
+      password: `${config.database.db_pass}`,
+      database: `${config.database.db_name}`,
+    });
+    callmysql.connect(function(err) {
+      if (err) {
+        console.log('error: ' + err.message);
+        console.log('error complete: ' + JSON.stringify(err));
+        returnArray.push({ database_connected: 'false' });
+        return;
+      }
+      // console.log('Connected to the MySQL server.');
+    });
+    callmysql.end(function(err) {
+      if (err) {
+        return console.log('error:' + err.message);
+      }
+      // console.log('Close the database connection.');
+      returnArray.push({ database_connected: 'true' });
+    });
+    resolve(returnArray);
+  });
+}
+
+
 /*
 ====================
 +  SERVICE CHECKS  +
@@ -89,6 +122,8 @@ function WhatsappCheck() {
 module.exports = {
 NodeCheck : NodeCheck,
 ConfigCheck : ConfigCheck,
+MysqlCheck: MysqlCheck,
+
 DiscordCheck : DiscordCheck,
 TrelloCheck : TrelloCheck,
 KeybaseCheck : KeybaseCheck,
