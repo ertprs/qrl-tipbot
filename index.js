@@ -93,7 +93,7 @@ BotWalPubQuery()
 
   const listAddresses = wallet.listAll;
   listAddresses().then(function(addresses) {
-    console.log(addresses[0]);
+    console.log(addresses);
     var ar = addresses.split(',');
     console.log(ar);
 
