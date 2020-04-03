@@ -41,10 +41,10 @@ async function ConfigCheck() {
       else {
         returnArray = { config_found: 'true' };
       }
-      return returnArray;
+    resolve(returnArray);
     });
     console.log('returnArray: ' + JSON.stringify(returnArray));
-    resolve(returnArray);
+    return returnArray;
   });
 }
 
