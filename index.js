@@ -128,7 +128,7 @@ BotWalPubQuery()
 // query the list of addresses and make sure both faucet and hold address exist in the list
 FaucetCheckReq()
 .then(function(FaucetCheckReqRes) {
-  console.log('FaucetCheckReqRes: ' + FaucetCheckReqRes);
+  // console.log('FaucetCheckReqRes: ' + FaucetCheckReqRes);
   if (!FaucetCheckReqRes) {
     console.log(chalk`  {red {bold ℹ} Failed to find the config.faucet.faucet_wallet_pub address you have set in the config.json in the walletd.json file... }{grey This address must exist in the walletd.json!!}`);
   }
