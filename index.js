@@ -5,13 +5,14 @@
 const health = require('./_test/health/healthcheck');
 
 const fs = require('fs');
+const mysql = require('mysql');
 const chalk = require('chalk');
 const now = new Date();
 const { spawn } = require('child_process');
 
 console.log(chalk`{cyan Starting the QRL TipBot 
 Time is: {green {dim ${now}}}}
-  {green {cyan {bold ℹ}} Running Checks...}`);
+{green Running Checks...}`);
 
  // check for the config file
     fs.access('_config/config.json', error => {
@@ -26,7 +27,7 @@ Time is: {green {dim ${now}}}}
       }
     });
 const config = require('./_config/config.json');
-console.log(chalk`  {green {cyan {bold ℹ}} Config Found!!}
+console.log(chalk`{green {cyan {bold ℹ}} Config Found!!}
   {cyan Bot Details}
   {blue {cyan {bold ℹ}} bot_name: {grey ${config.bot_details.bot_name}}}
   {blue {cyan {bold ℹ}} bot_url: {grey ${config.bot_details.bot_url}}}
@@ -48,22 +49,32 @@ console.log(chalk`  {green {cyan {bold ℹ}} Config Found!!}
   {blue {cyan {bold ℹ}} min_payout: {grey ${config.faucet.min_payout}}}  
   {blue {cyan {bold ℹ}} max_payout: {grey ${config.faucet.max_payout}}}`);
 
-// check SQL
-const mysqlCheck = health.MysqlCheck;
-const SQLPromise = mysqlCheck();
-SQLPromise.then(function(results) {
-  console.log('results to confCheck: ' + JSON.stringify(results));
-  if (!results[0].database_connected) {
-    console.log(chalk`
-  {red {bold ℹ} Discord Bot FAILED to start!}
-    `);
-    return;
-  }
-  else {
-    console.log(chalk`  {green {cyan {bold ℹ}} MySQL COnnected!!}`);
-  }
-});
 
+//sql
+
+ // database connection info found in the config file
+    const callmysql = mysql.createConnection({
+      host: `${config.database.db_host}`,
+      user: `${config.database.db_user}`,
+      password: `${config.database.db_pass}`,
+      database: `${config.database.db_name}`,
+    });
+    callmysql.connect(function(err) {
+      if (err) {
+        console.log('error: ' + err.message);
+        console.log('error complete: ' + JSON.stringify(err));
+        returnArray.push({ database_connected: 'false' });
+        return;
+      }
+      // console.log('Connected to the MySQL server.');
+    });
+    callmysql.end(function(err) {
+      if (err) {
+        return console.log('error:' + err.message);
+      }
+      // console.log('Close the database connection.');
+      returnArray.push({ database_connected: 'true' });
+    });
 
 
 /*
