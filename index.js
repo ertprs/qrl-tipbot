@@ -93,11 +93,11 @@ BotWalPubQuery()
 
   const listAddresses = wallet.listAll;
   listAddresses().then(function(addresses) {
-    console.log(typeof(addresses));
+    console.log(addresses);
 
     var re = /["\n|"\n"|"\n]/; // split on colon space or comma space
     var ar = addresses.split();
-    console.log(ar);
+    //console.log(ar);
 
   });
 // check QRL Node
