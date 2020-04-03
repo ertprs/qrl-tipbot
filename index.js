@@ -70,7 +70,6 @@ mysqlCheck.then(function(results) {
     return;
   }
 });
-const config = require('./_config/config.json');
 
 
 
