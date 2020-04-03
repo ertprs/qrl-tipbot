@@ -2,7 +2,7 @@
 const mysql = require('mysql');
 const config = require('../../_config/config.json');
 const fs = require('fs');
-const returnArray = [];
+let returnArray = [];
 // this script will run and check all of the various things required to run the service.
 // Add a new file in this directory for each service to check and refer to them here.
 // call this periodicly and when the service starts
