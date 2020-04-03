@@ -56,22 +56,27 @@ console.log(chalk`{green {cyan {bold ℹ}} Config Found!!}
       database: `${config.database.db_name}`,
     });
 
+function SQLQuery() {
+  const query = util.promisify(callmysql.query).bind(callmysql);
+  (async () => {
+    try {
+      // check for the bot and donate address, and confirm connection to sql.
+      const rows = await query('select * from wallets where user_id=1');
 
-const query = util.promisify(callmysql.query).bind(callmysql);
-(async () => {
-  try {
-    // check for the bot and donate address, and confirm connection to sql.
-    const rows = await query('select * from wallets where user_id=1');
+      console.log(rows);
+    }
+    finally {
+      callmysql.end();
+    }
+  })();
+}
 
+SQLQuery()
+.then(function(results) {
+  console.log(JSON.stringify(results));
+});
 
-    console.log(rows);
-  } finally {
-    callmysql.end();
-  }
-})()
-
-
- async function sqlCheck()    {
+ async function sqlCheck() {
     await callmysql.connect(function(err) {
       if (err) {
         console.log('error: ' + err.message);
@@ -89,7 +94,7 @@ const query = util.promisify(callmysql.query).bind(callmysql);
 }
 
 
-//sqlCheck();
+// sqlCheck();
 
 
 
