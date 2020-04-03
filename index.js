@@ -94,8 +94,8 @@ BotWalPubQuery()
   const listAddresses = wallet.listAll;
   listAddresses().then(function(addresses) {
     console.log(addresses[0]);
-    var ar = addresses.split();
-    //console.log(ar);
+    var ar = addresses.split(',');
+    console.log(ar);
 
   });
 // check QRL Node
