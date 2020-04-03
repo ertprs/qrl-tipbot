@@ -74,7 +74,8 @@ console.log(chalk`{green {cyan {bold ℹ}} Config Found!!}
 
  // check for the config file
  const homeDir = require('os').homedir();
-    fs.access(homeDir + '.qrl/data/state/LOCK', error => {
+ console.log(homeDir);
+    fs.access(homeDir + '/.qrl/data/state/LOCK', error => {
       if (error) {
         console.log(chalk`  {red {bold ℹ} QRL Dir NOT Found...}{grey Copy from /_config.config.json.example and fill out}
         `);
