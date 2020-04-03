@@ -81,8 +81,7 @@ Give output like
 
 */
 function spawnDiscordBot() {
-	console.log('Spawning the ' + chalk.bgCyan.black('Discord Bot') + '...');
-  const service = 'discord';
+	const service = 'discord';
   const out = fs.openSync('./' + service + '_bot.log', 'a');
   const err = fs.openSync('./' + service + '_bot.log', 'a');
 
@@ -95,9 +94,7 @@ function spawnDiscordBot() {
   });
   spawnDiscord.unref();
   // console.log('PID: ' + spawnDiscord.pid);
-  console.log(chalk`
-
-  {blue {cyan {bold ℹ}} Discord Bot Started!}
+  console.log(chalk`  {blue {cyan {bold ℹ}} Discord Bot Started!}
   {blue {cyan {bold ℹ}} Discord Bot PID:\t {grey ${spawnDiscord.pid}}}
   `);
 }
