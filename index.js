@@ -80,13 +80,29 @@ const FaucetCheckReq = function() {
       // sconsole.log('faucet wallet pub check: ' + addressArray.indexOf(config.faucet.faucet_wallet_pub));
       const faucetPubCheck = addressArray.indexOf(config.faucet.faucet_wallet_pub);
       if (faucetPubCheck === -1) {
-        console.log(chalk`  {red {bold ℹ} Failed to find the config.faucet.faucet_wallet_pub address you have set in the config.json in the walletd.json file... }{grey This address must exist in the walletd.json!!}`);
-        reject(new Error('address not found in wallets.json'));
+        reject(new Error('faucet address not found in wallets.json'));
       }
       else {
         const faucetAddyFound = true;
         resolve(faucetAddyFound);
-        console.log(chalk`  {blue {cyan {bold ℹ}} Faucet Address Set Correct!}`);
+      }
+    });
+  });
+};
+
+const HoldCheckReq = function() {
+  return new Promise(function(resolve, reject) {
+    listAddresses().then(function(addresses) {
+      const addressArray = JSON.parse(JSON.stringify(addresses));
+      // sconsole.log('faucet wallet pub check: ' + addressArray.indexOf(config.faucet.faucet_wallet_pub));
+      const HoldPubCheck = addressArray.indexOf(config.wallet.hold_address);
+      if (HoldPubCheck === -1) {
+        reject(new Error('Hold address not found in wallets.json'));
+      }
+      else {
+        const HoldPubFound = true;
+        resolve(HoldPubFound);
+        console.log(chalk`  {blue {cyan {bold ℹ}} Hold Address Set Correct!}`);
       }
     });
   });
@@ -113,27 +129,21 @@ BotWalPubQuery()
 FaucetCheckReq()
 .then(function(FaucetCheckReqRes) {
   console.log('FaucetCheckReqRes: ' + FaucetCheckReqRes);
-
-
-  listAddresses().then(function(addresses) {
-    const addressArray = JSON.parse(JSON.stringify(addresses));
-    const holdPubCheck = addressArray.indexOf(config.wallet.hold_address);
-    if (holdPubCheck === -1) {
-      console.log(chalk`  {red {bold ℹ} Failed to find the config.wallet.hold_address you have set in the config.json in the walletd.json file... }{grey This address must exist in the walletd.json!!}`);
-    }
-    else {
-      console.log(chalk`  {blue {cyan {bold ℹ}} Hold Address Set Correct!}`);
-    }
-    // console.log('bad pub check: ' + addressArray.indexOf('Q0003009da13a0d61b80ac149b5e5658a6943773261eb23cb635f1cd864493b5f76285b96503ce1'));
-    const badPubCheck = addressArray.indexOf('Q0003009da13a0d61b80ac149b5e5658a6943773261eb23cb635f1cd864493b5f76285b96503ce1');
-    if (badPubCheck === -1) {
-      console.log(chalk`  {red {bold ℹ} Failed to find the incorrect address you have set in the config.json in the walletd.json file... }{grey This address must exist in the walletd.json!!}`);
-    }
-    else {
-      console.log(chalk`  {blue {cyan {bold ℹ}} bad Address Set Correct? Somethign is wrong}`);
-    }
-
-  });
+  if (!FaucetCheckReqRes) {
+    console.log(chalk`  {red {bold ℹ} Failed to find the config.faucet.faucet_wallet_pub address you have set in the config.json in the walletd.json file... }{grey This address must exist in the walletd.json!!}`);
+  }
+  else {
+    console.log(chalk`  {blue {cyan {bold ℹ}} Faucet Address Set Correct!}`);
+  }
+// check the hold address
+HoldCheckReq()
+.then(function(HoldCheckReqRes) {
+    if (!HoldCheckReqRes) {
+    console.log(chalk`  {red {bold ℹ} Failed to find the config.wallet.hold_address you have set in the config.json in the walletd.json file... }{grey This address must exist in the walletd.json!!}`);
+  }
+  else {
+    console.log(chalk`  {blue {cyan {bold ℹ}} Hold Address Set Correct!}`);
+  }
 
 
 // check QRL Node
@@ -184,7 +194,7 @@ function spawnDiscordBot() {
     `);
   });
 });
-
+});
 /*
 const nodeCheck = health.NodeCheck();
 
