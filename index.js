@@ -20,7 +20,7 @@ async function checkCONFIG() {
   return new Promise(resolve => {
   // check for config file
   const confCheck = health.ConfigCheck;
-  const checkPromise = await onfCheck();
+  const checkPromise = await confCheck();
 
   checkPromise.then(function(results) {
     console.log('results to confCheck: ' + JSON.stringify(results));
