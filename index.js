@@ -96,7 +96,7 @@ BotWalPubQuery()
     console.log(typeof(addresses));
 
     var re = /["\n|"\n"|"\n]/; // split on colon space or comma space
-    var ar = addresses.split(re);
+    var ar = addresses.split();
     console.log(ar);
 
   });
