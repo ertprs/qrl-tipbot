@@ -61,7 +61,7 @@ console.log(chalk`
 // check SQL
 
 const mysqlCheck = health.MysqlCheck;
-consy SQLPromise = mysqlCheck();
+const SQLPromise = mysqlCheck();
 SQLPromise.then(function(results) {
   console.log('results to confCheck: ' + JSON.stringify(results));
   if (!results[0].database_connected) {
