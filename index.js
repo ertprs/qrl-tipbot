@@ -11,7 +11,7 @@ const { spawn } = require('child_process');
 
 console.log(chalk`{cyan Starting the QRL TipBot 
 Time is: {green {dim ${now}}}}
-  {blue {cyan {bold ℹ}} Running Checks...}`);
+  {green {cyan {bold ℹ}} Running Checks...}`);
 
  // check for the config file
     fs.access('_config/config.json', error => {
@@ -26,7 +26,7 @@ Time is: {green {dim ${now}}}}
       }
     });
 const config = require('./_config/config.json');
-console.log(chalk`  {blue {cyan {bold ℹ}} Config Found!!}
+console.log(chalk`  {green {cyan {bold ℹ}} Config Found!!}
   {cyan Bot Details}
   {blue {cyan {bold ℹ}} bot_name: {grey ${config.bot_details.bot_name}}}
   {blue {cyan {bold ℹ}} bot_url: {grey ${config.bot_details.bot_url}}}
@@ -49,20 +49,23 @@ console.log(chalk`  {blue {cyan {bold ℹ}} Config Found!!}
   {blue {cyan {bold ℹ}} max_payout: {grey ${config.faucet.max_payout}}}`);
 
 // check SQL
-/*
 const mysqlCheck = health.MysqlCheck;
 const SQLPromise = mysqlCheck();
-SQLPromise.then(function(results) {
+const mySQLPromise = SQLPromise()
+mySQLPromise.then(function(results) {
   console.log('results to confCheck: ' + JSON.stringify(results));
   if (!results[0].database_connected) {
     console.log(chalk`
-    {red {bold ℹ} Discord Bot FAILED to start!}
+  {red {bold ℹ} Discord Bot FAILED to start!}
     `);
     return;
   }
+  else {
+    console.log(chalk`  {green {cyan {bold ℹ}} MySQL COnnected!!}
+    }
+  }
 });
 
-*/
 
 
 /*
