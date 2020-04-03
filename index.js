@@ -29,22 +29,22 @@ Time is: {green {dim ${now}}}}
     });
 const config = require('./_config/config.json');
 console.log(chalk`  {blue {cyan {bold ℹ}} Config Found!!}
-{blue Bot Details}
+  {cyan Bot Details}
   {blue {cyan {bold ℹ}} :\t {grey ${config.bot_details.bot_name}}}
   {blue {cyan {bold ℹ}} :\t {grey ${config.bot_details.bot_url}}}
   {blue {cyan {bold ℹ}} :\t {grey ${config.bot_details.bot_donationAddress}}}
-{blue Wallet Details}
+  {cyan Wallet Details}
   {blue {cyan {bold ℹ}} :\t {grey ${config.wallet.tx_fee}}}
   {blue {cyan {bold ℹ}} :\t {grey ${config.wallet.hold_address}}}
-{blue TipBot Database Details}
+  {cyan TipBot Database Details}
   {blue {cyan {bold ℹ}} :\t {grey ${config.database.db_name}}}
   {blue {cyan {bold ℹ}} :\t {grey ${config.database.db_host}}}
   {blue {cyan {bold ℹ}} :\t {grey ${config.database.db_user}}}
   {blue {cyan {bold ℹ}} :\t {grey ${config.database.db_port}}}
-{blue Discord Bot Details}
+  {cyan Discord Bot Details}
   {blue {cyan {bold ℹ}} :\t {grey ${config.discord.prefix}}}
   {blue {cyan {bold ℹ}} :\t {grey ${config.discord.bot_admin}}}  
-{blue Faucet Details}
+  {cyan Faucet Details}
   {blue {cyan {bold ℹ}} :\t {grey ${config.faucet.faucet_wallet_pub}}}
   {blue {cyan {bold ℹ}} :\t {grey ${config.faucet.payout_interval}}}  
   {blue {cyan {bold ℹ}} :\t {grey ${config.faucet.min_payout}}}  
@@ -103,9 +103,7 @@ function spawnDiscordBot() {
 // spawn all bots here into background processes
 spawnDiscordBot();
 
-console.log(chalk`
-
-  {blue {cyan {bold ℹ}} Checks Complete... {grey All Services started}}
+console.log(chalk`  {blue {cyan {bold ℹ}} Checks Complete... {grey All Services started}}
 `);
 
 
