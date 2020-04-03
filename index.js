@@ -63,7 +63,6 @@ console.log(chalk`{green {cyan {bold ℹ}} Config Found!!}
       if (err) {
         console.log('error: ' + err.message);
         console.log('error complete: ' + JSON.stringify(err));
-        returnArray.push({ database_connected: 'false' });
         return;
       }
       // console.log('Connected to the MySQL server.');
@@ -73,7 +72,6 @@ console.log(chalk`{green {cyan {bold ℹ}} Config Found!!}
         return console.log('error:' + err.message);
       }
       // console.log('Close the database connection.');
-      returnArray.push({ database_connected: 'true' });
     });
 
 
