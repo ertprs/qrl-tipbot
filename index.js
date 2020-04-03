@@ -28,25 +28,25 @@ Time is: {green {dim ${now}}}}
 const config = require('./_config/config.json');
 console.log(chalk`  {blue {cyan {bold ℹ}} Config Found!!}
   {cyan Bot Details}
-  {blue {cyan {bold ℹ}} :\t {grey ${config.bot_details.bot_name}}}
-  {blue {cyan {bold ℹ}} :\t {grey ${config.bot_details.bot_url}}}
-  {blue {cyan {bold ℹ}} :\t {grey ${config.bot_details.bot_donationAddress}}}
+  {blue {cyan {bold ℹ}} bot_name:\t {grey ${config.bot_details.bot_name}}}
+  {blue {cyan {bold ℹ}} bot_url:\t {grey ${config.bot_details.bot_url}}}
+  {blue {cyan {bold ℹ}} bot_donationAddress:\t {grey ${config.bot_details.bot_donationAddress}}}
   {cyan Wallet Details}
-  {blue {cyan {bold ℹ}} :\t {grey ${config.wallet.tx_fee}}}
-  {blue {cyan {bold ℹ}} :\t {grey ${config.wallet.hold_address}}}
+  {blue {cyan {bold ℹ}} tx_fee:\t {grey ${config.wallet.tx_fee}}}
+  {blue {cyan {bold ℹ}} hold_address:\t {grey ${config.wallet.hold_address}}}
   {cyan TipBot Database Details}
-  {blue {cyan {bold ℹ}} :\t {grey ${config.database.db_name}}}
-  {blue {cyan {bold ℹ}} :\t {grey ${config.database.db_host}}}
-  {blue {cyan {bold ℹ}} :\t {grey ${config.database.db_user}}}
-  {blue {cyan {bold ℹ}} :\t {grey ${config.database.db_port}}}
+  {blue {cyan {bold ℹ}} db_name:\t {grey ${config.database.db_name}}}
+  {blue {cyan {bold ℹ}} db_host:\t {grey ${config.database.db_host}}}
+  {blue {cyan {bold ℹ}} db_user:\t {grey ${config.database.db_user}}}
+  {blue {cyan {bold ℹ}} db_port:\t {grey ${config.database.db_port}}}
   {cyan Discord Bot Details}
-  {blue {cyan {bold ℹ}} :\t {grey ${config.discord.prefix}}}
-  {blue {cyan {bold ℹ}} :\t {grey ${config.discord.bot_admin}}}  
+  {blue {cyan {bold ℹ}} prefix:\t {grey ${config.discord.prefix}}}
+  {blue {cyan {bold ℹ}} bot_admin:\t {grey ${config.discord.bot_admin}}}  
   {cyan Faucet Details}
-  {blue {cyan {bold ℹ}} :\t {grey ${config.faucet.faucet_wallet_pub}}}
-  {blue {cyan {bold ℹ}} :\t {grey ${config.faucet.payout_interval}}}  
-  {blue {cyan {bold ℹ}} :\t {grey ${config.faucet.min_payout}}}  
-  {blue {cyan {bold ℹ}} :\t {grey ${config.faucet.max_payout}}}`);
+  {blue {cyan {bold ℹ}} faucet_wallet_pub:\t {grey ${config.faucet.faucet_wallet_pub}}}
+  {blue {cyan {bold ℹ}} payout_interval:\t {grey ${config.faucet.payout_interval}}}  
+  {blue {cyan {bold ℹ}} min_payout:\t {grey ${config.faucet.min_payout}}}  
+  {blue {cyan {bold ℹ}} max_payout:\t {grey ${config.faucet.max_payout}}}`);
 
 // check SQL
 /*
