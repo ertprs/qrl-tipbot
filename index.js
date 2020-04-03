@@ -55,8 +55,8 @@ console.log(chalk`{green {cyan {bold ℹ}} Config Found!!}
       database: `${config.database.db_name}`,
     });
 
-async function sqlCheck()    {
-    await callmysql.connect(function(err) {
+ function sqlCheck()    {
+     callmysql.connect(function(err) {
       if (err) {
         console.log('error: ' + err.message);
         console.log('error complete: ' + JSON.stringify(err));
@@ -72,7 +72,11 @@ async function sqlCheck()    {
     });
 }
 
-sqlCheck();
+async function check() {
+await sqlCheck();
+}
+
+check();
 // check QRL Node
 
  // check for the config file
