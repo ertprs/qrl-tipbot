@@ -31,7 +31,8 @@ function walletAPICheck() {
 }
 
 // ConfigCheck returns true if file is found
-function ConfigCheck() {
+async function ConfigCheck() {
+  return new Promise(resolve => {
     // check for the config file
     fs.access('_config/config.json', error => {
       if (error) {
@@ -41,8 +42,10 @@ function ConfigCheck() {
         returnArray.push({ config_found: 'true' });
       }
     });
-    return returnArray;
-  }
+    resolve(returnArray);
+    return;
+  });
+}
 
 
 // MysqlCheck returns true if database is connectable and found
