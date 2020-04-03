@@ -139,7 +139,7 @@ function spawnDiscordBot() {
   spawnDiscord.unref();
   // console.log('PID: ' + spawnDiscord.pid);
   console.log(chalk`  {blue {cyan {bold ℹ}} Discord Bot Started!}
-  {blue {cyan {bold ℹ}} Discord Bot PID: {grey ${spawnDiscord.pid}}}`);
+  {blue {cyan {bold ℹ}} Discord Bot PID: {red ${spawnDiscord.pid}}}`);
 }
 
 
