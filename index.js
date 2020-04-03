@@ -60,7 +60,7 @@ console.log(chalk`
 `);
 
 // check SQL
-
+/*
 const mysqlCheck = health.MysqlCheck;
 const SQLPromise = mysqlCheck();
 SQLPromise.then(function(results) {
@@ -73,7 +73,7 @@ SQLPromise.then(function(results) {
   }
 });
 
-
+*/
 
 
 /*
