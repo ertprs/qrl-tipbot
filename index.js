@@ -63,7 +63,7 @@ const query = util.promisify(callmysql.query).bind(callmysql);
     // check for the bot and donate address, and confirm connection to sql.
     const rows = await query('select * from users where user_id=1');
 
-    
+
     console.log(rows);
   } finally {
     callmysql.end();
@@ -89,7 +89,7 @@ const query = util.promisify(callmysql.query).bind(callmysql);
 }
 
 
-sqlCheck();
+//sqlCheck();
 
 
 
