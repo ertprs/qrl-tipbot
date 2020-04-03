@@ -19,8 +19,6 @@ console.log(chalk`
 
 // check for config file
 const confCheck = health.ConfigCheck;
-
-  console.log('results to confCheck: ' + JSON.stringify(results));
   if (!confCheck.config_found) {
     console.log(`
     {red {bold ℹ} Config NOT Found...}{grey Copy from /_config.config.json.example and fill out}
