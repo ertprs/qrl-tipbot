@@ -80,10 +80,10 @@ BotWalPubQuery()
   const bot_wallet_pub = WalPubQueryresults[0].wallet_pub;
   console.log('bot_wallet_pub' + bot_wallet_pub);
   console.log('bot_wallet_pub' + config.bot_details.bot_donationAddress);
-  
+
   if (bot_wallet_pub !== config.bot_details.bot_donationAddress) {
     console.log(chalk`  {red {bold ℹ} Bot Address and config address don't match... }{grey ensure the bot is user 1 in the database and has the same address as the bot_donationAddress}`);
-    return;
+    // return;
   }
   else {
     console.log(chalk`  {blue {cyan {bold ℹ}} Bot Address Set Correct!}`);
