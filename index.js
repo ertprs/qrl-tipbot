@@ -15,7 +15,7 @@ Time is: {green {dim ${now}}}}
   {blue {cyan {bold ℹ}} Running Checks...}
     `);
 
-
+let configFound = '';
 async function checkCONFIG() {
   return new Promise(resolve => {
   // check for config file
