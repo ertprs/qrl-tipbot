@@ -94,7 +94,7 @@ BotWalPubQuery()
   const listAddresses = wallet.list;
   listAddresses().then(function(addresses) {
     console.log(typeof(addresses));
-    var re = /"/; // split on colon space or comma space
+    var re = //; // split on colon space or comma space
     var ar = addresses.split(re);
     console.log(ar);
 
