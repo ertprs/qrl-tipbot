@@ -9,16 +9,14 @@ const chalk = require('chalk');
 const now = new Date();
 const { spawn } = require('child_process');
 
-console.log(chalk`
-{cyan Discord Starting the QRL TipBot 
+console.log(chalk`{cyan Starting the QRL TipBot 
 Time is: {green {dim ${now}}}}
   {blue {cyan {bold ℹ}} Running Checks...}`);
 
  // check for the config file
     fs.access('_config/config.json', error => {
       if (error) {
-        console.log(chalk`
-        {red {bold ℹ} Config NOT Found...}{grey Copy from /_config.config.json.example and fill out}
+        console.log(chalk`  {red {bold ℹ} Config NOT Found...}{grey Copy from /_config.config.json.example and fill out}
         `);
         return;
       }
