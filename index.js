@@ -65,13 +65,13 @@ console.log(chalk`{green {cyan {bold ℹ}} Config Found!!}
         console.log('error complete: ' + JSON.stringify(err));
         return;
       }
-      // console.log('Connected to the MySQL server.');
+      console.log('Connected to the MySQL server.');
     });
     callmysql.end(function(err) {
       if (err) {
         return console.log('error:' + err.message);
       }
-      // console.log('Close the database connection.');
+      console.log('Close the database connection.');
     });
 
 
