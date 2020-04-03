@@ -78,8 +78,8 @@ BotWalPubQuery()
   // console.log(JSON.stringify(WalPubQueryresults));
   console.log(chalk`{green Database Connected!!}`);
   const bot_wallet_pub = WalPubQueryresults[0].wallet_pub;
-  console.log('bot_wallet_pub' + bot_wallet_pub);
-  console.log('bot_wallet_pub' + config.bot_details.bot_donationAddress);
+  //console.log('bot_wallet_pub' + bot_wallet_pub);
+  //console.log('bot_wallet_pub' + config.bot_details.bot_donationAddress);
 
   if (bot_wallet_pub !== config.bot_details.bot_donationAddress) {
     console.log(chalk`  {red {bold ℹ} Bot Address and config address don't match... }{grey ensure the bot is user 1 in the database and has the same address as the bot_donationAddress}`);
@@ -114,7 +114,7 @@ BotWalPubQuery()
 // check QRL Node
  // check for the config file
  const homeDir = require('os').homedir();
- console.log(homeDir);
+ //console.log(homeDir);
     fs.access(homeDir + '/.qrl/data/state/LOCK', error => {
       if (error) {
         console.log(chalk`  {red {bold ℹ} QRL Dir NOT Found...}{grey Copy from /_config.config.json.example and fill out}
