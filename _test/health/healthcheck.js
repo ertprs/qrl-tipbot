@@ -42,6 +42,7 @@ async function ConfigCheck() {
         returnArray.push({ config_found: 'true' });
       }
     });
+    console.log('returnArray: ' + JSON.stringify(returnArray));
     resolve(returnArray);
     return returnArray;
   });
