@@ -10,9 +10,8 @@ const now = new Date();
 const { spawn } = require('child_process');
 
 console.log(chalk`
-{cyan ==========================================}
 {cyan Discord Starting the QRL TipBot 
-  Time is: {green {dim ${now}}}}
+Time is: {green {dim ${now}}}}
   {blue {cyan {bold ℹ}} Running Checks...}
     `);
 
@@ -62,7 +61,8 @@ console.log(chalk`
 // check SQL
 
 const mysqlCheck = health.MysqlCheck;
-mysqlCheck.then(function(results) {
+consy SQLPromise = mysqlCheck();
+SQLPromise.then(function(results) {
   console.log('results to confCheck: ' + JSON.stringify(results));
   if (!results[0].database_connected) {
     console.log(chalk`
