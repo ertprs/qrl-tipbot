@@ -91,7 +91,7 @@ async function list() {
 }
 
 async function listAll() {
-  const { stdout, stderr } = await exec('curl -s -XGET http://127.0.0.1:5359/api/ListAddresses');
+  const { stdout, stderr } = await exec('curl -s -XGET http://127.0.0.1:5359/api/ListAddresses |jq .');
   if (stderr) {
     console.error(`error: ${stderr}`);
   }
