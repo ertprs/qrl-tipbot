@@ -21,10 +21,6 @@ Time is: {green {dim ${now}}}}
         `);
         return;
       }
-      else {
-        console.log(chalk`
-          `);
-      }
     });
 const config = require('./_config/config.json');
 console.log(chalk`{green {cyan {bold ℹ}} Config Found!!}
@@ -50,9 +46,8 @@ console.log(chalk`{green {cyan {bold ℹ}} Config Found!!}
   {blue {cyan {bold ℹ}} max_payout: {grey ${config.faucet.max_payout}}}`);
 
 
-//sql
-
- // database connection info found in the config file
+// MySQL
+// database connection info found in the config file
     const callmysql = mysql.createConnection({
       host: `${config.database.db_host}`,
       user: `${config.database.db_user}`,
@@ -74,6 +69,19 @@ console.log(chalk`{green {cyan {bold ℹ}} Config Found!!}
       console.log('Close the database connection.');
     });
 
+
+// check QRL Node
+
+ // check for the config file
+ const homeDir = require('os').homedir();
+    fs.access(homeDir + '.qrl/data/state/LOCK', error => {
+      if (error) {
+        console.log(chalk`  {red {bold ℹ} QRL Dir NOT Found...}{grey Copy from /_config.config.json.example and fill out}
+        `);
+        return;
+      }
+    });
+console.log(chalk`{green {cyan {bold ℹ}} QRL Dir Found!!})`
 
 /*
 Spawn bots here.
