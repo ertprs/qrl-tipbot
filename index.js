@@ -2,13 +2,12 @@
 ':' //; exec "$(command -v nodejs || command -v node)" "$0" "$@"
 
 'use strict';
-const health = require('./_test/health/healthcheck');
-
+// const health = require('./_test/health/healthcheck');
+const wallet = require('./_scripts/qrl/walletTools');
 const fs = require('fs');
 const mysql = require('mysql');
 const chalk = require('chalk');
 const now = new Date();
-const util = require('util');
 const { spawn } = require('child_process');
 
 console.log(chalk`{cyan Starting the QRL TipBot 
@@ -56,11 +55,10 @@ console.log(chalk`{green {cyan {bold ℹ}} Config Found!!}
       database: `${config.database.db_name}`,
     });
 
-const SQLQuery = function() {
+const BotWalPubQuery = function() {
   return new Promise(function(resolve, reject) {
-
     callmysql.query(
-      'select * from wallets where user_id=1',
+      'select wallets.wallet_pub AS wallet_pub from wallets where user_id=1',
       function(err, rows) {
         if(rows === undefined) {
           reject(new Error('Error rows is undefined'));
@@ -74,30 +72,34 @@ const SQLQuery = function() {
   });
 };
 
-  // const query = util.promisify(callmysql.query).bind(callmysql);
-  // (async () => {
-    // try {
-      // check for the bot and donate address, and confirm connection to sql.
-      // const rows = await query('select * from wallets where user_id=1');
+BotWalPubQuery()
+.then(function(WalPubQueryresults) {
+  // the query should find the same address in the config.bot_details.bot_donationAddress
+  console.log(JSON.stringify(WalPubQueryresults));
+  console.log(chalk`{green Database Connected!!}`);
+  const bot_wallet_pub = WalPubQueryresults[0].wallet_pub;
+  if (bot_wallet_pub !== config.bot_details.bot_donationAddress ) {
+    console.log(chalk`  {red {bold ℹ} Bot Address and config address don't match... }{grey ensure the bot is user 1 in the database and has the same address as the bot_donationAddress}`);
+    return;
+  }
+  else {
+    console.log(chalk`  {blue {cyan {bold ℹ}} Bot Address Set Correct!}`);
+  }
 
-//      console.log(rows);
-  //  }
-    //finally {
-      //callmysql.end();
-    //}
-  //})();
+// query the list of addresses and make sure both faucet and hold address exist in the list
 
-//}
+  const listAddresses = wallet.list;
+  listAddresses().then(function(addresses) {
+    console.log(JSON.stringify(addresses))
+  });
 
-SQLQuery()
-.then(function(results) {
-  console.log(JSON.stringify(results));
+
+
 
 
 
 
 // check QRL Node
-
  // check for the config file
  const homeDir = require('os').homedir();
  console.log(homeDir);
@@ -139,13 +141,11 @@ function spawnDiscordBot() {
   console.log(chalk`  {blue {cyan {bold ℹ}} Discord Bot Started!}
   {blue {cyan {bold ℹ}} Discord Bot PID: {red ${spawnDiscord.pid}}}`);
 }
-
-
 // spawn all bots here into background processes
-spawnDiscordBot();
-
-console.log(chalk`  {blue {cyan {bold ℹ}} Checks Complete... {grey All Services started}}
-`);
+    spawnDiscordBot();
+    console.log(chalk`  {blue {cyan {bold ℹ}} Checks Complete... {grey All Services started}}
+    `);
+  });
 });
 
 /*
