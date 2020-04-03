@@ -81,7 +81,7 @@ console.log(chalk`{green {cyan {bold ℹ}} Config Found!!}
         return;
       }
     });
-console.log(chalk`{green {cyan {bold ℹ}} QRL Dir Found!!})`
+console.log(chalk`{green {cyan {bold ℹ}} QRL Dir Found!!}`);
 
 /*
 Spawn bots here.
