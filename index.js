@@ -28,25 +28,25 @@ Time is: {green {dim ${now}}}}
 const config = require('./_config/config.json');
 console.log(chalk`  {blue {cyan {bold ℹ}} Config Found!!}
   {cyan Bot Details}
-  {blue {cyan {bold ℹ}} bot_name:\t {grey ${config.bot_details.bot_name}}}
-  {blue {cyan {bold ℹ}} bot_url:\t {grey ${config.bot_details.bot_url}}}
-  {blue {cyan {bold ℹ}} bot_donationAddress:\t {grey ${config.bot_details.bot_donationAddress}}}
+  {blue {cyan {bold ℹ}} bot_name: {grey ${config.bot_details.bot_name}}}
+  {blue {cyan {bold ℹ}} bot_url: {grey ${config.bot_details.bot_url}}}
+  {blue {cyan {bold ℹ}} bot_donationAddress: {grey ${config.bot_details.bot_donationAddress}}}
   {cyan Wallet Details}
-  {blue {cyan {bold ℹ}} tx_fee:\t {grey ${config.wallet.tx_fee}}}
-  {blue {cyan {bold ℹ}} hold_address:\t {grey ${config.wallet.hold_address}}}
+  {blue {cyan {bold ℹ}} tx_fee: {grey ${config.wallet.tx_fee}}}
+  {blue {cyan {bold ℹ}} hold_address: {grey ${config.wallet.hold_address}}}
   {cyan TipBot Database Details}
-  {blue {cyan {bold ℹ}} db_name:\t {grey ${config.database.db_name}}}
-  {blue {cyan {bold ℹ}} db_host:\t {grey ${config.database.db_host}}}
-  {blue {cyan {bold ℹ}} db_user:\t {grey ${config.database.db_user}}}
-  {blue {cyan {bold ℹ}} db_port:\t {grey ${config.database.db_port}}}
+  {blue {cyan {bold ℹ}} db_name: {grey ${config.database.db_name}}}
+  {blue {cyan {bold ℹ}} db_host: {grey ${config.database.db_host}}}
+  {blue {cyan {bold ℹ}} db_user: {grey ${config.database.db_user}}}
+  {blue {cyan {bold ℹ}} db_port: {grey ${config.database.db_port}}}
   {cyan Discord Bot Details}
-  {blue {cyan {bold ℹ}} prefix:\t {grey ${config.discord.prefix}}}
-  {blue {cyan {bold ℹ}} bot_admin:\t {grey ${config.discord.bot_admin}}}  
+  {blue {cyan {bold ℹ}} prefix: {grey ${config.discord.prefix}}}
+  {blue {cyan {bold ℹ}} bot_admin: {grey ${config.discord.bot_admin}}}  
   {cyan Faucet Details}
-  {blue {cyan {bold ℹ}} faucet_wallet_pub:\t {grey ${config.faucet.faucet_wallet_pub}}}
-  {blue {cyan {bold ℹ}} payout_interval:\t {grey ${config.faucet.payout_interval}}}  
-  {blue {cyan {bold ℹ}} min_payout:\t {grey ${config.faucet.min_payout}}}  
-  {blue {cyan {bold ℹ}} max_payout:\t {grey ${config.faucet.max_payout}}}`);
+  {blue {cyan {bold ℹ}} faucet_wallet_pub: {grey ${config.faucet.faucet_wallet_pub}}}
+  {blue {cyan {bold ℹ}} payout_interval: {grey ${config.faucet.payout_interval}}}  
+  {blue {cyan {bold ℹ}} min_payout: {grey ${config.faucet.min_payout}}}  
+  {blue {cyan {bold ℹ}} max_payout: {grey ${config.faucet.max_payout}}}`);
 
 // check SQL
 /*
@@ -73,7 +73,7 @@ Give output like
   console.log(chalk`
 
   {blue {cyan {bold ℹ}} Discord Bot Started!}
-  {blue {cyan {bold ℹ}} Discord Bot PID:\t {grey ${spawnDiscord.pid}}}
+  {blue {cyan {bold ℹ}} Discord Bot PID: {grey ${spawnDiscord.pid}}}
   `);
 
 */
@@ -92,7 +92,7 @@ function spawnDiscordBot() {
   spawnDiscord.unref();
   // console.log('PID: ' + spawnDiscord.pid);
   console.log(chalk`  {blue {cyan {bold ℹ}} Discord Bot Started!}
-  {blue {cyan {bold ℹ}} Discord Bot PID:\t {grey ${spawnDiscord.pid}}}`);
+  {blue {cyan {bold ℹ}} Discord Bot PID: {grey ${spawnDiscord.pid}}}`);
 }
 
 
