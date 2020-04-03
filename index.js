@@ -92,27 +92,7 @@ const SQLQuery = function() {
 SQLQuery()
 .then(function(results) {
   console.log(JSON.stringify(results));
-});
 
- async function sqlCheck() {
-    await callmysql.connect(function(err) {
-      if (err) {
-        console.log('error: ' + err.message);
-        console.log('error complete: ' + JSON.stringify(err));
-        return;
-      }
-      console.log('Connected to the MySQL server.');
-    });
-    await callmysql.end(function(err) {
-      if (err) {
-        return console.log('error:' + err.message);
-      }
-      console.log('Close the database connection.');
-    });
-}
-
-
-// sqlCheck();
 
 
 
@@ -166,7 +146,7 @@ spawnDiscordBot();
 
 console.log(chalk`  {blue {cyan {bold ℹ}} Checks Complete... {grey All Services started}}
 `);
-
+});
 
 /*
 const nodeCheck = health.NodeCheck();
