@@ -95,9 +95,20 @@ BotWalPubQuery()
   listAddresses().then(function(addresses) {
     const addressArray = JSON.parse(JSON.stringify(addresses));
     console.log('faucet wallet pub check: ' + addressArray.indexOf(config.faucet.faucet_wallet_pub));
+    const faucetPubCheck = addressArray.indexOf(config.faucet.faucet_wallet_pub);
+    if (faucetPubCheck === -1) {
+      console.log('failed check for faucet wallet')
+    }
     console.log('hold wallet pub check: ' + addressArray.indexOf(config.wallet.hold_address));
+    const faucetPubCheck = addressArray.indexOf(config.wallet.hold_address);
+    if (faucetPubCheck === -1) {
+      console.log('failed check for faucet wallet')
+    }
     console.log('bad pub check: ' + addressArray.indexOf('Q0003009da13a0d61b80ac149b5e5658a6943773261eb23cb635f1cd864493b5f76285b96503ce1'));
-
+    const faucetPubCheck = addressArray.indexOf('Q0003009da13a0d61b80ac149b5e5658a6943773261eb23cb635f1cd864493b5f76285b96503ce1');
+    if (faucetPubCheck === -1) {
+      console.log('failed check for faucet wallet')
+    }
 
   });
 // check QRL Node
