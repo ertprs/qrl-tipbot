@@ -19,7 +19,7 @@ Time is: {green {dim ${now}}}}
 // check for config file
 const confCheck = health.ConfigCheck;
 const checkPromise = confCheck();
-console.log(checkPromise);
+console.log(checkPromise());
 console.log(confCheck);
 checkPromise.then(function(results) {
   console.log('results to confCheck: ' + JSON.stringify(results));
