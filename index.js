@@ -56,7 +56,7 @@ console.log(chalk`{green {cyan {bold ℹ}} Config Found!!}
       database: `${config.database.db_name}`,
     });
 
-function SQLQuery() {
+const SQLQuery = function() {
   const query = util.promisify(callmysql.query).bind(callmysql);
   (async () => {
     try {
@@ -71,7 +71,7 @@ function SQLQuery() {
   })();
 }
 
-SQLQuery().then(function(results) {
+SQLQuery.then(function(results) {
   console.log(JSON.stringify(results));
 });
 
