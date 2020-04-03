@@ -54,7 +54,9 @@ console.log(chalk`{green {cyan {bold ℹ}} Config Found!!}
       password: `${config.database.db_pass}`,
       database: `${config.database.db_name}`,
     });
-    callmysql.connect(function(err) {
+
+async function sqlCheck()    {
+    await callmysql.connect(function(err) {
       if (err) {
         console.log('error: ' + err.message);
         console.log('error complete: ' + JSON.stringify(err));
@@ -68,8 +70,9 @@ console.log(chalk`{green {cyan {bold ℹ}} Config Found!!}
       }
       console.log('Close the database connection.');
     });
+}
 
-
+sqlCheck();
 // check QRL Node
 
  // check for the config file
