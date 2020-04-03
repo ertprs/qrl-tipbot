@@ -16,24 +16,32 @@ Time is: {green {dim ${now}}}}
     `);
 
 
-// check for config file
-const confCheck = health.ConfigCheck;
-const checkPromise = confCheck();
+async function checkCONFIG() {
+  // check for config file
+  const confCheck = health.ConfigCheck;
+  const checkPromise = await confCheck();
+  checkPromise.then(function(results) {
+    console.log('results to confCheck: ' + JSON.stringify(results));
+    if (!results[0].config_found) {
+      console.log(chalk`
+      {red {bold ℹ} Config NOT Found...}{grey Copy from /_config.config.json.example and fill out}
+      `);
+      const configFound = false;
+      return;
+    }
+    else {
+      const configFound = true;
+      console.log(chalk`
+      {blue {cyan {bold ℹ}} Config FIle Found!}
+      `);
+    }
+  });
+}
 
-checkPromise.then(function(results) {
-  console.log('results to confCheck: ' + JSON.stringify(results));
-  if (!results[0].config_found) {
-    console.log(chalk`
-    {red {bold ℹ} Config NOT Found...}{grey Copy from /_config.config.json.example and fill out}
-    `);
-    return;
-  }
-  else {
-  console.log(chalk`
-  {blue {cyan {bold ℹ}} Config FIle Found!}
-  `);
-  }
-});
+checkCONFIG()
+if (!configFound) {
+  return;
+}
 
 const config = require('./_config/config.json');
 console.log(chalk`
