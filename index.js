@@ -66,7 +66,7 @@ const query = util.promisify(callmysql.query).bind(callmysql);
     
     console.log(rows);
   } finally {
-    conn.end();
+    callmysql.end();
   }
 })()
 
