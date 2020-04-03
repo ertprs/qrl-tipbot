@@ -30,8 +30,6 @@ Time is: {green {dim ${now}}}}
           `);
       }
     });
-console.log('returnArray: ' + JSON.stringify(returnArray));
-
 const config = require('./_config/config.json');
 console.log(chalk`
 {blue Bot Details}
