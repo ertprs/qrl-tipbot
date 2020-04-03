@@ -93,7 +93,7 @@ BotWalPubQuery()
 
   const listAddresses = wallet.listAll;
   listAddresses().then(function(addresses) {
-    const addressArray = JSON.parse(addresses);
+    const addressArray = JSON.parse(JSON.stringify(addresses));
     console.log(addressArray);
 
   });
