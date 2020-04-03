@@ -15,39 +15,22 @@ Time is: {green {dim ${now}}}}
   {blue {cyan {bold ℹ}} Running Checks...}
     `);
 
-let configFound = '';
-async function checkCONFIG() {
-  return new Promise(resolve => {
-  // check for config file
-  const confCheck = health.ConfigCheck;
-  const checkPromise = await confCheck();
-
-  checkPromise.then(function(results) {
-    console.log('results to confCheck: ' + JSON.stringify(results));
-    if (!results[0].config_found) {
-      console.log(chalk`
-      {red {bold ℹ} Config NOT Found...}{grey Copy from /_config.config.json.example and fill out}
-      `);
-      const configFound = false;
-      resolve(configFound);
-      return configFound;
-    }
-    else {
-      const configFound = true;
-      console.log(chalk`
-      {blue {cyan {bold ℹ}} Config FIle Found!}
-      `);
-      resolve(configFound);
-      return configFound;
-    }
-  });
-});
-}
-
-checkCONFIG();
-if (!configFound) {
-  return;
-}
+ // check for the config file
+    fs.access('_config/config.json', error => {
+      if (error) {
+        console.log(chalk`
+        {red {bold ℹ} Config NOT Found...}{grey Copy from /_config.config.json.example and fill out}
+        `);
+        return;
+      }
+      else {
+        console.log(chalk`
+        {blue Bot Details}
+          {blue {cyan {bold ℹ}} Config Found!!}
+          `);
+      }
+    });
+console.log('returnArray: ' + JSON.stringify(returnArray));
 
 const config = require('./_config/config.json');
 console.log(chalk`
