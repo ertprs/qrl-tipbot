@@ -21,19 +21,19 @@ console.log(chalk`
 const confCheck = health.ConfigCheck;
 console.log('confCheck: ' + JSON.stringify(confCheck));
   if (!confCheck.config_found) {
-    console.log(`
+    console.log(chalk`
     {red {bold ℹ} Config NOT Found...}{grey Copy from /_config.config.json.example and fill out}
     `);
     return;
   }
   else {
-  console.log(`
+  console.log(chalk`
   {blue {cyan {bold ℹ}} Config FIle Found!}
   `);
   }
 
 const config = require('./_config/config.json');
-console.log(`
+console.log(chalk`
 {blue Bot Details}
   {blue {cyan {bold ℹ}} :\t {grey ${config.bot_details.bot_name}}}
   {blue {cyan {bold ℹ}} :\t {grey ${config.bot_details.bot_url}}}
@@ -62,7 +62,7 @@ const mysqlCheck = health.MysqlCheck;
 mysqlCheck.then(function(results) {
   console.log('results to confCheck: ' + JSON.stringify(results));
   if (!results[0].database_connected) {
-    console.log(`
+    console.log(chalk`
     {red {bold ℹ} Discord Bot FAILED to start!}
     `);
     return;
