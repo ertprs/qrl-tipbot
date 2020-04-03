@@ -43,7 +43,7 @@ async function ConfigCheck() {
       }
     });
     resolve(returnArray);
-    return;
+    return returnArray;
   });
 }
 
