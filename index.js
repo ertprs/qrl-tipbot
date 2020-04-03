@@ -19,9 +19,9 @@ console.log(chalk`
 
 // check for config file
 const confCheck = health.ConfigCheck;
-confCheck.then(function(results) {
+
   console.log('results to confCheck: ' + JSON.stringify(results));
-  if (!results[0].config_found) {
+  if (!confCheck.config_found) {
     console.log(`
     {red {bold ℹ} Config NOT Found...}{grey Copy from /_config.config.json.example and fill out}
     `);
@@ -32,7 +32,6 @@ confCheck.then(function(results) {
   {blue {cyan {bold ℹ}} Config FIle Found!}
   `);
   }
-});
 
 const config = require('./_config/config.json');
 console.log(`
