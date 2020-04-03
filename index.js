@@ -71,7 +71,8 @@ const SQLQuery = function() {
   })();
 }
 
-SQLQuery.then(function(results) {
+SQLQuery()
+.then(function(results) {
   console.log(JSON.stringify(results));
 });
 
