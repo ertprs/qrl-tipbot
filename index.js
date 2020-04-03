@@ -78,7 +78,7 @@ BotWalPubQuery()
   console.log(JSON.stringify(WalPubQueryresults));
   console.log(chalk`{green Database Connected!!}`);
   const bot_wallet_pub = WalPubQueryresults[0].wallet_pub;
-  if (bot_wallet_pub !== config.bot_details.bot_donationAddress ) {
+  if (bot_wallet_pub !== config.bot_details.bot_donationAddress) {
     console.log(chalk`  {red {bold ℹ} Bot Address and config address don't match... }{grey ensure the bot is user 1 in the database and has the same address as the bot_donationAddress}`);
     return;
   }
@@ -90,15 +90,8 @@ BotWalPubQuery()
 
   const listAddresses = wallet.list;
   listAddresses().then(function(addresses) {
-    console.log(JSON.stringify(addresses))
+    console.log(JSON.stringify(addresses));
   });
-
-
-
-
-
-
-
 // check QRL Node
  // check for the config file
  const homeDir = require('os').homedir();
@@ -146,7 +139,6 @@ function spawnDiscordBot() {
     console.log(chalk`  {blue {cyan {bold ℹ}} Checks Complete... {grey All Services started}}
     `);
   });
-});
 
 /*
 const nodeCheck = health.NodeCheck();
