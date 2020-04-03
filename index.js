@@ -8,6 +8,7 @@ const fs = require('fs');
 const mysql = require('mysql');
 const chalk = require('chalk');
 const now = new Date();
+const util = require('util');
 const { spawn } = require('child_process');
 
 console.log(chalk`{cyan Starting the QRL TipBot 
@@ -54,6 +55,21 @@ console.log(chalk`{green {cyan {bold ℹ}} Config Found!!}
       password: `${config.database.db_pass}`,
       database: `${config.database.db_name}`,
     });
+
+
+const query = util.promisify(callmysql.query).bind(conn);
+(async () => {
+  try {
+    // check for the bot and donate address, and confirm connection to sql.
+    const rows = await query('select * from users where user_id=1');
+
+    
+    console.log(rows);
+  } finally {
+    conn.end();
+  }
+})()
+
 
  async function sqlCheck()    {
     await callmysql.connect(function(err) {
