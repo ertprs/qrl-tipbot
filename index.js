@@ -51,8 +51,7 @@ console.log(chalk`  {green {cyan {bold ℹ}} Config Found!!}
 // check SQL
 const mysqlCheck = health.MysqlCheck;
 const SQLPromise = mysqlCheck();
-const mySQLPromise = SQLPromise()
-mySQLPromise.then(function(results) {
+SQLPromise.then(function(results) {
   console.log('results to confCheck: ' + JSON.stringify(results));
   if (!results[0].database_connected) {
     console.log(chalk`
