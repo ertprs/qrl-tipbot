@@ -19,7 +19,8 @@ console.log(chalk`
 
 // check for config file
 const confCheck = health.ConfigCheck;
-confCheck.then(function(results) {
+const checkPromise = confCheck();
+checkPromise.then(function(results) {
   console.log('results to confCheck: ' + JSON.stringify(results));
   if (!results[0].config_found) {
     console.log(chalk`
