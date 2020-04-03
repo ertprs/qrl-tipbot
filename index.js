@@ -19,8 +19,9 @@ console.log(chalk`
 
 // check for config file
 const confCheck = health.ConfigCheck;
-console.log('confCheck: ' + JSON.stringify(confCheck));
-  if (!confCheck.config_found) {
+confCheck.then(function(results) {
+  console.log('results to confCheck: ' + JSON.stringify(results));
+  if (!results[0].config_found) {
     console.log(chalk`
     {red {bold ℹ} Config NOT Found...}{grey Copy from /_config.config.json.example and fill out}
     `);
@@ -31,6 +32,7 @@ console.log('confCheck: ' + JSON.stringify(confCheck));
   {blue {cyan {bold ℹ}} Config FIle Found!}
   `);
   }
+});
 
 const config = require('./_config/config.json');
 console.log(chalk`
@@ -77,7 +79,7 @@ Spawn bots here.
 Functions for each bot here. Using the healthcheck script add checks here to run for each bot
 Give output like
 
-  console.log(`
+  console.log(chalk`
 
   {blue {cyan {bold ℹ}} Discord Bot Started!}
   {blue {cyan {bold ℹ}} Discord Bot PID:\t {grey ${spawnDiscord.pid}}}
@@ -99,7 +101,7 @@ function spawnDiscordBot() {
   });
   spawnDiscord.unref();
   // console.log('PID: ' + spawnDiscord.pid);
-  console.log(`
+  console.log(chalk`
 
   {blue {cyan {bold ℹ}} Discord Bot Started!}
   {blue {cyan {bold ℹ}} Discord Bot PID:\t {grey ${spawnDiscord.pid}}}
@@ -110,7 +112,7 @@ function spawnDiscordBot() {
 // spawn all bots here into background processes
 spawnDiscordBot();
 
-console.log(`
+console.log(chalk`
 
   {blue {cyan {bold ℹ}} Checks Complete... {grey All Services started}}
 {cyan ==========================================}
