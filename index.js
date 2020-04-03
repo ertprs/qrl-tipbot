@@ -69,6 +69,7 @@ console.log(chalk`{green {cyan {bold ℹ}} Config Found!!}
         return console.log('error:' + err.message);
       }
       console.log('Close the database connection.');
+      return;
     });
 }
 
