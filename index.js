@@ -97,17 +97,26 @@ BotWalPubQuery()
     console.log('faucet wallet pub check: ' + addressArray.indexOf(config.faucet.faucet_wallet_pub));
     const faucetPubCheck = addressArray.indexOf(config.faucet.faucet_wallet_pub);
     if (faucetPubCheck === -1) {
-      console.log('failed check for faucetPubCheck wallet')
+      console.log(chalk`  {red {bold ℹ} Failed to find the config.faucet.faucet_wallet_pub address you have set in the config.json in the walletd.json file... }{grey This address must exist in the walletd.json!!}`);
+    }
+    else {
+      console.log(chalk`  {blue {cyan {bold ℹ}} Faucet Address Set Correct!}`);
     }
     console.log('hold wallet pub check: ' + addressArray.indexOf(config.wallet.hold_address));
     const holdPubCheck = addressArray.indexOf(config.wallet.hold_address);
     if (holdPubCheck === -1) {
-      console.log('failed check for holdPubCheck wallet')
+      console.log(chalk`  {red {bold ℹ} Failed to find the config.wallet.hold_address you have set in the config.json in the walletd.json file... }{grey This address must exist in the walletd.json!!}`);
+    }
+    else {
+      console.log(chalk`  {blue {cyan {bold ℹ}} Hold Address Set Correct!}`);
     }
     console.log('bad pub check: ' + addressArray.indexOf('Q0003009da13a0d61b80ac149b5e5658a6943773261eb23cb635f1cd864493b5f76285b96503ce1'));
     const badPubCheck = addressArray.indexOf('Q0003009da13a0d61b80ac149b5e5658a6943773261eb23cb635f1cd864493b5f76285b96503ce1');
     if (badPubCheck === -1) {
-      console.log('failed check for badPubCheck wallet')
+      console.log(chalk`  {red {bold ℹ} Failed to find the incorrect address you have set in the config.json in the walletd.json file... }{grey This address must exist in the walletd.json!!}`);
+    }
+    else {
+      console.log(chalk`  {blue {cyan {bold ℹ}} bad Address Set Correct? Somethign is wrong}`);
     }
 
   });
