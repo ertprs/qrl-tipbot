@@ -93,7 +93,7 @@ BotWalPubQuery()
 
   const listAddresses = wallet.list;
   listAddresses().then(function(addresses) {
-    console.log(addresses);
+    console.log(typeof(addresses));
   });
 // check QRL Node
  // check for the config file
