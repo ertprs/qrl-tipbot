@@ -97,17 +97,17 @@ BotWalPubQuery()
     console.log('faucet wallet pub check: ' + addressArray.indexOf(config.faucet.faucet_wallet_pub));
     const faucetPubCheck = addressArray.indexOf(config.faucet.faucet_wallet_pub);
     if (faucetPubCheck === -1) {
-      console.log('failed check for faucet wallet')
+      console.log('failed check for faucetPubCheck wallet')
     }
     console.log('hold wallet pub check: ' + addressArray.indexOf(config.wallet.hold_address));
     const holdPubCheck = addressArray.indexOf(config.wallet.hold_address);
     if (holdPubCheck === -1) {
-      console.log('failed check for faucet wallet')
+      console.log('failed check for holdPubCheck wallet')
     }
     console.log('bad pub check: ' + addressArray.indexOf('Q0003009da13a0d61b80ac149b5e5658a6943773261eb23cb635f1cd864493b5f76285b96503ce1'));
     const badPubCheck = addressArray.indexOf('Q0003009da13a0d61b80ac149b5e5658a6943773261eb23cb635f1cd864493b5f76285b96503ce1');
     if (badPubCheck === -1) {
-      console.log('failed check for faucet wallet')
+      console.log('failed check for badPubCheck wallet')
     }
 
   });
