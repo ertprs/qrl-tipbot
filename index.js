@@ -60,10 +60,10 @@ console.log(`
 
 // check SQL
 
-const confCheck = health.ConfigCheck;
-confCheck.then(function(results) {
+const mysqlCheck = health.MysqlCheck;
+mysqlCheck.then(function(results) {
   console.log('results to confCheck: ' + JSON.stringify(results));
-  if (!results[0].config_found) {
+  if (!results[0].database_connected) {
     console.log(`
     {red {bold ℹ} Discord Bot FAILED to start!}
     `);
