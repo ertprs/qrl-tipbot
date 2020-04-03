@@ -17,9 +17,11 @@ Time is: {green {dim ${now}}}}
 
 
 async function checkCONFIG() {
+  return new Promise(resolve => {
   // check for config file
   const confCheck = health.ConfigCheck;
-  const checkPromise = await confCheck();
+  const checkPromise = confCheck();
+
   checkPromise.then(function(results) {
     console.log('results to confCheck: ' + JSON.stringify(results));
     if (!results[0].config_found) {
@@ -27,6 +29,7 @@ async function checkCONFIG() {
       {red {bold ℹ} Config NOT Found...}{grey Copy from /_config.config.json.example and fill out}
       `);
       const configFound = false;
+      resolve(configFound);
       return configFound;
     }
     else {
@@ -34,14 +37,14 @@ async function checkCONFIG() {
       console.log(chalk`
       {blue {cyan {bold ℹ}} Config FIle Found!}
       `);
+      resolve(configFound);
       return configFound;
     }
   });
+});
 }
 
-
-
-checkCONFIG()
+checkCONFIG();
 if (!configFound) {
   return;
 }
