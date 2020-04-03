@@ -4,6 +4,7 @@
 'use strict';
 // const health = require('./_test/health/healthcheck');
 const wallet = require('./_scripts/qrl/walletTools');
+const listAddresses = wallet.listAll;
 const fs = require('fs');
 const mysql = require('mysql');
 const chalk = require('chalk');
@@ -72,14 +73,33 @@ const BotWalPubQuery = function() {
   });
 };
 
+const FaucetCheckReq = function() {
+  return new Promise(function(resolve, reject) {
+    listAddresses().then(function(addresses) {
+      const addressArray = JSON.parse(JSON.stringify(addresses));
+      // sconsole.log('faucet wallet pub check: ' + addressArray.indexOf(config.faucet.faucet_wallet_pub));
+      const faucetPubCheck = addressArray.indexOf(config.faucet.faucet_wallet_pub);
+      if (faucetPubCheck === -1) {
+        console.log(chalk`  {red {bold ℹ} Failed to find the config.faucet.faucet_wallet_pub address you have set in the config.json in the walletd.json file... }{grey This address must exist in the walletd.json!!}`);
+        reject(new Error('address not found in wallets.json'));
+      }
+      else {
+        const faucetAddyFound = true;
+        resolve(faucetAddyFound);
+        console.log(chalk`  {blue {cyan {bold ℹ}} Faucet Address Set Correct!}`);
+      }
+    });
+  });
+};
+
 BotWalPubQuery()
 .then(function(WalPubQueryresults) {
   // the query should find the same address in the config.bot_details.bot_donationAddress
   // console.log(JSON.stringify(WalPubQueryresults));
   console.log(chalk`{green Database Connected!!}`);
   const bot_wallet_pub = WalPubQueryresults[0].wallet_pub;
-  //console.log('bot_wallet_pub' + bot_wallet_pub);
-  //console.log('bot_wallet_pub' + config.bot_details.bot_donationAddress);
+  // console.log('bot_wallet_pub' + bot_wallet_pub);
+  // console.log('bot_wallet_pub' + config.bot_details.bot_donationAddress);
 
   if (bot_wallet_pub !== config.bot_details.bot_donationAddress) {
     console.log(chalk`  {red {bold ℹ} Bot Address and config address don't match... }{grey ensure the bot is user 1 in the database and has the same address as the bot_donationAddress}`);
@@ -90,19 +110,13 @@ BotWalPubQuery()
   }
 
 // query the list of addresses and make sure both faucet and hold address exist in the list
+FaucetCheckReq()
+.then(function(FaucetCheckReqRes) {
+  console.log('FaucetCheckReqRes: ' + FaucetCheckReqRes);
 
-  const listAddresses = wallet.listAll;
+
   listAddresses().then(function(addresses) {
     const addressArray = JSON.parse(JSON.stringify(addresses));
-    // sconsole.log('faucet wallet pub check: ' + addressArray.indexOf(config.faucet.faucet_wallet_pub));
-    const faucetPubCheck = addressArray.indexOf(config.faucet.faucet_wallet_pub);
-    if (faucetPubCheck === -1) {
-      console.log(chalk`  {red {bold ℹ} Failed to find the config.faucet.faucet_wallet_pub address you have set in the config.json in the walletd.json file... }{grey This address must exist in the walletd.json!!}`);
-    }
-    else {
-      console.log(chalk`  {blue {cyan {bold ℹ}} Faucet Address Set Correct!}`);
-    }
-    // console.log('hold wallet pub check: ' + addressArray.indexOf(config.wallet.hold_address));
     const holdPubCheck = addressArray.indexOf(config.wallet.hold_address);
     if (holdPubCheck === -1) {
       console.log(chalk`  {red {bold ℹ} Failed to find the config.wallet.hold_address you have set in the config.json in the walletd.json file... }{grey This address must exist in the walletd.json!!}`);
@@ -120,10 +134,12 @@ BotWalPubQuery()
     }
 
   });
+
+
 // check QRL Node
  // check for the config file
  const homeDir = require('os').homedir();
- //console.log(homeDir);
+ // console.log(homeDir);
     fs.access(homeDir + '/.qrl/data/state/LOCK', error => {
       if (error) {
         console.log(chalk`  {red {bold ℹ} QRL Dir NOT Found...}{grey Copy from /_config.config.json.example and fill out}
@@ -167,6 +183,7 @@ function spawnDiscordBot() {
     console.log(chalk`  {blue {cyan {bold ℹ}} Checks Complete... {grey All Services started}}
     `);
   });
+});
 
 /*
 const nodeCheck = health.NodeCheck();
