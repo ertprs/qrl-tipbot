@@ -27,16 +27,19 @@ async function checkCONFIG() {
       {red {bold ℹ} Config NOT Found...}{grey Copy from /_config.config.json.example and fill out}
       `);
       const configFound = false;
-      return;
+      return configFound;
     }
     else {
       const configFound = true;
       console.log(chalk`
       {blue {cyan {bold ℹ}} Config FIle Found!}
       `);
+      return configFound;
     }
   });
 }
+
+
 
 checkCONFIG()
 if (!configFound) {
