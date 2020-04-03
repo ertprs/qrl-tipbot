@@ -94,7 +94,9 @@ BotWalPubQuery()
   const listAddresses = wallet.listAll;
   listAddresses().then(function(addresses) {
     const addressArray = JSON.parse(JSON.stringify(addresses));
-    console.log(addressArray);
+    console.log('faucet wallet pub check: ' + addressArray.indexOf(config.faucet.faucet_wallet_pub));
+    console.log('hold wallet pub check: ' + addressArray.indexOf(config.wallet.hold_address));
+
 
   });
 // check QRL Node
