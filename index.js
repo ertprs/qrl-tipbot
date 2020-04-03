@@ -95,7 +95,7 @@ BotWalPubQuery()
   listAddresses().then(function(addresses) {
     console.log(typeof(addresses));
     var re = //; // split on colon space or comma space
-    var ar = addresses.split(re);
+    var ar = addresses.split();
     console.log(ar);
 
   });
