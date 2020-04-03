@@ -94,7 +94,7 @@ BotWalPubQuery()
   const listAddresses = wallet.listAll;
   listAddresses().then(function(addresses) {
     console.log(addresses);
-    const re = /(:\s|,\s)/;
+    const re = /(:\s|,\s|"\s)/;
     const ar = addresses.split(re);
     console.log(ar);
 
