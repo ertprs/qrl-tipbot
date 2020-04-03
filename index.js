@@ -12,8 +12,7 @@ const { spawn } = require('child_process');
 console.log(chalk`
 {cyan Discord Starting the QRL TipBot 
 Time is: {green {dim ${now}}}}
-  {blue {cyan {bold ℹ}} Running Checks...}
-    `);
+  {blue {cyan {bold ℹ}} Running Checks...}`);
 
  // check for the config file
     fs.access('_config/config.json', error => {
@@ -25,12 +24,11 @@ Time is: {green {dim ${now}}}}
       }
       else {
         console.log(chalk`
-  {blue {cyan {bold ℹ}} Config Found!!}
           `);
       }
     });
 const config = require('./_config/config.json');
-console.log(chalk`
+console.log(chalk`  {blue {cyan {bold ℹ}} Config Found!!}
 {blue Bot Details}
   {blue {cyan {bold ℹ}} :\t {grey ${config.bot_details.bot_name}}}
   {blue {cyan {bold ℹ}} :\t {grey ${config.bot_details.bot_url}}}
