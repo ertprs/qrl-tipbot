@@ -57,19 +57,37 @@ console.log(chalk`{green {cyan {bold ℹ}} Config Found!!}
     });
 
 const SQLQuery = function() {
-  const query = util.promisify(callmysql.query).bind(callmysql);
-  (async () => {
-    try {
-      // check for the bot and donate address, and confirm connection to sql.
-      const rows = await query('select * from wallets where user_id=1');
+  return new Promise(function(resolve, reject) {
 
-      console.log(rows);
-    }
-    finally {
-      callmysql.end();
-    }
-  })();
-}
+    callmysql.query(
+      'select * from wallets where user_id=1',
+      function(err, rows) {
+        if(rows === undefined) {
+          reject(new Error('Error rows is undefined'));
+        }
+        else {
+          resolve(rows);
+        }
+      }
+      );
+    callmysql.end();
+  });
+};
+
+  // const query = util.promisify(callmysql.query).bind(callmysql);
+  // (async () => {
+    // try {
+      // check for the bot and donate address, and confirm connection to sql.
+      // const rows = await query('select * from wallets where user_id=1');
+
+//      console.log(rows);
+  //  }
+    //finally {
+      //callmysql.end();
+    //}
+  //})();
+
+//}
 
 SQLQuery()
 .then(function(results) {
