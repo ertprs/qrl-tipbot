@@ -90,6 +90,16 @@ async function list() {
   return addresses;
 }
 
+async function listAll() {
+  const { stdout, stderr } = await exec('curl -s -XGET http://127.0.0.1:5359/api/ListAddresses');
+  if (stderr) {
+    console.error(`error: ${stderr}`);
+  }
+  // console.log(`List of Wallets:\n\n${stdout}`);
+  const addresses = stdout;
+  return addresses;
+}
+
 // Give count of all addresses in the wallet
 async function count() {
   const { stdout, stderr } = await exec('curl -s -XGET http://127.0.0.1:5359/api/ListAddresses |jq .addresses[] |wc -l');
@@ -179,6 +189,7 @@ async function unlock() {
 
 module.exports = {
   list : list,
+  listAll: listAll,
   count : count,
   totalBalance : totalBalance,
   checkBalance : checkBalance,
