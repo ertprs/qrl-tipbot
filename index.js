@@ -57,7 +57,7 @@ console.log(chalk`{green {cyan {bold ℹ}} Config Found!!}
     });
 
 
-const query = util.promisify(callmysql.query).bind(conn);
+const query = util.promisify(callmysql.query).bind(callmysql);
 (async () => {
   try {
     // check for the bot and donate address, and confirm connection to sql.
