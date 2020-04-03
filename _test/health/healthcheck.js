@@ -36,10 +36,10 @@ async function ConfigCheck() {
     // check for the config file
     fs.access('_config/config.json', error => {
       if (error) {
-        returnArray.push({ config_found: 'false' });
+        returnArray = { config_found: 'false' };
       }
       else {
-        returnArray.push({ config_found: 'true' });
+        returnArray = { config_found: 'true' };
       }
     });
     console.log('returnArray: ' + JSON.stringify(returnArray));
