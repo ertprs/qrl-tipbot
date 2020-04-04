@@ -16,9 +16,9 @@ Time is: {green {dim ${now}}}}
 {green Running Checks...}`);
 
 
-fs.stat('_config1', function(err, stat) {
+fs.stat('_config/config.json', function(err, stat) {
     if(err == null) {
-        console.log('File exists' + JSON.stringify(stat));
+        console.log('File exists');
     } else if(err.code === 'ENOENT') {
         // file does not exist
         fs.writeFile('log.txt', 'Some log\n');
@@ -26,8 +26,6 @@ fs.stat('_config1', function(err, stat) {
         console.log('Some other error: ', err.code);
     }
 });
-
-
  // check for the config file
     fs.access('_config/config.json', error => {
       if (error) {
