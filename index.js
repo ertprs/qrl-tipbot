@@ -16,27 +16,37 @@ Time is: {green {dim ${now}}}}
 {green Running Checks...}`);
 
 
-fs.stat('_config/config.json', function(err, stat) {
+const configStats = function() {
+  return new Promise(function(resolve, reject) {
+  fs.stat('_config/config.json', function(err, stat) {
     if(err == null) {
-        console.log('File exists');
-    } else if(err.code === 'ENOENT') {
+        const configFound = true;
+        resolve(configFound);
+    }
+    else if(err.code === 'ENOENT') {
+        reject(new Error('config file not found...'));
         // file does not exist
-        fs.writeFile('log.txt', 'Some log\n');
-    } else {
+    }
+    else {
         console.log('Some other error: ', err.code);
     }
 });
+});
+};
+
+
  // check for the config file
-    fs.access('_config/config.json', error => {
-      if (error) {
-        console.log(chalk`  {red {bold ℹ} Config NOT Found...}{grey Copy from /_config.config.json.example and fill out}
-        `);
-        return;
-      }
-    });
+configStats()
+.then(function(configStatsRes) {
+  if (!configStatsRes) {
+    console.log(chalk`  {red {bold ℹ} Config NOT Found...}{grey Copy from /_config.config.json.example and fill out}`);
+  }
+  else {
+    console.log(chalk`{green Config File found!!}`);
+  }
+
 const config = require('./_config/config.json');
-console.log(chalk`{green {cyan {bold ℹ}} Config Found!!}
-  {cyan Bot Details}
+console.log(chalk`{cyan Bot Details}
   {blue {cyan {bold ℹ}} bot_name: {grey ${config.bot_details.bot_name}}}
   {blue {cyan {bold ℹ}} bot_url: {grey ${config.bot_details.bot_url}}}
   {blue {cyan {bold ℹ}} bot_donationAddress: {grey ${config.bot_details.bot_donationAddress}}}
@@ -199,6 +209,7 @@ function spawnDiscordBot() {
     console.log(chalk`  {blue {cyan {bold ℹ}} Checks Complete... {grey All Services started}}
     `);
   });
+});
 });
 });
 /*
