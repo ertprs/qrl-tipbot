@@ -16,9 +16,9 @@ Time is: {green {dim ${now}}}}
 {green Running Checks...}`);
 
 
-fs.stat('_config/config.json', function(err, stat) {
+fs.stat('_config/', function(err, stat) {
     if(err == null) {
-        console.log('File exists' + JSON.stringify(stat));
+        console.log('File exists');
     } else if(err.code === 'ENOENT') {
         // file does not exist
         fs.writeFile('log.txt', 'Some log\n');
