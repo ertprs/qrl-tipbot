@@ -15,6 +15,19 @@ console.log(chalk`{cyan Starting the QRL TipBot
 Time is: {green {dim ${now}}}}
 {green Running Checks...}`);
 
+
+fs.stat('_config/config.json', function(err, stat) {
+    if(err == null) {
+        console.log('File exists' + stat);
+    } else if(err.code === 'ENOENT') {
+        // file does not exist
+        fs.writeFile('log.txt', 'Some log\n');
+    } else {
+        console.log('Some other error: ', err.code);
+    }
+});
+
+
  // check for the config file
     fs.access('_config/config.json', error => {
       if (error) {
@@ -114,9 +127,6 @@ BotWalPubQuery()
   // console.log(JSON.stringify(WalPubQueryresults));
   console.log(chalk`{green Database Connected!!}`);
   const bot_wallet_pub = WalPubQueryresults[0].wallet_pub;
-  // console.log('bot_wallet_pub' + bot_wallet_pub);
-  // console.log('bot_wallet_pub' + config.bot_details.bot_donationAddress);
-
   if (bot_wallet_pub !== config.bot_details.bot_donationAddress) {
     console.log(chalk`  {red {bold ℹ} Bot Address and config address don't match... }{grey ensure the bot is user 1 in the database and has the same address as the bot_donationAddress}`);
     // return;
@@ -124,7 +134,6 @@ BotWalPubQuery()
   else {
     console.log(chalk`  {blue {cyan {bold ℹ}} Bot Address Set Correct!}`);
   }
-
 // query the list of addresses and make sure both faucet and hold address exist in the list
 FaucetCheckReq()
 .then(function(FaucetCheckReqRes) {
@@ -147,10 +156,9 @@ HoldCheckReq()
 
 
 // check QRL Node
- // check for the config file
  const homeDir = require('os').homedir();
  // console.log(homeDir);
-    fs.access(homeDir + '/.qrl/data/state/LOCK', error => {
+    fs.access(homeDir + '/.qrl/qrl.log', error => {
       if (error) {
         console.log(chalk`  {red {bold ℹ} QRL Dir NOT Found...}{grey Copy from /_config.config.json.example and fill out}
         `);
