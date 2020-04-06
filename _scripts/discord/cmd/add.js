@@ -132,9 +132,9 @@ module.exports = {
     else if (args[0] == undefined) {
       checkUserpromise.then(function(result) {
         const output = JSON.parse(JSON.stringify(result));
-        console.log('output: ' + output);
+        // console.log('output: ' + output);
         const found = result.user_found;
-        console.log('user found: ' + found);
+        // console.log('user found: ' + found);
         // check for the user_found value returned from the promise
         if (found === 'true') {
           message.channel.startTyping();
@@ -186,7 +186,7 @@ module.exports = {
             const discord_id = '@' + MessageAuthorID;
             const wallet_pub = QRLaddress.address;
             const userInfo = { service: 'discord', service_id: discord_id, user_name: MessageAuthorUsername, wallet_pub: wallet_pub, wallet_bal: 0, user_key: salt, user_auto_created: false, auto_create_date: new Date(), opt_out: false, optout_date: new Date(), drip_amt: dripamt };
-            console.log('userInfo:' + JSON.stringify(userInfo));
+            // console.log('userInfo:' + JSON.stringify(userInfo));
             message.channel.stopTyping();
             return userInfo;
           }).then(function(userInfo) {
@@ -256,7 +256,7 @@ __**IF YOU AGREE TO THESE TERMS**__ \`+agree\`
 __**IF YOU DO NOT AGREE TO THESE TERMS**__ \`+opt-out\`
                     `)
                     message.channel.stopTyping(true);
-                    message.reply(':white_check_mark: Your signed up!\nFor a list of my commands type `+help`\n*Bonus! You will receive **' + dripamt + ' Quanta** from the faucet!');
+                    message.reply(':white_check_mark: Your signed up!\nFor a list of my commands type `+help`\n*Bonus! You will receive* ***' + dripamt + ' Quanta*** *from the faucet!');
                 })
                 .catch(error => {
                   console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
