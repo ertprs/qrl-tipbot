@@ -46,7 +46,7 @@ module.exports = {
         // const faucetFull = false;
         return;
       }
-    });
+
 
     function dripAmount(min, max) {
       const minAmt = min * 1000000000;
@@ -201,5 +201,6 @@ module.exports = {
         }
       });
     });
+  });
   },
 };
