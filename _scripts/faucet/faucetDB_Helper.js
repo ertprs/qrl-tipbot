@@ -29,7 +29,7 @@ async function Drip(args) {
     // console.log('No args given to DRIP:');
     return;
   }
-  // console.log('args into Drip function: ' + JSON.stringify(args));
+  console.log('args into Drip function: ' + JSON.stringify(args));
 
   // INSERT INTO faucet_payouts(user_id, service, drip_amt, updated_at, time_stamp)   VALUES(1, 'discord', .002, NOW(), NOW());
   const user_id = args.user_id;
