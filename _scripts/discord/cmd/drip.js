@@ -42,7 +42,7 @@ module.exports = {
       // console.log(chalk.cyan(' ! ') + chalk.blue(' Funds positive! Drip on...'));
       console.log(chalk.cyan('faucetBalance: ') + chalk.green(JSON.stringify(balanceRes)));
       if (balanceRes.balance <= '0') {
-        console.log(chalk.red(' !!! ') + chalk.bgRed(' The Faucet is flat... Add some funds to ') + chalk.grey(config.faucet.faucet_wallet_pub));
+        console.log(chalk.red(' !!! ') + chalk.bgRed(' The Faucet is flat...') + chalk.red('Add some funds to ' + config.faucet.faucet_wallet_pub));
         return;
       }
     });
