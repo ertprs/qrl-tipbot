@@ -43,10 +43,11 @@ module.exports = {
       console.log(chalk.cyan('faucetBalance: ') + chalk.green(JSON.stringify(balanceRes)));
       if (balanceRes.balance <= '0') {
         console.log(chalk.red('!!! ') + chalk.bgRed(' The Faucet is flat... ') + chalk.red('\nAdd some funds to ') + chalk.bgRed(config.faucet.faucet_wallet_pub));
-        return;
+        const faucetFull = false;
+        return faucetFull;
       }
     });
-
+    console.log('faucetFull: ' + faucetFull);
 
     function dripAmount(min, max) {
       const minAmt = min * 1000000000;
