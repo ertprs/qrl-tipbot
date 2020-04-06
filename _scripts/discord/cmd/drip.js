@@ -40,7 +40,7 @@ module.exports = {
     faucetBalance()
     .then(function(balanceRes) {
       // console.log(chalk.cyan(' ! ') + chalk.blue(' Funds positive! Drip on...'));
-      console.log(chalk.cyan('faucetBalance: ') + chalk.green(JSON.stringify(balanceRes)));
+      // console.log(chalk.cyan('faucetBalance: ') + chalk.green(JSON.stringify(balanceRes)));
       if (balanceRes.balance <= '0') {
         console.log(chalk.red('!!! ') + chalk.bgRed(' The Faucet is flat... ') + chalk.red('Add funds to: ') + chalk.bgRed(config.faucet.faucet_wallet_pub));
         message.reply('**the faucet is dry**...\nUntil a deposit is made to the faucet address, no more withdraws allowed. **Faucet Donation Address:** `' + config.faucet.faucet_wallet_pub + '`');
@@ -122,7 +122,7 @@ module.exports = {
            // user has opted out
            // console.log('User Opted out');
            userInfoArray.push({ checkUserPassed: false, checkUserPassedError: 'opted_out' });
-           message.reply('I see you have opted out. Please `+opt-in` to recieve faucet funds');
+           message.reply('I see you have opted out. Please `+opt-in` to receive faucet funds');
            return;
           }
          resolve(userInfoArray);
@@ -172,7 +172,7 @@ module.exports = {
           message.reply('Sorry, looks like there is an error. error is `User ' + userCheckError + '`');
           break;
         case 'not_agreed':
-          // console.log('user is not agreed to terma, error given.' + userCheckError);
+          // console.log('user is not agreed to terms, error given.' + userCheckError);
           message.reply('Sorry, looks like there is an error. error is `User ' + userCheckError + '`');
           break;
         default:
@@ -183,7 +183,7 @@ module.exports = {
         // console.log('faucetCheck results' + JSON.stringify(faucetCheck));
         if (faucetCheck[0].drip_found == true) {
           // console.log('user has been found recently, no drips');
-          message.reply('You have pulled from the faucet recently :no_entry_sign: \nPlease come back in  ***' + config.faucet.payout_interval + ' minutes*** from ***' + faucetCheck[1][0].time_stamp + '*** to request more funds.');
+          message.reply(':no_entry_sign: You have pulled from the faucet recently :no_entry_sign:\n*Faucet will pay out once every  **' + config.faucet.payout_interval + ' minutes***.*');
           return;
         }
         else if (faucetCheck[0].drip_found == false) {
@@ -197,7 +197,7 @@ module.exports = {
             // console.log('all done, dripped and returned values\n' + JSON.stringify(ResDrip));
           });
           message.channel.stopTyping(true);
-          message.reply(':droplet: ' + Drip + ' Quanta for you. :droplet:\n*Funds take up to 5 min to deposit.*');
+          message.reply(':droplet: ' + Drip + ' Quanta set. :droplet:\n*Funds take up to 5 min to deposit.*');
         }
       });
     });
