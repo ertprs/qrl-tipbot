@@ -43,7 +43,7 @@ module.exports = {
       console.log(chalk.cyan('faucetBalance: ') + chalk.green(JSON.stringify(balanceRes)));
       if (balanceRes.balance <= '0') {
         console.log(chalk.red('!!! ') + chalk.bgRed(' The Faucet is flat... ') + chalk.red('Add funds to: ') + chalk.bgRed(config.faucet.faucet_wallet_pub));
-        message.reply('**the faucet is dry**...\nUntil a deposit is made to the **faucet address**, no more withdraws allowed. Faucet Donation Address: `' + config.faucet.faucet_wallet_pub + '`');
+        message.reply('**the faucet is dry**...\nUntil a deposit is made to the faucet address, no more withdraws allowed. **Faucet Donation Address:** `' + config.faucet.faucet_wallet_pub + '`');
         return;
       }
 
