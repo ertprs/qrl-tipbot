@@ -38,16 +38,15 @@ module.exports = {
     });
     }
     faucetBalance()
-    .then(function(balanceRes) {
+    .then(function(balanceRes, reject) {
       // console.log(chalk.cyan(' ! ') + chalk.blue(' Funds positive! Drip on...'));
       console.log(chalk.cyan('faucetBalance: ') + chalk.green(JSON.stringify(balanceRes)));
       if (balanceRes.balance <= '0') {
         console.log(chalk.red('!!! ') + chalk.bgRed(' The Faucet is flat... ') + chalk.red('\nAdd some funds to ') + chalk.bgRed(config.faucet.faucet_wallet_pub));
-        const faucetFull = false;
-        return faucetFull;
+        // const faucetFull = false;
+        reject(new Error('The faucet is flat'));
       }
     });
-    console.log('faucetFull: ' + faucetFull);
 
     function dripAmount(min, max) {
       const minAmt = min * 1000000000;
