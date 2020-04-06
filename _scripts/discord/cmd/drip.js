@@ -26,7 +26,7 @@ module.exports = {
     // const found = GetAllUserInfo(info);
 
     // check for a balance in the faucet wallet first 
-    function checkFaucetBalance() {
+    const faucetBalance = function() {
       // using the faucet address check for a balance
       const walletAddress = config.faucet.faucet_wallet_pub;
       getBalance(walletAddress).then(function(balance) {
@@ -35,7 +35,6 @@ module.exports = {
       })
     }
 
-    const faucetBalance = checkFaucetBalance();
     console.log('faucetBalance: ' + faucetBalance);
 
 
