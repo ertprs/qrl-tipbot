@@ -256,7 +256,7 @@ __**IF YOU AGREE TO THESE TERMS**__ \`+agree\`
 __**IF YOU DO NOT AGREE TO THESE TERMS**__ \`+opt-out\`
                     `)
                     message.channel.stopTyping(true);
-                    message.reply(':white_check_mark: Your signed up!\nFor a list of my commands type `+help`\n*Bonus! You will receive* ***' + dripamt + ' Quanta*** *from the faucet!');
+                    message.reply(':white_check_mark: Your signed up!\nFor a list of my commands type `+help`\n*Bonus! You will receive* ***' + dripamt + ' Quanta*** *from the faucet!*');
                 })
                 .catch(error => {
                   console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
