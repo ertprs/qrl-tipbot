@@ -30,12 +30,13 @@ module.exports = {
       // using the faucet address check for a balance
       const walletAddress = config.faucet.faucet_wallet_pub;
       getBalance(walletAddress).then(function(balance) {
-        console.log('balance: ' + JSON.stringify(balance));
+        // console.log('balance: ' + JSON.stringify(balance));
         return balance;
       })
     }
 
-checkFaucetBalance();
+    const faucetBalance = checkFaucetBalance();
+    console.log('faucetBalance: ' + JSON.stringify(faucetBalance));
 
 
     function dripAmount(min, max) {
