@@ -11,17 +11,32 @@ module.exports = {
     const Discord = require('discord.js');
     const dbHelper = require('../../db/dbHelper');
     const faucetHelper = require('../../faucet/faucetDB_Helper');
+    const wallet = require('../../qrl/walletTools');
     const config = require('../../../_config/config.json');
     const uuid = `${message.author}`;
     const service_id = uuid.slice(1, -1);
     const GetAllUserInfo = dbHelper.GetAllUserInfo;
     const checkFaucetPayouts = faucetHelper.checkPayments;
+    const getBalance = wallet.GetBalance
     const faucetDrip = faucetHelper.Drip;
     const userInfoArray = [];
     const faucetInfoArray = [];
     // const checkAgree = dbHelper.CheckAgree;
     // const info = JSON.parse(JSON.stringify({ service: 'discord', service_id: UUID }));
     // const found = GetAllUserInfo(info);
+
+    // check for a balance in the faucet wallet first 
+    function checkFaucetBalance() {
+      // using the faucet address check for a balance
+      const walletAddress = config.faucet.faucet_wallet_pub;
+      getBalance(walletAddress).then(function(balance) {
+        console.log('balance: ' + JSON.stringify(balance));
+        return balance;
+      })
+    }
+
+checkFaucetBalance();
+
 
     function dripAmount(min, max) {
       const minAmt = min * 1000000000;
