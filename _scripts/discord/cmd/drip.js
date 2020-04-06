@@ -31,7 +31,9 @@ module.exports = {
       return new Promise(function(resolve, reject) {
       // using the faucet address check for a balance
       const walletAddress = config.faucet.faucet_wallet_pub;
-      getBalance(walletAddress).then(function(balance) {
+      // getBalance(walletAddress).then(function(balance) {
+      getBalance('Q000300636e629ad3f50791cb2bfb9ed28010f0b072ba1f860763ef634d51225e4e1782f686547e').then(function(balance) {
+        
         // console.log('balance: ' + JSON.stringify(balance));
         if (balance.balance <= '0') {
           reject(new Error(chalk.red('No funds in the faucet.')));
@@ -46,7 +48,7 @@ module.exports = {
     faucetBalance()
     .then(function(balanceRes) {
       console.log('faucetBalance: ' + JSON.stringify(balanceRes));
-      
+
     });
 
 
