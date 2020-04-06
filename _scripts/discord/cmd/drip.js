@@ -28,27 +28,22 @@ module.exports = {
 
     // check for a balance in the faucet wallet first 
      async function faucetBalance() {
-      return new Promise(function(resolve, reject) {
+      return new Promise(function(resolve) {
       // using the faucet address check for a balance
       const walletAddress = config.faucet.faucet_wallet_pub;
       // getBalance(walletAddress).then(function(balance) {
       getBalance('Q000300636e629ad3f50791cb2bfb9ed28010f0b072ba1f860763ef634d51225e4e1782f686547e').then(function(balance) {
-        
-        // console.log('balance: ' + JSON.stringify(balance));
-        if (balance.balance <= '0') {
-          reject(new Error(chalk.red('No funds in the faucet.')));
-        }
-        else {
-          console.log(chalk.cyan(' ! ') + chalk.blue(' Funds positive! Drip on...'));
           resolve(balance);
+        
+        else {
         }
       });
     });
     }
     faucetBalance()
     .then(function(balanceRes) {
-      console.log('faucetBalance: ' + JSON.stringify(balanceRes));
-
+      // console.log(chalk.cyan(' ! ') + chalk.blue(' Funds positive! Drip on...'));
+      console.log(chalk.cyan('faucetBalance: ') + chalk.green(JSON.stringify(balanceRes)));
     });
 
 
