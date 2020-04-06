@@ -36,7 +36,7 @@ module.exports = {
     }
 
     const faucetBalance = checkFaucetBalance();
-    console.log('faucetBalance: ' + JSON.stringify(faucetBalance));
+    console.log('faucetBalance: ' + faucetBalance);
 
 
     function dripAmount(min, max) {
