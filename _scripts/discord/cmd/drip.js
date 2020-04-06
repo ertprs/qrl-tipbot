@@ -9,6 +9,7 @@ module.exports = {
 
   execute(message, args) {
     const Discord = require('discord.js');
+    const chalk = require('chalk');
     const dbHelper = require('../../db/dbHelper');
     const faucetHelper = require('../../faucet/faucetDB_Helper');
     const wallet = require('../../qrl/walletTools');
@@ -27,15 +28,26 @@ module.exports = {
 
     // check for a balance in the faucet wallet first 
     const faucetBalance = function() {
+      return new Promise(function(resolve, reject) {
       // using the faucet address check for a balance
       const walletAddress = config.faucet.faucet_wallet_pub;
       getBalance(walletAddress).then(function(balance) {
         // console.log('balance: ' + JSON.stringify(balance));
-        return balance;
-      })
+        if (balance.balance <= '0') {
+          reject(new Error(chalk.red('No funds in the faucet.')));
+        }
+        else {
+          console.log(chalk.cyan(' ! ') + chalk.blue(' Funds positive! Drip on...'));
+          resolve(balance);
+        }
+      });
+    });
     }
-
-    console.log('faucetBalance: ' + faucetBalance);
+    faucetBalance()
+    .then(function(balanceRes) {
+      console.log('faucetBalance: ' + JSON.stringify(balanceRes));
+      
+    });
 
 
     function dripAmount(min, max) {
