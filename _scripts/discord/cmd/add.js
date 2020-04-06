@@ -24,6 +24,19 @@ module.exports = {
     const userName = username.slice(1, -1);
     const user_info = { service: 'discord', user_id: userName };
     const checkUserpromise = checkUser(user_info);
+    // used for the new user signup. Add the new users address to the faucet and drip them some funds
+    function dripAmount(min, max) {
+      const minAmt = min * 1000000000;
+      const maxAmt = max * 1000000000;
+      // console.log('min: ' + minAmt + ' max: ' + maxAmt);
+      const randomNumber = Math.floor(
+        Math.random() * (maxAmt - minAmt) + minAmt
+        );
+      const num = randomNumber / 1000000000;
+      // console.log('Random number ' + num);
+      return num;
+    }
+    const dripamt = dripAmount(config.faucet.min_payout, config.faucet.max_payout);
 
 // Remove this before final release...
 // adds any user mentioned to the system, wallet and account setup.
@@ -138,8 +151,8 @@ module.exports = {
               //  embed a message to the user with account details
               const embed = new Discord.MessageEmbed()
                 .setColor(0x000000)
-                .setTitle('**TipBot Account Info**')
-                .setDescription('Here is your TipBot account information.')
+                .setTitle('**TipBot Account Exists**')
+                .setDescription('Here is your existing TipBot account information.')
                 .setFooter(`TipBot Donation Address: ${config.bot_details.bot_donationAddress}`)
                 .addField('Your QRL Wallet Public Address::', '[' + reply.wallet_pub + '](' + config.bot_details.explorer_url + '/a/' + walletPub.wallet_pub + ')')
                 .addField('Your QRL Wallet Balance:\t', `\`${reply.wallet_bal}\``)
@@ -170,7 +183,7 @@ module.exports = {
             const QRLaddress = JSON.parse(address);
             const discord_id = '@' + MessageAuthorID;
             const wallet_pub = QRLaddress.address;
-            const userInfo = { service: 'discord', service_id: discord_id, user_name: MessageAuthorUsername, wallet_pub: wallet_pub, wallet_bal: 0, user_key: salt, user_auto_created: false, auto_create_date: new Date(), opt_out: false, optout_date: new Date() };
+            const userInfo = { service: 'discord', service_id: discord_id, user_name: MessageAuthorUsername, wallet_pub: wallet_pub, wallet_bal: 0, user_key: salt, user_auto_created: false, auto_create_date: new Date(), opt_out: false, optout_date: new Date(), drip_amt: dripamt };
             message.channel.stopTyping();
             return userInfo;
           }).then(function(userInfo) {
@@ -219,28 +232,28 @@ module.exports = {
               message.author.send({ embed })
                 .then(() => {
                   if (message.channel.type === 'dm') return;
-                  message.author.send(`
-                            __**TipBot Terms and Conditions**__
+                    message.author.send(` 
+            __**TipBot Terms and Conditions**__
+Use of this TipBot and any function it may provide to you, as the user, is at your risk. By using this service you agree to hold Tipbot, it's operators and all parties involved at no financial responsibility for any loss or perceived loss you may incur by using this service. By using this service you agree to not hold liable, for any reasons the owner, operators or any affiliates of the QRL TipBot, qrl.tips or any other party associated with this service. By using this service, you agree to not abuse or misuse the service. Abuse of this service may result in a ban from the service and if warrented legal action may be taken. By using this service you as the user agree to share information about your social media aaccount that was used to sign up to the service. At no point will this information be sold or used for any purpose other than this TipBot service.
 
-                            Use of this TipBot and any function it may provide to you, as the user, is at your risk. By using this service you agree to hold Tipbot, it's operators and all parties involved at no financial responsibility for any loss or perceived loss you may incur by using this service. By using this service you agree to not hold liable, for any reasons the owner, operators or any affiliates of the QRL TipBot, qrl.tips or any other party associated with this service By using this service, you agree to not abuse or misuse the service. Abuse of this service may result in a ban from the service and if warrented legal action may be taken. By using this service you as the user agree to share information about your social media aaccount that was used to sign up to the service. At no point will this information be sold or used for any purpose other than this TipBot service.
+**You take all risk by using this service and agree to not hold liable the owners and operators for any reason**
 
-                            **You take all risk by using this service and agree to not hold liable the owners and operators for any reason**
                     `);
-                  message.author.send(`
-                            __**RULES**__
-                            :small_orange_diamond: *This service is for tipping or giving small amounts of QRL to other users, You agree to not use this to trade currency or for any other reason*
-                            :small_orange_diamond: *You will not store large amounts of QRL in this address*
-                            :small_orange_diamond: *Any balance that is larger than you are willing to lose, you take responsibility for transfering out of the tipbot, using the \`+transfer\` function*
-                            :small_orange_diamond: *You will not break any law, in any jurisdiction by using this bot in any way that is not intended or identified in these rules *
-                            :small_orange_diamond: *Any tips sent to a user that has not signed up will be saved for that user for a length of time determined by the bot owner. Failure of the user to collect tips in this time may result in a loss of funds for that user.*
-                            :small_orange_diamond: *Tips will never be refunded or returned to a user, for any reason. A tip is final once sent.*
-                            :small_orange_diamond: *Any abuse of the service will result in a ban and if warranted legal action.*
+                    message.author.send(`
+            :exclamation: __**RULES**__ :exclamation:
+:small_orange_diamond: *This service is for tipping or giving small amounts of QRL to other users, You agree to not use this to trade currency or for any other reason*
+:small_orange_diamond: *You will not store large amounts of QRL in this address*
+:small_orange_diamond: *Any balance that is larger than you are willing to lose, you take responsibility for transfering out of the tipbot, using the \`+transfer\` function*
+:small_orange_diamond: *You will not break any law, in any jurisdiction by using this bot in any way that is not intended or identified in these rules *
+:small_orange_diamond: *Any tips sent to a user that has not signed up will be saved for that user for a length of time determined by the bot owner. Failure of the user to collect tips in this time may result in a loss of funds for that user.*
+:small_orange_diamond: *Tips will never be refunded or returned to a user, for any reason. A tip is final once sent.*
+:small_orange_diamond: *Any abuse of the service will result in a ban and if warranted legal action.*
 
-                            __**IF YOU AGREE TO THESE TERMS**__ \`+agree\`
-                            __**IF YOU DO NOT AGREE TO THESE TERMS**__ \`+opt-out\`
-                    `);
-                  message.channel.stopTyping(true);
-                  message.reply(':white_check_mark: Your signed up!\nFor a list of my commands type `+help`');
+__**IF YOU AGREE TO THESE TERMS**__ \`+agree\`
+__**IF YOU DO NOT AGREE TO THESE TERMS**__ \`+opt-out\`
+                    `)
+                    message.channel.stopTyping(true);
+                    message.reply(':white_check_mark: Your signed up!\nFor a list of my commands type `+help`');
                 })
                 .catch(error => {
                   console.error(`Could not send help DM to ${message.author.tag}.\n`, error);

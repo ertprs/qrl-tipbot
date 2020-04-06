@@ -2,6 +2,8 @@
 const mysql = require('mysql');
 const config = require('../../_config/config.json');
 const wallet = require('../qrl/walletTools');
+const faucet = require('../faucet/faucetDB_Helper.js');
+const faucetDrip = faucet.Drip;
 // connector to the database
 const callmysql = mysql.createPool({
   connectionLimit: 10,
@@ -372,6 +374,7 @@ async function AddUser(args) {
     const user_auto_created = input.user_auto_created;
     const auto_create_date = input.auto_create_date;
     const opt_out = input.opt_out;
+    const dripAmt = input.drip_amt;
     const service_usersValues = [ [ user_name, service_id, new Date()]];
     const addTo_service_users = 'INSERT INTO ' + service + '_users(user_name, ' + service + '_id, time_stamp) VALUES ?';
     callmysql.query(addTo_service_users, [service_usersValues], function(err, result) {
@@ -408,6 +411,7 @@ async function AddUser(args) {
                 console.log('[mysql error]', err);
               }
               resultsArray.push({ user_added: 'true' });
+              const dripInfo = { service: service, user_id: userID, drip_amt: dripAmt }
               const futureTips_payout = 'SELECT SUM(tip_amount) AS future_tip_amount FROM future_tips WHERE user_id = "' + service_id + '" AND tip_paidout = "0"';
               callmysql.query(futureTips_payout, function(err, futureTipped) {
                 if (err) {

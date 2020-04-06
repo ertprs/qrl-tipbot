@@ -183,7 +183,7 @@ module.exports = {
         // console.log('faucetCheck results' + JSON.stringify(faucetCheck));
         if (faucetCheck[0].drip_found == true) {
           // console.log('user has been found recently, no drips');
-          message.reply(':no_entry_sign: You have pulled from the faucet recently :no_entry_sign:\n*Faucet will pay out once every  **' + config.faucet.payout_interval + ' minutes***.*');
+          message.reply(':no_entry_sign: You have pulled from the faucet recently :no_entry_sign:\n*Faucet will pay out once every  **' + config.faucet.payout_interval + ' minutes***.');
           return;
         }
         else if (faucetCheck[0].drip_found == false) {
