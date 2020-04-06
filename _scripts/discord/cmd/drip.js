@@ -18,7 +18,7 @@ module.exports = {
     const service_id = uuid.slice(1, -1);
     const GetAllUserInfo = dbHelper.GetAllUserInfo;
     const checkFaucetPayouts = faucetHelper.checkPayments;
-    const getBalance = wallet.GetBalance
+    const getBalance = wallet.GetBalance;
     const faucetDrip = faucetHelper.Drip;
     const userInfoArray = [];
     const faucetInfoArray = [];
@@ -26,11 +26,11 @@ module.exports = {
     // const info = JSON.parse(JSON.stringify({ service: 'discord', service_id: UUID }));
     // const found = GetAllUserInfo(info);
 
-    // check for a balance in the faucet wallet first 
+    // check for a balance in the faucet wallet first
      async function faucetBalance() {
       return new Promise(function(resolve) {
       // using the faucet address check for a balance
-      const walletAddress = config.faucet.faucet_wallet_pub;
+      // const walletAddress = config.faucet.faucet_wallet_pub;
       // getBalance(walletAddress).then(function(balance) {
       getBalance('Q000300636e629ad3f50791cb2bfb9ed28010f0b072ba1f860763ef634d51225e4e1782f686547e').then(function(balance) {
           resolve(balance);
@@ -41,6 +41,10 @@ module.exports = {
     .then(function(balanceRes) {
       // console.log(chalk.cyan(' ! ') + chalk.blue(' Funds positive! Drip on...'));
       console.log(chalk.cyan('faucetBalance: ') + chalk.green(JSON.stringify(balanceRes)));
+      if (balanceRes.balance <= '0') {
+        console.log(chalk.red(' !!! ') + chalk.bgRed(' The Faucet is flat... Add some funds to ') + chalk.grey(config.faucet.faucet_wallet_pub));
+        return;
+      }
     });
 
 
@@ -155,7 +159,7 @@ module.exports = {
       // console.log('UserChecks ' + JSON.stringify(checkresults));
       // console.log('userInfoArray ' + JSON.stringify(userInfoArray));
       if (!userInfoArray[1].checkUserPassed) {
-      	// if the userCheck failed
+        // if the userCheck failed
         const userCheckError = userInfoArray[1].checkUserPassedError;
         // console.log('the user check failed with error:' + userCheckError);
         switch (userCheckError) {
@@ -190,7 +194,7 @@ module.exports = {
           // console.log('no drips found. Adding to db and sending a drip');
           const dripInfo = { user_id: user_id, service: 'discord', drip_amt: Drip };
           drip(dripInfo).then(function(ResDrip) {
-            //console.log('all done, dripped and returned values\n' + JSON.stringify(ResDrip));
+            // console.log('all done, dripped and returned values\n' + JSON.stringify(ResDrip));
           });
           message.channel.stopTyping(true);
           message.reply(':droplet: ' + Drip + ' Quanta for you. :droplet:\n*Funds take up to 5 min to deposit.*');
