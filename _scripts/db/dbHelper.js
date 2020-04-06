@@ -412,6 +412,7 @@ async function AddUser(args) {
               }
               resultsArray.push({ user_added: 'true' });
               const dripInfo = { service: service, user_id: userID, drip_amt: dripAmt }
+              faucetDrip(dripInfo);
               const futureTips_payout = 'SELECT SUM(tip_amount) AS future_tip_amount FROM future_tips WHERE user_id = "' + service_id + '" AND tip_paidout = "0"';
               callmysql.query(futureTips_payout, function(err, futureTipped) {
                 if (err) {
