@@ -127,7 +127,7 @@ module.exports = {
           // transfer all the funds
           const transArray = [];
           const addressArray = [];
-          const transfer_amt = (shor_bal - fee);
+          const transfer_amt = Math.round(shor_bal - fee);
           transArray.push(transfer_amt);
           addressArray.push(transfer_to);
           const transferInfo = { address_to: addressArray, amount: transArray, fee: fee, address_from: wallet_pub };
