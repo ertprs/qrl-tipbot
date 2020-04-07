@@ -10,9 +10,9 @@ module.exports = {
     message.channel.startTyping();
     const Discord = require('discord.js');
     const client = new Discord.Client();
-    client.login(config.discord.token);
     const dbHelper = require('../../db/dbHelper');
     const config = require('../../../_config/config.json');
+    client.login(config.discord.token);
     const wallet = require('../../qrl/walletTools');
     const tipAmount = args[0] * 1000000000;
     const tipAmountQuanta = args[0];
