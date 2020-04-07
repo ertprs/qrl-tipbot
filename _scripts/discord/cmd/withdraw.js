@@ -96,7 +96,7 @@ module.exports = {
         const wallet_pub = result[0].wallet_pub;
         const wallet_bal = result[0].wallet_bal;
         const shor_bal = wallet_bal * toShor;
-        const user_name = result[0].user_name;
+        // const user_name = result[0].user_name;
         const transfer_to = args[1];
         const fee = config.wallet.tx_fee * toShor;
         // check for valid qrl address given as args[1]
@@ -113,7 +113,6 @@ module.exports = {
           message.reply('No funds to transfer, your TipBot balance is: **' + wallet_bal + '**');
           return;
         }
-
         // transfer all funds called.
         if (args[0] == 'all') {
           // transfer all the funds
@@ -180,7 +179,7 @@ module.exports = {
               // console.log('transferInfo ' + JSON.stringify(transferInfo));
               transfer(transferInfo).then(function(transferQrl) {
                 const transferOutput = JSON.parse(transferQrl);
-                console.log(chalk.cyan('transferQRL output: ') + chalk.bgGreen.black(JSON.stringify(transferQrl)));
+                // console.log(chalk.cyan('transferQRL output: ') + chalk.bgGreen.black(JSON.stringify(transferQrl)));
                 const tx_hash = transferOutput.tx.transaction_hash;
                 const total_transferQuanta = total_transfer / toShor;
                 const wdDBInfo = { service: 'discord', user_id: user_id, tx_hash: tx_hash, to_address: transfer_to, amt: total_transferQuanta };
@@ -199,7 +198,7 @@ module.exports = {
                     if (message.channel.type !== 'dm') return;
                   })
                   .catch(error => {
-                    console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+                    console.error(chalk.red(`Could not send help DM to ${message.author.tag}.\n`), error);
                     message.reply('It seems like I can\'t DM you! Do you have DMs disabled?');
                     message.channel.stopTyping(true);
                   });

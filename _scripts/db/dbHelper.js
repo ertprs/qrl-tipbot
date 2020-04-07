@@ -680,7 +680,7 @@ async function CheckAgree(args) {
 
 async function withdraw(args) {
   // expect { service: , user_id:, tx_hash:, to_address:, amt: }
-  console.log('\nwd args:' + JSON.stringify(args));
+  // console.log('\nwd args:' + JSON.stringify(args));
   return new Promise(resolve => {
     const txArray = [];
     const user_id = args.user_id;
