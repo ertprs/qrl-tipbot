@@ -92,7 +92,7 @@ module.exports = {
               const wallet_bal = result.wallet_bal;
               if (wallet_bal > 0) {
                   const wallet_bal_quanta = wallet_bal / 1000000000;
-                  message.author.send('You have a balance of `' + wallet_bal_quanta + ' qrl` in your tip wallet. Please withdraw the funds before you opt-out. `+withdraw` If you wish to donate your funds to the bot `+withdraw all' + config.bot_details.bot_donationAddress + '`');
+                  message.author.send('You have a balance of `' + wallet_bal_quanta + ' qrl` in your tip wallet. Please `+withdraw` the funds before you opt-out. If you wish to donate your funds to the bot `+withdraw all' + config.bot_details.bot_donationAddress + '`');
                   message.channel.stopTyping(true);
                   return;
               }
