@@ -678,6 +678,31 @@ async function CheckAgree(args) {
   });
 }
 
+async function withdraw(args) {
+  // expect { service: , user_id:, tx_hash:, to_address: }
+  console.log('\nwd args:' + JSON.stringify(args));
+  return new Promise(resolve => {
+    const txArray = [];
+    const user_id = args.user_id;
+    const service = args.service;
+    const tx_hash = args.tx_hash;
+    const to_address = args.to_address;
+    const wdValues = [ [user_id, tx_hash, service, to_address, new Date()] ];
+    const wdIntoDB = 'Insert INTO withdrawls(user_id, tx_hash, service, to_address, time_stamp) VALUES ?';
+    callmysql.query(wdIntoDB, [wdValues], function(err, wdIntoDBRes) {
+      if (err) {
+        console.log('[mysql error]', err);
+      }
+      const DB_InsertId = wdIntoDBRes.insertId;
+      txArray.push({ transaction_db_id: DB_InsertId });
+      resolve(txArray);
+      return txArray;
+    });
+  });
+}
+
+
+
 module.exports = {
   GetAllUserInfo : GetAllUserInfo,
   CheckUser : CheckUser,
@@ -699,4 +724,5 @@ module.exports = {
   agree : agree,
   CheckAgree: CheckAgree,
   updateWalletBal : updateWalletBal,
+  withdraw: withdraw,
 };

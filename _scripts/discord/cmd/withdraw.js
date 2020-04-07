@@ -12,8 +12,10 @@ module.exports = {
     const wallet = require('../../qrl/walletTools');
     const config = require('../../../_config/config.json');
     const Discord = require('discord.js');
+    const chalk = require('chalk');
     // const checkuser = dbHelper.CheckUser;
     const getAllUserInfo = dbHelper.GetAllUserInfo;
+    const wdDB = dbHelper.withdraw;
     const transfer = wallet.sendQuanta;
     // discord user id uuid is then striped of extra chars as UUID
     const uuid = `${message.author}`;
@@ -70,18 +72,16 @@ module.exports = {
         })
         .catch(error => {
           message.channel.stopTyping(true);
-          console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+          console.error(chalk.red(`Could not send help DM to ${message.author.tag}.\n`), error);
           message.reply('It seems like I can\'t DM you! Do you have DMs disabled?');
           return;
         });
       return;
     }
-
-
     // look for user in DB
     // If found will return { user_found, wallet_pub, wallet_bal, user_id, user_name, opt_out, otpout_date }
     found.then(function(result) {
-      console.log('found results: ' + JSON.stringify(result));
+      // console.log('found results: ' + JSON.stringify(result));
       const UserFound = result[0].user_found;
       if (UserFound !== 'true') {
         // console.log('user found ' + UserFound);
@@ -99,14 +99,6 @@ module.exports = {
         const user_name = result[0].user_name;
         const transfer_to = args[1];
         const fee = config.wallet.tx_fee * toShor;
-
-        console.log('user_id ' + user_id);
-        console.log('wallet_pub ' + wallet_pub);
-        console.log('wallet_bal ' + wallet_bal);
-        console.log('shor_bal ' + shor_bal);
-        console.log('user_name ' + user_name);
-        console.log('transfer_to ' + transfer_to);
-        console.log('fee ' + fee);
         // check for valid qrl address given as args[1]
         const addressTest = isQRLAddress(transfer_to);
         if (!addressTest) {
@@ -133,7 +125,7 @@ module.exports = {
           const transferInfo = { address_to: addressArray, amount: transArray, fee: fee, address_from: wallet_pub };
           // console.log('transferInfo ' + JSON.stringify(transferInfo));
           transfer(transferInfo).then(function(transferQrl) {
-            console.log('transferQrl: ' + JSON.stringify(transferQrl));
+            // console.log('transferQrl: ' + JSON.stringify(transferQrl));
             const transferOutput = JSON.parse(transferQrl);
             const tx_hash = transferOutput.tx.transaction_hash;
             const embed = new Discord.MessageEmbed()
@@ -150,7 +142,7 @@ module.exports = {
                 message.channel.stopTyping(true);
               })
               .catch(error => {
-                console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+                console.error(chalk.red(`Could not send help DM to ${message.author.tag}.\n`), error);
                 message.reply('It seems like I can\'t DM you! Do you have DMs disabled?');
                 message.channel.stopTyping(true);
               });
@@ -170,7 +162,7 @@ module.exports = {
           }
           const trans_amt_shor = trans_amt * toShor;
           const total_transfer = (trans_amt_shor - fee);
-          console.log('trans_amt: ' + trans_amt + ' trans_amt_shor: ' + trans_amt_shor + ' total_transfer: ' + total_transfer);
+          // console.log('trans_amt: ' + trans_amt + ' trans_amt_shor: ' + trans_amt_shor + ' total_transfer: ' + total_transfer);
           // check if amount is equal or less than bal
           // console.log('transfer Details. trans_amt :' + trans_amt + ' trans_amt_shor: ' + trans_amt_shor + ' total_transfer: ' + total_transfer);
           if (total_transfer > shor_bal) {
@@ -188,8 +180,10 @@ module.exports = {
               // console.log('transferInfo ' + JSON.stringify(transferInfo));
               transfer(transferInfo).then(function(transferQrl) {
                 const transferOutput = JSON.parse(transferQrl);
-                // console.log('transferQRL output: ' + JSON.stringify(transferQrl));
+                console.log(chalk.cyan('transferQRL output: ') + chalk.bgWhite(JSON.stringify(transferQrl)));
                 const tx_hash = transferOutput.tx.transaction_hash;
+                const wdDBInfo = { service: 'discord', user_id: user_id, tx_hash: tx_hash, to_address: transfer_to };
+                wdDB(wdDBInfo);
                 const embed = new Discord.MessageEmbed()
                   .setColor(0x000000)
                   .setTitle('Funds Transfered')
@@ -210,8 +204,6 @@ module.exports = {
                   });
                 message.channel.stopTyping(true);
               });
-            // }
-            // transferAmt();
             return;
         }
       }
