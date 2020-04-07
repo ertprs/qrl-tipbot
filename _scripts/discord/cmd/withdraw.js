@@ -8,7 +8,11 @@ module.exports = {
   execute(message, args) {
     // console.log('transfer called...' + JSON.stringify(args));
     message.channel.startTyping();
-    // 
+        // if not in private message delete the message
+    if(message.guild != null) {
+      message.delete();
+    }
+    //
     setTimeout(function() {
       message.reply('Submitting your withdraw request to the blockchain, be right back...');
       message.channel.stopTyping(true);
@@ -54,11 +58,7 @@ module.exports = {
       }
       return test;
     }
-    // if not in private message delete the message
-    if(message.guild != null) {
-      message.delete();
-      message.reply('Check your DM\'s');
-    }
+
     // check that args are not blank. first args should be all || a number
     // second args should be qrl address
     if (args[0] == undefined || args [1] == undefined) {
@@ -77,9 +77,13 @@ module.exports = {
           // message.reply('I\'ve sent you a DM. ');
         })
         .catch(error => {
-          message.channel.stopTyping(true);
+          message.channel.startTyping();
           console.error(chalk.red(`Could not send help DM to ${message.author.tag}.\n`), error);
-          message.reply('It seems like I can\'t DM you! Do you have DMs disabled?');
+          setTimeout(function() {
+            message.reply('It seems like I can\'t DM you! Do you have DMs disabled?');
+            message.channel.stopTyping(true);
+          }, 1000);
+
           return;
         });
       return;
@@ -92,8 +96,11 @@ module.exports = {
       if (UserFound !== 'true') {
         // console.log('user found ' + UserFound);
         // user is not in the system, fail and return to user
-        message.channel.stopTyping(true);
-        message.author.send('You are not signed up yet!. `+add` to get started.');
+        message.channel.startTyping();
+        setTimeout(function() {
+          message.author.send('You are not signed up yet!. `+add` to get started.');
+          message.channel.stopTyping(true);
+        }, 1000);
         return;
       }
       else {
@@ -108,15 +115,21 @@ module.exports = {
         // check for valid qrl address given as args[1]
         const addressTest = isQRLAddress(transfer_to);
         if (!addressTest) {
-          message.channel.stopTyping(true);
-          message.author.send('Invalid address given. Please try again.');
+          message.channel.startTyping();
+          setTimeout(function() {
+            message.author.send('Invalid address given. Please try again.');
+            message.channel.stopTyping(true);
+          }, 1000);
           return;
         }
         // check for balance in wallet
         if (shor_bal <= 0) {
           // wallet is empty, give error and return
-          message.channel.stopTyping(true);
-          message.reply('No funds to transfer, your TipBot balance is: **' + wallet_bal + '**');
+          message.channel.startTyping();
+          setTimeout(function() {
+            message.reply('No funds to transfer, your TipBot balance is: **' + wallet_bal + '**');
+            message.channel.stopTyping(true);
+          }, 1000);
           return;
         }
         // transfer all funds called.
@@ -148,10 +161,12 @@ module.exports = {
               })
               .catch(error => {
                 console.error(chalk.red(`Could not send help DM to ${message.author.tag}.\n`), error);
-                message.reply('It seems like I can\'t DM you! Do you have DMs disabled?');
-                message.channel.stopTyping(true);
+                message.channel.startTyping();
+                setTimeout(function() {
+                  message.reply('It seems like I can\'t DM you! Do you have DMs disabled?');
+                  message.channel.stopTyping(true);
+                }, 1000);
               });
-              message.channel.stopTyping(true);
           });
           return;
         }
@@ -161,8 +176,11 @@ module.exports = {
           const trans_amt = args[0];
           const testQRLValue = isQRLValue(trans_amt);
           if (!testQRLValue) {
-            message.channel.stopTyping(true);
-            message.reply('Invalid amount. Please try again.');
+            message.channel.startTyping();
+            setTimeout(function() {
+              message.reply('Invalid amount. Please try again.');
+              message.channel.stopTyping(true);
+            }, 1000);
             return;
           }
           const trans_amt_shor = trans_amt * toShor;
@@ -172,8 +190,11 @@ module.exports = {
           // console.log('transfer Details. trans_amt :' + trans_amt + ' trans_amt_shor: ' + trans_amt_shor + ' total_transfer: ' + total_transfer);
           if (total_transfer > shor_bal) {
             // more than user has
-            message.channel.stopTyping(true);
-            message.author.send('You\'re trying to transfer more QRL than you have.\nCurrent balance: **' + wallet_bal + '**');
+            message.channel.startTyping();
+            setTimeout(function() {
+              message.author.send('You\'re trying to transfer more QRL than you have.\nCurrent balance: **' + wallet_bal + '**');
+              message.channel.stopTyping(true);
+            }, 1000);
             return;
           }
          // async function transferAmt() {
@@ -205,10 +226,12 @@ module.exports = {
                   })
                   .catch(error => {
                     console.error(chalk.red(`Could not send help DM to ${message.author.tag}.\n`), error);
-                    message.reply('It seems like I can\'t DM you! Do you have DMs disabled?');
-                    message.channel.stopTyping(true);
+                    message.channel.startTyping();
+                    setTimeout(function() {
+                      message.reply('It seems like I can\'t DM you! Do you have DMs disabled?');
+                      message.channel.stopTyping(true);
+                    }, 1000);
                   });
-                message.channel.stopTyping(true);
               });
             return;
         }
