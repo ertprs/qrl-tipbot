@@ -114,7 +114,7 @@ module.exports = {
                   // console.log('MessageAuthorID: ' + UUID + ' config admin: ' + config.discord.bot_admin);
                   // only allow the discord admin defined in teh config execute this
                   console.log('args[0]: ' + args[0])
-                  if (message.mentions.users.size > 0 && UUID == config.discord.bot_admin && args[0] != 'donate' || args[0] != 'transfer' || args[0] != 'tip') {
+                  if (message.mentions.users.size > 0 && UUID == config.discord.bot_admin && args[0] !== 'donate' || args[0] !== 'transfer' || args[0] !== 'tip') {
                     const users_Service_ID = message.mentions.users.first().id;
                     const service_ID = '@' + users_Service_ID;
                     console.log('users serviceID mentioned: ' + service_ID);
