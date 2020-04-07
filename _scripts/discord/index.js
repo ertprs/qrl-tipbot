@@ -7,19 +7,6 @@ const fs = require('fs');
 const chalk = require('chalk');
 const Discord = require('discord.js');
 
-// check for config file where we expect it
-fs.access('../../_config/config.json', error => {
-  if (!error) {
-    // The check succeeded
-    // console.log('Config Found!');
-  }
-  else {
-  // The check failed
-    // console.log('Config NOT Found!');
-    return;
-  }
-});
-
 // Require the config file. Create it from the example
 const config = require('../../_config/config.json');
 
@@ -43,10 +30,7 @@ const cooldowns = new Discord.Collection();
 const NOW = new Date();
 const nownow = NOW.toDateString();
 client.on('ready', () => {
-  //console.log('client.users ' + JSON.stringify(client.users.cache));
-  //console.log('client.cache ' + JSON.stringify(client.channels.cache));
-  //console.log('client.guild ' + JSON.stringify(client.guilds.cache));
-  console.log(chalk`
+console.log(chalk`
 {cyan ==========================================}
 {cyan Discord TipBot Started at: {green {dim ${nownow}}}}
   {blue {cyan {bold !}} Connected to {grey ${client.guilds.cache.size}} guilds }

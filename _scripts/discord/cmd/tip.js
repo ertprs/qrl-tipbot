@@ -9,6 +9,7 @@ module.exports = {
   execute(message, args) {
     message.channel.startTyping();
     const Discord = require('discord.js');
+    const client = new Discord.Client();
     const dbHelper = require('../../db/dbHelper');
     const config = require('../../../_config/config.json');
     const wallet = require('../../qrl/walletTools');
@@ -53,6 +54,11 @@ module.exports = {
       return output;
     });
     const tipListJSON = JSON.parse(JSON.stringify(tipList));
+    console.log('tiplist' + tipListJSON);
+    console.log('client.user.id' + client.user.id);
+
+
+
     const tipUserCount = tipListJSON.length;
     //  check for tip amount, fail if not found...
     if (isNaN(tipAmount)) {
@@ -324,5 +330,8 @@ module.exports = {
       return JSON.stringify(userInfo);
     });
     message.channel.stopTyping(true);
+    client.login(config.discord.token);
+
   },
 };
+
