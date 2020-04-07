@@ -8,6 +8,7 @@ module.exports = {
   execute(message, args) {
     // console.log('transfer called...' + JSON.stringify(args));
     message.channel.startTyping();
+    setTimeout(message.reply('Submitting your withdraw request to the blockchain, be right back...'), 1000);
     const dbHelper = require('../../db/dbHelper');
     const wallet = require('../../qrl/walletTools');
     const config = require('../../../_config/config.json');
