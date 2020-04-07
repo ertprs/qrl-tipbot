@@ -51,8 +51,8 @@ module.exports = {
     // if not in private message delete the message
     if(message.guild != null) {
       message.delete();
+      message.reply('Check your DM\'s');
     }
-    message.reply('Check your DM\'s');
     // check that args are not blank. first args should be all || a number
     // second args should be qrl address
     if (args[0] == undefined || args [1] == undefined) {
