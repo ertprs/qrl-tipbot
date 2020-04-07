@@ -9,6 +9,7 @@ module.exports = {
   execute(message, args) {
     message.channel.startTyping();
     const Discord = require('discord.js');
+    const client = new Discord.Client();
     const dbHelper = require('../../db/dbHelper');
     const config = require('../../../_config/config.json');
     const wallet = require('../../qrl/walletTools');
@@ -186,7 +187,7 @@ module.exports = {
           const GetAllTipedUserInfoPromise = GetAllUserInfo({ service: 'discord', service_id: serviceid });
           // search for the tipto user here in the database with info from above
           await GetAllTipedUserInfoPromise.then(function(tippedUserInfo) {
-            // console.log('tippedUserInfo ' + JSON.stringify(tippedUserInfo));
+            console.log('tippedUserInfo ' + JSON.stringify(tippedUserInfo));
             const tippedUserFound = tippedUserInfo.user_found;
             if (tippedUserFound == 'true') {
               const tippedUsedOptOut = tippedUserInfo[4].opt_out;
@@ -207,7 +208,7 @@ module.exports = {
                   // add_tip_to
                   const user_id = userInfo[0].user_id;
                   const tip_id = addToTipsArgsArray[0].tip_id;
-                  // check that tip_id is ther, else wait for it...
+                  // check that tip_id is there, else wait for it...
 
                   const check_tip_id = function() {
                     if(tip_id == undefined) {
@@ -245,6 +246,11 @@ module.exports = {
                   }
                 };
                 check_tip_id();
+
+                const user = client.users.cache.get('<' + serviceid + '>');
+                console.log('user: ' + user);
+                user.send('You have been sent a tip from ' + username + ' using the QRL tipbot! Please `+signup` for an account to claim your ' + tipAmountQuanta + ' QRL. \n *Any funds not claimed in 30 days from tip may be given to the faucet.* If you don\'t want to be bothered by these messages, please `+opt-out`');
+
                 const future_tip_id = futureTipsID[0].tip_id;
                 const add_tip_to_info = { tip_id: tip_id, tip_amt: tipAmountQuanta, user_id: user_id, future_tip_id: future_tip_id };
                 add_tip_to(add_tip_to_info).then(function(tip_toResults) {
