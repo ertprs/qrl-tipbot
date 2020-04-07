@@ -67,6 +67,7 @@ module.exports = {
           });
         });
       }
+      // user found!
       else if (user_found == 'true') {
         message.channel.startTyping();
         // User is found, check if already opted out
@@ -77,6 +78,9 @@ module.exports = {
         // true { user_found: 'true', opt_out: 'true', optout_date: optout_date }
         const check_opt_out = dbHelper.CheckUserOptOut;
         check_opt_out({ service: 'discord', user_id: user_id }).then(function(result) {
+
+
+          // improve this mess here please! TODO
           return result;
         }).then(function(ooargs) {
           if (ooargs.opt_out == 'true') {
@@ -97,24 +101,22 @@ module.exports = {
                 walletPub({ user_id: user_id }).then(function(userWallet) {
                   // should return { wallet_pub: wallet_pub }
                   const wallet_pub = userWallet.wallet_pub;
-                  // ask what to do with funds
-                  // need args sent to script for this to work.
-                  // if no args, error with question on what to do with balance.
+                  // Funds found, fail and error yto user that they need a flat baalne to opt-out
+                  
                   if (args[0] == null) {
                     // there are no args, ask for some
                     if(message.guild != null) {
                       message.reply('Check your DM!');
                     }
                     const wallet_bal_quanta = wallet_bal / 1000000000;
-                    message.author.send('You have a balance of `' + wallet_bal_quanta + ' qrl` in your tip wallet.\nWhat would you like to do with the funds??\n\n:moneybag: __**QRL Balance Options**__ :moneybag:\n:small_orange_diamond: Donate your tips to the bot - `+optout donate`\n:small_orange_diamond: Transfer to an external QRL address - `+optout transfer {QRL address}`\n:small_orange_diamond: Tip all active users in this Discord Server - `+optout tip`');
+                    message.author.send('You have a balance of `' + wallet_bal_quanta + ' qrl` in your tip wallet. Please withdraw the funds before you opt-out. If you wish to donate your funds to the bot, please use the following command\n\n`+wd ' + config.bot.bot_donationAddress + '`');
                     message.channel.stopTyping(true);
                     return;
                   }
-
                   // console.log('MessageAuthorID: ' + UUID + ' config admin: ' + config.discord.bot_admin);
                   // only allow the discord admin defined in teh config execute this
-                  console.log('args[0]: ' + args[0])
-                  if (message.mentions.users.size > 0 && UUID == config.discord.bot_admin && args[0] !== 'donate' || args[0] !== 'transfer' || args[0] !== 'tip') {
+                  // must call the bot by name and mention a user and be admin for this to work.
+                  if (message.mentions.users.size > 1 && UUID == config.discord.bot_admin) {
                     const users_Service_ID = message.mentions.users.first().id;
                     const service_ID = '@' + users_Service_ID;
                     console.log('users serviceID mentioned: ' + service_ID);
@@ -129,7 +131,7 @@ module.exports = {
                       if (userInfo[0].opt_out == 'true') {
                         console.log('User already opted out' + userInfo);
                         message.channel.stopTyping(true);
-                        message.author.send('opted out already?');
+                        message.author.send('you have opted out already!');
                         return;
                       }
                       const users_ID = userInfo[0].user_id;
@@ -138,19 +140,19 @@ module.exports = {
                       OptOut.then(function(results) {
                         console.log('results: ' + results);
                         message.channel.stopTyping(true);
-                        message.author.send('User now opted out.\n:wave: ');
+                        message.author.send('You\'re now opted out.\n:wave: ');
                         return results;
                       });
                     });
                   }
                   else {
                     message.channel.stopTyping(true);
-                    message.reply('Sorry, you can only opt yourself out. Try again...');
+                    message.reply('Sorry, try again...\n`+help` for my commands.');
                     return;
                   }
-                  // :::: TO-DO:::::
-                  // - add write to withdrawls db
-                  // :::::::::::::::
+
+
+                  // typical call made not by admin
                   if (args[0] == 'transfer') {
                     // transfer the funds
                     if (!args[1]) {
