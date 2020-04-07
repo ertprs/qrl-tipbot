@@ -288,6 +288,7 @@ module.exports = {
         // transfer the funds here
         const transfer = wallet.sendQuanta;
         transfer(tipToInfo).then(function(transferQrl) {
+          console.log('transferQrl' + JSON.stringify(transferQrl));
           const transferOutput = JSON.parse(transferQrl);
           const tx_hash = transferOutput.tx.transaction_hash;
           // write to transactions db
