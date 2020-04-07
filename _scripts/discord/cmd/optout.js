@@ -102,14 +102,14 @@ module.exports = {
                   // should return { wallet_pub: wallet_pub }
                   const wallet_pub = userWallet.wallet_pub;
                   // Funds found, fail and error yto user that they need a flat baalne to opt-out
-                  
+
                   if (args[0] == null) {
                     // there are no args, ask for some
                     if(message.guild != null) {
                       message.reply('Check your DM!');
                     }
                     const wallet_bal_quanta = wallet_bal / 1000000000;
-                    message.author.send('You have a balance of `' + wallet_bal_quanta + ' qrl` in your tip wallet. Please withdraw the funds before you opt-out. If you wish to donate your funds to the bot, please use the following command\n\n`+wd ' + config.bot.bot_donationAddress + '`');
+                    message.author.send('You have a balance of `' + wallet_bal_quanta + ' qrl` in your tip wallet. Please withdraw the funds before you opt-out. If you wish to donate your funds to the bot, please use the following command\n\n`+wd ' + config.bot_details.bot_donationAddress + '`');
                     message.channel.stopTyping(true);
                     return;
                   }
