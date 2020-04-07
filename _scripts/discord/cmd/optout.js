@@ -105,7 +105,8 @@ module.exports = {
                     if(message.guild != null) {
                       message.reply('Check your DM!');
                     }
-                    message.author.send(message.author + ' You have a balance of `' + wallet_bal + ' qrl` in your tip wallet.\nWhat would you like to do with the funds??\n\n:moneybag: __**QRL Balance Options**__ :moneybag:\n:small_orange_diamond: Donate your tips to the bot - `+optout donate`\n:small_orange_diamond: Transfer to an external QRL address - `+optout transfer {QRL address}`\n:small_orange_diamond: Tip all active users in this Discord Server - `+optout tip`');
+                    const wallet_bal_quanta = wallet_bal / 1000000000;
+                    message.author.send('You have a balance of `' + wallet_bal_quanta + ' qrl` in your tip wallet.\nWhat would you like to do with the funds??\n\n:moneybag: __**QRL Balance Options**__ :moneybag:\n:small_orange_diamond: Donate your tips to the bot - `+optout donate`\n:small_orange_diamond: Transfer to an external QRL address - `+optout transfer {QRL address}`\n:small_orange_diamond: Tip all active users in this Discord Server - `+optout tip`');
                     message.channel.stopTyping(true);
                     return;
                   }
