@@ -687,8 +687,9 @@ async function withdraw(args) {
     const service = args.service;
     const tx_hash = args.tx_hash;
     const to_address = args.to_address;
-    const wdValues = [ [user_id, tx_hash, service, to_address, new Date()] ];
-    const wdIntoDB = 'Insert INTO withdrawls(user_id, tx_hash, service, to_address, time_stamp) VALUES ?';
+    const amt = args.amt;
+    const wdValues = [ [user_id, tx_hash, service, to_address, amt, new Date()] ];
+    const wdIntoDB = 'Insert INTO withdrawls(user_id, tx_hash, service, to_address, amt, time_stamp) VALUES ?';
     callmysql.query(wdIntoDB, [wdValues], function(err, wdIntoDBRes) {
       if (err) {
         console.log('[mysql error]', err);
