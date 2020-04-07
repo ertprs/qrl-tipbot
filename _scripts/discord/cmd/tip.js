@@ -247,8 +247,8 @@ module.exports = {
                 };
                 check_tip_id();
 
-                const user = client.users.cache.get('<' + serviceid + '>');
-                console.log('user <' + serviceid + '>: ' + user);
+                const user = client.users.cache.get(serviceid);
+                console.log('user ' + serviceid + ': ' + user);
                 user.send('You have been sent a tip from ' + username + ' using the QRL tipbot! Please `+signup` for an account to claim your ' + tipAmountQuanta + ' QRL. \n *Any funds not claimed in 30 days from tip may be given to the faucet.* If you don\'t want to be bothered by these messages, please `+opt-out`');
 
                 const future_tip_id = futureTipsID[0].tip_id;
