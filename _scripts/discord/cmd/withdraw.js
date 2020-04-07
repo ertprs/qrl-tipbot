@@ -161,7 +161,7 @@ module.exports = {
             return;
           }
           const trans_amt_shor = trans_amt * toShor;
-          const total_transfer = (trans_amt_shor - fee);
+          const total_transfer = Math.round(trans_amt_shor - fee);
           // console.log('trans_amt: ' + trans_amt + ' trans_amt_shor: ' + trans_amt_shor + ' total_transfer: ' + total_transfer);
           // check if amount is equal or less than bal
           // console.log('transfer Details. trans_amt :' + trans_amt + ' trans_amt_shor: ' + trans_amt_shor + ' total_transfer: ' + total_transfer);
