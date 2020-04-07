@@ -187,7 +187,7 @@ module.exports = {
           const GetAllTipedUserInfoPromise = GetAllUserInfo({ service: 'discord', service_id: serviceid });
           // search for the tipto user here in the database with info from above
           await GetAllTipedUserInfoPromise.then(function(tippedUserInfo) {
-            console.log('tippedUserInfo ' + JSON.stringify(tippedUserInfo));
+            // console.log('tippedUserInfo ' + JSON.stringify(tippedUserInfo));
             const tippedUserFound = tippedUserInfo.user_found;
             if (tippedUserFound == 'true') {
               const tippedUsedOptOut = tippedUserInfo[4].opt_out;
@@ -248,7 +248,7 @@ module.exports = {
                 check_tip_id();
 
                 const user = client.users.cache.get('<' + serviceid + '>');
-                console.log('user: ' + user);
+                console.log('user <' + serviceid + '>: ' + user);
                 user.send('You have been sent a tip from ' + username + ' using the QRL tipbot! Please `+signup` for an account to claim your ' + tipAmountQuanta + ' QRL. \n *Any funds not claimed in 30 days from tip may be given to the faucet.* If you don\'t want to be bothered by these messages, please `+opt-out`');
 
                 const future_tip_id = futureTipsID[0].tip_id;
