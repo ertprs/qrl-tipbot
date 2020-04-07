@@ -127,7 +127,7 @@ module.exports = {
                     message.react(emojiCharacters.q)
                       .then(() => message.react(emojiCharacters.r))
                       .then(() => message.react(emojiCharacters.l))
-                      .then(() => message.react(emojiCharacters.!))
+                      .then(() => message.react(emojiCharacters.['!']))
                       .catch(() => console.error('One of the emojis failed to react.'));
                     message.channel.stopTyping(true);
                     return UpdateBalance;
