@@ -11,6 +11,7 @@ module.exports = {
     const walletTools = require('../../qrl/walletTools');
     const dbHelper = require('../../db/dbHelper');
     const config = require('../../../_config/config.json');
+    const emojiCharacters = require('../../emojiCharacters');
     const Balance = walletTools.GetBalance;
     const username = `${message.author}`;
     const userName = username.slice(1, -1);
@@ -123,9 +124,10 @@ module.exports = {
                         message.channel.stopTyping(true);
                         message.reply('it seems like I can\'t DM you! Do you have DMs disabled?');
                       });
-                    message.react('🇶')
-                      .then(() => message.react('🇷'))
-                      .then(() => message.react('🇱'))
+                    message.react(emojiCharacters.q)
+                      .then(() => message.react(emojiCharacters.r))
+                      .then(() => message.react(emojiCharacters.l))
+                      .then(() => message.react(emojiCharacters.!))
                       .catch(() => console.error('One of the emojis failed to react.'));
                     message.channel.stopTyping(true);
                     return UpdateBalance;
