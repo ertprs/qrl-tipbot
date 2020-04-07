@@ -10,6 +10,7 @@ module.exports = {
     message.channel.startTyping();
     const Discord = require('discord.js');
     const client = new Discord.Client();
+    client.login(config.discord.token);
     const dbHelper = require('../../db/dbHelper');
     const config = require('../../../_config/config.json');
     const wallet = require('../../qrl/walletTools');
@@ -330,7 +331,6 @@ module.exports = {
       return JSON.stringify(userInfo);
     });
     message.channel.stopTyping(true);
-    client.login(config.discord.token);
 
   },
 };
