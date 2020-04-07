@@ -432,6 +432,7 @@ const createUserAgree = `create table if not exists users_agree(
                                 tx_hash varchar(255) not null,
                                 service ENUM('discord', 'keybase', 'github', 'reddit', 'trello', 'twitter', 'slack', 'telegram', 'whatsapp'),
                                 to_address varchar(80) not null,
+                                amt DECIMAL(24,9) not null,
                                 time_stamp DATETIME not null
                              )`;
 
