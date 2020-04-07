@@ -4,8 +4,8 @@ module.exports = {
   args: false,
   aliases: ['join', 'signup', 'su'],
   guildOnly: false,
-  usage: ' \n## Add you\'re user to the QRL TipBot, creates an address and allows tipping.',
-  cooldown: 6,
+  usage: ' \n## Add you\'re user to the QRL TipBot, creates an address and allows tipping. *You must allow DM to use the bot.*',
+  cooldown: 60,
 
   execute(message, args) {
     const Discord = require('discord.js');
@@ -24,6 +24,7 @@ module.exports = {
     const userName = username.slice(1, -1);
     const user_info = { service: 'discord', user_id: userName };
     const checkUserpromise = checkUser(user_info);
+
     // used for the new user signup. Add the new users address to the faucet and drip them some funds
     function dripAmount(min, max) {
       const minAmt = min * 1000000000;
