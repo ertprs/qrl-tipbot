@@ -53,10 +53,6 @@ module.exports = {
       return output;
     });
     const tipListJSON = JSON.parse(JSON.stringify(tipList));
-    console.log('tiplist' + tipListJSON);
-    console.log('client.user.id' + client.user.id);
-
-
 
     const tipUserCount = tipListJSON.length;
     //  check for tip amount, fail if not found...
