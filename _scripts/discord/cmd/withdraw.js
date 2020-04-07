@@ -132,7 +132,7 @@ module.exports = {
             const embed = new Discord.MessageEmbed()
               .setColor(0x000000)
               .setTitle('Funds Transfered')
-              .setDescription('Your transaction has posted on the network. It may take a few minuets to confirm, see the transaction info in the [QRL Block Explorer](' + config.bot_details.explorer_url + '/tx/' + tx_hash + ')')
+              .setDescription('Your transaction has posted on the network. It may take a few minuets to confirm, see the transaction info in the [QRL Block Explorer](' + config.bot_details.explorer_url + '/tx/' + tx_hash + '). Until the transaction confirms on the chain, you will still see a balance in your wallet. Please be patient as all good things take time')
               .addField('Transfer amount', '**' + transfer_amt / toShor + '**')
               .addField('Transfer fee', '**' + config.wallet.tx_fee + '**')
               .addField('Transfer To Address', '** ' + transfer_to + '**')
