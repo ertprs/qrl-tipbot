@@ -58,7 +58,7 @@ module.exports = {
       const embed = new Discord.MessageEmbed()
         .setColor(0x000000)
         .setTitle('Transfer From TipBot')
-        .setDescription('To transfer or withdraw from the tipbot I need some details.')
+        .setDescription('To transfer or withdraw from the tipbot please provide some details.')
         .addField('Transfer given amount', '`+transfer {AMOUNT} {QRLADDRESS}`')
         .addField('Transfer entire balance', '`+transfer all {QRLADDRESS}`')
         .addField('To donate to the TipBot', '`+transfer all ' + config.bot_details.bot_donationAddress + '`');
@@ -133,6 +133,7 @@ module.exports = {
           const transferInfo = { address_to: addressArray, amount: transArray, fee: fee, address_from: wallet_pub };
           // console.log('transferInfo ' + JSON.stringify(transferInfo));
           transfer(transferInfo).then(function(transferQrl) {
+            console.log('transferQrl: ' + JSON.stringify(transferQrl));
             const transferOutput = JSON.parse(transferQrl);
             const tx_hash = transferOutput.tx.transaction_hash;
             const embed = new Discord.MessageEmbed()
