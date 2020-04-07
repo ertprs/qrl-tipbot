@@ -9,7 +9,6 @@ module.exports = {
   execute(message, args) {
     message.channel.startTyping();
     const Discord = require('discord.js');
-    const client = new Discord.Client();
     const dbHelper = require('../../db/dbHelper');
     const config = require('../../../_config/config.json');
     const wallet = require('../../qrl/walletTools');
@@ -247,9 +246,6 @@ module.exports = {
                 };
                 check_tip_id();
 
-                const user = client.users.cache.get(serviceid);
-                console.log('user ' + serviceid + ': ' + user);
-                user.send('You have been sent a tip from ' + username + ' using the QRL tipbot! Please `+signup` for an account to claim your ' + tipAmountQuanta + ' QRL. \n *Any funds not claimed in 30 days from tip may be given to the faucet.* If you don\'t want to be bothered by these messages, please `+opt-out`');
 
                 const future_tip_id = futureTipsID[0].tip_id;
                 const add_tip_to_info = { tip_id: tip_id, tip_amt: tipAmountQuanta, user_id: user_id, future_tip_id: future_tip_id };
