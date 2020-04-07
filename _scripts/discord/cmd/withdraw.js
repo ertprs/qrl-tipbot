@@ -180,7 +180,7 @@ module.exports = {
               // console.log('transferInfo ' + JSON.stringify(transferInfo));
               transfer(transferInfo).then(function(transferQrl) {
                 const transferOutput = JSON.parse(transferQrl);
-                console.log(chalk.cyan('transferQRL output: ') + chalk.bgWhite(JSON.stringify(transferQrl)));
+                console.log(chalk.cyan('transferQRL output: ') + chalk.bgWhite.black(JSON.stringify(transferQrl)));
                 const tx_hash = transferOutput.tx.transaction_hash;
                 const wdDBInfo = { service: 'discord', user_id: user_id, tx_hash: tx_hash, to_address: transfer_to };
                 wdDB(wdDBInfo);
