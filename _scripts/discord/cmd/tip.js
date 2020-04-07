@@ -288,7 +288,7 @@ module.exports = {
         // transfer the funds here
         const transfer = wallet.sendQuanta;
         transfer(tipToInfo).then(function(transferQrl) {
-          console.log('transferQrl' + transferQrl);
+        // console.log('transferQrl' + transferQrl);
           const transferOutput = JSON.parse(transferQrl);
           const tx_hash = transferOutput.tx.transaction_hash;
           // write to transactions db
@@ -305,10 +305,7 @@ module.exports = {
             .setColor(0x000000)
             .setTitle('Tip Sent!')
             .setDescription('Your tip was posted on the network. It may take a few minuets to confirm, see the transaction info in the [QRL Block Explorer](' + config.bot_details.explorer_url + '/tx/' + tx_hash + ')')
-            .addField('Transfer amount', '**' + total_tip / 1000000000 + '**')
-            .addField('Transfer fee', '**' + config.wallet.tx_fee + '**')
-            .addField('Transfer To Address', '** ' + userList + '**')
-            .setFooter('The TX Fee is taken from the transfer amount and set by the bot owner. \nThe current fee is set to ' + config.wallet.tx_fee + ' QRL');
+            .setFooter('*The TX Fee is taken from the transfer amount and set by the bot owner. \nThe current fee is set to ' + config.wallet.tx_fee + ' QRL*');
           message.author.send({ embed })
             .then(() => {
               if (message.channel.type !== 'dm') return;
