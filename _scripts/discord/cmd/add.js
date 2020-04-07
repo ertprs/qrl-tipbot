@@ -150,15 +150,17 @@ module.exports = {
               const returnData = { wallet_pub: userAddress, wallet_bal: balance.wallet_bal };
               return returnData;
             }).then(function(reply) {
+
               //  embed a message to the user with account details
               console.log('reply ' + JSON.stringify(reply));
+              const userBalance = reply.wallet_bal * 1000000000
               const embed = new Discord.MessageEmbed()
                 .setColor(0x000000)
                 .setTitle('**TipBot Account Exists**')
                 .setDescription('Here is your existing TipBot account information.')
                 .setFooter(`TipBot Donation Address: ${config.bot_details.bot_donationAddress}`)
                 .addField('Your QRL Wallet Public Address::', '[' + reply.wallet_pub + '](' + config.bot_details.explorer_url + '/a/' + walletPub.wallet_pub + ')')
-                .addField('Your QRL Wallet Balance:\t', `\`${reply.wallet_bal}\``)
+                .addField('Your QRL Wallet Balance:\t', `\`${userBalance}\``)
                 .addField('For all of my commands:\t', '`+help`');
               message.author.send({ embed })
                 .then(() => {
