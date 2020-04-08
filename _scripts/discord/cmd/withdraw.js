@@ -11,22 +11,6 @@ module.exports = {
     if(message.guild != null) {
       message.delete();
     }
-    message.channel.startTyping();
-    if (args[0] === wallet_pub ) {
-      // user sending to self.. fail and return to the user
-      message.channel.startTyping();
-      setTimeout(function() {
-        message.reply('You cannot send funds to yourself. Please transfer out of the TipBot.');
-        message.channel.stopTyping(true);
-      }, 1000);
-      return;
-    }
-    // notify the user we are doing something...
-    setTimeout(function() {
-      message.reply('Submitting your withdraw request to the blockchain, be right back...');
-      message.channel.stopTyping(true);
-    }, 1000);
-
     const dbHelper = require('../../db/dbHelper');
     const wallet = require('../../qrl/walletTools');
     const config = require('../../../_config/config.json');
@@ -71,6 +55,8 @@ module.exports = {
     // check that args are not blank. first args should be all || a number
     // second args should be qrl address
     if (args[0] == undefined || args [1] == undefined) {
+      message.startTyping();
+      message.reply('Incorrect info given, please check your DM\'s')
       // console.log('no args given');
       const embed = new Discord.MessageEmbed()
         .setColor(0x000000)
@@ -122,6 +108,22 @@ module.exports = {
         const transfer_to = args[1];
         const fee = config.wallet.tx_fee * toShor;
         // check for valid qrl address given as args[1]
+
+        message.channel.startTyping();
+        if (args[0] === wallet_pub ) {
+          // user sending to self.. fail and return to the user
+          message.channel.startTyping();
+          setTimeout(function() {
+            message.reply('You cannot send funds to yourself. Please transfer out of the TipBot.');
+            message.channel.stopTyping(true);
+          }, 1000);
+          return;
+        }
+        // notify the user we are doing something...
+        setTimeout(function() {
+          message.reply('Submitting your withdraw request to the blockchain, be right back...');
+          message.channel.stopTyping(true);
+        }, 1000);
         const addressTest = isQRLAddress(transfer_to);
         if (!addressTest) {
           message.channel.startTyping();
