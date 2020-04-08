@@ -31,7 +31,7 @@ module.exports = {
 
     function userMessage(type, content) {
       setTimeout(function() {
-        message.type(content);
+        message. + type + (content);
         message.channel.stopTyping(true);
       }, 1000);
     }
