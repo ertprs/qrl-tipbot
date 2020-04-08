@@ -52,12 +52,16 @@ module.exports = {
     // second args should be qrl address
 
     if ((args[0] == undefined) || (args [1] == undefined)) {
+      message.channel.startTyping();
+      setTimeout(function() {
+        message.reply('Incorrect info given, please check your DM\'s')
+        message.channel.stopTyping(true);
+      }, 1000);
           // if not in private message delete the message
       if(message.guild != null) {
         message.delete();
       }
-      message.channel.startTyping();
-      message.reply('Incorrect info given, please check your DM\'s')
+
       // console.log('no args given');
       const embed = new Discord.MessageEmbed()
         .setColor(0x000000)
