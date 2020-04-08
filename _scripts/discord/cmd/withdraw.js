@@ -54,6 +54,8 @@ module.exports = {
     // check that args are not blank. first args should be all || a number
     // second args should be qrl address
     console.log('message.mentions.users.size: ' + message.mentions.users.size);
+    console.log('args[0]: ' + JSON.stringify(args));
+
     if ((args[0] == undefined) || (message.mentions.users.size > 0 && args [1] == undefined) || (message.mentions.users.size > 0 && args[2] == undefined)) {
       message.channel.startTyping();
       message.reply('Incorrect info given, please check your DM\'s')
