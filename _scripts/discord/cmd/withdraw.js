@@ -58,7 +58,7 @@ module.exports = {
     console.log('args[1]: ' + args[1]);
     console.log('args[2]: ' + args[2]);
     
-    if ((args[0] == undefined) || (message.mentions.users.size > 0 && args [1] == undefined) || (message.mentions.users.size > 0 && args[2] == undefined)) {
+    if ((args[0] == undefined) || (args [1] == undefined)) {
       message.channel.startTyping();
       message.reply('Incorrect info given, please check your DM\'s')
       // console.log('no args given');
