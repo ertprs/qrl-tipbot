@@ -180,7 +180,7 @@ module.exports = {
             // console.log('transferQrl: ' + JSON.stringify(transferQrl));
             const transferOutput = JSON.parse(transferQrl);
             const tx_hash = transferOutput.tx.transaction_hash;
-            message.channel.send('Alright, funds have been sent. Details are in your DM\'s.\n*It may take a bit for the transaction, please be patient!*' )
+            message.channel.send('Alright, funds have been sent. Details are in your DM\'s.\n*It may take a bit for the transaction to confirm.*' )
             const embed = new Discord.MessageEmbed()
               .setColor(0x000000)
               .setTitle('Funds Transfered')
@@ -262,7 +262,7 @@ module.exports = {
                 const total_transferQuanta = total_transfer / toShor;
                 const wdDBInfo = { service: 'discord', user_id: user_id, tx_hash: tx_hash, to_address: transfer_to, amt: total_transferQuanta };
                 wdDB(wdDBInfo);
-                message.channel.send('Alright, funds have been sent. Details are in your DM\'s.\n*It may take a bit for the transaction, please be patient!*' )
+                message.channel.send('Alright, funds have been sent. Details are in your DM\'s.\n*It may take a bit for the transaction to confirm.*' )
                 const embed = new Discord.MessageEmbed()
                   .setColor(0x000000)
                   .setTitle('Funds Transfered')
