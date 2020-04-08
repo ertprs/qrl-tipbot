@@ -53,11 +53,7 @@ module.exports = {
     }
     // check that args are not blank. first args should be all || a number
     // second args should be qrl address
-    console.log('message.mentions.users.size: ' + message.mentions.users.size);
-    console.log('args[0]: ' + args[0]);
-    console.log('args[1]: ' + args[1]);
-    console.log('args[2]: ' + args[2]);
-    
+
     if ((args[0] == undefined) || (args [1] == undefined)) {
       message.channel.startTyping();
       message.reply('Incorrect info given, please check your DM\'s')
@@ -103,18 +99,7 @@ module.exports = {
         return;
       }
       else {
-        console.log('message.mentions.users.size ' + message.mentions.users.size)
-        // because we can either enter '+wd' or '@bot wd' we need to check for values in args...
-        if (message.mentions.users.size > 0) {
-          // the bot was mentioned first, shift all args to next number up...
-        const transfer_to = args[2];
-        return transfer_to;
-        }
-        else {
-          const transfer_to = args[1];
-          return transfer_to;
-        }
-
+        const transfer_to = args[1];
         // set known values from getAllUserInfo search
         const user_id = result[0].user_id;
         const wallet_pub = result[0].wallet_pub;
