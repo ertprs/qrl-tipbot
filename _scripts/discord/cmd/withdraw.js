@@ -212,6 +212,10 @@ module.exports = {
           const testQRLValue = isQRLValue(trans_amt);
           if (!testQRLValue) {
             message.channel.startTyping();
+            // if not in private message delete the message
+            if(message.guild != null) {
+              message.delete();
+            } 
             setTimeout(function() {
               message.reply('Invalid amount. Please try again.');
               message.channel.stopTyping(true);
@@ -220,19 +224,31 @@ module.exports = {
           }
           const trans_amt_shor = trans_amt * toShor;
           const total_transfer = Math.round(trans_amt_shor - fee);
-          // console.log('trans_amt: ' + trans_amt + ' trans_amt_shor: ' + trans_amt_shor + ' total_transfer: ' + total_transfer);
           // check if amount is equal or less than bal
           // console.log('transfer Details. trans_amt :' + trans_amt + ' trans_amt_shor: ' + trans_amt_shor + ' total_transfer: ' + total_transfer);
           if (total_transfer > shor_bal) {
             // more than user has
             message.channel.startTyping();
+            // if not in private message delete the message
+            if(message.guild != null) {
+              message.delete();
+            } 
             setTimeout(function() {
-              message.author.send('You\'re trying to transfer more QRL than you have.\nCurrent balance: **' + wallet_bal + '**');
+              message.reply('You\'re trying to transfer more QRL than you have!');
+              message.author.send('You are trying to send more QRL than you have. Your current balance is: **' + wallet_bal + '**')
               message.channel.stopTyping(true);
             }, 1000);
             return;
           }
-         // async function transferAmt() {
+         // user has given good info and not 'all' selected to transfer. Send the amount given to user defined address
+          // if not in private message delete the message
+            if(message.guild != null) {
+              message.delete();
+            }      
+            setTimeout(function() {
+              message.reply('Sending your transaction to the blockchain, I\'ll be right back...');
+              message.channel.stopTyping(true);
+            }, 1000);
             const totalTransArray = [];
             const addressToArray = [];
             totalTransArray.push(total_transfer);
@@ -246,6 +262,7 @@ module.exports = {
                 const total_transferQuanta = total_transfer / toShor;
                 const wdDBInfo = { service: 'discord', user_id: user_id, tx_hash: tx_hash, to_address: transfer_to, amt: total_transferQuanta };
                 wdDB(wdDBInfo);
+                message.channel.send('Alright, funds have been sent. Details are in your DM\'s.\n*It may take a few minuets for the transaction to be mined, please be patient!' )
                 const embed = new Discord.MessageEmbed()
                   .setColor(0x000000)
                   .setTitle('Funds Transfered')
