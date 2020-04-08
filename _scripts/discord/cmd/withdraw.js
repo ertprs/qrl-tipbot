@@ -9,7 +9,7 @@ module.exports = {
     // console.log('transfer called...' + JSON.stringify(args));
     // if not in private message delete the message
     if(message.guild != null) {
-      message.delete();
+      //message.delete();
     }
     const dbHelper = require('../../db/dbHelper');
     const wallet = require('../../qrl/walletTools');
