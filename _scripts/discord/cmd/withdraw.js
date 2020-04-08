@@ -102,9 +102,11 @@ module.exports = {
         if (args[0] == message.mentions.members.first()) {
           // the bot was mentioned first, shift all args to next number up...
         const transfer_to = args[2];
+        return transfer_to;
         }
         else {
           const transfer_to = args[1];
+          return transfer_to;
         }
 
         // set known values from getAllUserInfo search
