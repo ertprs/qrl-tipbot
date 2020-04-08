@@ -154,7 +154,7 @@ module.exports = {
 
               //  embed a message to the user with account details
               const userBalance = reply.wallet_bal / 1000000000
-              console.log('userBalance ' + userBalance);
+              // console.log('userBalance ' + userBalance);
               const embed = new Discord.MessageEmbed()
                 .setColor(0x000000)
                 .setTitle('**TipBot Account Exists**')
