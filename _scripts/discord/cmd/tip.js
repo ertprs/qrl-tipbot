@@ -38,9 +38,8 @@ module.exports = {
 
     // check if user mentioned another user to tip
     if (!message.mentions.users.size) {
-      ReplyMessage('No Users mentioned. \n`+help tip` for help')
-      //message.reply('No Users mentioned. \n`+help tip` for help');
-      //message.channel.stopTyping(true);
+      ReplyMessage('No Users mentioned. `+help tip` for help')
+
       return ;
     }
     // We have users mentioned, get the tipList into map
@@ -66,8 +65,7 @@ module.exports = {
     const tipUserCount = tipListJSON.length;
     //  check for tip amount, fail if not found...
     if (isNaN(tipAmount)) {
-      message.reply('Please enter a valid amount to tip! +tip {AMOUNT} @USER(\'s)');
-      message.channel.stopTyping(true);
+      ReplyMessage('Please enter a valid amount to tip! +tip {AMOUNT} @USER(\'s)');
       return ;
     }
     // fail if not number within range
@@ -86,18 +84,18 @@ module.exports = {
     const test = isQRLValue(tipAmountQuanta);
     if (!test) {
       message.channel.stopTyping(true);
-      message.reply('Invalid amount. Please try again.');
+      ReplyMessage('Invalid amount. Please try again.');
       return;
     }
     // fail if amount is 0 or less.
     if (tipAmount < 0) {
       message.channel.stopTyping(true);
-      message.reply('Please enter a valid amount to tip! +tip {AMOUNT} @USER(\'s)');
+      ReplyMessage('Please enter a valid amount to tip! +tip {AMOUNT} @USER(\'s)');
       return ;
     }
     // check if tipping self and fail if found
     if (message.mentions.users.first() == message.author) {
-      message.reply('You can\'t tip yourself');
+      ReplyMessage('You can\'t tip yourself');
       message.channel.stopTyping(true);
       return;
     }
@@ -127,7 +125,7 @@ module.exports = {
           .addField('To opt back in', '`+opt-in`');
         message.author.send({ embed })
           .then(() => {
-            message.reply('There was an error, see your DM');
+            ReplyMessage('There was an error, see your DM');
           })
           .catch(error => {
             message.channel.stopTyping(true);
@@ -154,7 +152,7 @@ module.exports = {
         message.author.send({ embed })
           .then(() => {
             if (message.channel.type === 'dm') return;
-            message.reply('\n:moneybag: You need more funds! :moneybag:');
+            ReplyMessage('\n:moneybag: You need more funds! :moneybag:');
           })
           .catch(error => {
             message.channel.stopTyping(true);
@@ -282,7 +280,7 @@ module.exports = {
             message.delete();
           }
           message.channel.stopTyping(true);
-          message.reply('sorry, no users found or they have opted out. No tip sent...');
+          ReplyMessage('sorry, no users found or they have opted out. No tip sent...');
           return;
         }
         // if in a chat, delete their tip message and reply with the list of tipped users
@@ -290,7 +288,7 @@ module.exports = {
           message.delete();
         }
         message.channel.stopTyping(true);
-        message.reply('Tipped ' + userList + ' `' + tipAmountQuanta + '` QRL.\n*All tips are on-chain, and will take some time to process.*');
+        ReplyMessage('Tipped ' + userList + ' `' + tipAmountQuanta + '` QRL.\n*All tips are on-chain, and will take some time to process.*');
         const send_to_addresses = found_addressTo.concat(not_found_addressTo);
         const send_to_amount = found_tipAmount.concat(not_found_tipAmount);
         const tipToInfo = { amount: send_to_amount, fee: fee, address_from: wallet_pub, address_to: send_to_addresses };
