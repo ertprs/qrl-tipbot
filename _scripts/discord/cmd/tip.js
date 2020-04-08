@@ -39,7 +39,7 @@ module.exports = {
 
     // check if user mentioned another user to tip
     if (!message.mentions.users.size) {
-      userMessage(reply, 'No Users mentioned. \n`+help tip` for help')
+      userMessage('reply', 'No Users mentioned. \n`+help tip` for help')
       //message.reply('No Users mentioned. \n`+help tip` for help');
       //message.channel.stopTyping(true);
       return ;
