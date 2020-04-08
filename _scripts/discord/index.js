@@ -44,11 +44,7 @@ console.log(chalk`
 
 
 
-for (let [snowflake, guildMember] of mems) {
-  console.log('snowflake: ' + snowflake);
-  console.log('id: ' + guildMember.id);
-  console.log('user id: ' + guildMember.user.id);
-}
+console.log(chalk.green(client.users.cache));
 
 
 
