@@ -161,7 +161,7 @@ module.exports = {
           transArray.push(transfer_amt);
           addressArray.push(transfer_to);
           const transferInfo = { address_to: addressArray, amount: transArray, fee: fee, address_from: wallet_pub };
-          // console.log('transferInfo ' + JSON.stringify(transferInfo));
+          console.log('transferInfo ' + JSON.stringify(transferInfo));
           transfer(transferInfo).then(function(transferQrl) {
             // console.log('transferQrl: ' + JSON.stringify(transferQrl));
             const transferOutput = JSON.parse(transferQrl);
@@ -212,7 +212,7 @@ module.exports = {
           const total_transfer = Math.round(trans_amt_shor - fee);
           // console.log('trans_amt: ' + trans_amt + ' trans_amt_shor: ' + trans_amt_shor + ' total_transfer: ' + total_transfer);
           // check if amount is equal or less than bal
-          // console.log('transfer Details. trans_amt :' + trans_amt + ' trans_amt_shor: ' + trans_amt_shor + ' total_transfer: ' + total_transfer);
+          console.log('transfer Details. trans_amt :' + trans_amt + ' trans_amt_shor: ' + trans_amt_shor + ' total_transfer: ' + total_transfer);
           if (total_transfer > shor_bal) {
             // more than user has
             message.channel.startTyping();
