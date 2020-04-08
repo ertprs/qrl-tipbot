@@ -12,6 +12,16 @@ module.exports = {
       message.delete();
     }
     message.channel.startTyping();
+    if (args[0] === wallet_pub ) {
+      // user sending to self.. fail and return to the user
+      message.channel.startTyping();
+      setTimeout(function() {
+        message.reply('You cannot send funds to yourself. Please transfer out of the TipBot.');
+        message.channel.stopTyping(true);
+      }, 1000);
+      return;
+    }
+    // notify the user we are doing something...
     setTimeout(function() {
       message.reply('Submitting your withdraw request to the blockchain, be right back...');
       message.channel.stopTyping(true);
@@ -172,15 +182,6 @@ module.exports = {
         else {
           // transfer amount given, do some checks and send
           // check that amount is correct value
-          if (args[0] === wallet_pub ) {
-            // user sending to self.. fail and return to the user
-            message.channel.startTyping();
-            setTimeout(function() {
-              message.reply('You cannot send funds to yourself. Please transfer out of the TipBot.');
-              message.channel.stopTyping(true);
-            }, 1000);
-            return;
-          }
           const trans_amt = args[0];
           const testQRLValue = isQRLValue(trans_amt);
           if (!testQRLValue) {
