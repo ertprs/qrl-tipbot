@@ -30,11 +30,10 @@ module.exports = {
     const found_tipAmount = [];
 
     function userMessage(type, content) {
-      const newMessage = setTimeout(function() {
+      SetTimeout(function() {
         message.type(content);
         message.channel.stopTyping(true);
       }, 1000);
-      return newMessage;
     }
 
     // check if user mentioned another user to tip
