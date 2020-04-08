@@ -102,7 +102,7 @@ module.exports = {
         //console.log('user has opted out previously, fail hard');
         message.channel.startTyping();
         setTimeout(function() {
-          message.author.send('You are Opted-Out of the tipbot. Please enter `+signup` to use the bot functions..');
+          message.author.send('You are opted out of the tipbot. `+signup` to use the bot functions..');
           message.channel.stopTyping(true);
         }, 1000);
       }
@@ -147,9 +147,8 @@ module.exports = {
         }
 
         // notify the user we are doing something...
-        message.channel.startTyping();
         setTimeout(function() {
-          message.reply('Submitting your withdraw request to the blockchain, I\'ll be right back...');
+          message.reply('Submitting your withdraw request to the blockchain, be right back...');
           message.channel.stopTyping(true);
         }, 1000);
         // transfer all funds called.
@@ -166,11 +165,6 @@ module.exports = {
             // console.log('transferQrl: ' + JSON.stringify(transferQrl));
             const transferOutput = JSON.parse(transferQrl);
             const tx_hash = transferOutput.tx.transaction_hash;
-            message.channel.startTyping();
-            setTimeout(function() {
-              message.reply('OK, all set. You will see the funds show up in your address shortly. Check your DM\'s for transaction details. Thanks for using the TipBot!');
-              message.channel.stopTyping(true);
-            }, 1000);
             const embed = new Discord.MessageEmbed()
               .setColor(0x000000)
               .setTitle('Funds Transfered')
