@@ -30,7 +30,7 @@ module.exports = {
     const found_tipAmount = [];
 
     function userMessage(type, content) {
-      SetTimeout(function() {
+      setTimeout(function() {
         message.type(content);
         message.channel.stopTyping(true);
       }, 1000);
