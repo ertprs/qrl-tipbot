@@ -55,9 +55,7 @@ module.exports = {
       if(message.guild != null) {
         message.delete();
       }
-      message.startTyping();
-    
-
+      message.channel.startTyping();
       message.reply('Incorrect info given, please check your DM\'s')
     
       // console.log('no args given');
