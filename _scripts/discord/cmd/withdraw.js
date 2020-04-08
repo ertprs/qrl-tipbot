@@ -7,6 +7,10 @@ module.exports = {
   usage: '\n__**withdraw** { ***wd***, ***transfer***, ***cashout*** }__\nTransfer or withdraw QRL from your TIpBot account to another QRL address.\n`+transfer 2 QRLADDRESS`',
   execute(message, args) {
     // console.log('transfer called...' + JSON.stringify(args));
+    // if not in private message delete the message
+    if(message.guild != null) {
+      message.delete();
+    }
     const dbHelper = require('../../db/dbHelper');
     const wallet = require('../../qrl/walletTools');
     const config = require('../../../_config/config.json');
@@ -51,13 +55,8 @@ module.exports = {
     // check that args are not blank. first args should be all || a number
     // second args should be qrl address
     if (args[0] == undefined || args [1] == undefined) {
-      // if not in private message delete the message
-      if(message.guild != null) {
-        message.delete();
-      }
-      message.channel.startTyping();
+      message.startTyping();
       message.reply('Incorrect info given, please check your DM\'s')
-    
       // console.log('no args given');
       const embed = new Discord.MessageEmbed()
         .setColor(0x000000)
@@ -92,10 +91,6 @@ module.exports = {
       if (UserFound !== 'true') {
         // console.log('user found ' + UserFound);
         // user is not in the system, fail and return to user
-        // if not in private message delete the message
-        if(message.guild != null) {
-          message.delete();
-        }
         message.channel.startTyping();
         setTimeout(function() {
           message.author.send('You are not signed up yet!. `+add` to get started.');
@@ -105,10 +100,6 @@ module.exports = {
       }
       else if (result[0].opt_out == 'true') {
         //console.log('user has opted out previously, fail hard');
-            // if not in private message delete the message
-        if(message.guild != null) {
-          message.delete();
-        }
         message.channel.startTyping();
         setTimeout(function() {
           message.author.send('You are Opted-Out of the tipbot. Please enter `+signup` to use the bot functions..');
@@ -117,10 +108,6 @@ module.exports = {
       }
       else {
         // set known values from getAllUserInfo search
-        // if not in private message delete the message
-        if(message.guild != null) {
-          message.delete();
-        }
         const user_id = result[0].user_id;
         const wallet_pub = result[0].wallet_pub;
         const wallet_bal = result[0].wallet_bal;
