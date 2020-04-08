@@ -137,7 +137,7 @@ module.exports = {
           // wallet is empty, give error and return
           message.channel.startTyping();
           setTimeout(function() {
-            message.reply('Cant send to your own address, please transfer out of the TipBot, to another address.');
+            message.reply('No funds in your account.');
             message.channel.stopTyping(true);
           }, 1000);
           return;
