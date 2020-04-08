@@ -118,11 +118,6 @@ module.exports = {
           }, 1000);
           return;
         }
-        // notify the user we are doing something...
-        setTimeout(function() {
-          message.reply('Submitting your withdraw request to the blockchain, be right back...');
-          message.channel.stopTyping(true);
-        }, 1000);
         const addressTest = isQRLAddress(transfer_to);
         if (!addressTest) {
           message.channel.startTyping();
@@ -142,6 +137,12 @@ module.exports = {
           }, 1000);
           return;
         }
+
+        // notify the user we are doing something...
+        setTimeout(function() {
+          message.reply('Submitting your withdraw request to the blockchain, be right back...');
+          message.channel.stopTyping(true);
+        }, 1000);
         // transfer all funds called.
         if (args[0] == 'all') {
           // transfer all the funds
