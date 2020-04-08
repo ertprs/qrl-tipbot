@@ -108,9 +108,9 @@ module.exports = {
         const transfer_to = args[1];
         const fee = config.wallet.tx_fee * toShor;
         // check for valid qrl address given as args[1]
-        console.log('pub address: ' + wallet_pub + '\nsub address: ' + args[0]);
+        console.log('pub address: ' + wallet_pub + '\nsub address: ' + args[1]);
         message.channel.startTyping();
-        if (args[0] == wallet_pub ) {
+        if (args[1] === wallet_pub ) {
           // user sending to self.. fail and return to the user
           message.channel.startTyping();
           setTimeout(function() {
