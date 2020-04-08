@@ -55,7 +55,7 @@ module.exports = {
     // check that args are not blank. first args should be all || a number
     // second args should be qrl address
     if (args[0] == undefined || args [1] == undefined) {
-      message.channel.startTyping();
+      message.startTyping();
       message.reply('Incorrect info given, please check your DM\'s')
       // console.log('no args given');
       const embed = new Discord.MessageEmbed()
@@ -98,14 +98,6 @@ module.exports = {
         }, 1000);
         return;
       }
-      else if (result[0].opt_out == 'true') {
-        //console.log('user has opted out previously, fail hard');
-        message.channel.startTyping();
-        setTimeout(function() {
-          message.author.send('You are Opted-Out of the tipbot. Please enter `+signup` to use the bot functions..');
-          message.channel.stopTyping(true);
-        }, 1000);
-      }
       else {
         // set known values from getAllUserInfo search
         const user_id = result[0].user_id;
@@ -126,6 +118,7 @@ module.exports = {
           }, 1000);
           return;
         }
+
         const addressTest = isQRLAddress(transfer_to);
         if (!addressTest) {
           message.channel.startTyping();
@@ -145,12 +138,6 @@ module.exports = {
           }, 1000);
           return;
         }
-
-        // notify the user we are doing something...
-        setTimeout(function() {
-          message.reply('Submitting your withdraw request to the blockchain, be right back...');
-          message.channel.stopTyping(true);
-        }, 1000);
         // transfer all funds called.
         if (args[0] == 'all') {
           // transfer all the funds
@@ -165,7 +152,6 @@ module.exports = {
             // console.log('transferQrl: ' + JSON.stringify(transferQrl));
             const transferOutput = JSON.parse(transferQrl);
             const tx_hash = transferOutput.tx.transaction_hash;
-            
             const embed = new Discord.MessageEmbed()
               .setColor(0x000000)
               .setTitle('Funds Transfered')
