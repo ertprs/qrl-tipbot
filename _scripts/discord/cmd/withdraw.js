@@ -55,7 +55,7 @@ module.exports = {
     // check that args are not blank. first args should be all || a number
     // second args should be qrl address
     if (args[0] == undefined || args [1] == undefined) {
-      message.channel.startTyping();
+      message.startTyping();
       message.reply('Incorrect info given, please check your DM\'s')
       // console.log('no args given');
       const embed = new Discord.MessageEmbed()
@@ -166,10 +166,6 @@ module.exports = {
             const transferOutput = JSON.parse(transferQrl);
             const tx_hash = transferOutput.tx.transaction_hash;
             
-            setTimeout(function() {
-              message.reply('Submitting your withdraw request to the blockchain, be right back...');
-              message.channel.stopTyping(true);
-            }, 1000);
             const embed = new Discord.MessageEmbed()
               .setColor(0x000000)
               .setTitle('Funds Transfered')
