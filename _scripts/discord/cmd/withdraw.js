@@ -149,7 +149,7 @@ module.exports = {
         // notify the user we are doing something...
         message.channel.startTyping();
         setTimeout(function() {
-          message.reply('Submitting your withdraw request to the blockchain, be right back...');
+          message.reply('Submitting your withdraw request to the blockchain, I\'ll be right back...');
           message.channel.stopTyping(true);
         }, 1000);
         // transfer all funds called.
