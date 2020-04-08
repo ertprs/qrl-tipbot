@@ -125,11 +125,6 @@ module.exports = {
       return;
     }
 // make whole to here remove above to previous comments after testing    
-
-
-
-
-
     else if (args[0] == undefined) {
       checkUserpromise.then(function(result) {
         const output = JSON.parse(JSON.stringify(result));

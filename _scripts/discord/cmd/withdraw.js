@@ -7,12 +7,11 @@ module.exports = {
   usage: '\n__**withdraw** { ***wd***, ***transfer***, ***cashout*** }__\nTransfer or withdraw QRL from your TIpBot account to another QRL address.\n`+transfer 2 QRLADDRESS`',
   execute(message, args) {
     // console.log('transfer called...' + JSON.stringify(args));
-    message.channel.startTyping();
-        // if not in private message delete the message
+    // if not in private message delete the message
     if(message.guild != null) {
       message.delete();
     }
-    //
+    message.channel.startTyping();
     setTimeout(function() {
       message.reply('Submitting your withdraw request to the blockchain, be right back...');
       message.channel.stopTyping(true);
@@ -127,7 +126,7 @@ module.exports = {
           // wallet is empty, give error and return
           message.channel.startTyping();
           setTimeout(function() {
-            message.reply('No funds to transfer, your TipBot balance is: **' + wallet_bal + '**');
+            message.reply('Cant send to your own address, please transfer out of the TipBot, to another address.');
             message.channel.stopTyping(true);
           }, 1000);
           return;
@@ -173,6 +172,15 @@ module.exports = {
         else {
           // transfer amount given, do some checks and send
           // check that amount is correct value
+          if (args[0] === wallet_pub ) {
+            // user sending to self.. fail and return to the user
+            message.channel.startTyping();
+            setTimeout(function() {
+              message.reply('You cannot send funds to yourself. Please transfer out of the TipBot.');
+              message.channel.stopTyping(true);
+            }, 1000);
+            return;
+          }
           const trans_amt = args[0];
           const testQRLValue = isQRLValue(trans_amt);
           if (!testQRLValue) {
