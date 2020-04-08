@@ -11,9 +11,17 @@ module.exports = {
     const walletTools = require('../../qrl/walletTools');
     const dbHelper = require('../../db/dbHelper');
     const config = require('../../../_config/config.json');
+    const emojiCharacters = require('../../emojiCharacters');
     const Balance = walletTools.GetBalance;
     const username = `${message.author}`;
     const userName = username.slice(1, -1);
+
+    function ReplyMessage(content) {
+      setTimeout(function() {
+        message.reply(content);
+        message.channel.stopTyping(true);
+      }, 1000);
+    }
     // test the address to the regex pattern
     function isQRLAddress(addy) {
       let test = false;
@@ -38,7 +46,7 @@ module.exports = {
       const givenAddress = args[0];
       const checkAddress = isQRLAddress(givenAddress);
       if(!checkAddress) {
-        message.reply('invalid! Must be a valid QRL address.');
+        ReplyMessage('invalid! Must be a valid QRL address.');
         return;
       }
       else {
@@ -47,7 +55,7 @@ module.exports = {
         BalancePromise.then(function(balanceResult) {
           const results = balanceResult.balance;
           const res = results / 1000000000;
-          const embed = new Discord.RichEmbed()
+          const embed = new Discord.MessageEmbed()
             .setColor(0x000000)
             .setTitle('**Address Balance**')
             .setDescription('Details from the balance query.')
@@ -58,12 +66,12 @@ module.exports = {
             .then(() => {
               if (message.channel.type === 'dm') return;
               message.channel.stopTyping(true);
-              message.reply('\n:moneybag: Balance is in your DM :moneybag:');
+              ReplyMessage('\n:moneybag: Balance is in your DM :moneybag:');
             })
             .catch(error => {
               console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
               message.channel.stopTyping(true);
-              message.reply('it seems like I can\'t DM you! Do you have DMs disabled?');
+              ReplyMessage('it seems like I can\'t DM you! Do you have DMs disabled?');
               return;
             });
           message.channel.stopTyping(true);
@@ -79,7 +87,7 @@ module.exports = {
         const found = output.user_found;
         if (found !== 'true') {
           message.channel.stopTyping(true);
-          message.reply('Your not found in the System. Try `+add` or `+help`');
+          ReplyMessage('Your not found in the System. Try `+add` or `+help`');
           return;
         }
         // check for the user_found value returned from the promise
@@ -88,7 +96,7 @@ module.exports = {
           const optOutCheck = dbHelper.CheckUserOptOut({ service: 'discord', user_id: result.user_id });
           optOutCheck.then(function(optout) {
             if (optout.opt_out == 'true') {
-              message.reply('You\'ve previously opted out of the tipbot. Please send `+opt-in` to opt back in!');
+              ReplyMessage('You\'ve previously opted out of the tipbot. Please send `+opt-in` to opt back in!');
               message.channel.stopTyping(true);
             }
             else {
@@ -106,7 +114,7 @@ module.exports = {
                   const update_wal_bal = dbHelper.updateWalletBal;
                   update_wal_bal({ user_id: user_id, new_bal: new_bal }).then(function(UpdateBalance) {
                     message.channel.stopTyping(true);
-                    const embed = new Discord.RichEmbed()
+                    const embed = new Discord.MessageEmbed()
                       .setColor(0x000000)
                       .setTitle('Tipbot Balance - ' + new_bal + ' QRL')
                       .addField('Balance:', `\`${new_bal} QRL\``, true)
@@ -116,16 +124,16 @@ module.exports = {
                       .then(() => {
                         if (message.channel.type === 'dm') return;
                         message.channel.stopTyping(true);
-                        // message.reply('\n:moneybag: Balance is in your DM :moneybag:');
+                        // ReplyMessage('\n:moneybag: Balance is in your DM :moneybag:');
                       })
                       .catch(error => {
                         console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
                         message.channel.stopTyping(true);
-                        message.reply('it seems like I can\'t DM you! Do you have DMs disabled?');
+                        ReplyMessage('it seems like I can\'t DM you! Do you have DMs disabled?');
                       });
-                    message.react('🇶')
-                      .then(() => message.react('🇷'))
-                      .then(() => message.react('🇱'))
+                    message.react(emojiCharacters.q)
+                      .then(() => message.react(emojiCharacters.r))
+                      .then(() => message.react(emojiCharacters.l))
                       .catch(() => console.error('One of the emojis failed to react.'));
                     message.channel.stopTyping(true);
                     return UpdateBalance;

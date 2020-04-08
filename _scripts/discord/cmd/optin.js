@@ -13,12 +13,18 @@ module.exports = {
     // get the user_found status
     // should return either { user_found: true, user_id: id } || { user_found: false }
     const checkuser = dbHelper.CheckUser;
-    const GetAllUserInfo = dbHelper.GetAllUserInfo;
+    // ToDo clean up this script and use the GetAllUserInfo. KISS
+    // const GetAllUserInfo = dbHelper.GetAllUserInfo;
     const info = JSON.parse(JSON.stringify({ service: 'discord', user_id: UUID }));
     const found = checkuser(info);
+    if(message.guild != null) {
+      message.delete();
+    }
+
     found.then(function(result) {
       return result;
     }).then(function(foundRes) {
+      // console.log('foundRes: ' + JSON.stringify(foundRes));
       const user_found = foundRes.user_found;
       if (user_found !== 'true') {
         // if the user is not found...
@@ -30,21 +36,6 @@ module.exports = {
         return foundRes;
       }
       else {
-
-        if (message.mentions.users.size > 0) {
-          const users_Service_ID = message.mentions.users.first().id;
-          const service_ID = '@' + users_Service_ID;
-          const GetAllUserInfoPromise = GetAllUserInfo({ service: 'discord', service_id: service_ID });
-          GetAllUserInfoPromise.then(function(userInfo) {
-            const users_ID = userInfo[0].user_id;
-            const OptIn = dbHelper.OptIn({ user_id: users_ID });
-            OptIn.then(function(results) {
-              message.reply('User now opted in.\n:wave: ');
-              message.channel.stopTyping(true);
-              return results;
-            });
-          });
-        }
         // user found, check opt-out and act
         const user_id = foundRes.user_id;
         const check_opt_out = dbHelper.CheckUserOptOut;
@@ -59,7 +50,7 @@ module.exports = {
             });
             message.channel.startTyping();
             setTimeout(function() {
-              message.reply('You Opted back in! :thumbsup:');
+              message.reply('You\'ve opted back in! :thumbsup:');
               message.channel.stopTyping(true);
             }, 1000);
           }

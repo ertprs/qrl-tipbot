@@ -1,6 +1,5 @@
 # MySQL Tables Definition
 
-
 ## Tipbot Tables
 
 ### `Users` Table
@@ -72,11 +71,15 @@ The `users_agree` table collects the user agreement from the user. This allows t
 - **time_stamp** - time agreed
 
 ```
- ___________________________________________
-|  id  |  user_id   |  agree  | time_stamp |
-|------|------------|---------|------------|
-| *int |     int    | boolean |  DATETIME  |
---------------------------------------------
++------------+----------------------------------------------------------------------------------------------+------+-----+---------+----------------+
+| Field      | Type                                                                                         | Null | Key | Default | Extra          |
++------------+----------------------------------------------------------------------------------------------+------+-----+---------+----------------+
+| id         | int(11)                                                                                      | NO   | PRI | NULL    | auto_increment |
+| user_id    | int(11)                                                                                      | NO   |     | NULL    |                |
+| agree      | tinyint(1)                                                                                   | NO   |     | NULL    |                |
+| service    | enum('discord','keybase','github','reddit','trello','twitter','slack','telegram','whatsapp') | YES  |     | NULL    |                |
+| time_stamp | datetime                                                                                     | NO   |     | NULL    |                |
++------------+----------------------------------------------------------------------------------------------+------+-----+---------+----------------+
 ```
 
 
@@ -274,6 +277,21 @@ Useed to track the payouts from the faucet. This will store all of the transacti
 - **tx_hash** tx hash from the qrl tx
 - **total_payout_amt** - total amount sent through the faucet
 - **time_stamp** the timestamp of entry
+
+```sql
++------------+----------------------------------------------------------------------------------------------+------+-----+---------+----------------+
+| Field      | Type                                                                                         | Null | Key | Default | Extra          |
++------------+----------------------------------------------------------------------------------------------+------+-----+---------+----------------+
+| id         | int(11)                                                                                      | NO   | PRI | NULL    | auto_increment |
+| user_id    | int(11)                                                                                      | NO   |     | NULL    |                |
+| service    | enum('discord','keybase','github','reddit','trello','twitter','slack','telegram','whatsapp') | YES  |     | NULL    |                |
+| drip_amt   | decimal(24,9)                                                                                | NO   |     | NULL    |                |
+| paid       | tinyint(1)                                                                                   | YES  |     | 0       |                |
+| tx_hash    | varchar(255)                                                                                 | YES  |     | NULL    |                |
+| updated_at | datetime                                                                                     | NO   |     | NULL    |                |
+| time_stamp | datetime                                                                                     | NO   |     | NULL    |                |
++------------+----------------------------------------------------------------------------------------------+------+-----+---------+----------------+
+```
 
 
 ```

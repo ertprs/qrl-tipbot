@@ -8,7 +8,7 @@ module.exports = {
   usage: '\n## opt-out | | oo - Opt out of the QRL TipBot.',
 
   // execute(message, args) {
-  execute(message, args) {
+  execute(message) {
     const dbHelper = require('../../db/dbHelper');
     const wallet = require('../../qrl/walletTools');
     const config = require('../../../_config/config.json');
@@ -18,11 +18,11 @@ module.exports = {
     const MessageAuthorUsername = message.author.username;
     const uuid = `${message.author}`;
     const UUID = uuid.slice(1, -1);
-    const transfer = wallet.sendQuanta;
     // get the user_found status
     // should return either { user_found: true, user_id: id } || { user_found: false }
     const checkuser = dbHelper.CheckUser;
-    const GetAllUserInfo = dbHelper.GetAllUserInfo;
+    // ToDo - Move to the GetAllUserInfo for clarity and simplicity
+    // const GetAllUserInfo = dbHelper.GetAllUserInfo;
     const info = JSON.parse(JSON.stringify({ service: 'discord', user_id: UUID }));
     const found = checkuser(info);
     found.then(function(result) {
@@ -30,8 +30,8 @@ module.exports = {
     }).then(function(foundRes) {
       const user_found = foundRes.user_found;
       if (user_found !== 'true') {
+        // no user found
         message.channel.startTyping();
-        // if the user is not found...
         // Create the user wallet
         const WalletPromise = wallet.CreateQRLWallet(config.wallet.height, config.wallet.num_slaves, config.wallet.hash_function);
         WalletPromise.then(function(address) {
@@ -67,16 +67,16 @@ module.exports = {
           });
         });
       }
+      // user found!
       else if (user_found == 'true') {
         message.channel.startTyping();
         // User is found, check if already opted out
         const user_id = foundRes.user_id;
         // get the users opt_out status
-        // should return:
-        // false { user_found: 'true', opt_out: 'false' } || \
-        // true { user_found: 'true', opt_out: 'true', optout_date: optout_date }
         const check_opt_out = dbHelper.CheckUserOptOut;
         check_opt_out({ service: 'discord', user_id: user_id }).then(function(result) {
+
+          // improve this mess here please! TODO
           return result;
         }).then(function(ooargs) {
           if (ooargs.opt_out == 'true') {
@@ -86,106 +86,30 @@ module.exports = {
           }
           else {
             message.channel.startTyping();
-            // check balance
-            // get the user_id's wallet_bal
-            // should return { wallet_bal: wallet_bal }
+            // check  users balance
             const walletBal = dbHelper.GetUserWalletBal;
             walletBal({ user_id: user_id }).then(function(result) {
               const wallet_bal = result.wallet_bal;
               if (wallet_bal > 0) {
-                const walletPub = dbHelper.GetUserWalletPub;
-                walletPub({ user_id: user_id }).then(function(userWallet) {
-                  // should return { wallet_pub: wallet_pub }
-                  const wallet_pub = userWallet.wallet_pub;
-                  // ask what to do with funds
-                  // need args sent to script for this to work.
-                  // if no args, error with question on what to do with balance.
-                  if (args[0] == null) {
-                    // there are no args, ask for some
-                    if(message.guild != null) {
-                      message.reply('Check your DM!');
-                    }
-                    message.author.send(message.author + ' You have a balance of `' + wallet_bal + ' qrl` in your tip wallet.\nWhat would you like to do with the funds??\n\n:moneybag: __**QRL Balance Options**__ :moneybag:\n:small_orange_diamond: Donate your tips to the bot - `+optout donate`\n:small_orange_diamond: Transfer to an external QRL address - `+optout transfer {QRL address}`\n:small_orange_diamond: Tip all active users in this Discord Server - `+optout tip`');
-                    message.channel.stopTyping(true);
-                    return;
-                  }
-                  if (message.mentions.users.size > 0) {
-                    const users_Service_ID = message.mentions.users.first().id;
-                    const service_ID = '@' + users_Service_ID;
-                    const GetAllUserInfoPromise = GetAllUserInfo({ service: 'discord', service_id: service_ID });
-                    GetAllUserInfoPromise.then(function(userInfo) {
-                      const users_ID = userInfo[0].user_id;
-                      const OptOut = dbHelper.OptOut({ user_id: users_ID });
-                      OptOut.then(function(results) {
-                        message.reply('\nUser now opted out.\n:wave: ');
-                        message.channel.stopTyping(true);
-                        return results;
-                      });
-                    });
-                  }
-                  // :::: TO-DO:::::
-                  // - add write to withdrawls db
-                  // :::::::::::::::
-                  if (args[0] == 'transfer') {
-                    // transfer the funds
-                    if (!args[1]) {
-                      message.author.send('Please enter an address to transfer to.\n`+optout transfer QRL_ADDRESS`');
-                      message.channel.stopTyping(true);
-                      return;
-                    }
-                    else {
-                      // transfer tips to address given
-                      const amount = (wallet_bal - config.wallet.tx_fee) * 1000000000;
-                      const fee = config.wallet.tx_fee * 1000000000;
-                      const address_to = args[1];
-                      transfer({ address_to: address_to, amount: amount, fee: fee, address_from: wallet_pub })
-                        .then(function(transferQrl) {
-                          const transferOutput = JSON.stringify(transferQrl);
-                          const OptOut = dbHelper.OptOut;
-                          OptOut(user_id).then(function(dbWrite) {
-                            message.author.send('QRL Transfered to the address given. Look for it in the [QRL Explorer](https://explorer.theqrl.org/a/' + transferQrl.tx + '\nYou are now opted out of the Tip Bot.');
-                            message.channel.stopTyping(true);
-                          });
-                        });
-                    }
-                  }
-                  // ::::  TO-DO ::::
-                  // -create a donate db and write to it when this happens
-                  // ::::::::::::::::
-                  else if (args[0] == 'donate') {
-                    // donate the funds to bot address
-                    const amount = (wallet_bal - config.wallet.tx_fee) * 1000000000;
-                    const fee = config.wallet.tx_fee * 1000000000;
-                    const address_to = config.bot_details.bot_donationAddress;
-                    // transfer to the bot donate address set in the config.bot_details.bot_donationAddress setting.
-                    transfer({ address_to: address_to, amount: amount, fee: fee, address_from: wallet_pub })
-                      .then(function(transferQrl) {
-                        const transferOutput = JSON.stringify(transferQrl);
-                        const OptOut = dbHelper.OptOut;
-                        OptOut(user_id).then(function(dbWrite) {
-                          message.author.send('QRLDonated to the TipBot! Thanks!\nYou are now opted out.');
-                          message.channel.stopTyping(true);
-                        });
-                      });
-                  }
-                });
+                  const wallet_bal_quanta = wallet_bal / 1000000000;
+                  message.author.send('You have a balance of `' + wallet_bal_quanta + ' qrl` in your tip wallet. Please `+withdraw` the funds before you opt-out.\n\nTo donate your funds to the TipBot `+withdraw all ' + config.bot_details.bot_donationAddress + '`');
+                  message.channel.stopTyping(true);
+                  return;
               }
               else {
                 // user found, and no balance in account. Set opt_out and optput_date
                 const OptOut = dbHelper.OptOut({ user_id: user_id });
                 OptOut.then(function(results) {
                   // message user of status
-                  message.reply('\nYou\'re now opted out.\n:wave: ');
                   message.channel.stopTyping(true);
+                  message.reply('\nYou\'re now opted out.\n:wave: ');
                   return results;
                 });
               }
             });
-            return ('some value');
           }
         });
       }
     });
-    message.channel.stopTyping(true);
   },
 };

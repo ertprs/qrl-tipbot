@@ -1,20 +1,11 @@
+#!/bin/sh
+':' //; exec "$(command -v nodejs || command -v node)" "$0" "$@"
+
+
 'use strict';
 const fs = require('fs');
-// require discord.js
+const chalk = require('chalk');
 const Discord = require('discord.js');
-
-// check for config file where we expect it
-fs.access('../../_config/config.json', error => {
-  if (!error) {
-    // The check succeeded
-    // console.log('Config Found!');
-  }
-  else {
-  // The check failed
-    // console.log('Config NOT Found!');
-    return;
-  }
-});
 
 // Require the config file. Create it from the example
 const config = require('../../_config/config.json');
@@ -36,8 +27,18 @@ for (const file of commandFiles) {
 // define cooldowns const
 const cooldowns = new Discord.Collection();
 // start the bot
+const NOW = new Date();
+const nownow = NOW.toDateString();
 client.on('ready', () => {
-  console.log(`Discord Bot has started, with ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`);
+console.log(chalk`
+{cyan ==========================================}
+{cyan Discord TipBot Started at: {green {dim ${nownow}}}}
+  {blue {cyan {bold !}} Connected to {grey ${client.guilds.cache.size}} guilds }
+  {blue {cyan {bold !}} Connected to {grey ${client.users.cache.size}} users } 
+  {blue {cyan {bold !}} Connected to {grey ${client.channels.cache.size}} channels }
+{cyan ==========================================}
+    `);
+  // modify this to set the activity of the bot
   client.user.setActivity('Tipping $$ QRL $$');
 });
 
@@ -57,12 +58,12 @@ client.on('message', message => {
 
 
   // check that the message starts with our prefix called out in the config file
-  //if (!message.content.startsWith(config.discord.prefix) || message.author.bot) return;
-  //const args = message.content.slice(config.discord.prefix.length).split(/ +/);
+  // if (!message.content.startsWith(config.discord.prefix) || message.author.bot) return;
+  // const args = message.content.slice(config.discord.prefix.length).split(/ +/);
 
   const commandName = args.shift().toLowerCase();
   // log everthing with ${config.discord.prefix} to console
-  console.log(message.content);
+  console.log(chalk.cyan('Author: ') + chalk.green(message.author.username + chalk.dim(' <@' + message.author.id + '>' )) + chalk.cyan(' Message: ') + chalk.green(message.content));
   //  if (!client.commands.has(commandName)) return;
   //    const command = client.commands.get(commandName);
   const command = client.commands.get(commandName)

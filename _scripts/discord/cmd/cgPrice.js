@@ -20,7 +20,7 @@ module.exports = {
     const promise = cgPrice();
     promise.then(function(result) {
       const res = result;
-      const embed = new Discord.RichEmbed()
+      const embed = new Discord.MessageEmbed()
         .setColor(0x000000)
         .setFooter('Details from', 'http://i.imgur.com/w1vhFSR.png')
         .setTimestamp()

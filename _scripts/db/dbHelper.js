@@ -2,6 +2,8 @@
 const mysql = require('mysql');
 const config = require('../../_config/config.json');
 const wallet = require('../qrl/walletTools');
+const faucet = require('../faucet/faucetDB_Helper.js');
+const faucetDrip = faucet.Drip;
 // connector to the database
 const callmysql = mysql.createPool({
   connectionLimit: 10,
@@ -11,37 +13,64 @@ const callmysql = mysql.createPool({
   database: `${config.database.db_name}`,
 });
 // expects { service: service, service_id: service_id }
+// returns { user_found, wallet_pub, wallet_bal, user_id, user_name, opt_out optout_date
 async function GetAllUserInfo(args) {
   return new Promise(resolve => {
     const input = JSON.parse(JSON.stringify(args));
     const service_id = input.service_id;
     const service = input.service;
+    let foundResArray = [];
     // get all users_info data here...
     const getAllInfoSearch = 'SELECT wallets.wallet_pub AS wallet_pub, wallets.wallet_bal AS wallet_bal, users.id AS user_id, ' + service + '_users.user_name AS user_name, users_info.opt_out AS opt_out, users_info.optout_date AS optout_date FROM wallets, users, ' + service + '_users, users_info WHERE users.id = wallets.user_id AND users.' + service + '_user_id = ' + service + '_users.id AND users.id = users_info.user_id AND ' + service + '_users.' + service + '_id = "' + service_id + '"';
+    // console.log('getAllInfoSearch: ' + getAllInfoSearch);
     callmysql.query(getAllInfoSearch, function(err, user_info) {
       if (err) {
         console.log('[mysql error]', err);
       }
+      // console.log('user_info: ' + JSON.stringify(user_info))
       if(user_info.length == 0) {
-        const Results = { user_found: 'false' };
-        resolve(Results);
-        return Results;
+        // const Results = { user_found: 'false' };
+        foundResArray.push({ user_found: 'false', user_agree: 'false', opt_out: 'false' });
+        resolve(foundResArray);
+        return foundResArray;
       }
 
       const user_id = user_info[0].user_id;
-      // update the balance iin the wallet database and refresh info
+      // update the balance in the wallet database and refresh info
       GetUserWalletBal({ user_id: user_id });
+      // check for user agree results
+      const getAgreeSearch = 'SELECT users_agree.* FROM users_agree WHERE users_agree.user_id = "' + user_id + '"';
+      callmysql.query(getAgreeSearch, function(err, get_agree) {
+        if (err) {
+          console.log('[mysql error]', err);
+        }
+        if(get_agree.length == 0) {
+          // user has not agreed, not found in db users_agree but user is found
+          foundResArray.push({ user_found: 'true', user_agree: 'false', opt_out: 'false', user_id: user_id });
+          resolve(foundResArray);
+        }
+      });
+      // search the db again to pickup the updated balance and return good values to user
       callmysql.query(getAllInfoSearch, function(err, user_info_update) {
         if (err) {
           console.log('[mysql error]', err);
         }
         const infoResult = JSON.parse(JSON.stringify(user_info_update));
-        const foundRes = { user_found: 'true' };
-        Array.prototype.push.apply(foundRes, infoResult);
-        // console.log(JSON.stringify(foundRes));
-        resolve(foundRes);
-        return foundRes;
+        // console.log('infoResult: ' + JSON.stringify(infoResult));
+        const wallet_pub = infoResult[0].wallet_pub;
+        const wallet_bal = infoResult[0].wallet_bal;
+        const U_id = infoResult[0].user_id;
+        const user_name = infoResult[0].user_name;
+        const opt_out = infoResult[0].opt_out;
+        const optout_date = infoResult[0].optout_date;
+        // const foundRes = { user_found: 'true' };
+        foundResArray.push({ user_found: 'true', user_agree: 'true', wallet_pub: wallet_pub, wallet_bal: wallet_bal, user_id: U_id, user_name: user_name, opt_out: opt_out, optout_date: optout_date });
+        // Array.prototype.push.apply(foundResArray, infoResult);
+        // console.log('getAllInfoSearch foundResArray ' + JSON.stringify(foundResArray));
+        resolve(foundResArray);
+        return foundResArray;
       });
+      // resolve(foundResArray)
     });
   });
 }
@@ -274,6 +303,7 @@ async function GetUserWalletBal(args) {
           // should have netBal value from the network now, compare them
           const balance = NetBal.balance / 1000000000 ;
           const OldBal = wallet_bal / 1000000000;
+          // console.log('balance\'s returned. NetBal: ' + JSON.stringify(NetBal) + ' wallet_bal: ' + wallet_bal+ ' balance: ' + balance + ' OldBal: ' + OldBal);
           if (balance != OldBal) {
             // the balances are different, update the DB
             const updateInfo = { user_id: id, new_bal: balance };
@@ -281,7 +311,8 @@ async function GetUserWalletBal(args) {
               return UpdateBalance;
             });
           }
-          const return_bal = balance;
+          // const return_bal = balance;
+          const return_bal = NetBal.balance;
           const searchResult = { wallet_bal: return_bal };
           const Results = JSON.parse(JSON.stringify(searchResult));
           resolve(Results);
@@ -343,6 +374,7 @@ async function AddUser(args) {
     const user_auto_created = input.user_auto_created;
     const auto_create_date = input.auto_create_date;
     const opt_out = input.opt_out;
+    const dripAmt = input.drip_amt;
     const service_usersValues = [ [ user_name, service_id, new Date()]];
     const addTo_service_users = 'INSERT INTO ' + service + '_users(user_name, ' + service + '_id, time_stamp) VALUES ?';
     callmysql.query(addTo_service_users, [service_usersValues], function(err, result) {
@@ -379,6 +411,8 @@ async function AddUser(args) {
                 console.log('[mysql error]', err);
               }
               resultsArray.push({ user_added: 'true' });
+              const dripInfo = { service: service, user_id: userID, drip_amt: dripAmt }
+              faucetDrip(dripInfo);
               const futureTips_payout = 'SELECT SUM(tip_amount) AS future_tip_amount FROM future_tips WHERE user_id = "' + service_id + '" AND tip_paidout = "0"';
               callmysql.query(futureTips_payout, function(err, futureTipped) {
                 if (err) {
@@ -469,14 +503,14 @@ async function addTip(args) {
   // { from_user_id, to_users_id, tip_amount, from_service, time_stamp }
   // function to add tip to tips db
     const addTipResultsArray = [];
-    const trans_id = '3333333';
+    // const trans_id = '3333333';
     const from_user_id = args.from_user_id;
     const to_users_id = args.to_users_id;
     const tip_amount = args.tip_amount;
     const from_service = args.from_service;
     const time_stamp = args.time_stamp;
-    const addTip_Values = [ [trans_id, from_user_id, to_users_id, tip_amount, from_service, time_stamp]];
-    const addTip_info = 'INSERT INTO tips(trans_id, from_user_id, to_users_id, tip_amount, from_service, time_stamp ) VALUES ?';
+    const addTip_Values = [ [from_user_id, tip_amount, from_service, time_stamp]];
+    const addTip_info = 'INSERT INTO tips(from_user_id, tip_amount, from_service, time_stamp ) VALUES ?';
     callmysql.query(addTip_info, [addTip_Values], function(err, addTip_ValuesResult) {
       if (err) {
         console.log('[mysql error]', err);
@@ -503,6 +537,7 @@ async function addFutureTip(args) {
     const tip_paidout = '0';
     const user_infoValues = [ [service, user_id, user_name, tip_from, tip_amount, tip_paidout, time_stamp] ];
     const addTo_users_info = 'INSERT INTO future_tips(service, user_id, user_name, tip_from, tip_amount, tip_paidout, time_stamp) VALUES ?';
+    // console.log('addToFutureTipsInfo: ' + addTo_users_info + ' ' + user_infoValues);
     callmysql.query(addTo_users_info, [user_infoValues], function(err, addFutureTipRes) {
       if (err) {
         console.log('[mysql error]', err);
@@ -531,13 +566,40 @@ async function addTransaction(args) {
   // exepct { tip_id: fromTipDB, tx_hash: fromTX_HASH }
   return new Promise(resolve => {
     const txArray = [];
-    const input = JSON.parse(JSON.stringify(args));
+    // const input = JSON.parse(JSON.stringify(args));
     const tip_id = args.tip_id;
+    const tx_type = args.tx_type;
     const tx_hash = args.tx_hash;
     // insert data into transactions db
-    const user_infoValues = [ [tip_id, tx_hash, new Date()] ];
-    const addto_Transaction_table = 'INSERT INTO transactions(tip_id, tx_hash, time_stamp) VALUES ?';
+    const user_infoValues = [ [tip_id, tx_type, tx_hash, new Date()] ];
+    const addto_Transaction_table = 'INSERT INTO transactions(tip_id, tx_type, tx_hash, time_stamp) VALUES ?';
     callmysql.query(addto_Transaction_table, [user_infoValues], function(err, addFutureTipRes) {
+      if (err) {
+        console.log('[mysql error]', err);
+      }
+      const DB_InsertId = addFutureTipRes.insertId;
+      txArray.push({ transaction_db_id: DB_InsertId });
+      resolve(txArray);
+      return txArray;
+    });
+  });
+}
+
+
+
+async function addTipTo(args) {
+  // exepct { tip_id: fromTipDB, user_id: user_id, tip_amt: tip_amt, future_tip_id: future_tip_id }
+  return new Promise(resolve => {
+    const txArray = [];
+    // const input = JSON.parse(JSON.stringify(args));
+    const tip_id = args.tip_id;
+    const user_id = args.user_id;
+    const tip_amt = args.tip_amt;
+    const future_tip_id = args.future_tip_id;
+    // insert data into transactions db
+    const tip_info_values = [ [tip_id, user_id, future_tip_id, tip_amt, new Date()] ];
+    const addto_tips_to_table = 'INSERT INTO tips_to(tip_id, user_id, future_tip_id, tip_amt, time_stamp) VALUES ?';
+    callmysql.query(addto_tips_to_table, [tip_info_values], function(err, addFutureTipRes) {
       if (err) {
         console.log('[mysql error]', err);
       }
@@ -551,6 +613,7 @@ async function addTransaction(args) {
 
 async function agree(args) {
   // expect { service: , user_id: }
+  // console.log('\nargee args:' + JSON.stringify(args));
   return new Promise(resolve => {
     const txArray = [];
     const user_id = args.user_id;
@@ -573,20 +636,24 @@ async function agree(args) {
 
 async function CheckAgree(args) {
   return new Promise(resolve => {
+    // console.log('CheckAgree args: ' + JSON.stringify(args));
     if(args) {
       // args passed, check for the service used
       const input = JSON.parse(JSON.stringify(args));
       const service = input.service;
       const user_id = input.user_id;
+      const chechAgreeArray = [];
       const searchDB = 'SELECT users.id AS user_id, users.' + service + '_user_id AS ' + service + '_id, users_agree.agree AS agree FROM users INNER JOIN users_agree ON users.id = users_agree.user_id WHERE users_agree.user_id = "' + user_id + '"';
       callmysql.query(searchDB, function(err, result) {
         if (err) {
           console.log('[mysql error]', err);
         }
+        chechAgreeArray.push(result);
         if (result.length == 0) {
           const searchResult = { agreed: 'false' };
           const Results = JSON.parse(JSON.stringify(searchResult));
-          resolve(Results);
+          chechAgreeArray.push(Results);
+          resolve(chechAgreeArray);
           return;
         }
         else {
@@ -594,8 +661,9 @@ async function CheckAgree(args) {
           // assign results to json and pass to return
           const searchResult = { agreed: 'true' };
           const Results = JSON.parse(JSON.stringify(searchResult));
-          resolve(Results);
-          return Results;
+          chechAgreeArray.push(Results);
+          resolve(chechAgreeArray);
+          return;
         }
       });
     }
@@ -609,6 +677,32 @@ async function CheckAgree(args) {
     }
   });
 }
+
+async function withdraw(args) {
+  // expect { service: , user_id:, tx_hash:, to_address:, amt: }
+  // console.log('\nwd args:' + JSON.stringify(args));
+  return new Promise(resolve => {
+    const txArray = [];
+    const user_id = args.user_id;
+    const service = args.service;
+    const tx_hash = args.tx_hash;
+    const to_address = args.to_address;
+    const amt = args.amt;
+    const wdValues = [ [user_id, tx_hash, service, to_address, amt, new Date()] ];
+    const wdIntoDB = 'Insert INTO withdrawls(user_id, tx_hash, service, to_address, amt, time_stamp) VALUES ?';
+    callmysql.query(wdIntoDB, [wdValues], function(err, wdIntoDBRes) {
+      if (err) {
+        console.log('[mysql error]', err);
+      }
+      const DB_InsertId = wdIntoDBRes.insertId;
+      txArray.push({ transaction_db_id: DB_InsertId });
+      resolve(txArray);
+      return txArray;
+    });
+  });
+}
+
+
 
 module.exports = {
   GetAllUserInfo : GetAllUserInfo,
@@ -627,7 +721,9 @@ module.exports = {
   addTip : addTip,
   clearFutureTips : clearFutureTips,
   addTransaction : addTransaction,
+  addTipTo : addTipTo,
   agree : agree,
   CheckAgree: CheckAgree,
   updateWalletBal : updateWalletBal,
+  withdraw: withdraw,
 };

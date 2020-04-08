@@ -2,29 +2,34 @@
   "name": "qrltips",
   "version": "0.1.1",
   "description": "Social TipBot for QRL - Quantum Resistant Ledger. Discord, Twitter ",
-  "keywords": ["tipbot", "discord Tip Bot", "QRL", "Crypto Bot" ],
+  "keywords": [
+    "tipbot",
+    "discord Tip Bot",
+    "QRL",
+    "Crypto Bot"
+  ],
   "homepage": "https://github.com/fr1t2/QRL-TipBot#readme",
   "author": "Fr1t2 <fr1t2@fr1t2.com> (https://fr1t2.com)",
-  
-  "main": "app.js",
-
+  "main": "index.js",
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "discord.js": "^12.0.2",
-    "eslint": "^6.8.0",
+    "discord.js": "^12.1.1",
     "mysql": "^2.18.1",
-    "qrcode": "^1.4.4"
+    "qrcode": "^1.4.4",
+    "minimist": "^1.2.2",
+    "chalk": "^3.0.0"
   },
   "engines": {
-    "node" : "8.10.0"
+    "node": "12.16.1"
   },
-  "devDependencies": {},
-
+  "devDependencies": {
+    "eslint": "^6.8.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "initDB": "node ./_scripts/db/createAllDBs.js",
-    "addTestData": "node ./_scripts/db/addTestData.js",
-    "DiscordBot": "node ./_scripts/discord/index.js"
+    "initDB": "nodejs ./_scripts/db/dbCreate.js",
+    "addTestData": "nodejs ./_scripts/db/addTestData.js",
+    "DiscordBot": "nodejs ./_scripts/discord/index.js"
   },
   "repository": {
     "type": "git",
