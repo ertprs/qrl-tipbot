@@ -99,8 +99,9 @@ module.exports = {
       }
       else {
         console.log('message.mentions.members.first()' + '<@!' + message.mentions.members.first() + '>')
+        const botUser = '<@!' + message.mentions.members.first() + '>';
         // because we can either enter '+wd' or '@bot wd' we need to check for values in args...
-        if (args[0] == '<@!' + message.mentions.members.first() + '>') {
+        if (args[0] === botUser) {
           // the bot was mentioned first, shift all args to next number up...
         const transfer_to = args[2];
         return transfer_to;
