@@ -5,7 +5,7 @@ module.exports = {
   aliases: ['join', 'signup', 'su'],
   guildOnly: false,
   usage: ' \n## Add you\'re user to the QRL TipBot, creates an address and allows tipping. *You must allow DM to use the bot.*',
-  cooldown: 60,
+  cooldown: 30,
 
   execute(message, args) {
     const Discord = require('discord.js');
@@ -95,8 +95,6 @@ module.exports = {
               });
             });
           }
-
-
           return response;
         }).then(function(userresponse) {
           const userAddress = userInfo.wallet_pub;
@@ -165,6 +163,7 @@ module.exports = {
                 .setFooter(`TipBot Donation Address: ${config.bot_details.bot_donationAddress}`)
                 .addField('Your QRL Wallet Public Address::', '[' + reply.wallet_pub + '](' + config.bot_details.explorer_url + '/a/' + walletPub.wallet_pub + ')')
                 .addField('Your QRL Wallet Balance:\t', `\`${userBalance}\``)
+                .addField('If you are expecting faucet funds, they take time. Please be paitent!', ` `)
                 .addField('For all of my commands:\t', '`+help`');
               message.author.send({ embed })
                 .then(() => {
