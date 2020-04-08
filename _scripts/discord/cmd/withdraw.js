@@ -53,13 +53,13 @@ module.exports = {
 
     if ((args[0] == undefined) || (args [1] == undefined)) {
       message.channel.startTyping();
-      setTimeout(function() {
-        message.reply('Incorrect info given, please check your DM\'s')
-        message.channel.stopTyping(true);
         // if not in private message delete the message
         if(message.guild != null) {
           message.delete();
         }
+      setTimeout(function() {
+        message.reply('Incorrect info given, please check your DM\'s')
+        message.channel.stopTyping(true);
       }, 1000);
 
       // console.log('no args given');
@@ -95,7 +95,7 @@ module.exports = {
       if (UserFound !== 'true') {
         // console.log('user found ' + UserFound);
         // user is not in the system, fail and return to user
-            // if not in private message delete the message
+        // if not in private message delete the message
         if(message.guild != null) {
           message.delete();
         }
@@ -107,21 +107,24 @@ module.exports = {
         return;
       }
       else {
-        const transfer_to = args[1];
         // set known values from getAllUserInfo search
         const user_id = result[0].user_id;
         const wallet_pub = result[0].wallet_pub;
         const wallet_bal = result[0].wallet_bal;
         const shor_bal = wallet_bal * toShor;
-        // const user_name = result[0].user_name;
+        const transfer_to = args[1];
         const fee = config.wallet.tx_fee * toShor;
         // check for valid qrl address given as args[1]
         message.channel.startTyping();
         if (args[1] === wallet_pub || args[2] === wallet_pub) {
           // user sending to self.. fail and return to the user
           message.channel.startTyping();
+          // if not in private message delete the message
+          if(message.guild != null) {
+            message.delete();
+          }
           setTimeout(function() {
-            message.reply('You cannot send funds to yourself. Please transfer out of the TipBot.');
+            message.reply('You cannot send funds to yourself. Please transfer ***out*** of the TipBot.');
             message.channel.stopTyping(true);
           }, 1000);
           return;
@@ -130,6 +133,10 @@ module.exports = {
         const addressTest = isQRLAddress(transfer_to);
         if (!addressTest) {
           message.channel.startTyping();
+          // if not in private message delete the message
+          if(message.guild != null) {
+            message.delete();
+          }
           setTimeout(function() {
             message.author.send('Invalid address given. Please try again.');
             message.channel.stopTyping(true);
@@ -140,6 +147,11 @@ module.exports = {
         if (shor_bal <= 0) {
           // wallet is empty, give error and return
           message.channel.startTyping();
+          // if not in private message delete the message
+          if(message.guild != null) {
+            message.delete();
+          }
+          message.channel.startTyping();
           setTimeout(function() {
             message.reply('No funds in your account.');
             message.channel.stopTyping(true);
@@ -149,6 +161,14 @@ module.exports = {
         // transfer all funds called.
         if (args[0] == 'all') {
           // transfer all the funds
+          // if not in private message delete the message
+          if(message.guild != null) {
+            message.delete();
+          }      
+          setTimeout(function() {
+            message.reply('Sending your transaction to the blockchain, I\'ll be right back...');
+            message.channel.stopTyping(true);
+          }, 1000);
           const transArray = [];
           const addressArray = [];
           const transfer_amt = Math.round(shor_bal - fee);
@@ -160,6 +180,7 @@ module.exports = {
             // console.log('transferQrl: ' + JSON.stringify(transferQrl));
             const transferOutput = JSON.parse(transferQrl);
             const tx_hash = transferOutput.tx.transaction_hash;
+            message.channel.send('Alright, funds have been sent. Details are in your DM\'s.\n*It may take a few minuets for the transaction to be mined, please be patient!' )
             const embed = new Discord.MessageEmbed()
               .setColor(0x000000)
               .setTitle('Funds Transfered')
