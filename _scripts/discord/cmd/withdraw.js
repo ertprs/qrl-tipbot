@@ -147,6 +147,7 @@ module.exports = {
         }
 
         // notify the user we are doing something...
+        message.channel.startTyping();
         setTimeout(function() {
           message.reply('Submitting your withdraw request to the blockchain, be right back...');
           message.channel.stopTyping(true);
@@ -165,6 +166,11 @@ module.exports = {
             // console.log('transferQrl: ' + JSON.stringify(transferQrl));
             const transferOutput = JSON.parse(transferQrl);
             const tx_hash = transferOutput.tx.transaction_hash;
+            message.channel.startTyping();
+            setTimeout(function() {
+              message.reply('OK, all set. You will see the funds show up in your address shortly. Check your DM\'s for transaction details. Thanks for using the TipBot!');
+              message.channel.stopTyping(true);
+            }, 1000);
             const embed = new Discord.MessageEmbed()
               .setColor(0x000000)
               .setTitle('Funds Transfered')
