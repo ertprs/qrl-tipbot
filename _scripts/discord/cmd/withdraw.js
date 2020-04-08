@@ -55,8 +55,8 @@ module.exports = {
     // second args should be qrl address
     console.log('message.mentions.users.size: ' + message.mentions.users.size);
     console.log('args[0]: ' + args[0]);
-    console.log('args[0]: ' + args[1]);
-    console.log('args[0]: ' + args[2]);
+    console.log('args[1]: ' + args[1]);
+    console.log('args[2]: ' + args[2]);
     
     if ((args[0] == undefined) || (message.mentions.users.size > 0 && args [1] == undefined) || (message.mentions.users.size > 0 && args[2] == undefined)) {
       message.channel.startTyping();
