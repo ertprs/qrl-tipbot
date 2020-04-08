@@ -56,11 +56,11 @@ module.exports = {
       setTimeout(function() {
         message.reply('Incorrect info given, please check your DM\'s')
         message.channel.stopTyping(true);
+        // if not in private message delete the message
+        if(message.guild != null) {
+          message.delete();
+        }
       }, 1000);
-          // if not in private message delete the message
-      if(message.guild != null) {
-        message.delete();
-      }
 
       // console.log('no args given');
       const embed = new Discord.MessageEmbed()
