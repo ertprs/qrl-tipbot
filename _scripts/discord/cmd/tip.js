@@ -29,16 +29,16 @@ module.exports = {
     const not_found_tipAmount = [];
     const found_tipAmount = [];
 
-    function userMessage(type, content) {
+    function ReplyMessage(content) {
       setTimeout(function() {
-        message. + type + (content);
+        message.reply(content);
         message.channel.stopTyping(true);
       }, 1000);
     }
 
     // check if user mentioned another user to tip
     if (!message.mentions.users.size) {
-      userMessage('reply', 'No Users mentioned. \n`+help tip` for help')
+      ReplyMessage('No Users mentioned. \n`+help tip` for help')
       //message.reply('No Users mentioned. \n`+help tip` for help');
       //message.channel.stopTyping(true);
       return ;
