@@ -7,10 +7,7 @@ module.exports = {
   usage: '\n__**withdraw** { ***wd***, ***transfer***, ***cashout*** }__\nTransfer or withdraw QRL from your TIpBot account to another QRL address.\n`+transfer 2 QRLADDRESS`',
   execute(message, args) {
     // console.log('transfer called...' + JSON.stringify(args));
-    // if not in private message delete the message
-    if(message.guild != null) {
-      //message.delete();
-    }
+
     const dbHelper = require('../../db/dbHelper');
     const wallet = require('../../qrl/walletTools');
     const config = require('../../../_config/config.json');
@@ -55,6 +52,10 @@ module.exports = {
     // second args should be qrl address
 
     if ((args[0] == undefined) || (args [1] == undefined)) {
+          // if not in private message delete the message
+      if(message.guild != null) {
+        message.delete();
+      }
       message.channel.startTyping();
       message.reply('Incorrect info given, please check your DM\'s')
       // console.log('no args given');
@@ -82,7 +83,6 @@ module.exports = {
         });
       return;
     }
-    console.log('run?')
     // look for user in DB
     // If found will return { user_found, wallet_pub, wallet_bal, user_id, user_name, opt_out, otpout_date }
     found.then(function(result) {
@@ -91,6 +91,10 @@ module.exports = {
       if (UserFound !== 'true') {
         // console.log('user found ' + UserFound);
         // user is not in the system, fail and return to user
+            // if not in private message delete the message
+        if(message.guild != null) {
+          message.delete();
+        }
         message.channel.startTyping();
         setTimeout(function() {
           message.author.send('You are not signed up yet!. `+add` to get started.');
