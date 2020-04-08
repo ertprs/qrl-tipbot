@@ -42,7 +42,15 @@ console.log(chalk`
   client.user.setActivity('Tipping $$ QRL $$');
 });
 
-console.log(client.channels.getAll("name", "general"));
+
+
+for (let [snowflake, guildMember] of mems) {
+  console.log('snowflake: ' + snowflake);
+  console.log('id: ' + guildMember.id);
+  console.log('user id: ' + guildMember.user.id);
+}
+
+
 
 // attempt to open the prefix
 const escapeRegex = str => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
