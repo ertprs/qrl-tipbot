@@ -24,6 +24,14 @@ module.exports = {
     const userName = username.slice(1, -1);
     const user_info = { service: 'discord', user_id: userName };
     const checkUserpromise = checkUser(user_info);
+    // use to send a reply to user with delay and stop typing
+    function ReplyMessage(content) {
+      message.channel.startTyping();
+      setTimeout(function() {
+        message.reply(content);
+        message.channel.stopTyping(true);
+      }, 1000);
+    }
 
     // used for the new user signup. Add the new users address to the faucet and drip them some funds
     function dripAmount(min, max) {
@@ -106,7 +114,7 @@ module.exports = {
               if (message.channel.type === 'dm') return;
               message.author.send('**A Bit From The Legal Team**\nUse of this TipBot and any function it may provide is solely at *your* risk as the user. Tipbot, it\'s operators and all parties involved take no financial responsibility for any loss or perceived loss you may incur by using this service. \n**You take all own risk by using this service**.\n- This bot is not a bank, don\'t use it as one.\n- Large balances are not recommended.\n- This is to tip small amounts of QRL, not to trade.\n- No private keys will be shared for your address.\n- Any abuse of the service will result in a ban and if warranted legal action.\n\n**Please Tip Responsibly**');
               message.channel.stopTyping(true);
-              message.reply(':white_check_mark: Your signed up!\nFor a list of my commands type `+help`');
+              ReplyMessage(':white_check_mark: Your signed up!\nFor a list of my commands type `+help`');
             })
             .catch(error => {
               console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
@@ -162,7 +170,7 @@ module.exports = {
                 .then(() => {
                   if (message.channel.type === 'dm') return;
                   message.channel.stopTyping(true);
-                  message.reply('\nYou\'re signed up already. :thumbsup:\nTry `+help`');
+                  ReplyMessage('\nYou\'re signed up already. :thumbsup:\nTry `+help`');
                 })
                 .catch(error => {
                   console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
@@ -177,7 +185,7 @@ module.exports = {
         else if (found === 'false') {
           // user is not found in database. Do things here to add them
           // Create user wallet
-          message.reply('Adding your address to the system. This will take a bit.')
+          ReplyMessage('Adding your address to the system. This will take a bit.')
           const qrlWal = wallet.CreateQRLWallet;
           const WalletPromise = qrlWal(config.wallet.height, config.wallet.num_slaves, config.wallet.hash_function);
           WalletPromise.then(function(address) {
@@ -255,12 +263,12 @@ __**IF YOU AGREE TO THESE TERMS**__ \`+agree\`
 __**IF YOU DO NOT AGREE TO THESE TERMS**__ \`+opt-out\`
                     `)
                     message.channel.stopTyping(true);
-                    message.reply(':white_check_mark: Your signed up!\nFor a list of my commands type `+help`\nBonus! You\'ll receive* ***' + dripamt + ' Quanta*** from the faucet!. *Faucet payments can take up to 10 min to reflect in a users wallet.*');
+                    ReplyMessage(':white_check_mark: Your signed up!\nFor a list of my commands type `+help`\nBonus! You\'ll receive* ***' + dripamt + ' Quanta*** from the faucet!. *Faucet payments can take up to 10 min to reflect in a users wallet.*');
                 })
                 .catch(error => {
                   console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
                   message.channel.stopTyping(true);
-                  message.reply('it seems like I can\'t DM you! Enable DM and try `+add` again...');
+                  ReplyMessage('it seems like I can\'t DM you! Enable DM and try `+add` again...');
                   // react to the users message for fun
                 });
               message.react('🇶')
