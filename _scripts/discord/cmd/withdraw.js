@@ -54,7 +54,7 @@ module.exports = {
 
     // check that args are not blank. first args should be all || a number
     // second args should be qrl address
-    if (args[0] == undefined || args [1] == undefined) {
+    if (args[0] == undefined || args[0] == message.mentions.users.first() && args [1] == undefined || args[2] == undefined) {
       message.channel.startTyping();
       message.reply('Incorrect info given, please check your DM\'s')
       // console.log('no args given');
@@ -99,13 +99,21 @@ module.exports = {
         return;
       }
       else {
+        // because we can either enter '+wd' or '@bot wd' we need to check for values in args...
+        if (args[0] == message.mention.users.first()) {
+          // the bot was mentioned first, shift all args to next number up...
+        const transfer_to = args[2];
+        }
+        else {
+          const transfer_to = args[1];
+        }
+
         // set known values from getAllUserInfo search
         const user_id = result[0].user_id;
         const wallet_pub = result[0].wallet_pub;
         const wallet_bal = result[0].wallet_bal;
         const shor_bal = wallet_bal * toShor;
         // const user_name = result[0].user_name;
-        const transfer_to = args[1];
         const fee = config.wallet.tx_fee * toShor;
         // check for valid qrl address given as args[1]
         message.channel.startTyping();
