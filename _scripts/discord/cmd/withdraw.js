@@ -98,6 +98,14 @@ module.exports = {
         }, 1000);
         return;
       }
+      else if (result[0].opt_out == 'true') {
+        //console.log('user has opted out previously, fail hard');
+        message.channel.startTyping();
+        setTimeout(function() {
+          message.author.send('You are Opted-Out of the tipbot. Please enter `+signup` to use the bot functions..');
+          message.channel.stopTyping(true);
+        }, 1000);
+      }
       else {
         // set known values from getAllUserInfo search
         const user_id = result[0].user_id;
