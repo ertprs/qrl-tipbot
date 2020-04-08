@@ -39,7 +39,6 @@ module.exports = {
     // check if user mentioned another user to tip
     if (!message.mentions.users.size) {
       ReplyMessage('No Users mentioned. `+help tip` for help')
-
       return ;
     }
     // We have users mentioned, get the tipList into map
@@ -152,7 +151,7 @@ module.exports = {
         message.author.send({ embed })
           .then(() => {
             if (message.channel.type === 'dm') return;
-            ReplyMessage('\n:moneybag: You need more funds! :moneybag:');
+            ReplyMessage('your trying to send more than you have!\n:moneybag: You need more funds! :moneybag:');
           })
           .catch(error => {
             message.channel.stopTyping(true);
