@@ -68,9 +68,6 @@ module.exports = {
       message.author.send({ embed })
         .then(() => {
           message.channel.stopTyping(true);
-          if (message.channel.type === 'dm') return;
-          // message.reply('I\'ve sent you a DM. ');
-        })
         .catch(error => {
           message.channel.startTyping();
           console.error(chalk.red(`Could not send help DM to ${message.author.tag}.\n`), error);
