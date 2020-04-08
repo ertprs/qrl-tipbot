@@ -53,7 +53,7 @@ module.exports = {
     }
     // check that args are not blank. first args should be all || a number
     // second args should be qrl address
-    if ((args[0] == undefined) || (message.mentions.users.size > 0 && args [1] == undefined) || (message.mentions.users.size > 0 && args[2] == undefined)) {
+    if ((args[0] == undefined) || (message.mentions.users.size >= 1 && args [1] == undefined) || (message.mentions.users.size >= 1 && args[2] == undefined)) {
       message.channel.startTyping();
       message.reply('Incorrect info given, please check your DM\'s')
       // console.log('no args given');
@@ -77,7 +77,6 @@ module.exports = {
             message.reply('It seems like I can\'t DM you! Do you have DMs disabled?');
             message.channel.stopTyping(true);
           }, 1000);
-
           return;
         });
       return;
