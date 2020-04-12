@@ -82,7 +82,7 @@ module.exports = {
     else {
       // check for user in database
       const checkUser = dbHelper.GetAllUserInfo;
-      const checkUserPromise = checkUser({ service: 'discord', user_id: userName });
+      const checkUserPromise = checkUser({ service: 'discord', service_id: userName });
       checkUserPromise.then(function(result) {
         const output = JSON.parse(JSON.stringify(result));
         const found = output.user_found;
