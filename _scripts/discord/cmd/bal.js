@@ -86,7 +86,7 @@ module.exports = {
       checkUserPromise.then(function(result) {
         const output = JSON.parse(JSON.stringify(result));
         console.log(result)
-        const found = output.user_found;
+        const found = output[0].user_found;
         if (found !== 'true') {
           message.channel.stopTyping(true);
           ReplyMessage('Your not found in the System. Try `+add` or `+help`');
