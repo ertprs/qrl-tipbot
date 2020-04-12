@@ -92,9 +92,10 @@ module.exports = {
           ReplyMessage('Your not found in the System. Try `+add` or `+help`');
           return;
         }
-        // check for the user_found value returned from the promise
+        
+        // check for the value returned from the promise
         else {
-          const user_id = result.user_id;
+          const user_id = result[0].user_id;
           const optOutCheck = dbHelper.CheckUserOptOut({ service: 'discord', user_id: result.user_id });
           optOutCheck.then(function(optout) {
             if (optout.opt_out == 'true') {
