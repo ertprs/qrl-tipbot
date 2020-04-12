@@ -105,7 +105,7 @@ module.exports = {
           return;
         }
         const UserAddress = result[0].wallet_pub;
-        const UserBalance = result[0].wallet_bal.toPrecision(12);
+        const UserBalance = result[0].wallet_bal;
         // const user_id = result[0].user_id;
         message.channel.stopTyping(true);
         const embed = new Discord.MessageEmbed()
