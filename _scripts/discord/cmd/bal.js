@@ -54,13 +54,13 @@ module.exports = {
         // assign this to a promise and get the function into a result
         BalancePromise.then(function(balanceResult) {
           const results = balanceResult.balance;
-          const res = results / 1000000000;
+          const res = results * 1000000000;
           console.log('res: ' + res + '\nresults: ' + results);
           const embed = new Discord.MessageEmbed()
             .setColor(0x000000)
             .setTitle('**Address Balance**')
             .setDescription('Details from the balance query.')
-            .addField('QRL Address Balance:', `\`${results.toPrecision(9)}\``, true)
+            .addField('QRL Address Balance:', `\`${res}\``, true)
             .addField('QRL Address:', '[' + givenAddress + '](' + config.bot_details.explorer_url + '/a/' + givenAddress + ')')
             .setFooter(`TipBot Donation Address: ${config.bot_details.bot_donationAddress}`);
           message.author.send({ embed })
