@@ -113,7 +113,7 @@ module.exports = {
                   return balInt;
                 }).then(function(new_bal) {
                   console.log('new_bal: ' + new_bal);
-                  console.log('new_bal.toPrecision(9): ' + new_bal.toPrecision(10));
+                  console.log('new_bal.toPrecision(12): ' + new_bal.toPrecision(12));
                   const update_wal_bal = dbHelper.updateWalletBal;
                   update_wal_bal({ user_id: user_id, new_bal: new_bal }).then(function(UpdateBalance) {
                     message.channel.stopTyping(true);
