@@ -60,7 +60,7 @@ module.exports = {
             .setColor(0x000000)
             .setTitle('**Address Balance**')
             .setDescription('Details from the balance query.')
-            .addField('QRL Address Balance:', `\`${res.toPrecision(9)}\``, true)
+            .addField('QRL Address Balance:', `\`${results.toPrecision(9)}\``, true)
             .addField('QRL Address:', '[' + givenAddress + '](' + config.bot_details.explorer_url + '/a/' + givenAddress + ')')
             .setFooter(`TipBot Donation Address: ${config.bot_details.bot_donationAddress}`);
           message.author.send({ embed })
@@ -105,7 +105,7 @@ module.exports = {
           return;
         }
         const UserAddress = result[0].wallet_pub;
-        const UserBalance = result[0].wallet_bal;
+        const UserBalance = result[0].wallet_bal.toPrecision(12);
         // const user_id = result[0].user_id;
         message.channel.stopTyping(true);
         const embed = new Discord.MessageEmbed()

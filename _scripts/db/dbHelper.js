@@ -58,7 +58,7 @@ async function GetAllUserInfo(args) {
         const infoResult = JSON.parse(JSON.stringify(user_info_update));
         // console.log('infoResult: ' + JSON.stringify(infoResult));
         const wallet_pub = infoResult[0].wallet_pub;
-        const wallet_bal = infoResult[0].wallet_bal.toPrecision(12);
+        const wallet_bal = infoResult[0].wallet_bal;
         const U_id = infoResult[0].user_id;
         const user_name = infoResult[0].user_name;
         const opt_out = infoResult[0].opt_out;
