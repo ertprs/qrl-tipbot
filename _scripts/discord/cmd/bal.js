@@ -55,6 +55,7 @@ module.exports = {
         BalancePromise.then(function(balanceResult) {
           const results = balanceResult.balance;
           const res = results / 1000000000;
+          console.log('res: ' + res + '\nresults: ' + results)
           const embed = new Discord.MessageEmbed()
             .setColor(0x000000)
             .setTitle('**Address Balance**')
@@ -80,7 +81,7 @@ module.exports = {
     }
     else {
       // check for user in database
-      const checkUser = dbHelper.CheckUser;
+      const checkUser = dbHelper.GetAllUserInfo;
       const checkUserPromise = checkUser({ service: 'discord', user_id: userName });
       checkUserPromise.then(function(result) {
         const output = JSON.parse(JSON.stringify(result));
