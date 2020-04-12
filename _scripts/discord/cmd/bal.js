@@ -54,7 +54,7 @@ module.exports = {
         // assign this to a promise and get the function into a result
         BalancePromise.then(function(balanceResult) {
           const results = balanceResult.balance;
-          const res = ((results / 1000000000).toFixed(9);
+          const res = ((results / 1000000000).toFixed(9));
           console.log('res: ' + res + '\nresults: ' + results);
           const embed = new Discord.MessageEmbed()
             .setColor(0x000000)
