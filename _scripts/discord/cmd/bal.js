@@ -111,13 +111,15 @@ module.exports = {
                   const balInt = balint / 1000000000;
                   return balInt;
                 }).then(function(new_bal) {
+                  console.log('new_bal: ' + new_bal);
+                  console.log('new_bal.toPrecision(9): ' + new_bal.toPrecision(9));
                   const update_wal_bal = dbHelper.updateWalletBal;
                   update_wal_bal({ user_id: user_id, new_bal: new_bal }).then(function(UpdateBalance) {
                     message.channel.stopTyping(true);
                     const embed = new Discord.MessageEmbed()
                       .setColor(0x000000)
-                      .setTitle('Tipbot Balance - ' + new_bal.toPrecision(2) + ' QRL')
-                      .addField('Balance:', `\`${new_bal.toPrecision(2)}.toPrecision(2) QRL\``, true)
+                      .setTitle('Tipbot Balance - ' + new_bal + ' QRL')
+                      .addField('Balance:', `\`${new_bal} QRL\``, true)
                       .addField('Explorer:', '[explorer.theqrl.org](' + config.bot_details.explorer_url + '/a/' + UserAddress + ')', true)
                       .setFooter('Transactions may take a some time to post. Please be patient');
                     message.author.send({ embed })
