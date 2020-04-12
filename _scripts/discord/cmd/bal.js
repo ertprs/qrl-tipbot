@@ -59,7 +59,7 @@ module.exports = {
             .setColor(0x000000)
             .setTitle('**Address Balance**')
             .setDescription('Details from the balance query.')
-            .addField('QRL Address Balance:', `\`${res}\``, true)
+            .addField('QRL Address Balance:', `\`${res.toPrecision(9)}\``, true)
             .addField('QRL Address:', '[' + givenAddress + '](' + config.bot_details.explorer_url + '/a/' + givenAddress + ')')
             .setFooter(`TipBot Donation Address: ${config.bot_details.bot_donationAddress}`);
           message.author.send({ embed })
@@ -116,8 +116,8 @@ module.exports = {
                     message.channel.stopTyping(true);
                     const embed = new Discord.MessageEmbed()
                       .setColor(0x000000)
-                      .setTitle('Tipbot Balance - ' + new_bal + ' QRL')
-                      .addField('Balance:', `\`${new_bal} QRL\``, true)
+                      .setTitle('Tipbot Balance - ' + new_bal.toPrecision(2) + ' QRL')
+                      .addField('Balance:', `\`${new_bal.toPrecision(2)}.toPrecision(2) QRL\``, true)
                       .addField('Explorer:', '[explorer.theqrl.org](' + config.bot_details.explorer_url + '/a/' + UserAddress + ')', true)
                       .setFooter('Transactions may take a some time to post. Please be patient');
                     message.author.send({ embed })
