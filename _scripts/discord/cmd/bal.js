@@ -55,7 +55,7 @@ module.exports = {
         BalancePromise.then(function(balanceResult) {
           const results = balanceResult.balance;
           const res = results / 1000000000;
-          console.log('res: ' + res + '\nresults: ' + results)
+          console.log('res: ' + res + '\nresults: ' + results);
           const embed = new Discord.MessageEmbed()
             .setColor(0x000000)
             .setTitle('**Address Balance**')
@@ -85,71 +85,52 @@ module.exports = {
       const checkUserPromise = checkUser({ service: 'discord', service_id: userName });
       checkUserPromise.then(function(result) {
         const output = JSON.parse(JSON.stringify(result));
-        console.log(result)
+        console.log(result);
         const found = output[0].user_found;
         if (found !== 'true') {
           message.channel.stopTyping(true);
           ReplyMessage('Your not found in the System. Try `+add` or `+help`');
           return;
         }
-
-        // check for the value returned from the promise
-        else {
-          const user_id = result[0].user_id;
-          const optOutCheck = dbHelper.CheckUserOptOut({ service: 'discord', user_id: result[0].user_id });
-          optOutCheck.then(function(optout) {
-            if (optout.opt_out == 'true') {
-              ReplyMessage('You\'ve previously opted out of the tipbot. Please send `+opt-in` to opt back in!');
-              message.channel.stopTyping(true);
-            }
-            else {
-              const get_user_pub = dbHelper.GetUserWalletPub;
-              const getPubPromise = get_user_pub({ user_id: user_id });
-              getPubPromise.then(function(address) {
-                const UserAddress = address.wallet_pub;
-                // get the users balance from the network
-                const UserBalance = Balance(UserAddress);
-                UserBalance.then(function(balanceResult) {
-                  const balint = balanceResult.balance;
-                  const balInt = balint / 1000000000;
-                  console.log('balint: ' + balint + '\nbalInt: ' + balInt)
-                  return balInt;
-                }).then(function(new_bal) {
-                  console.log('new_bal: ' + new_bal);
-                  console.log('new_bal.toPrecision(12): ' + new_bal.toPrecision(12));
-                  const update_wal_bal = dbHelper.updateWalletBal;
-                  update_wal_bal({ user_id: user_id, new_bal: new_bal }).then(function(UpdateBalance) {
-                    message.channel.stopTyping(true);
-                    const embed = new Discord.MessageEmbed()
-                      .setColor(0x000000)
-                      .setTitle('Tipbot Balance - ' + new_bal + ' QRL')
-                      .addField('Balance:', `\`${new_bal} QRL\``, true)
-                      .addField('Explorer:', '[explorer.theqrl.org](' + config.bot_details.explorer_url + '/a/' + UserAddress + ')', true)
-                      .setFooter('Transactions may take a some time to post. Please be patient');
-                    message.author.send({ embed })
-                      .then(() => {
-                        if (message.channel.type === 'dm') return;
-                        message.channel.stopTyping(true);
-                        // ReplyMessage('\n:moneybag: Balance is in your DM :moneybag:');
-                      })
-                      .catch(error => {
-                        console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-                        message.channel.stopTyping(true);
-                        ReplyMessage('it seems like I can\'t DM you! Do you have DMs disabled?');
-                      });
-                    message.react(emojiCharacters.q)
-                      .then(() => message.react(emojiCharacters.r))
-                      .then(() => message.react(emojiCharacters.l))
-                      .catch(() => console.error('One of the emojis failed to react.'));
-                    message.channel.stopTyping(true);
-                    return UpdateBalance;
-                  });
-                  message.channel.stopTyping(true);
-                });
-              });
-            }
-          });
+        const opt_out = output[0].opt_out;
+        if (opt_out == 'true') {
+          message.channel.stopTyping(true);
+          ReplyMessage('You\'ve previously opted out of the tipbot. Please send `+opt-in` to opt back in!');
+          return;
         }
+        const user_agree = result[0].user_agree;
+        if (user_agree !== 'true') {
+          message.channel.stopTyping(true);
+          ReplyMessage('You\'ve previously opted out of the tipbot. Please send `+opt-in` to opt back in!');
+          return;
+        }
+        const UserAddress = result[0].wallet_pub;
+        const UserBalance = result[0].wallet_bal;
+        // const user_id = result[0].user_id;
+        message.channel.stopTyping(true);
+        const embed = new Discord.MessageEmbed()
+          .setColor(0x000000)
+          .setTitle('Tipbot Balance - ' + UserBalance + ' QRL')
+          .addField('Balance:', `\`${UserBalance} QRL\``, true)
+          .addField('Explorer:', '[explorer.theqrl.org](' + config.bot_details.explorer_url + '/a/' + UserAddress + ')', true)
+          .setFooter('Transactions may take a some time to post. Please be patient');
+        message.author.send({ embed })
+          .then(() => {
+            if (message.channel.type === 'dm') return;
+            message.channel.stopTyping(true);
+            // ReplyMessage('\n:moneybag: Balance is in your DM :moneybag:');
+          })
+            .catch(error => {
+              console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+              message.channel.stopTyping(true);
+              ReplyMessage('it seems like I can\'t DM you! Do you have DMs disabled?');
+            });
+              message.react(emojiCharacters.q)
+                .then(() => message.react(emojiCharacters.r))
+                .then(() => message.react(emojiCharacters.l))
+                .catch(() => console.error('One of the emojis failed to react.'));
+              message.channel.stopTyping(true);
+
       });
     }
   },
