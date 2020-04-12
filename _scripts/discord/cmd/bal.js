@@ -92,11 +92,11 @@ module.exports = {
           ReplyMessage('Your not found in the System. Try `+add` or `+help`');
           return;
         }
-        
+
         // check for the value returned from the promise
         else {
           const user_id = result[0].user_id;
-          const optOutCheck = dbHelper.CheckUserOptOut({ service: 'discord', user_id: result.user_id });
+          const optOutCheck = dbHelper.CheckUserOptOut({ service: 'discord', user_id: result[0].user_id });
           optOutCheck.then(function(optout) {
             if (optout.opt_out == 'true') {
               ReplyMessage('You\'ve previously opted out of the tipbot. Please send `+opt-in` to opt back in!');
