@@ -109,6 +109,7 @@ module.exports = {
                 UserBalance.then(function(balanceResult) {
                   const balint = balanceResult.balance;
                   const balInt = balint / 1000000000;
+                  console.log('balint: ' + balnt + '\nbalInt: ' + balInt)
                   return balInt;
                 }).then(function(new_bal) {
                   console.log('new_bal: ' + new_bal);
