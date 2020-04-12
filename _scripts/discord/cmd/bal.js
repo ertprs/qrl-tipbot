@@ -54,8 +54,7 @@ module.exports = {
         // assign this to a promise and get the function into a result
         BalancePromise.then(function(balanceResult) {
           const results = balanceResult.balance;
-          const RES = results / 1000000000
-          const res = RES.toPrecision(9);
+          const res = ((results / 1000000000).toFixed(9);
           console.log('res: ' + res + '\nresults: ' + results);
           const embed = new Discord.MessageEmbed()
             .setColor(0x000000)
@@ -111,8 +110,8 @@ module.exports = {
         message.channel.stopTyping(true);
         const embed = new Discord.MessageEmbed()
           .setColor(0x000000)
-          .setTitle('Tipbot Balance - ' + UserBalance + ' QRL')
-          .addField('Balance:', `\`${UserBalance} QRL\``, true)
+          .setTitle('Tipbot Balance - ' + UserBalance.toFixed(9) + ' QRL')
+          .addField('Balance:', `\`${UserBalance.toFixed(9)} QRL\``, true)
           .addField('Explorer:', '[explorer.theqrl.org](' + config.bot_details.explorer_url + '/a/' + UserAddress + ')', true)
           .setFooter('Transactions may take a some time to post. Please be patient');
         message.author.send({ embed })
