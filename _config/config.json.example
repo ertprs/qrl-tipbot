@@ -1,6 +1,7 @@
 { 
   "bot_details" : {
     "bot_name"  : "BOT_NAME",
+    "bot_id"  : "BOT_ID",
     "bot_url" : "https://BOT_URL.COM",
     "explorer_url" : "https://explorer.theqrl.org",
     "bot_dir" : "/home/{$USER}/qrltips",
