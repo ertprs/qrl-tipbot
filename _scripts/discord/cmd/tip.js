@@ -58,7 +58,9 @@ module.exports = {
       const service_user_ID = user.id;
       const userid = '<@!' + user.id + '>';
 
-      if ((userid === config.bot_details.bot_id) && (!args.includes(config.bot_details.bot_id))) {
+
+      if ((userid === config.discord.bot_id) && (!args.includes(config.discord.bot_id))) {
+
         // console.log(chalk.red('bot mentioned, don\'t count it, again'));
       }
       else {
@@ -77,7 +79,8 @@ module.exports = {
 
     function TipUserCount() {
       // console.log('tipList: ' + JSON.stringify(tipList));
-      if (tipList.includes('@' + config.bot_details.bot_name && (!args.includes(config.bot_details.bot_id)))) {
+
+      if (tipList.includes('@' + config.bot_details.bot_name && (!args.includes(config.discord.bot_id)))) {
         const tipUserCount = (tipListJSON.length - 1);
         // console.log(chalk.green('tipUserCount: ' + tipUserCount));
         return tipUserCount;

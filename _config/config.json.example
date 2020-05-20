@@ -23,6 +23,7 @@
   },
   "discord" : {
     "token"  : "DISCORD_TOKEN_HERE",
+    "bot_id"  : "BOT_ID",
     "cmd_dir" : "/home/{$USER}/qrltips/_scripts/discord/cmd",
     "prefix" : "+",
     "bot_admin" : "DISCORD_ID"
