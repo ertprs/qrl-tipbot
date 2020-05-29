@@ -31,5 +31,19 @@
     "payout_interval" : "1440",
     "min_payout" : "0.000000001",
     "max_payout" : "0.5"
+  },
+  {
+  "backup" : {
+    "location" : "",
+    "encPass" : "",
+    "state_freq" : "",
+    "sync_freq" : "",
+    "aws_access_key_id" : "",
+    "aws_secret_access_key" : "",
+    
+    "rsync_address" : "SERVER_FQDN_or_IP_ADDRESS",
+    "rsync_user" : "SERVER_FQDN_or_IP_ADDRESS",
+    "rsync_backup_dir" : "/DIRECTORY/TO/STORE/BACKUP/ON/REMOTE/SERVER",
+    "rsync_ssh_key_file" : "",
   }
 }
