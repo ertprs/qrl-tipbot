@@ -1,6 +1,7 @@
 { 
   "bot_details" : {
     "bot_name"  : "BOT_NAME",
+    "bot_id"  : "BOT_ID",
     "bot_url" : "https://BOT_URL.COM",
     "explorer_url" : "https://explorer.theqrl.org",
     "bot_dir" : "/home/{$USER}/qrltips",
@@ -22,6 +23,7 @@
   },
   "discord" : {
     "token"  : "DISCORD_TOKEN_HERE",
+    "bot_id"  : "BOT_ID",
     "cmd_dir" : "/home/{$USER}/qrltips/_scripts/discord/cmd",
     "prefix" : "+",
     "bot_admin" : "DISCORD_ID"

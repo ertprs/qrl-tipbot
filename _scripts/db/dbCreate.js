@@ -11,6 +11,12 @@ const callmysql = mysql.createConnection({
   password: `${config.database.db_pass}`,
   database: `${config.database.db_name}`,
 });
+console.log(`database info
+  DB Host: ${config.database.db_host}
+  DB User: ${config.database.db_user}
+  DB Pass: ${config.database.db_pass}
+  DB Name: ${config.database.db_name}
+  `);
 
 // connect to the MySQL server
 callmysql.connect(function(err) {

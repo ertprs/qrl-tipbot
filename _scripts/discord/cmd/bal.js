@@ -32,12 +32,14 @@ module.exports = {
     }
     // check for args and if found give that wallet balance
     if (args.length) {
-      // Delete tthe prevoius message
+      // Delete the prevoius message
       if(message.guild != null) {
         message.channel.stopTyping(true);
         message.delete();
       }
-      // given a user not an address we just fail. Could serve up the users balance if config.bot.admin requested
+      // given a user not an address we just fail.
+      // FEATURE ADD -
+      // Could serve up the users balance if config.bot.admin requested
       if (message.mentions.users.size > 0) {
         message.channel.stopTyping(true);
         return;
@@ -59,7 +61,7 @@ module.exports = {
             .setColor(0x000000)
             .setTitle('**Address Balance**')
             .setDescription('Details from the balance query.')
-            .addField('QRL Address Balance:', `\`${res}\``, true)
+            .addField('QRL Address Balance:', `\`${res.toFixed(9)}\``, true)
             .addField('QRL Address:', '[' + givenAddress + '](' + config.bot_details.explorer_url + '/a/' + givenAddress + ')')
             .setFooter(`TipBot Donation Address: ${config.bot_details.bot_donationAddress}`);
           message.author.send({ embed })
@@ -116,8 +118,8 @@ module.exports = {
                     message.channel.stopTyping(true);
                     const embed = new Discord.MessageEmbed()
                       .setColor(0x000000)
-                      .setTitle('Tipbot Balance - ' + new_bal + ' QRL')
-                      .addField('Balance:', `\`${new_bal} QRL\``, true)
+                      .setTitle('Tipbot Balance - ' + new_bal.toFixed(9) + ' QRL')
+                      .addField('Balance:', `\`${new_bal.toFixed(9)} QRL\``, true)
                       .addField('Explorer:', '[explorer.theqrl.org](' + config.bot_details.explorer_url + '/a/' + UserAddress + ')', true)
                       .setFooter('Transactions may take a some time to post. Please be patient');
                     message.author.send({ embed })

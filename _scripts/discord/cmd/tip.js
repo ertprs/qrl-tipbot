@@ -9,6 +9,7 @@ module.exports = {
   execute(message, args) {
     message.channel.startTyping();
     const Discord = require('discord.js');
+    // const chalk = require('chalk');
     const dbHelper = require('../../db/dbHelper');
     const config = require('../../../_config/config.json');
     const wallet = require('../../qrl/walletTools');
@@ -36,11 +37,17 @@ module.exports = {
       }, 1000);
     }
 
+    if (args.includes('@here') || args.includes('@everyone') || args.includes('@developer') || args.includes('@founder')) {
+      // console.log(chalk.red('cant send tip to these users. Call them by name'));
+      ReplyMessage('Can\'t send to a group. Please send to individual users.');
+      return;
+    }
     // check if user mentioned another user to tip
     if (!message.mentions.users.size) {
-      ReplyMessage('No Users mentioned. `+help tip` for help')
+      ReplyMessage('No Users mentioned. `+help tip` for help');
       return ;
     }
+
     // We have users mentioned, get the tipList into map
     const tipList = message.mentions.users.map(user => {
       const userName = user.username;
@@ -49,8 +56,17 @@ module.exports = {
     });
     const userList = message.mentions.users.map(user => {
       const service_user_ID = user.id;
-      const output = JSON.parse(JSON.stringify(service_user_ID));
-      return `<@${output}>`;
+      const userid = '<@!' + user.id + '>';
+
+
+      if ((userid === config.discord.bot_id) && (!args.includes(config.discord.bot_id))) {
+
+        // console.log(chalk.red('bot mentioned, don\'t count it, again'));
+      }
+      else {
+        const output = JSON.parse(JSON.stringify(service_user_ID));
+        return `<@${output}>`;
+      }
     });
     // get the tip-to userID into map
     const UserIDList = message.mentions.users.map(user => {
@@ -61,7 +77,21 @@ module.exports = {
     });
     const tipListJSON = JSON.parse(JSON.stringify(tipList));
 
-    const tipUserCount = tipListJSON.length;
+    function TipUserCount() {
+      // console.log('tipList: ' + JSON.stringify(tipList));
+
+      if (tipList.includes('@' + config.bot_details.bot_name && (!args.includes(config.discord.bot_id)))) {
+        const tipUserCount = (tipListJSON.length - 1);
+        // console.log(chalk.green('tipUserCount: ' + tipUserCount));
+        return tipUserCount;
+      }
+      else {
+        const tipUserCount = tipListJSON.length;
+        // console.log(chalk.green('tipUserCount: ' + tipUserCount));
+        return tipUserCount;
+      }
+    }
+    const tipUserCount = TipUserCount();
     //  check for tip amount, fail if not found...
     if (isNaN(tipAmount)) {
       ReplyMessage('Please enter a valid amount to tip! +tip {AMOUNT} @USER(\'s)');
@@ -136,18 +166,29 @@ module.exports = {
       // we have results from user lookup, asign values for tip from user
       const wallet_pub = userInfo[0].wallet_pub;
       const wallet_bal = userInfo[0].wallet_bal;
-      const total_tip = tipUserCount * tipAmount + fee;
+      const total_tip = (tipUserCount * tipAmount) + fee;
       // check that the users balance is enough to tip the request
       const wallet_bal_shor = wallet_bal * 1000000000;
+
+      // console.log('check wallet balance ' + wallet_bal_shor + ' and total tip ' + total_tip + ' is more than 0');
+      const walletCalc = (wallet_bal_shor - total_tip);
+      // console.log('walletCalc: ' + walletCalc);
+      if (walletCalc < 0) {
+        console.log('less than zero');
+        const walletBALANCEislessthan = true;
+        return walletBALANCEislessthan;
+      }
+
+
       if ((wallet_bal_shor - total_tip) < 0) {
         // not enough funds...
         message.channel.stopTyping(true);
         const embed = new Discord.MessageEmbed()
-          .setTitle('ERROR - Not enough funds in user wallet')
-          .setDescription('[Check your address on the explorer](' + config.bot_details.explorer_url + '/a/' + wallet_pub + ')')
+          .setTitle('ERROR - Not enough funds in user wallet!')
+          .setDescription('make sure you can cover the fee! Fee set to *' + config.wallet.tx_fee + '*\n[Check your address on the explorer](' + config.bot_details.explorer_url + '/a/' + wallet_pub + ')')
           .setColor(0x000000)
-          .addField('Wallet Balance:', wallet_bal + ' QRL')
-          .addField('Amount attempted to tip:', tipUserCount * tipAmount / 1000000000 + ' QRL');
+          .addField('Wallet Balance:', wallet_bal.toFixed(9) + ' QRL')
+          .addField('Amount attempted to tip:', total_tip / 1000000000 + ' QRL');
         message.author.send({ embed })
           .then(() => {
             if (message.channel.type === 'dm') return;
@@ -311,10 +352,10 @@ module.exports = {
             .setColor(0x000000)
             .setTitle('Tip Sent!')
             .setDescription('Your tip was posted on the network. It may take a few minuets to confirm, see the transaction info in the [QRL Block Explorer](' + config.bot_details.explorer_url + '/tx/' + tx_hash + ')')
-            .addField('Transfer amount', '**' + total_tip / 1000000000 + '**')
+            .addField('Total Transfer', '**' + (total_tip / 1000000000).toFixed(9) + '**')
             .addField('Transfer fee', '**' + config.wallet.tx_fee + '**')
-            .addField('Tip Sent To ', '** ' + userList + '**')
-            .setFooter('The TX Fee is taken from the transfer amount and set by the bot owner. \nThe current fee is set to ' + config.wallet.tx_fee + ' QRL');
+            .addField('Sent **' + tipAmountQuanta + ' QRL** To ', '** ' + userList + '**')
+            .setFooter('The TX Fee is paid by the tip sender. \nThe current fee is set to ' + config.wallet.tx_fee + ' QRL');
           message.author.send({ embed })
             .then(() => {
               if (message.channel.type !== 'dm') return;
@@ -335,4 +376,3 @@ module.exports = {
 
   },
 };
-

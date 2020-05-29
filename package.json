@@ -1,6 +1,6 @@
 {
   "name": "qrltips",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "description": "Social TipBot for QRL - Quantum Resistant Ledger. Discord, Twitter ",
   "keywords": [
     "tipbot",
@@ -13,7 +13,7 @@
   "main": "index.js",
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "discord.js": "^12.1.1",
+    "discord.js": "^12.2.0",
     "mysql": "^2.18.1",
     "qrcode": "^1.4.4",
     "minimist": "^1.2.2",
@@ -23,7 +23,7 @@
     "node": "12.16.1"
   },
   "devDependencies": {
-    "eslint": "^6.8.0"
+    "eslint": "^7.0.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

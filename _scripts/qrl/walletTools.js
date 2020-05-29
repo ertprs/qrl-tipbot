@@ -7,28 +7,11 @@ async function getWalletInfo() {
   if (stderr) {
     console.error(`error: ${stderr}`);
   }
-  const info = JSON.parse(stdout);
-  // console.log(info);
-  if (info.code === 1) {
-    // console.log('Wallet is locked');
-    const locked = true;
-    return locked;
-  }
-  else {
-    const locked = false;
-    const version = info.version;
-    const address_count = info.address_count;
-    const encrypted = info.is_encrypted;
-    // console.log('Wallet Version: ' + info.version + '\n' + 'Wallet info.address_count: ' + info.address_count + '\n' + 'Wallet info version: ' + info.is_encrypted);
-    const WalInfo = `\`{"version":"${version}", "address_count": "${address_count}", "encrypted": "${encrypted}", "locked": "${locked}"}\``;
-    return WalInfo;
-  }
+  return stdout;
 }
 
-async function CreateQRLWallet(args) {
+async function CreateQRLWallet() {
   // console.log('createWallet file called\n');
-  if (args !== null) {
-    // console.log('no args passed.Create default Wallet');
     const { stdout, stderr } = await exec(`curl -s -XPOST http://127.0.0.1:5359/api/AddNewAddressWithSlaves -d'{  "height": ${config.wallet.height}, "number_of_slaves": ${config.wallet.num_slaves}, "hash_function": "${config.wallet.hash_function}"}'`);
     if (stderr) {
       console.error(`error: ${stderr}`);
@@ -36,18 +19,6 @@ async function CreateQRLWallet(args) {
     // console.log(`qrlWallet: ${stdout}`);
     const state = stdout;
     return state;
-  }
-  else {
-    // no args passed, get the defaults from the config and create a wallet
-    // console.log('Args passed to createWallet, lets create the USER wallet)');
-    const { stdout, stderr } = await exec(`curl -s -XPOST http://127.0.0.1:5359/api/AddNewAddressWithSlaves -d'{  "height": ${args[0]}, "number_of_slaves": ${args[1]}, "hash_function": "${args[2]}"}'`);
-    if (stderr) {
-      console.error(`error: ${stderr}`);
-    }
-    // console.log(`qrlWallet: ${stdout}`);
-    const state = stdout;
-    return state;
-  }
 }
 
 async function sendQuanta(args) {
@@ -135,7 +106,8 @@ async function GetBalance(args) {
   else {
   // no args passed
     console.log('no args passed... We need an address!');
-    return;
+    const returnData = { error: true };
+    return returnData;
   }
 }
 
@@ -157,8 +129,10 @@ async function checkBalance(args) {
   }
 }
 
-async function encrypt() {
-  const { stdout, stderr } = await exec(`curl -s -XPOST http://127.0.0.1:5359/api/EncryptWallet -d '{ "passphrase": "${config.wallet.passphrase}" }'`);
+
+// encrypts teh wallet
+async function encrypt(args) {
+  const { stdout, stderr } = await exec(`curl -s -XPOST http://127.0.0.1:5359/api/EncryptWallet -d '{ "passphrase": "${args}" }'`);
   if (stderr) {
     console.error(`error: ${stderr}`);
   }
@@ -177,8 +151,8 @@ async function lock() {
   return walletLock;
 }
 
-async function unlock() {
-  const { stdout, stderr } = await exec(`curl -s -XPOST http://127.0.0.1:5359/api/UnlockWallet -d '{ "passphrase": "${config.wallet.passphrase}"}'`);
+async function unlock(args) {
+  const { stdout, stderr } = await exec(`curl -s -XPOST http://127.0.0.1:5359/api/UnlockWallet -d '{ "passphrase": "${args}"}'`);
   if (stderr) {
     console.error(`error: ${stderr}`);
   }
@@ -187,8 +161,71 @@ async function unlock() {
   return walletUnlock;
 }
 
+async function GetHeight() {
+  const { stdout, stderr } = await exec(`curl -s -XGET http://127.0.0.1:5359/api/GetHeight`);
+  if (stderr) {
+    console.error(`error: ${stderr}`);
+  }
+  // console.log(`Wallet Unlocked: ${stdout}`);
+  const Height = stdout;
+  return Height;
+}
+
+async function GetNodeInfo() {
+  const { stdout, stderr } = await exec(`curl -s -XGET http://127.0.0.1:5359/api/GetNodeInfo`);
+  if (stderr) {
+    console.error(`error: ${stderr}`);
+  }
+  // console.log(`Wallet Unlocked: ${stdout}`);
+  const NodeInfo = stdout;
+  return NodeInfo;
+}
+
+async function IsValidAddress(args) {
+  // using the wallet API get this info and return to script
+  if (args !== null) {
+    const { stdout, stderr } = await exec('curl -s -XPOST http://127.0.0.1:5359/api/IsValidAddress -d \'{"address": "' + args + '"}\'');
+    if (stderr) {
+      console.error(`error: ${stderr}`);
+    }
+    const output = stdout.slice(1, -2);
+    const returnData = { balance: output };
+    return returnData;
+  }
+  else {
+  // no args passed
+    console.log('no args passed... We need an address!');
+    const returnData = { error: true };
+    return returnData;
+  }
+}
+
+async function GetSecret(args) {
+  // using the wallet API get this publicKeys secret keys
+  if (args !== null) {
+    const { stdout, stderr } = await exec('curl -s -XPOST http://127.0.0.1:5359/api/GetRecoverySeeds -d \'{"address": "' + args + '"}\'');
+    if (stderr) {
+      console.error(`error: ${stderr}`);
+    }
+    // console.log('stdout: ' + stdout)
+    // const output = stdout.slice(1, -2);
+    // const returnData = { balance: output };
+    return stdout;
+  }
+  else {
+  // no args passed
+    console.log('no args passed... We need an address!');
+    return;
+  }
+}
+
+// curl -s -XGET http://127.0.0.1:5359/api/GetWalletInfo
+
 module.exports = {
   list : list,
+  GetHeight: GetHeight,
+  GetNodeInfo: GetNodeInfo,
+  IsValidAddress: IsValidAddress,
   listAll: listAll,
   count : count,
   totalBalance : totalBalance,
@@ -200,4 +237,5 @@ module.exports = {
   getWalletInfo : getWalletInfo,
   CreateQRLWallet : CreateQRLWallet,
   sendQuanta : sendQuanta,
+  GetSecret : GetSecret,
 };

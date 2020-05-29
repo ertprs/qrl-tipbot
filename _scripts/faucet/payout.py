@@ -76,16 +76,18 @@ else:
 
 def relayTransferTxnBySlave(addresses_to, amounts, feeShor, master_address):
   payload = {'addresses_to': addresses_to, 'amounts': amounts, 'fee': int(feeShor), 'master_address': master_address }
+  print(payload)
   QRLrequest = requests.post("http://127.0.0.1:5359/api/RelayTransferTxnBySlave", json=payload)
   response = QRLrequest.text
   relayTransferTxnBySlaveResp = json.loads(response)
   jsonResponse = relayTransferTxnBySlaveResp
   #logging.info('payout.py :\n   amount = %s \n   payees = %s \n   fee = %s\n   masterAddress = %s\n%s ADMIN test:\n', amounts, addresses_to, feeShor, master_address, current_time)
-  #print(f'ADMIN test:\n   amount = {amounts} \n   payees = {addresses_to} \n   fee = {feeShor}\n   masterAddress = {master_address}\n{current_time} ADMIN test:\n')
+  print(f'ADMIN test:\n   amount = {amounts} \n   payees = {addresses_to} \n   fee = {feeShor}\n   masterAddress = {master_address}\n{current_time} ADMIN test:\n')
   return(jsonResponse)
 
-tx = relayTransferTxnBySlave(addresses_to, amount_toSend, feeShor, master_address)
 
+tx = relayTransferTxnBySlave(addresses_to, amount_toSend, feeShor, master_address)
+print(tx)
 tx_hash = tx['tx']['transaction_hash']
 UpdateSQL = ("UPDATE faucet_payouts SET faucet_payouts.paid = 1, faucet_payouts.updated_at = '%s', faucet_payouts.tx_hash = '%s' WHERE faucet_payouts.paid = 0" % (current_time, tx_hash))
 

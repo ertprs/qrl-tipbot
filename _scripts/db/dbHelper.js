@@ -359,6 +359,7 @@ async function GetUserWalletQR(args) {
 }
 
 async function AddUser(args) {
+  // console.log(JSON.stringify(args));
   /*
   We need to collect the following data
   { service: service, service_id: service_id, user_name: user_name, wallet_pub: wallet_pub, wallet_bal: wallet_bal, user_key: user_key, user_auto_created: user_auto_created, auto_create_date: auto_create_date opt_out, optout_date };
