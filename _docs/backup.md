@@ -34,7 +34,9 @@ Uploading the synced and tar'd files to multiple locations helps guarantee that 
 | Service | Setup | Notes | 
 | ------- | ----- | ----------- |
 | Dropbox | Install dropbox to server and link to account | symlink the backup directory to the default dropbox folder, and make sure it is not syncing the entire dropbox account!|
-| Amazon S3 Bucket | Using the node AWS SDK |
+| Amazon S3 Bucket | Using the node AWS SDK | | 
+| NextCloud Server | `npm install webdav` | uses webdav node package |
+| rsync server location | ssh key to remote server | Send files to remote server using rsync |
 
 
 ### Backup Details
@@ -46,6 +48,8 @@ The system is run from Cron and the frequency of backup is set in the configurat
 
 #### Amazon
 
+
+Send tar file with all backup data? or multiple tar files
 
 #### Dropbox
 

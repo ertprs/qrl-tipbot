@@ -209,7 +209,7 @@ const wallet_Info = wallet.getWalletInfo;
 // const locked = [];
 wallet_Info().then(function(Info) {
   const info = JSON.parse(Info);
-
+  console.log('info: ' + info);
   if (info.code === 1) {
     console.log(chalk.cyan.bold('wallet Locked!: ') + chalk.red.bold(JSON.stringify(info)));
     console.log(chalk.bold.red.underline('\nThe Bot wont run without an unlocked wallet.') + chalk.red.bold('\n\nRun -  npm run unlockBot '));

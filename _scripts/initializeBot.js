@@ -1,3 +1,8 @@
+/*/
+Initialize the bot and create all wallets required for operation.
+/*/
+
+
 const readline = require('readline');
 const chalk = require('chalk');
 const dbHelper = require('./db/dbHelper');
@@ -69,7 +74,7 @@ main().then(function() {
           const holdWalletInfo = JSON.parse(hold_Wallet_Info);
           walletInfoArray.push({ holdInfo: holdWalletInfo });
           console.log(chalk.cyan.bold('\nHold Pub Address: ') + chalk.blue.bold(JSON.stringify(walletInfoArray[1].holdInfo.address)));
-          // get the private keys and print to tthe terminal
+          // get the private keys and print to the terminal
           const holdSecretKeyPromise = secretKey(walletInfoArray[1].holdInfo.address);
           holdSecretKeyPromise.then(function(holdSecrets) {
             const holdSec = JSON.stringify(JSON.parse(holdSecrets));

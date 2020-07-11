@@ -184,7 +184,16 @@ configStats()
           console.log(chalk`  {blue {cyan {bold ℹ}} Discord Bot Started!}
           {blue {cyan {bold ℹ}} Discord Bot PID: {red ${spawnDiscord.pid}}}`);
         }
+        //
+        //
+        //
+        //
+        //
         // spawn all bots here into background processes
+        //
+        //
+        //
+        //
         spawnDiscordBot();
         console.log(chalk`  {blue {cyan {bold ℹ}} Checks Complete... {cyan All Services started}}`);
       });

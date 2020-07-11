@@ -1,9 +1,12 @@
+/*/
+Script to unlock the bot wallet after power cycle.
+
+This equies manual intervention to re-enable the bot wallet as it is encrypted.
+
+/*/
+
 const readline = require('readline');
-// const config = require('../_config/config.json');
-// const util = require('util');
-// const exec = util.promisify(require('child_process').exec);
 const wallet = require('./qrl/walletTools');
-// const addTransaction = dbHelper.addTransaction;
 const infoArray = [];
 
 const rl = readline.createInterface({
@@ -24,7 +27,6 @@ const main = async () => {
   await encPass();
   rl.close();
 };
-
 
 main().then(function() {
   // unlock the wallet

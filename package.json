@@ -29,7 +29,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build_database": "nodejs ./_scripts/db/dbCreate.js",
     "addTestData": "nodejs ./_scripts/db/addTestData.js",
-    "DiscordBot": "nodejs ./_scripts/discord/index.js"
+    "DiscordBot": "nodejs ./_scripts/discord/index.js",
+    "InitializeBot": "nodejs ./_scripts/initializeBot.js",
+    "unlockBotWallet": "nodejs ./_scripts/unlockBotWallet.js"
   },
   "repository": {
     "type": "git",

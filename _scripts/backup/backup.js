@@ -1,6 +1,5 @@
 /*
 
-NEED TO ADD PACKAGES TO package -
 
 npm install mysqldump
 
@@ -19,13 +18,10 @@ Need a recover script to rebuild the bot!
 //  to backup to various services. 
 // By default the script only backs up the files locally.
 // Keep track of when the script was ran last in teh .last_run file located in this directory.
-/*
-var exec = require('child_process').exec;
-var child = exec(' mysqldump -u root -p[root_password] [database_name] > dumpfilename.sql');
-*/
 
 // const webdav = require('webdav');
 // const aws = require('awsSDK');
+
 const fs = require('fs');
 const crypto = require('crypto');
 const config = require('../../_config/config.json');
@@ -38,7 +34,9 @@ This file will track the last run, last rolled, and allow tracking of when we sh
 // FEATURE - Add signing functions from the qrl-cli lattice keys and track this in
 	ephemeral communications to a private location. Also signing and encrypting with the
 	lattice keys would add validity to that system and security to this one.
+	or notorize it on the chain using the Public Bot wallet
 */
+
 const last_run_file_path = '__dirname/.last_run';
 // const last_run = fs.readFileSync(last_run_file_path);
 // const last__run_data = JSON.parse(last_run);
