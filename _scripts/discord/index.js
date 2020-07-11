@@ -44,7 +44,7 @@ console.log(chalk`
 
 
 
-console.log('something: ' + chalk.green(JSON.stringify(client.users.cache)));
+console.log('something: ' + chalk.green(JSON.stringify(client.users)));
 
 
 
