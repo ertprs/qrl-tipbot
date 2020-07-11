@@ -175,8 +175,6 @@ The `users_agree` table collects the user agreement from the user. This allows t
 
 ### `user_info` Table
 
-The `users_info` table is intended to store user defined input. Tracking signed_up dates and service, as well as opt_out
-
 - **id** *primary_key* is created at entry time  
 - **user_id** from `users.id` table.field to join user and wallet
 - **user_key** bcrypt_salt created to use for hashing info in the database {future feature}

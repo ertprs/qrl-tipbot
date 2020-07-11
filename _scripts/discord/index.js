@@ -5,9 +5,11 @@
 const fs = require('fs');
 const chalk = require('chalk');
 const Discord = require('discord.js');
+
 const wallet = require('../qrl/walletTools');
 const explorer = require('../qrl/explorerTools');
 const cgTools = require('../coinGecko/cgTools');
+
 // Require the config file. Create it from the example
 const config = require('../../_config/config.json');
 global.config = config;
@@ -31,12 +33,13 @@ const nownow = NOW.toDateString();
 client.on('ready', () => {
 console.log(chalk`
 {cyan ==========================================}
-{cyan Discord TipBot Started at: {green {dim ${nownow}}}}
+{cyan Discord TipBot Started: {green {dim ${nownow}}}}
   {blue {cyan {bold !}} Connected to {grey ${client.guilds.cache.size}} guilds }
   {blue {cyan {bold !}} Connected to {grey ${client.users.cache.size}} users } 
   {blue {cyan {bold !}} Connected to {grey ${client.channels.cache.size}} channels }
 {cyan ==========================================}
     `);
+
 
 function getHeight() {
     return new Promise(resolve => {
@@ -202,6 +205,7 @@ let counter = 0;
 }, int_interval);
 });
 
+
 // attempt to open the prefix
 const escapeRegex = str => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const wallet_Info = wallet.getWalletInfo;
@@ -237,6 +241,7 @@ client.on('message', message => {
 
   const commandName = args.shift().toLowerCase();
   // log everthing with ${config.discord.prefix} to console
+
   console.log(chalk.cyan('Author: ') + chalk.green(message.author.username + chalk.dim(' <@' + message.author.id + '>')) + chalk.cyan(' Message: ') + chalk.green(message.content));
   //  if (!client.commands.has(commandName)) return;
   //    const command = client.commands.get(commandName);

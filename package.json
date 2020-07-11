@@ -18,11 +18,13 @@
     "qrcode": "^1.4.4",
     "minimist": "^1.2.2",
     "chalk": "^4.0.0"
+
   },
   "engines": {
     "node": "12.16.1"
   },
   "devDependencies": {
+
     "eslint": "^7.0.0"
   },
   "scripts": {
@@ -32,6 +34,7 @@
     "DiscordBot": "nodejs ./_scripts/discord/index.js",
     "InitializeBot": "nodejs ./_scripts/initializeBot.js",
     "unlockBotWallet": "nodejs ./_scripts/unlockBotWallet.js"
+
   },
   "repository": {
     "type": "git",

@@ -2,7 +2,6 @@
 ':' //; exec "$(command -v nodejs || command -v node)" "$0" "$@"
 
 'use strict';
-// const health = require('./_test/health/healthcheck');
 const wallet = require('./_scripts/qrl/walletTools');
 const listAddresses = wallet.listAll;
 const fs = require('fs');
@@ -184,6 +183,7 @@ configStats()
           console.log(chalk`  {blue {cyan {bold ℹ}} Discord Bot Started!}
           {blue {cyan {bold ℹ}} Discord Bot PID: {red ${spawnDiscord.pid}}}`);
         }
+
         //
         //
         //

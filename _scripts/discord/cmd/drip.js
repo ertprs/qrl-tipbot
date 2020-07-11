@@ -197,7 +197,7 @@ module.exports = {
             // console.log('all done, dripped and returned values\n' + JSON.stringify(ResDrip));
           });
           message.channel.stopTyping(true);
-          message.reply(':droplet: ' + Drip + ' Quanta set from the QRL Faucet! :droplet:\n*Funds take up to 5 min to deposit.*');
+          message.reply(':droplet: ' + Drip + ' Quanta sent! :droplet:\n*Funds take up to 5 min to deposit.*');
         }
       });
     });

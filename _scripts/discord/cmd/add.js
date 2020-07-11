@@ -24,7 +24,6 @@ module.exports = {
     const userName = username.slice(1, -1);
     const user_info = { service: 'discord', user_id: userName };
     const checkUserpromise = checkUser(user_info);
-
     // use to send a reply to user with delay and stop typing
     function ReplyMessage(content) {
       message.channel.startTyping();
@@ -48,7 +47,101 @@ module.exports = {
     }
     const dripamt = dripAmount(config.faucet.min_payout, config.faucet.max_payout);
 
+    // use to send a reply to user with delay and stop typing
+    function ReplyMessage(content) {
+      message.channel.startTyping();
+      setTimeout(function() {
+        message.reply(content);
+        message.channel.stopTyping(true);
+<<<<<<< HEAD
+        return userInfo;
+      }).then(function(userInfo) {
+        // add user to the database and create an account
+        const AddUserPromise = addUser(userInfo);
+        AddUserPromise.then(function(addUserResp) {
+          const response = JSON.stringify(addUserResp);
+          if (addUserResp[3].future_tip_amount > 0) {
+            const future_tip_amount = addUserResp[3].future_tip_amount;
+            const tipToArray = [];
+            // const tipToAddress = [];
+            tipToArray.push(userInfo.wallet_pub);
+            const fee = config.wallet.tx_fee * 1000000000;
+            const future_tip = { amount: future_tip_amount, fee: fee, address_from: config.wallet.hold_address, address_to: tipToArray };
+            const send_future_tip = wallet.sendQuanta;
+            send_future_tip(future_tip).then(function(futureTip) {
+              const futureTipOut = JSON.parse(futureTip);
+              const tx_hash = futureTipOut.tx.transaction_hash;
+              // write to transactions db
+              const tip_id = 1337;
+              const txInfo = { tip_id: tip_id, tx_hash: tx_hash };
+              const addTransactionPromise = addTransaction(txInfo);
+              addTransactionPromise.then(function(txRes) {
+                return txRes;
+              });
+              const futureClear = { user_id: userInfo.service_id };
+              const clearFutureTips = dbHelper.clearFutureTips;
+              clearFutureTips(futureClear).then(function(clearRes) {
+                return clearRes;
+              });
+            });
+          }
+          return response;
+        }).then(function(userresponse) {
+          const userAddress = userInfo.wallet_pub;
+          const embed = new Discord.MessageEmbed()
+            .setColor(0x000000)
+            .setTitle('**TipBot Account Info**')
+            .setDescription('Account information.')
+            .setFooter(`TipBot Donation Address: ${config.bot_details.bot_donationAddress}`)
+            .addField('QRL Wallet Public Address:', '[' + userAddress + '](' + config.bot_details.explorer_url + '/a/' + userAddress + ')')
+            .addField('QRL Wallet Balance:\t', '0')
+            .setImage(userInfo.wallet_qr)
+            .addField('For all of my commands:\t', '`+help`');
+          message.author.send({ embed })
+            .then(() => {
+              if (message.channel.type === 'dm') return;
+              message.author.send('**A Bit From The Legal Team**\nUse of this TipBot and any function it may provide is solely at *your* risk as the user. Tipbot, it\'s operators and all parties involved take no financial responsibility for any loss or perceived loss you may incur by using this service. \n**You take all own risk by using this service**.\n- This bot is not a bank, don\'t use it as one.\n- Large balances are not recommended.\n- This is to tip small amounts of QRL, not to trade.\n- No private keys will be shared for your address.\n- Any abuse of the service will result in a ban and if warranted legal action.\n\n**Please Tip Responsibly**');
+              message.channel.stopTyping(true);
+              ReplyMessage(':white_check_mark: Your signed up!\nFor a list of my commands type `+help`');
+            })
+            .catch(error => {
+              console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+              message.channel.stopTyping(true);
+              message.reply('it seems like I can\'t DM you! Enable DM and try `+add` again...');
+              // react to the users message for fun
+            });
+          message.channel.stopTyping(true);
+          return userresponse;
+        });
+      });
+      return;
+    }
+    else if (args[0] !== undefined && args[1] !== undefined) {
+      // console.log('more than one user given, one only...');
+      return;
+    }
+// make whole to here remove above to previous comments after testing    
+    else if (args[0] == undefined) {
+=======
+      }, 1000);
+    }
+
+    // used for the new user signup. Add the new users address to the faucet and drip them some funds
+    function dripAmount(min, max) {
+      const minAmt = min * 1000000000;
+      const maxAmt = max * 1000000000;
+      // console.log('min: ' + minAmt + ' max: ' + maxAmt);
+      const randomNumber = Math.floor(
+        Math.random() * (maxAmt - minAmt) + minAmt
+        );
+      const num = randomNumber / 1000000000;
+      // console.log('Random number ' + num);
+      return num;
+    }
+    const dripamt = dripAmount(config.faucet.min_payout, config.faucet.max_payout);
+
     if (args[0] == undefined) {
+>>>>>>> master
       checkUserpromise.then(function(result) {
         const output = JSON.parse(JSON.stringify(result));
         // console.log('output: ' + output);
@@ -71,7 +164,11 @@ module.exports = {
             }).then(function(reply) {
 
               //  embed a message to the user with account details
+<<<<<<< HEAD
+              const userBalance = reply.wallet_bal / 1000000000
+=======
               const userBalance = reply.wallet_bal / 1000000000;
+>>>>>>> master
               // console.log('userBalance ' + userBalance);
               const embed = new Discord.MessageEmbed()
                 .setColor(0x000000)
@@ -80,6 +177,10 @@ module.exports = {
                 .setFooter(`TipBot Donation Address: ${config.bot_details.bot_donationAddress}`)
                 .addField('Your QRL Wallet Public Address::', '[' + reply.wallet_pub + '](' + config.bot_details.explorer_url + '/a/' + walletPub.wallet_pub + ')')
                 .addField('Your QRL Wallet Balance:\t', `\`${userBalance}\``)
+<<<<<<< HEAD
+                .addField('If you are expecting faucet funds, they take time. Please be paitent!', ` `)
+=======
+>>>>>>> master
                 .addField('For all of my commands:\t', '`+help`');
               message.author.send({ embed })
                 .then(() => {
@@ -100,7 +201,11 @@ module.exports = {
         else if (found === 'false') {
           // user is not found in database. Do things here to add them
           // Create user wallet
+<<<<<<< HEAD
+          ReplyMessage('Adding your address to the system. This will take a bit.')
+=======
           ReplyMessage('Adding your address to the system. This will take a bit.');
+>>>>>>> master
           const qrlWal = wallet.CreateQRLWallet;
           const WalletPromise = qrlWal();
           WalletPromise.then(function(address) {
@@ -176,7 +281,11 @@ Use of this TipBot and any function it may provide to you, as the user, is at yo
 
 __**IF YOU AGREE TO THESE TERMS**__ \`+agree\`
 __**IF YOU DO NOT AGREE TO THESE TERMS**__ \`+opt-out\`
+<<<<<<< HEAD
+                    `)
+=======
                     `);
+>>>>>>> master
                     message.channel.stopTyping(true);
                     ReplyMessage(':white_check_mark: Your signed up!\nFor a list of my commands type `+help`\nBonus! You\'ll receive* ***' + dripamt + ' Quanta*** from the faucet!. *Faucet payments can take up to 10 min to reflect in a users wallet.*');
                 })
