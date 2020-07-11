@@ -32,7 +32,7 @@ const nownow = NOW.toDateString();
 client.on('ready', () => {
 console.log(chalk`
 {cyan ==========================================}
-{cyan Discord TipBot Started at: {green {dim ${nownow}}}}
+{cyan Discord TipBot Started: {green {dim ${nownow}}}}
   {blue {cyan {bold !}} Connected to {grey ${client.guilds.cache.size}} guilds }
   {blue {cyan {bold !}} Connected to {grey ${client.users.cache.size}} users } 
   {blue {cyan {bold !}} Connected to {grey ${client.channels.cache.size}} channels }
