@@ -44,10 +44,6 @@ console.log(chalk`
 
 
 
-console.log('something: ' + chalk.green(JSON.stringify(client.users)));
-
-
-
 // attempt to open the prefix
 const escapeRegex = str => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
