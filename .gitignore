@@ -1,6 +1,7 @@
 auth.json
 **config.json
 env_var
+discord_bot.log*
 
 # dependencies
 node_modules

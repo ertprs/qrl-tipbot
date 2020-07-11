@@ -1,8 +1,6 @@
 # Faucet Setup and Configuration
 
-> This is a giant to-do on the list. This document is a building document and not the final solution.
-
-> Give away coins to users who ask. Track the user so double takes are not available and configure amount low enough that it is not worth hacking multiple accounts.
+> Give away coins to users who ask. Track the user so double takes are not available and configure amount low enough that it is not worth hacking multiple accounts to pull from the faucet.
 
 Setup the faucet to work with a user from social media. Track the users faucet rewards and drip to the user a limited amount per day. This will allow giving a distributed group a small reward while requiring they participate in the social media channels the bot is deployed to.
 

@@ -5,7 +5,7 @@ module.exports = {
   aliases: ['join', 'signup', 'su'],
   guildOnly: false,
   usage: ' \n## Add you\'re user to the QRL TipBot, creates an address and allows tipping. *You must allow DM to use the bot.*',
-  cooldown: 30,
+  cooldown: 60,
 
   execute(message, args) {
     const Discord = require('discord.js');
@@ -47,23 +47,13 @@ module.exports = {
     }
     const dripamt = dripAmount(config.faucet.min_payout, config.faucet.max_payout);
 
-// Remove this before final release...
-// adds any user mentioned to the system, wallet and account setup.
-    if (args[0] !== undefined && args[1] == undefined) {
-      // add user
+    // use to send a reply to user with delay and stop typing
+    function ReplyMessage(content) {
       message.channel.startTyping();
-      // user is not found in database. Do things here to add them
-      // Create user wallet
-      const qrlWal = wallet.CreateQRLWallet;
-      const WalletPromise = qrlWal(config.wallet.height, config.wallet.num_slaves, config.wallet.hash_function);
-      WalletPromise.then(function(address) {
-        const QRLaddress = JSON.parse(address);
-        const uta = args[0];
-        const discord_id = uta.slice(1, -1);
-        const userNAME = message.mentions.users.first().username;
-        const wallet_pub = QRLaddress.address;
-        const userInfo = { service: 'discord', service_id: discord_id, user_name: userNAME, wallet_pub: wallet_pub, wallet_bal: 0, user_key: salt, user_auto_created: true, auto_create_date: new Date(), opt_out: false, optout_date: new Date() };
+      setTimeout(function() {
+        message.reply(content);
         message.channel.stopTyping(true);
+<<<<<<< HEAD
         return userInfo;
       }).then(function(userInfo) {
         // add user to the database and create an account
@@ -132,6 +122,26 @@ module.exports = {
     }
 // make whole to here remove above to previous comments after testing    
     else if (args[0] == undefined) {
+=======
+      }, 1000);
+    }
+
+    // used for the new user signup. Add the new users address to the faucet and drip them some funds
+    function dripAmount(min, max) {
+      const minAmt = min * 1000000000;
+      const maxAmt = max * 1000000000;
+      // console.log('min: ' + minAmt + ' max: ' + maxAmt);
+      const randomNumber = Math.floor(
+        Math.random() * (maxAmt - minAmt) + minAmt
+        );
+      const num = randomNumber / 1000000000;
+      // console.log('Random number ' + num);
+      return num;
+    }
+    const dripamt = dripAmount(config.faucet.min_payout, config.faucet.max_payout);
+
+    if (args[0] == undefined) {
+>>>>>>> master
       checkUserpromise.then(function(result) {
         const output = JSON.parse(JSON.stringify(result));
         // console.log('output: ' + output);
@@ -154,7 +164,11 @@ module.exports = {
             }).then(function(reply) {
 
               //  embed a message to the user with account details
+<<<<<<< HEAD
               const userBalance = reply.wallet_bal / 1000000000
+=======
+              const userBalance = reply.wallet_bal / 1000000000;
+>>>>>>> master
               // console.log('userBalance ' + userBalance);
               const embed = new Discord.MessageEmbed()
                 .setColor(0x000000)
@@ -163,7 +177,10 @@ module.exports = {
                 .setFooter(`TipBot Donation Address: ${config.bot_details.bot_donationAddress}`)
                 .addField('Your QRL Wallet Public Address::', '[' + reply.wallet_pub + '](' + config.bot_details.explorer_url + '/a/' + walletPub.wallet_pub + ')')
                 .addField('Your QRL Wallet Balance:\t', `\`${userBalance}\``)
+<<<<<<< HEAD
                 .addField('If you are expecting faucet funds, they take time. Please be paitent!', ` `)
+=======
+>>>>>>> master
                 .addField('For all of my commands:\t', '`+help`');
               message.author.send({ embed })
                 .then(() => {
@@ -184,9 +201,13 @@ module.exports = {
         else if (found === 'false') {
           // user is not found in database. Do things here to add them
           // Create user wallet
+<<<<<<< HEAD
           ReplyMessage('Adding your address to the system. This will take a bit.')
+=======
+          ReplyMessage('Adding your address to the system. This will take a bit.');
+>>>>>>> master
           const qrlWal = wallet.CreateQRLWallet;
-          const WalletPromise = qrlWal(config.wallet.height, config.wallet.num_slaves, config.wallet.hash_function);
+          const WalletPromise = qrlWal();
           WalletPromise.then(function(address) {
             const QRLaddress = JSON.parse(address);
             const discord_id = '@' + MessageAuthorID;
@@ -260,7 +281,11 @@ Use of this TipBot and any function it may provide to you, as the user, is at yo
 
 __**IF YOU AGREE TO THESE TERMS**__ \`+agree\`
 __**IF YOU DO NOT AGREE TO THESE TERMS**__ \`+opt-out\`
+<<<<<<< HEAD
                     `)
+=======
+                    `);
+>>>>>>> master
                     message.channel.stopTyping(true);
                     ReplyMessage(':white_check_mark: Your signed up!\nFor a list of my commands type `+help`\nBonus! You\'ll receive* ***' + dripamt + ' Quanta*** from the faucet!. *Faucet payments can take up to 10 min to reflect in a users wallet.*');
                 })

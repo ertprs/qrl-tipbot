@@ -85,7 +85,6 @@ def relayTransferTxnBySlave(addresses_to, amounts, feeShor, master_address):
   return(jsonResponse)
 
 tx = relayTransferTxnBySlave(addresses_to, amount_toSend, feeShor, master_address)
-
 tx_hash = tx['tx']['transaction_hash']
 UpdateSQL = ("UPDATE faucet_payouts SET faucet_payouts.paid = 1, faucet_payouts.updated_at = '%s', faucet_payouts.tx_hash = '%s' WHERE faucet_payouts.paid = 0" % (current_time, tx_hash))
 

@@ -7,11 +7,9 @@ You will set the configuration for the database in the main configuration file. 
 Look for the [#database] section there and add your details.
 
 
-### DB Install
+## DB Install
 
-you will need to install the database for your system following the best installation guide for the various system.
-
-for this guide, we have chosen MySQL.
+Wwe have chosen MySQL for this project.
 
 ```bash
 ## Install the database
@@ -25,10 +23,11 @@ Follow along and accept the defaults, setting the new root Password
 
 #### DB Config
 
-> MYSQL Database needs to exist prior to running this script.
+> MYSQL Database needs to exist prior to running this script. You will also need a config file `/_config/config.json` with the connection details for the script to work!
 
-MySQL requires a user be allowed privileges for the database you want to use. We will create a user, a database, and give all access to this user. Replace anything in a `{  }` with the same thing in the `{config.database.{SETTING}}` from your config. It must match!
+MySQL requires a user be allowed privileges for the database you want to use. We create a user, a database, and give all access to this user. 
 
+Replace anything in a `{  }` with your info
 
 ```bash
 # since we have restricted the root account su to root
@@ -41,6 +40,13 @@ CREATE USER '{DATABASE_USER}'@'localhost' IDENTIFIED BY 'password';
 GRANT ALL PRIVILEGES ON {DATABASE_NAME} . * TO '{DATABASE_USER}'@'localhost';
 FLUSH PRIVILEGES;
 
+```
+
+With a database setup, create the bot tables using the `/_scripts/db/dbCreate.js` script. this will create all of the tables found in [The Tables Doc](tables.md)
+
+
+```bash
+npm run build_database
 ```
 
 ## Configuration
@@ -56,8 +62,3 @@ The `_config/config.js.example` file is meant to give a framework of all of the 
     "db_port" : "3006"
   },
 ```
-
-
-## Writing to DB
-
-Using the dbHelpers file we write and read various things from the database. this is then interacted with in the various commands from the social media accounts.
