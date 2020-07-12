@@ -1,21 +1,13 @@
 /*
-
-
 npm install mysqldump
-
 */
-
 /*
 NEED TO WRITE
-
 Need a recover script to rebuild the bot!
-
 */
-
-
 // Script to backup all of the files needed to run the bot
 // This file will accept variables and do things with them
-//  to backup to various services. 
+//  to backup to various services.
 // By default the script only backs up the files locally.
 // Keep track of when the script was ran last in teh .last_run file located in this directory.
 
@@ -41,6 +33,17 @@ const last_run_file_path = '__dirname/.last_run';
 // const last_run = fs.readFileSync(last_run_file_path);
 // const last__run_data = JSON.parse(last_run);
 const mysqldump = require('mysqldump');
+
+// calculate if it has been $days since the last backup
+function checkDate(days) {
+  const date = new Date();
+  const last = new Date(date.getTime() - (days * 24 * 60 * 60 * 1000));
+  const day = last.getDate();
+  const month = last.getMonth() + 1;
+  const year = last.getFullYear();
+  const daysData = { date: date, last: last, day: day, month: month, year: year };
+  return daysData;
+}
 
 // function to update the last_run json file
 // data comes in an array { service: (dropbox, webdav, rsync, s3), sha256sum: sha256sum, file_name: file_name }
@@ -109,28 +112,26 @@ Keep backups for the last month in various snapshots
 - Save the last 24Hrs (Save every hour, on the hour)
 - Write the roll update to thelast_run file
 */
-
 // set the time now into a variable
 const now = new Date();
 
 now.setDate(now.getDate()-7);
-var mydatestring =   // from the json file, change for each in the file... format should be - '2016-07-26T09:29:05.00';
+
+var mydatestring =  ''; // from the json file, change for each in the file... format should be - '2016-07-26T09:29:05.00';
 var mydate = new Date(mydatestring);
 var difference = now - mydate; // difference in milliseconds
 const TOTAL_MILLISECONDS_IN_A_WEEK = 1000 * 60 * 24 * 7;
 
 if (Math.floor(difference / TOTAL_MILLISECONDS_IN_A_WEEK) >= 7) {
-    console.log("Current date is more than 7 days older than : " + mydatestring);
+    console.log('Current date is more than 7 days older than : ' + mydatestring);
 }
-
-
-
-
 
 }
 // tar everything
 // Take all files and tar tehm into one condensed file to send in email?
 
+const week = checkDate(7);
+console.log(week);
 
 // Upload files to webdav
 
