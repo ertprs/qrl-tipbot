@@ -113,7 +113,7 @@ Keep backups for the last month in various snapshots
 - Write the roll update to thelast_run file
 */
 // set the time now into a variable
-const now = new Date();
+/* const now = new Date();
 
 now.setDate(now.getDate()-7);
 
@@ -125,7 +125,7 @@ const TOTAL_MILLISECONDS_IN_A_WEEK = 1000 * 60 * 24 * 7;
 if (Math.floor(difference / TOTAL_MILLISECONDS_IN_A_WEEK) >= 7) {
     console.log('Current date is more than 7 days older than : ' + mydatestring);
 }
-
+*/
 }
 // tar everything
 // Take all files and tar tehm into one condensed file to send in email?

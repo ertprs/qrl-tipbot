@@ -34,7 +34,6 @@
     "min_payout" : "0.000000001",
     "max_payout" : "0.5"
   },
-  {
   "backup" : {
     "location" : "",
     "encPass" : "",
