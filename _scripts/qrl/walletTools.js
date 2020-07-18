@@ -47,7 +47,6 @@ async function sendQuanta(args) {
     // console.log('no args passed to sendQuanta... something is wrong. ');
     return ;
   }
-
 }
 
 // list all wallets

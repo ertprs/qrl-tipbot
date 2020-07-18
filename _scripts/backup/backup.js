@@ -1,138 +1,148 @@
-/*
-
-
-npm install mysqldump
-
-*/
-
-/*
-NEED TO WRITE
-
-Need a recover script to rebuild the bot!
-
-*/
-
-
 // Script to backup all of the files needed to run the bot
-// This file will accept variables and do things with them
-//  to backup to various services. 
-// By default the script only backs up the files locally.
-// Keep track of when the script was ran last in teh .last_run file located in this directory.
+// curently dumps all files into the directory detailed in the config file config.backup.location
+// Run cron jobs to move these and tar things up plus send to another server.
+// Run this every hour, on the hour  0 */1 * * * /usr/bin/nodejs /home/$USER/qrl-tipbot/_scripts/backup/backup.js && /home/$USER/qrl-tipbot/_scripts/backup/backup.sh
 
-// const webdav = require('webdav');
-// const aws = require('awsSDK');
 
 const fs = require('fs');
 const crypto = require('crypto');
 const config = require('../../_config/config.json');
-
-
-/*
-The file /_scripts/backup/.last_run will hold all of the relavant information for
-each file that was backed up, including the sha256sum of the file when created.
-This file will track the last run, last rolled, and allow tracking of when we should do things
-// FEATURE - Add signing functions from the qrl-cli lattice keys and track this in
-	ephemeral communications to a private location. Also signing and encrypting with the
-	lattice keys would add validity to that system and security to this one.
-	or notorize it on the chain using the Public Bot wallet
-*/
-
-const last_run_file_path = '__dirname/.last_run';
-// const last_run = fs.readFileSync(last_run_file_path);
-// const last__run_data = JSON.parse(last_run);
+const path = require('path');
+const zlib = require('zlib');
+const { Transform } = require('stream');
 const mysqldump = require('mysqldump');
+const date1 = Date.now();
 
-// function to update the last_run json file
-// data comes in an array { service: (dropbox, webdav, rsync, s3), sha256sum: sha256sum, file_name: file_name }
-function updateLastRun(data) {
-	const time_now = new Date();
-	const updated_info = {
-		service: data.service,
-		sha256sum: data.sha256sum,
-		file_name: data.file_name,
-		last_updated: time_now,
-	};
-	const update = JSON.stringify(updated_info, null, 2);
-	// check for file? may not need this at all...
-	try {
-		if (fs.existsSync(last_run_file_path)) {
-			// file exists, send the update info
-			fs.writeFileSync(update);
-			console.log('Updated last_run with this data:\n' + update);
-		}
-		else {
-			console.log('no file found at: ' + last_run_file_path);
-		}
-	}
-	catch(err) {
-		console.error(err);
-		}
+// Cryptographic functions for encryption
+function getCipherKey(password) {
+  return crypto.createHash('sha256').update(password).digest();
+}
+
+class AppendInitVect extends Transform {
+  constructor(initVect, opts) {
+    super(opts);
+    this.initVect = initVect;
+    this.appended = false;
+  }
+
+  _transform(chunk, encoding, cb) {
+    if (!this.appended) {
+      this.push(this.initVect);
+      this.appended = true;
+    }
+    this.push(chunk);
+    cb();
+  }
+}
+
+function encrypt({ file, password }) {
+module.exports = AppendInitVect;
+  // Generate a secure, pseudo random initialization vector.
+  const initVect = crypto.randomBytes(16);
+
+  // Generate a cipher key from the password.
+  const CIPHER_KEY = getCipherKey(password);
+  const readStream = fs.createReadStream(file);
+  const gzip = zlib.createGzip();
+  const cipher = crypto.createCipheriv('aes256', CIPHER_KEY, initVect);
+  const appendInitVect = new AppendInitVect(initVect);
+  // Create a write stream with a different file extension.
+  const writeStream = fs.createWriteStream(path.join(file + '.enc'));
+  readStream
+    .pipe(gzip)
+    .pipe(cipher)
+    .pipe(appendInitVect)
+    .pipe(writeStream);
 }
 
 // sha256sum file. Send the file location to sum
-function sha256sum(file) {
+async function sha256sum(file) {
+  return new Promise(function(resolve) {
 	// change the algo to sha1, sha256 etc according to your requirements
 	const algo = 'sha256';
 	const shasum = crypto.createHash(algo);
-
 	const s = fs.ReadStream(file);
 	s.on('data', function(d) { shasum.update(d); });
 	s.on('end', function() {
 		const d = shasum.digest('hex');
-		console.log(d);
-		return d;
+		resolve(d);
 	});
+  });
 }
 
 // backup database into a tar.gz file and save in the backup folder
-function sqlBackup() {
-	// dump the result straight to a compressed file
-	mysqldump({
-		connection: {
-			host: config.database.db_host,
-			user: config.database.db_user,
-			password: config.database.db_pass,
-			database: config.database.db_name,
-		},
-		dumpToFile: config.backup.location,
-		compressFile: true,
-	});
+async function sqlBackup() {
+  return new Promise(function(resolve) {
+    // dump the result straight to a compressed file
+    const fileName = date1 + '_tipBotDatabase_Backup.sql';
+    const dumpFilePath = config.backup.location + fileName;
+    mysqldump({
+      connection: {
+        host: config.database.db_host,
+        user: config.database.db_user,
+        password: config.database.db_pass,
+        database: config.database.db_name,
+      },
+        dumpToFile: dumpFilePath,
+        compressFile: false,
+    });
+    // console.log('SQL Backup File written');
+    const results = [dumpFilePath, fileName];
+    resolve(results);
+  });
 }
 
-// Roll files in the backup, moving and removing old backups to manage the size
-function rollFiles() {
-/*
-Keep backups for the last month in various snapshots
-- Monthly backup (first day of the month, Includes the state files)
-- Weekly Backups (Save every Friday of the month @ 00:00)
-- Daily Backups (Save the last week every day @ 00:00)
-- Save the last 24Hrs (Save every hour, on the hour)
-- Write the roll update to thelast_run file
-*/
-
-// set the time now into a variable
-const now = new Date();
-
-now.setDate(now.getDate()-7);
-var mydatestring =   // from the json file, change for each in the file... format should be - '2016-07-26T09:29:05.00';
-var mydate = new Date(mydatestring);
-var difference = now - mydate; // difference in milliseconds
-const TOTAL_MILLISECONDS_IN_A_WEEK = 1000 * 60 * 24 * 7;
-
-if (Math.floor(difference / TOTAL_MILLISECONDS_IN_A_WEEK) >= 7) {
-    console.log("Current date is more than 7 days older than : " + mydatestring);
+const sha256Array = [];
+async function main() {
+  // get the sql database into a dump file.
+  const sqlDumpFile = await sqlBackup();
+  encrypt({ file: sqlDumpFile[0], password: config.backup.encPass });
+  const encSqlDumpFile = sqlDumpFile[0] + '.enc';
+  // console.log('file_encrypted');
+  // console.log(sqlDumpFile);
+  const tarFileArray = [encSqlDumpFile, config.backup.walletFile, config.backup.walletdLog, config.backup.nodeConfig, config.backup.faucetLog, config.backup.botLogFile, config.backup.botConfigFile];
+  // sha256sum those files
+  for (let i = 0; i < tarFileArray.length; i++) {
+    let file = tarFileArray[i];
+    file = file.split('/').pop();
+    // console.log(file);
+    const sha256value = await sha256sum(tarFileArray[i]);
+    sha256Array.push({
+      key: file,
+      value: sha256value,
+    });
+  }
+  // write the sha256 info to file
+  fs.writeFile(config.backup.location + 'sha256sum.txt', JSON.stringify(sha256Array), function(err) {
+    if (err) return console.log(err);
+  // console.log('sha256sum file written');
+  });
+  // copy the remaining files over
+  fs.copyFile(config.backup.walletFile, config.backup.location + 'walletd.json', (err) => {
+    if (err) throw err;
+  // console.log('walletd.json was copied to ' + config.backup.location + 'walletd.json');
+  });
+  fs.copyFile(config.backup.walletdLog, config.backup.location + 'walletd.log', (err) => {
+    if (err) throw err;
+  // console.log('walletd.log was copied to ' + config.backup.location + 'walletd.log');
+  });
+  fs.copyFile(config.backup.nodeConfig, config.backup.location + 'config.yml', (err) => {
+    if (err) throw err;
+  // console.log('nodeConfig was copied to ' + config.backup.location + 'config.yml');
+  });
+  fs.copyFile(config.backup.faucetLog, config.backup.location + 'faucet.log', (err) => {
+    if (err) throw err;
+  // console.log('faucetLog was copied to ' + config.backup.location + 'faucet.log');
+  });
+  fs.copyFile(config.backup.botLogFile, config.backup.location + 'discord_bot.log', (err) => {
+    if (err) throw err;
+  // console.log('botLogFile was copied to ' + config.backup.location + 'discord_bot.log');
+  });
+  fs.copyFile(config.backup.botConfigFile, config.backup.location + 'config.json', (err) => {
+    if (err) throw err;
+  // console.log('botConfigFile was copied to ' + config.backup.location + 'config.json');
+  });
+  console.log('Backup Files written to ' + config.backup.location)
 }
 
-
-
-
-
-}
-// tar everything
-// Take all files and tar tehm into one condensed file to send in email?
-
-
-// Upload files to webdav
-
-
-// Upload files to s3 bucket
+main();

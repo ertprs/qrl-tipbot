@@ -59,9 +59,12 @@ main().then(function() {
   const holdWalletPromise = qrlWal();
   const botWalletPromise = qrlWal();
   // create the faucet wallet
+  console.log('Create the faucet wallet')
   faucetWalletPromise.then(function(faucet_Wallet_Info) {
     const faucetWalletInfo = JSON.parse(faucet_Wallet_Info);
+    console.log('faucet_wallet_info: ' + JSON.stringify(faucetWalletInfo));
     walletInfoArray.push({ faucetInfo: faucetWalletInfo });
+    console.log('walletInfoArray: ' + JSON.stringify(walletInfoArray));
     // print public key to terminal
     console.log(chalk.cyan.bold('\nFaucet Pub Address: ') + chalk.blue.bold(JSON.stringify(walletInfoArray[0].faucetInfo.address)));
     // get private key and print to terminal

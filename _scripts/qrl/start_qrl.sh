@@ -13,7 +13,9 @@ qrl --version > /dev/null 2>&1 || { echo >&2 "I require QRL but it's not install
 go version > /dev/null 2>&1 || { echo >&2 "I require goLang but it's not installed. Install it.  Aborting."; exit 1; }
 
 sleep 5
-screen -Sdm qrl start_qrl --network-type testnet
+# uncomment hte next line for testnet,
+#screen -Sdm qrl start_qrl --network-type testnet
+screen -Sdm qrl start_qrl
 # let the node get started and connect before we start the proxy
 sleep 5
 # start the qrl_walletd and proxy services
