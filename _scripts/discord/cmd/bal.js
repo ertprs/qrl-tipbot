@@ -57,7 +57,7 @@ module.exports = {
         BalancePromise.then(function(balanceResult) {
           const results = balanceResult.balance;
           const res = ((results / 1000000000).toFixed(9));
-          console.log('res: ' + res + '\nresults: ' + results);
+          // console.log('res: ' + res + '\nresults: ' + results);
           const embed = new Discord.MessageEmbed()
             .setColor(0x000000)
             .setTitle('**Address Balance**')
@@ -87,7 +87,7 @@ module.exports = {
       const checkUserPromise = checkUser({ service: 'discord', service_id: userName });
       checkUserPromise.then(function(result) {
         const output = JSON.parse(JSON.stringify(result));
-        console.log(result);
+        // console.log(result);
         const found = output[0].user_found;
         if (found !== 'true') {
           message.channel.stopTyping(true);
