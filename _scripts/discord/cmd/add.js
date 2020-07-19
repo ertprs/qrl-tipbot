@@ -24,6 +24,8 @@ module.exports = {
     const userName = username.slice(1, -1);
     const user_info = { service: 'discord', user_id: userName };
     const checkUserpromise = checkUser(user_info);
+    const getBalance = wallet.GetBalance;
+
     // use to send a reply to user with delay and stop typing
     function ReplyMessage(content) {
       message.channel.startTyping();
@@ -31,6 +33,17 @@ module.exports = {
         message.reply(content);
         message.channel.stopTyping(true);
       }, 1000);
+    }
+
+    async function faucetBalance() {
+      return new Promise(function(resolve) {
+      // using the faucet address check for a balance
+      const walletAddress = config.faucet.faucet_wallet_pub;
+      getBalance(walletAddress).then(function(balance) {
+      // getBalance('Q000300636e629ad3f50791cb2bfb9ed28010f0b072ba1f860763ef634d51225e4e1782f686547e').then(function(balance) {
+          resolve(balance);
+      });
+    });
     }
 
     // used for the new user signup. Add the new users address to the faucet and drip them some funds
@@ -45,7 +58,7 @@ module.exports = {
       // console.log('Random number ' + num);
       return num;
     }
-    const dripamt = dripAmount(config.faucet.min_payout, config.faucet.max_payout);
+    let dripamt = dripAmount(config.faucet.min_payout, config.faucet.max_payout);
 
     if (args[0] == undefined) {
       checkUserpromise.then(function(result) {
@@ -106,6 +119,13 @@ module.exports = {
             const QRLaddress = JSON.parse(address);
             const discord_id = '@' + MessageAuthorID;
             const wallet_pub = QRLaddress.address;
+
+            faucetBalance().then(function(faucBal) {
+              if (faucBal <= dripamt) {
+                // console.log('Faucet is flat or less than needed for drip')
+                let dripamt = 0;
+                return dripamt;
+              }
             const userInfo = { service: 'discord', service_id: discord_id, user_name: MessageAuthorUsername, wallet_pub: wallet_pub, wallet_bal: 0, user_key: salt, user_auto_created: false, auto_create_date: new Date(), opt_out: false, optout_date: new Date(), drip_amt: dripamt };
             // console.log('userInfo:' + JSON.stringify(userInfo));
             message.channel.stopTyping();
@@ -178,7 +198,7 @@ __**IF YOU DO NOT AGREE TO THESE TERMS**__ \`+opt-out\`
 
                     `);
                     message.channel.stopTyping(true);
-                    ReplyMessage(':white_check_mark: Your signed up!\nFor a list of my commands type `+help`\nBonus! You\'ll receive* ***' + dripamt + ' Quanta*** from the faucet!. *Faucet payments can take up to 10 min to reflect in a users wallet.*');
+                    ReplyMessage(':white_check_mark: Your signed up!\nFor a list of my commands type `+help` or get started by depositing funds to your new address, `+deposit`\n\n**Bonus!** You\'ll receive some Quanta from the faucet when funds are available! Come back for more faucet funds once a day.\n*Faucet payments can take up to 10 min to reflect in a users wallet. Faucet funds must be available at the time of signup*');
                 })
                 .catch(error => {
                   console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
@@ -194,6 +214,7 @@ __**IF YOU DO NOT AGREE TO THESE TERMS**__ \`+opt-out\`
               return userresponse;
             });
           });
+      });
         }
       });
     }
