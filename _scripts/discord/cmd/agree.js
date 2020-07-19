@@ -39,7 +39,7 @@ module.exports = {
       // user found, check for already set agree
         const check_info = { service: 'discord', user_id: user_id };
         // console.log('check_info: ' + JSON.stringify(check_info));
-        if (foundRes[0].user_agree === false) {
+        if (foundRes[0].user_agree == false) {
           // user has not agreed...
           const agree = dbHelper.agree({ service: 'discord', user_id: user_id });
           agree.then(function(results) {

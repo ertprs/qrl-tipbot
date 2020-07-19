@@ -32,7 +32,7 @@ module.exports = {
     }
     // check for args and if found give that wallet balance
     if (args.length) {
-      // Delete the prevoius message
+      // Delete the previous message
       if(message.guild != null) {
         message.channel.stopTyping(true);
         message.delete();
@@ -103,7 +103,7 @@ module.exports = {
         const user_agree = result[0].user_agree;
         if (user_agree !== 'true') {
           message.channel.stopTyping(true);
-          ReplyMessage('You\'ve previously opted out of the tipbot. Please send `+opt-in` to opt back in!');
+          ReplyMessage('You must agree to the tipbot terms `+terms` to read then `+agree`');
           return;
         }
         const UserAddress = result[0].wallet_pub;
