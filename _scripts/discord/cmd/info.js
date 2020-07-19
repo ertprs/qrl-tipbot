@@ -17,7 +17,7 @@ module.exports = {
     }, 1000);
   }
 
-  ReplyMessage('TipBot Info -\nIf you would like to support the bot, use the donation addresses below, or simply tip the bot.\n **Faucet Dontaion Address:** `' + config.faucet.faucet_wallet_pub + '`\n**Tipbot Donation Address:** `' + config.bot_details.bot_donationAddress + '`');
+  ReplyMessage('If you would like to support the bot, use the donation addresses below, or simply tip the bot `+tip {amount} @QRL.Tips`\n\n**Faucet Donation Address:** `' + config.faucet.faucet_wallet_pub + '`\n**Tipbot Donation Address:** `' + config.bot_details.bot_donationAddress + '`');
 
   },
 };
