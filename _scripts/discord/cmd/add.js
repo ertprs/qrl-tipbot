@@ -172,33 +172,47 @@ module.exports = {
                 .addField('Your QRL Wallet Public Address::', '[' + userAddress + '](' + config.bot_details.explorer_url + '/a/' + userAddress + ')')
                 .addField('Your QRL Wallet Balance:\t', '0')
                 .setImage(userInfo.wallet_qr)
+                .addField('**Bonus!** You\'ll receive some Quanta from the faucet when funds are available! Come back for more faucet funds once a day. *Faucet payments can take up to 10 min to reflect in a users wallet and funds must be available at the time of signup*')
                 .addField('For all of my commands:\t', '`+help`');
               message.author.send({ embed })
                 .then(() => {
                   if (message.channel.type === 'dm') return;
                     message.author.send(` 
             __**TipBot Terms and Conditions**__
-Use of this TipBot and any function it may provide to you, as the user, is at your risk. By using this service you agree to hold Tipbot, it's operators and all parties involved at no financial responsibility for any loss or perceived loss you may incur by using this service. By using this service you agree to not hold liable, for any reasons the owner, operators or any affiliates of the QRL TipBot, qrl.tips or any other party associated with this service. By using this service, you agree to not abuse or misuse the service. Abuse of this service may result in a ban from the service and if warrented legal action may be taken. By using this service you as the user agree to share information about your social media aaccount that was used to sign up to the service. At no point will this information be sold or used for any purpose other than this TipBot service.
 
-**You take all risk by using this service and agree to not hold liable the owners and operators for any reason**
+Use of this TipBot and any function it may provide to you, as the user, is at your risk. By using this service you agree to not hold liable, for any reasons, the owner, operators, or any affiliates of the QRL TipBot, qrl.tips or any other party associated with this service.
+
+- By using this service, you agree to not abuse or misuse the service and will follow the rules listed below. 
+- Abuse of this service may result in a ban from the service and if warranted legal action may be taken. 
+- By using this service you agree to share information about your social media account used for signup to the TipBot service including but not limited to, service user name(s), service user ID(s), all interactions and messages with the bot, and any other public information available through the social media API services.
+  - At no point will this information be sold or used for any purpose other than this TipBot service, and is only stored for the purpose of managing your accounts.
+- The Tip Bot will never share any Private Keys with the user. 
+  - All funds must be withdrawn to a user controlled account. 
+  - Any funds left on the bot may be lost at any time, and the user agrees that this is an acceptable loss. 
+  - Funds shall be withdrawn from the bot regularly into user controlled wallets.
+  - Users will not store large amounts of funds in any tipbot wallet
+
+**You assume all risk by using this service**
 
                     `);
                     message.author.send(`
-            :exclamation: __**RULES**__ :exclamation:
-:small_orange_diamond: *This service is for tipping or giving small amounts of QRL to other users, You agree to not use this to trade currency or for any other reason*
-:small_orange_diamond: *You will not store large amounts of QRL in this address*
-:small_orange_diamond: *Any balance that is larger than you are willing to lose, you take responsibility for transfering out of the tipbot, using the \`+transfer\` function*
-:small_orange_diamond: *You will not break any law, in any jurisdiction by using this bot in any way that is not intended or identified in these rules *
-:small_orange_diamond: *Any tips sent to a user that has not signed up will be saved for that user for a length of time determined by the bot owner. Failure of the user to collect tips in this time may result in a loss of funds for that user.*
-:small_orange_diamond: *Tips will never be refunded or returned to a user, for any reason. A tip is final once sent.*
-:small_orange_diamond: *Any abuse of the service will result in a ban and if warranted legal action.*
+           :exclamation: __**RULES**__ :exclamation:
 
-__**IF YOU AGREE TO THESE TERMS**__ \`+agree\`
-__**IF YOU DO NOT AGREE TO THESE TERMS**__ \`+opt-out\`
+:small_orange_diamond: *All tips are final once sent. Tips will never be refunded or returned to a user, for any reason.*
+:small_orange_diamond: *This service is for tipping or giving small amounts of QRL to other users.*
+:small_orange_diamond: *You agree to not store or trade currency or for any other reason than tipping users.*
+:small_orange_diamond: *You will not store large amounts of QRL in this address at any time.*
+:small_orange_diamond: *You take full responsibility for transferring funds out of the Tipbot, using the \`+transfer\` function into wallets you control.
+:small_orange_diamond: *You will not use this bot if it will in any way break any law, in any jurisdiction. \`+opt-out\` to disable your account.*
+:small_orange_diamond: *You will not use this bot in any way that is not intended or identified in these rules.*
+:small_orange_diamond: *Any tips sent to a user that has not signed up will be saved by the bot for that user. Failure of the user to collect tips in this time may result in a loss of funds for that user and they will not be returned to the sender. These lost tips will fund the faucet and cover any operational costs that may incur.*
+:small_orange_diamond: *Any abuse of the service will result in a ban, and if warranted legal action may be taken accordingly. Funds will not be returned to banned users.*
 
+**If you *AGREE* to these terms, type:** \`+agree\`
+**If you *DO NOT AGREE* to these terms, type:** \`+opt-out\`
                     `);
                     message.channel.stopTyping(true);
-                    ReplyMessage(':white_check_mark: Your signed up!\nFor a list of my commands type `+help` or get started by depositing funds to your new address, `+deposit`\n\n**Bonus!** You\'ll receive some Quanta from the faucet when funds are available! Come back for more faucet funds once a day.\n*Faucet payments can take up to 10 min to reflect in a users wallet. Faucet funds must be available at the time of signup*');
+                    ReplyMessage(':white_check_mark: Your signed up! For a list of my commands type `+help` or get started by depositing funds to your tipbot address, `+deposit`');
                 })
                 .catch(error => {
                   console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
