@@ -11,7 +11,9 @@ module.exports = {
     message.author.send(` 
             __**TipBot Terms and Conditions**__
 
-Use of this TipBot and any function it may provide to you, as the user, is at your risk. By using this service you agree to not hold liable, for any reasons, the owner, operators, or any affiliates of the QRL TipBot, qrl.tips or any other party associated with this service.
+:small_orange_diamond: Use of this TipBot and any function it may provide to you, as the user, is at your risk.
+
+:small_orange_diamond: By using this service you agree to not hold liable, for any reasons, the owner, operators, or any affiliates of the QRL TipBot or anyone associated with this service.
 
 :small_orange_diamond: By using this service, you agree to not abuse or misuse the service and will follow the rules listed below. 
 
@@ -31,7 +33,7 @@ Use of this TipBot and any function it may provide to you, as the user, is at yo
 
 :small_orange_diamond: Users will not store large amounts of funds in any tipbot wallet
 
-**You assume all risk by using this service**
+__**You assume all risk by using this service**__
 
                     `);
                     message.author.send(`
