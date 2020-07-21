@@ -64,6 +64,7 @@ function getPoolInfo() {
 function faucetWalletBalance() {
   return new Promise(resolve => {
     const walletBal = wallet.GetBalance;
+    console.log('faucet Address: ' + config.faucet.faucet_wallet_pub);
     resolve(walletBal(config.faucet.faucet_wallet_pub));
   });
 }
