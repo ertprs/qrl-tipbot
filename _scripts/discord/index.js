@@ -5,7 +5,6 @@
 const fs = require('fs');
 const chalk = require('chalk');
 const Discord = require('discord.js');
-
 const wallet = require('../qrl/walletTools');
 const explorer = require('../qrl/explorerTools');
 const cgTools = require('../coinGecko/cgTools');
@@ -170,7 +169,7 @@ let counter = 0;
   if(counter === 5) {
     // call the function and get the results
     faucetBal().then(function(faucetBalResp) {
-      // console.log(JSON.stringify(faucetBalResp[0].faucetBal))
+      console.log(JSON.stringify(faucetBalResp[0].faucetBal))
       const data = faucetBalResp[0].faucetBal;
       const faucetBalQuanta = (data.balance / 1000000000).toFixed(1);
       // console.log(faucetBalQuanta)
