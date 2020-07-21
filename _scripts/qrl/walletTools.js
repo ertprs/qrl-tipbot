@@ -95,6 +95,7 @@ async function GetBalance(args) {
   // using the wallet API get this info and return to script
   if (args !== null) {
     const { stdout, stderr } = await exec('curl -s -XPOST http://127.0.0.1:5359/api/GetBalance -d \'{"address": "' + args + '"}\' |jq .balance');
+    console.log('curl -s -XPOST http://127.0.0.1:5359/api/GetBalance -d \'{"address": "' + args + '"}\' |jq .balance')
     if (stderr) {
       console.error(`error: ${stderr}`);
     }
