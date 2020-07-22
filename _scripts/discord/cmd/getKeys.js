@@ -67,7 +67,7 @@ module.exports = {
               .setColor(0x000000)
               .setTitle('**TipBot Secret Info**')
               .setDescription('Protect these keys, they give anyone access to all of your funds!')
-              .addField(`User Private Keys:\n${keys}`)
+              .addField(`User Private Keys: ${keys}`)
               .addField('Use the QRL Wallet to withdraw funds:', '[QRL Web Wallet](' + config.wallet.wallet_url + ')')
               // figure out how to attach the qr image here...
               .addField('For all of my commands:\t', '`+help`');
