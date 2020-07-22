@@ -225,10 +225,10 @@ async function GetSecretKeys(args) {
     if (stderr) {
       console.error(`error: ${stderr}`);
     }
-    console.log('stdout: ' + stdout)
     const output = JSON.stringify(stdout);
     // const output = stdout.slice(1, -2);
-    const returnData = { mnemonic: output.mnemonic, hexseed: output.hexseed };
+    console.log('output: ' + output)
+    const returnData = { mnemonic: output[0].mnemonic, hexseed: output.hexseed };
     return returnData;
   }
   else {
