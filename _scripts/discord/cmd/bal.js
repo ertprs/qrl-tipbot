@@ -125,7 +125,8 @@ module.exports = {
             .setColor(0x000000)
             .setTitle('Tipbot Balance - ' + res + ' QRL')
             .addField('Balance:', `\`${res} QRL\``, true)
-            .addField('Explorer:', '[explorer.theqrl.org](' + config.bot_details.explorer_url + '/a/' + UserAddress + ')', true)
+            // .addField('Explorer:', '[explorer.theqrl.org](' + config.bot_details.explorer_url + '/a/' + UserAddress + ')', true)
+            .addField('QRL Address:', '[' + UserAddress + '](' + config.bot_details.explorer_url + '/a/' + UserAddress + ')')
             .addField('Transactions may take a some time to post. Please be patient')
             .setFooter('Tip the bot!\n\n+tip 1 @' + config.bot_details.bot_name + '\n\nOr send a donation to:\n' + config.bot_details.bot_donationAddress);
           message.author.send({ embed })
