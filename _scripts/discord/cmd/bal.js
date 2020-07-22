@@ -120,6 +120,8 @@ module.exports = {
           const UserBalance = balanceResult.balance;
           console.log(UserBalance);
           // const user_id = result[0].user_id;
+          console.log(result[0].wallet_bal);
+
           message.channel.stopTyping(true);
           const embed = new Discord.MessageEmbed()
             .setColor(0x000000)
