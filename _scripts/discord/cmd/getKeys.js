@@ -59,7 +59,7 @@ module.exports = {
       }
         else {
           // user passed. Continue with script
-          const walletPub = userInfo.wallet_pub;
+          const walletPub = userInfo[0].wallet_pub;
           const userSecretKeyPromise = secretKey(walletPub);
           userSecretKeyPromise.then(function(userSecrets) {
             const keys = JSON.stringify(JSON.parse(userSecrets));
