@@ -118,7 +118,7 @@ module.exports = {
         // assign this to a promise and get the function into a result
         BalancePromise.then(function(balanceResult) {
           const UserBalance = balanceResult.balance;
-          console.log(UserBalance);
+          // console.log(UserBalance);
           const res = ((UserBalance / 1000000000).toFixed(9));
           message.channel.stopTyping(true);
           const embed = new Discord.MessageEmbed()
@@ -126,7 +126,7 @@ module.exports = {
             .setTitle('Tipbot Balance - ' + res + ' QRL')
             .addField('Balance:', `\`${res} QRL\``, true)
             .addField('Explorer:', '[explorer.theqrl.org](' + config.bot_details.explorer_url + '/a/' + UserAddress + ')', true)
-            .setFooter('Transactions may take a some time to post. Please be patient\nTip the bot! `+tip 1 @' + config.bot_details.bot_name + '`');
+            .setFooter('Transactions may take a some time to post. Please be patient\nTip the bot! `+tip 1 @' + config.bot_details.bot_name + '` or send a donation to:\n' + config.bot_details.bot_donationAddress);
           message.author.send({ embed })
             .then(() => {
               if (message.channel.type === 'dm') return;
