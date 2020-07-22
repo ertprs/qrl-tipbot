@@ -1,6 +1,6 @@
 module.exports = {
   name: 'deposit',
-  description: 'Add a user to he QRL TipBot',
+  description: 'Print users wallet info',
   args: false,
   aliases: ['dep', 'fund'],
   guildOnly: false,
