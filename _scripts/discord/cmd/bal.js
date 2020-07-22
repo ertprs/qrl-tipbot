@@ -18,7 +18,7 @@ module.exports = {
 
     function ReplyMessage(content) {
       setTimeout(function() {
-        message.channel(content);
+        message.reply(content);
         message.channel.stopTyping(true);
       }, 1000);
     }
