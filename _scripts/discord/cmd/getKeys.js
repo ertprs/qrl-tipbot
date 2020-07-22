@@ -63,12 +63,12 @@ module.exports = {
           const userSecretKeyPromise = secretKey(walletPub);
           userSecretKeyPromise.then(function(userSecrets) {
             const keys = JSON.stringify(JSON.parse(userSecrets));
-            console.log('userKeys: ' + keys)
             const embed = new Discord.MessageEmbed()
               .setColor(0x000000)
               .setTitle('**TipBot Secret Info**')
               .setDescription('Protect these keys, they give anyone access to all of your funds!')
-              .setFooter(`TipBot Private Keys: ${keys}`)
+              .addField(`Mnemonic: ${keys.mnemonic}`)
+              .addField(`HexSeed: ${keys.hexseed}`)
               .addField('Use the QRL Wallet to withdraw funds:', '[QRL Web Wallet](' + config.wallet.wallet_url + ')')
               // figure out how to attach the qr image here...
               .addField('For all of my commands:\t', '`+help`');
