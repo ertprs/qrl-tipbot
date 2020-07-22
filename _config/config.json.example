@@ -13,6 +13,7 @@
     "height" : "12",
     "hash_function" : "shake128",
     "hold_address" : "Q..."
+    "wallet_url" : "https://wallet.theqrl.org"
   },  
   "database" : {
     "db_name" : "DATABASE_NAME",
