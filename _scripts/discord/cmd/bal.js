@@ -44,7 +44,7 @@ module.exports = {
       // FEATURE ADD -
       // Could serve up the users balance if config.bot.admin requested
       if (message.mentions.users.size > 0) {
-        ReplyMessage('Enter an address to query, or simply `+bal` to get your balance.');
+        ReplyMessage('Invalid entry given...\nEnter an address to query, or simply `+bal` to get your balance.');
         deleteMessage();
         message.channel.stopTyping(true);
         return;
@@ -118,6 +118,7 @@ module.exports = {
         // assign this to a promise and get the function into a result
         BalancePromise.then(function(balanceResult) {
           const UserBalance = balanceResult.balance;
+          console.log(UserBalance);
           // const user_id = result[0].user_id;
           message.channel.stopTyping(true);
           const embed = new Discord.MessageEmbed()
