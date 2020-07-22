@@ -124,7 +124,7 @@ module.exports = {
           const embed = new Discord.MessageEmbed()
             .setColor(0x000000)
             .setTitle('Tipbot Balance - ' + res + ' QRL')
-            .addField('Balance:', `\`${UserBalance.toFixed(9)} QRL\``, true)
+            .addField('Balance:', `\`${res} QRL\``, true)
             .addField('Explorer:', '[explorer.theqrl.org](' + config.bot_details.explorer_url + '/a/' + UserAddress + ')', true)
             .setFooter('Transactions may take a some time to post. Please be patient');
           message.author.send({ embed })
