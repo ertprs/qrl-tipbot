@@ -70,8 +70,7 @@ module.exports = {
             .setDescription('Details from the balance query.')
             .addField('QRL Address Balance:', `\`${res}\``, true)
             .addField('QRL Address:', '[' + givenAddress + '](' + config.bot_details.explorer_url + '/a/' + givenAddress + ')')
-            .setFooter(`TipBot Donation Address: ${config.bot_details.bot_donationAddress}`);
-          message.author.send({ embed })
+            .setFooter('Tip the bot! `+tip 1 @' + config.bot_details.bot_name + '`\nOr send a donation to:\n' + config.bot_details.bot_donationAddress);          message.author.send({ embed })
             .then(() => {
               if (message.channel.type === 'dm') return;
               deleteMessage();
