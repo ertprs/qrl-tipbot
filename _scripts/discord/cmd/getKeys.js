@@ -14,7 +14,7 @@ module.exports = {
 
     const chalk = require('chalk');
     const wallet = require('../../qrl/walletTools');
-    const secretKey = wallet.GetSecret;
+    const secretKey = wallet.GetSecretKeys;
 
     const username = `${message.author}`;
     const userName = username.slice(1, -1);

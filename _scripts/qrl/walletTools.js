@@ -218,6 +218,24 @@ async function GetSecret(args) {
     return;
   }
 }
+async function GetSecretKeys(args) {
+  // using the wallet API get this publicKeys secret keys
+  if (args !== null) {
+    const { stdout, stderr } = await exec('curl -s -XPOST http://127.0.0.1:5359/api/GetRecoverySeeds -d \'{"address": "' + args + '"}\'');
+    if (stderr) {
+      console.error(`error: ${stderr}`);
+    }
+    console.log('stdout: ' + stdout)
+    // const output = stdout.slice(1, -2);
+    const returnData = { mnemonic: stdout.mnemonic };
+    return stdout;
+  }
+  else {
+  // no args passed
+    console.log('no args passed... We need an address!');
+    return;
+  }
+}
 
 // curl -s -XGET http://127.0.0.1:5359/api/GetWalletInfo
 
@@ -238,4 +256,5 @@ module.exports = {
   CreateQRLWallet : CreateQRLWallet,
   sendQuanta : sendQuanta,
   GetSecret : GetSecret,
+  GetSecretKeys : GetSecretKeys,
 };
