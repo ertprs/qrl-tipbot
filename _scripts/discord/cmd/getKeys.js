@@ -41,18 +41,18 @@ module.exports = {
       const optOut = userInfo.opt_out;
       const agree = userInfo.user_agree;
       // is user found?
-      if (found !== 'true') {
+      if (!found) {
         ReplyMessage('Your not found in the System. Try `+add` or `+help`');
         deleteMessage();
         return;
       }
       // check for opt_out status
-        if (optOut == 'true') {
+        if (optOut) {
           ReplyMessage('You have opted out of the tipbot. Please send `+opt-in` to opt back in!');
           deleteMessage();
           return;
         }
-      if (agree !== 'true') {
+      if (!agree) {
         ReplyMessage('You need to agree, please see the `+terms`');
         deleteMessage();
         return;
