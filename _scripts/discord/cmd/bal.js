@@ -5,7 +5,7 @@ module.exports = {
   aliases: ['balance', 'funds'],
   guildOnly: false,
   cooldown: 0,
-  usage: ' {QRL_ADDRESS}\nWill print the balance of any QRL Address given\nIf no address given check if the user has a qrltipBOt address and give that balance',
+  usage: ' {QRL_ADDRESS}\nWill print the balance of any QRL Address given\nIf no address given check if the user has a qrltipBot address and give that balance',
   execute(message, args) {
     const Discord = require('discord.js');
     const walletTools = require('../../qrl/walletTools');
@@ -18,7 +18,7 @@ module.exports = {
 
     function ReplyMessage(content) {
       setTimeout(function() {
-        message.reply(content);
+        message.channel(content);
         message.channel.stopTyping(true);
       }, 1000);
     }
@@ -30,17 +30,22 @@ module.exports = {
       }
       return test;
     }
-    // check for args and if found give that wallet balance
-    if (args.length) {
+
+    function deleteMessage() {
       // Delete the previous message
       if(message.guild != null) {
         message.channel.stopTyping(true);
         message.delete();
       }
+    }
+    // check for args and if found give that wallet balance
+    if (args.length) {
       // given a user not an address we just fail.
       // FEATURE ADD -
       // Could serve up the users balance if config.bot.admin requested
       if (message.mentions.users.size > 0) {
+        ReplyMessage('Enter an address to query, or simply `+bal` to get your balance.');
+        deleteMessage();
         message.channel.stopTyping(true);
         return;
       }
@@ -49,6 +54,7 @@ module.exports = {
       const checkAddress = isQRLAddress(givenAddress);
       if(!checkAddress) {
         ReplyMessage('invalid! Must be a valid QRL address.');
+        deleteMessage();
         return;
       }
       else {
@@ -68,6 +74,7 @@ module.exports = {
           message.author.send({ embed })
             .then(() => {
               if (message.channel.type === 'dm') return;
+              deleteMessage();
               message.channel.stopTyping(true);
               ReplyMessage('\n:moneybag: Balance is in your DM :moneybag:');
             })
@@ -103,36 +110,39 @@ module.exports = {
         const user_agree = result[0].user_agree;
         if (user_agree !== 'true') {
           message.channel.stopTyping(true);
-          ReplyMessage('You must agree to the tipbot terms `+terms` to read then `+agree`');
+          ReplyMessage('You must agree to the tipbot terms, type `+terms` to read them and then `+agree`');
           return;
         }
         const UserAddress = result[0].wallet_pub;
-        const UserBalance = result[0].wallet_bal;
-        // const user_id = result[0].user_id;
-        message.channel.stopTyping(true);
-        const embed = new Discord.MessageEmbed()
-          .setColor(0x000000)
-          .setTitle('Tipbot Balance - ' + UserBalance.toFixed(9) + ' QRL')
-          .addField('Balance:', `\`${UserBalance.toFixed(9)} QRL\``, true)
-          .addField('Explorer:', '[explorer.theqrl.org](' + config.bot_details.explorer_url + '/a/' + UserAddress + ')', true)
-          .setFooter('Transactions may take a some time to post. Please be patient');
-        message.author.send({ embed })
-          .then(() => {
-            if (message.channel.type === 'dm') return;
-            message.channel.stopTyping(true);
-            // ReplyMessage('\n:moneybag: Balance is in your DM :moneybag:');
-          })
-            .catch(error => {
-              console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+        const BalancePromise = Balance(UserAddress);
+        // assign this to a promise and get the function into a result
+        BalancePromise.then(function(balanceResult) {
+          const UserBalance = balanceResult.balance;
+          // const user_id = result[0].user_id;
+          message.channel.stopTyping(true);
+          const embed = new Discord.MessageEmbed()
+            .setColor(0x000000)
+            .setTitle('Tipbot Balance - ' + UserBalance.toFixed(9) + ' QRL')
+            .addField('Balance:', `\`${UserBalance.toFixed(9)} QRL\``, true)
+            .addField('Explorer:', '[explorer.theqrl.org](' + config.bot_details.explorer_url + '/a/' + UserAddress + ')', true)
+            .setFooter('Transactions may take a some time to post. Please be patient');
+          message.author.send({ embed })
+            .then(() => {
+              if (message.channel.type === 'dm') return;
               message.channel.stopTyping(true);
-              ReplyMessage('it seems like I can\'t DM you! Do you have DMs disabled?');
-            });
-              message.react(emojiCharacters.q)
-                .then(() => message.react(emojiCharacters.r))
-                .then(() => message.react(emojiCharacters.l))
-                .catch(() => console.error('One of the emojis failed to react.'));
-              message.channel.stopTyping(true);
-
+              // ReplyMessage('\n:moneybag: Balance is in your DM :moneybag:');
+            })
+              .catch(error => {
+                console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+                message.channel.stopTyping(true);
+                ReplyMessage('it seems like I can\'t DM you! Do you have DMs disabled?');
+              });
+                message.react(emojiCharacters.q)
+                  .then(() => message.react(emojiCharacters.r))
+                  .then(() => message.react(emojiCharacters.l))
+                  .catch(() => console.error('One of the emojis failed to react.'));
+                message.channel.stopTyping(true);
+          });
       });
     }
   },

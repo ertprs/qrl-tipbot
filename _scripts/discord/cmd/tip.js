@@ -174,13 +174,31 @@ module.exports = {
       // console.log('check wallet balance ' + wallet_bal_shor + ' and total tip ' + total_tip + ' is more than 0');
       const walletCalc = (wallet_bal_shor - total_tip);
       // console.log('walletCalc: ' + walletCalc);
-      if (walletCalc < 0) {
+      if (walletCalc <= 0) {
         console.log('less than zero');
         const walletBALANCEislessthan = true;
+        // not enough funds...
+        message.channel.stopTyping(true);
+        const embed = new Discord.MessageEmbed()
+          .setTitle('ERROR - Not enough funds in user wallet!')
+          .setDescription('make sure you can cover the fee! Fee set to *' + config.wallet.tx_fee + '*\n[Check your address on the explorer](' + config.bot_details.explorer_url + '/a/' + wallet_pub + ')')
+          .setColor(0x000000)
+          .addField('Wallet Balance:', wallet_bal.toFixed(9) + ' QRL')
+          .addField('Amount attempted to tip:', total_tip / 1000000000 + ' QRL');
+        message.author.send({ embed })
+          .then(() => {
+            if (message.channel.type === 'dm') return;
+            ReplyMessage('your trying to send more than you have!\n:moneybag: You need more funds! :moneybag:');
+          })
+          .catch(error => {
+            message.channel.stopTyping(true);
+            console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+            return;
+          });
         return walletBALANCEislessthan;
       }
 
-
+/*
       if ((wallet_bal_shor - total_tip) < 0) {
         // not enough funds...
         message.channel.stopTyping(true);
@@ -202,6 +220,8 @@ module.exports = {
           });
         return;
       }
+      */
+
       // tipping user has funds, and is not opted out.
       const allServiceIDs = message.mentions.users.map(function(id) {
         return id.id;
@@ -267,9 +287,7 @@ module.exports = {
                   check_tip_id();
 
                   const add_tip_to_info = { tip_id: tip_id, tip_amt: tipAmountQuanta, user_id: user_id };
-                  add_tip_to(add_tip_to_info).then(function(tip_toResults) {
-                    // console.log('tip_toResults: ' + JSON.stringify(tip_toResults));
-                  });
+                  add_tip_to(add_tip_to_info);
                 }
               }
             }
@@ -298,9 +316,7 @@ module.exports = {
 
                 const future_tip_id = futureTipsID[0].tip_id;
                 const add_tip_to_info = { tip_id: tip_id, tip_amt: tipAmountQuanta, user_id: user_id, future_tip_id: future_tip_id };
-                add_tip_to(add_tip_to_info).then(function(tip_toResults) {
-                  // console.log('tip_toResults: ' + JSON.stringify(tip_toResults));
-                });
+                add_tip_to(add_tip_to_info);
               });
             }
           });
