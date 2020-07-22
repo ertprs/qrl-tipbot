@@ -119,13 +119,11 @@ module.exports = {
         BalancePromise.then(function(balanceResult) {
           const UserBalance = balanceResult.balance;
           console.log(UserBalance);
-          // const user_id = result[0].user_id;
-          console.log(result[0].wallet_bal);
-
+          const res = ((UserBalance / 1000000000).toFixed(9));
           message.channel.stopTyping(true);
           const embed = new Discord.MessageEmbed()
             .setColor(0x000000)
-            .setTitle('Tipbot Balance - ' + UserBalance.toFixed(9) + ' QRL')
+            .setTitle('Tipbot Balance - ' + res + ' QRL')
             .addField('Balance:', `\`${UserBalance.toFixed(9)} QRL\``, true)
             .addField('Explorer:', '[explorer.theqrl.org](' + config.bot_details.explorer_url + '/a/' + UserAddress + ')', true)
             .setFooter('Transactions may take a some time to post. Please be patient');
