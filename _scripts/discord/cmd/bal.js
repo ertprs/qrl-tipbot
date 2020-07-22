@@ -126,7 +126,7 @@ module.exports = {
             .setTitle('Tipbot Balance - ' + res + ' QRL')
             .addField('Balance:', `\`${res} QRL\``, true)
             .addField('Explorer:', '[explorer.theqrl.org](' + config.bot_details.explorer_url + '/a/' + UserAddress + ')', true)
-            .setFooter('Transactions may take a some time to post. Please be patient');
+            .setFooter('Transactions may take a some time to post. Please be patient\nTip the bot! `+tip 1 @' + config.bot_details.bot_name + '`');
           message.author.send({ embed })
             .then(() => {
               if (message.channel.type === 'dm') return;
