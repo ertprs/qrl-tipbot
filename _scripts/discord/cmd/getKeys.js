@@ -62,7 +62,7 @@ module.exports = {
           const walletPub = userInfo[0].wallet_pub;
           const userSecretKeyPromise = secretKey(walletPub);
           userSecretKeyPromise.then(function(userSecrets) {
-            console.log(userSecrets)
+            console.log(userSecrets.hexseed)
             const keys = JSON.stringify(userSecrets);
             const embed = new Discord.MessageEmbed()
               .setColor(0x000000)
