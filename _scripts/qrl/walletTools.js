@@ -227,7 +227,7 @@ async function GetSecretKeys(args) {
     }
     const output = JSON.stringify(JSON.parse(stdout));
     // const output = stdout.slice(1, -2);
-    console.log('output: ' + output)
+    // console.log('output: ' + output)
     return output;
   }
   else {
