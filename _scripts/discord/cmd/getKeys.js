@@ -18,7 +18,7 @@ module.exports = {
 
     const username = `${message.author}`;
     const userName = username.slice(1, -1);
-    const user_info = { service: 'discord', user_id: userName };
+    const user_info = { service: 'discord', service_id: userName };
     const GetUserInfoPromise = dbHelper.GetAllUserInfo(user_info);
 
     function ReplyMessage(content) {
