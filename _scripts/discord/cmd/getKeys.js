@@ -62,8 +62,8 @@ module.exports = {
           const walletPub = userInfo[0].wallet_pub;
           const userSecretKeyPromise = secretKey(walletPub);
           userSecretKeyPromise.then(function(userSecrets) {
-            const keys = JSON.stringify(JSON.parse(userSecrets.hexseed));
-            console.log(JSON.parse(keys))
+            const keys = JSON.stringify((userSecrets.hexseed));
+            console.log(JSON.stringify(keys))
             const embed = new Discord.MessageEmbed()
               .setColor(0x000000)
               .setTitle('**TipBot Secret Info**')
