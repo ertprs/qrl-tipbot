@@ -36,6 +36,7 @@ module.exports = {
     }
     GetUserInfoPromise.then(function(userInfo) {
       // set variables from db search
+      console.log(JSON.stringify(userInfo))
       const found = userInfo.user_found;
       const optOut = userInfo.opt_out;
       const agree = userInfo.user_agree;
