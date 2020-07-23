@@ -73,14 +73,14 @@ module.exports = {
     const userInfo = { service: 'discord', service_id: userName };
 
     const data = await dbHelper.GetAllUserInfo(userInfo);
-    const array = [];
-    array.push(data);
-    return array;
+    return data;
   }
 
   async function cgData() {
     const data = await getCgData();
-    return data;
+    const array = [];
+    array.push({ cgData: data });
+    return array;
   }
 
   async function Height() {
