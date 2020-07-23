@@ -1,6 +1,3 @@
-const config = require('../../../_config/config.json');
-
-
 //  const { prefix } = require('../../../config.json');
 
 module.exports = {
@@ -14,10 +11,9 @@ module.exports = {
   const Discord = require('discord.js');
   const dbHelper = require('../../db/dbHelper');
   const config = require('../../../_config/config.json');
-  const username = `${message.author}`;
-  const userName = username.slice(1, -1);
-  const user_info = { service: 'discord', service_id: userName };
-  const GetUserInfoPromise = dbHelper.GetAllUserInfo(user_info);
+  const wallet = require('../../qrl/walletTools');
+  const explorer = require('../../qrl/explorerTools');
+  const cgTools = require('../../coinGecko/cgTools');
 
 
   function ReplyMessage(content) {
@@ -27,9 +23,68 @@ module.exports = {
     }, 1000);
   }
 
-///////////////////////////////////////////////
+// /////////////////////////////////////////////
 
-  // make these work below
+  function getHeight() {
+      return new Promise(resolve => {
+      const height = wallet.GetHeight();
+      resolve(height);
+    });
+  }
+
+  function getCgData() {
+    return new Promise(resolve => {
+      const cgdata = cgTools.cgData();
+      resolve(cgdata);
+    });
+  }
+
+  function getPoolInfo() {
+    return new Promise(resolve => {
+      const poolData = explorer.poolData();
+      resolve(poolData);
+    });
+  }
+
+  function faucetWalletBalance() {
+    return new Promise(resolve => {
+      const walletBal = wallet.GetBalance;
+      // console.log('faucet Address: ' + config.faucet.faucet_wallet_pub);
+      resolve(walletBal(config.faucet.faucet_wallet_pub));
+    });
+  }
+
+  function getHashRate(hashrate) {
+    if (!hashrate) hashrate = 0;
+    let i = 0;
+    const byteUnits = [' H', ' kH', ' MH', ' GH', ' TH', ' PH' ];
+    if (hashrate > 0) {
+      while (hashrate > 1000) {
+        hashrate = hashrate / 1000;
+        i++;
+      }
+    }
+  return parseFloat(hashrate).toFixed(2) + byteUnits[i];
+  }
+
+  async function getUserInfo() {
+    const username = `${message.author}`;
+    const userName = username.slice(1, -1);
+    const userInfo = { service: 'discord', service_id: userName };
+
+    const data = await dbHelper.GetAllUserInfo(userInfo);
+    const array = [];
+    array.push({ userInfo: data });
+    return array;
+  }
+
+  async function cgData() {
+    const data = await getCgData();
+    const array = [];
+    array.push({ cgData: data });
+    return array;
+  }
+
   async function Height() {
     const data = await getHeight();
     const array = [];
@@ -48,16 +103,18 @@ module.exports = {
     array.push({ faucetBal: data });
     return array;
   }
-///////////////////////////////////////////////
+// /////////////////////////////////////////////
 
   ReplyMessage('The QRL tipbot is available to all users of this channel. Use this bot to send and receive tips on the QRL network.\nIf you would like to support the bot\'s faucet, use the donation addresses below`\n**Faucet Donation Address:** `' + config.faucet.faucet_wallet_pub + '`');
 
-  GetUserInfoPromise.then(function(userInfo) {
+  getUserInfo().then(function(userInfo) {
     // set variables from db search
-    //console.log(JSON.stringify(userInfo))
+    console.log(JSON.stringify(userInfo));
     const found = userInfo[0].user_found;
     const optOut = userInfo[0].opt_out;
     const agree = userInfo[0].user_agree;
+
+
     // is user found?
     if (!found) {
       // not found, give main message and end
@@ -87,10 +144,7 @@ module.exports = {
       // get updated bot wallet balance and faucet wallet balance
 
 
-    };
-
-
-
+    }
   });
 
   },
