@@ -124,10 +124,10 @@ module.exports = {
       const blockHeight = JSON.stringify(JSON.parse(await getHeight()));
       const poolData = await getPoolInfo();
 
-      console.log(JSON.stringify(faucetBal));
+      console.log(JSON.stringify(faucetBal.balance));
       console.log(JSON.stringify(userBal.balance));
       //console.log(JSON.stringify(cgData));
-      console.log(blockHeight);
+      console.log(blockHeight.height);
       //console.log(JSON.stringify(poolData));
 
 
