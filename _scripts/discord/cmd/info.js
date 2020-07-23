@@ -120,7 +120,7 @@ module.exports = {
       // get updated bot wallet balance and faucet wallet balance
       const faucetBal = await faucetWalletBalance();
       const userBal = await userWalletBalance(userWalletPub);
-      const cgData = await JSON.parse(getCgData());
+      const cgData = await JSON.stringify(getCgData());
       const blockHeight = JSON.parse(await getHeight());
       const poolData = await JSON.parse(getPoolInfo());
 
