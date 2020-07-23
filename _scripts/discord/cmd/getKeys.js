@@ -12,7 +12,6 @@ module.exports = {
     const config = require('../../../_config/config.json');
 
 
-    const chalk = require('chalk');
     const wallet = require('../../qrl/walletTools');
     const secretKey = wallet.GetSecretKeys;
 

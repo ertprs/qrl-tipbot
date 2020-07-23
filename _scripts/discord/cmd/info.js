@@ -3,10 +3,11 @@
 module.exports = {
   name: 'info',
   description: 'Information about this bot.',
-  aliases: ['commands'],
-  usage: '[command name]',
+  aliases: ['information', 'details', 'stats', 'status', 'state'],
+  args: false,
+  usage: ' (optional) verbose - gives details about the network, tipbot etc. Add the {verbose} argument to have all deails printed to DM',
   cooldown: 1,
-  execute(message) {
+  execute(message, args) {
 
   const Discord = require('discord.js');
   const dbHelper = require('../../db/dbHelper');
@@ -86,7 +87,7 @@ module.exports = {
     const found = userData[0].userData;
     const optOut = userData[0].opt_out;
     const agree = userData[0].user_agree;
-    // run through checks and fail if, else serve info to user
+    // run through checks and fail if, else serve User info to the user
     // is user found?
     if (found === 'false') {
       console.log('!found');
@@ -108,6 +109,8 @@ module.exports = {
       return;
     }
     else {
+
+
       // user found and all checks pass
       const userWalletPub = userData[0].wallet_pub;
       const FaucetWalletPub = config.faucet.faucet_wallet_pub;
@@ -121,7 +124,40 @@ module.exports = {
       const faucetBal = await faucetWalletBalance();
       const userBal = await userWalletBalance(userWalletPub);
       const cgData = JSON.parse(await getCgData());
-      const usdValue = cgData.market_data.current_price.usd
+      // usd values and AllTime change
+      const priceChange24h = cgData.market_data.price_change_24h;
+      const totalSupply = cgData.market_data.total_supply;
+      const circulatingSupply = cgData.market_data.circulating_supply;
+
+      // USD Market data
+      const usdValue = cgData.market_data.current_price.usd;
+      const usdATH = cgData.market_data.ath.usd;
+      const usdATHChange = cgData.market_data.ath_change_percentage.usd;
+      const usdAthDate = cgData.market_data.ath_date.usd;
+      const usdATL = cgData.market_data.atl.usd;
+      const usdATLChange = cgData.market_data.atl_change_percentage.usd;
+      const usdMarketCap = cgData.market_data.market_cap.usd;
+      const usdTotalVolume = cgData.market_data.total_volume.usd;
+      const usdHigh24h = cgData.market_data.high_24h.usd;
+      const usdLow24h = cgData.market_data.low_24h.usd;
+      const usdPriceChange24h = cgData.market_data.price_change_24h_in_currency.usd;
+      const usdMarketCapChange24h = cgData.market_data.market_cap_change_24h_in_currency.usd;
+
+      // BTC market data from CoinGecko
+      const btcValue = cgData.market_data.current_price.btc;
+      const btcATH = cgData.market_data.ath.btc;
+      const btcATHChange = cgData.market_data.ath_change_percentage.btc;
+      const btcathDate = cgData.market_data.ath_date.btc;
+      const btcATL = cgData.market_data.atl.btc;
+      const btcATLChange = cgData.market_data.atl_change_percentage.btc;
+      const btcAthDate = cgData.market_data.ath_date.btc;
+      const btcMarketCap = cgData.market_data.market_cap.btc;
+      const btcTotalVolume = cgData.market_data.total_volume.btc;
+      const btcHigh24h = cgData.market_data.high_24h.btc;
+      const btcLow24h = cgData.market_data.low_24h.btc;
+      const btcPriceChange24h = cgData.market_data.price_change_24h_in_currency.btc;
+      const btcMarketCapChange24h = cgData.market_data.market_cap_change_24h_in_currency.btc;
+
       const blockHeight = JSON.parse(await getHeight());
       const poolData = JSON.parse(await getPoolInfo());
 
@@ -129,13 +165,33 @@ module.exports = {
       //console.log(JSON.stringify(userBal.balance));
       //console.log(JSON.stringify(cgData));
       console.log(usdValue);
+      console.log(btcValue);
       // console.log(JSON.stringify(blockHeight.height));
       //console.log(JSON.stringify(poolData));
 
-
-    }
+      const embed = new Discord.MessageEmbed()
+        .setColor(0x000000)
+        .setTitle('**QRL Tipbot Info**')
+        // .setDescription('Details from the balance query.')
+        .addField('Tipbot Balance - QRL:', `\`${userBal} QRL\``, true)
+        .addField('Tipbot Balance - BTC:', `\`${userBal * btcValue} BTC\``, true)
+        .addField('Tipbot Balance - USD:', `\`$${userBal * usdValue} USD\``, true)
+        .addField('QRL Address:', '[' + userWalletPub + '](' + config.bot_details.explorer_url + '/a/' + userWalletPub + ')')
+        .setFooter('Prices provided by (Coin Gecko)[https://www.coingecko.com/en] using their API. ');
+      message.author.send({ embed })
+        .then(() => {
+          message.channel.stopTyping(true);
+          if (message.channel.type === 'dm') return;
+        })
+        .catch(error => {
+          console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+          message.channel.stopTyping(true);
+          ReplyMessage('it seems like I can\'t DM you! Do you have DMs disabled?');
+          return;
+        });
   }
-  
+}
+
   ReplyMessage('The QRL tipbot is available to all users of this channel. Use this bot to send and receive tips on the QRL network.\nIf you would like to support the bot\'s faucet, use the donation addresses below`\n**Faucet Donation Address:** `' + config.faucet.faucet_wallet_pub + '`');
   main();
 
