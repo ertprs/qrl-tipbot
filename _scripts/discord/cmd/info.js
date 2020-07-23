@@ -121,7 +121,7 @@ module.exports = {
       const faucetBal = await faucetWalletBalance();
       const userBal = await userWalletBalance(userWalletPub);
       const cgData = await getCgData();
-      const blockHeight = JSON.stringify(await getHeight());
+      const blockHeight = JSON.stringify(JSON.parse(await getHeight()));
       const poolData = await getPoolInfo();
 
       console.log(JSON.stringify(faucetBal));
