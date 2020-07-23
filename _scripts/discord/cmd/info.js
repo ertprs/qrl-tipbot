@@ -54,6 +54,14 @@ module.exports = {
     });
   }
 
+  function userWalletBalance(address) {
+    return new Promise(resolve => {
+      const walletBal = wallet.GetBalance;
+      // console.log('faucet Address: ' + config.faucet.faucet_wallet_pub);
+      resolve(walletBal(address));
+    });
+  }
+
   function getHashRate(hashrate) {
     if (!hashrate) hashrate = 0;
     let i = 0;
@@ -67,12 +75,59 @@ module.exports = {
   return parseFloat(hashrate).toFixed(2) + byteUnits[i];
   }
 
-  async function getUserInfo() {
+
+  async function main() {
+    // look in the database for the user
     const username = `${message.author}`;
     const userName = username.slice(1, -1);
     const userInfo = { service: 'discord', service_id: userName };
+    const userData = await dbHelper.GetAllUserInfo(userInfo);
+    console.log(JSON.stringify(userData));
+    const found = userInfo[0].user_found;
+    const optOut = userInfo[0].opt_out;
+    const agree = userInfo[0].user_agree;
+    // run through checks and fail if, else serve info to user
+    // is user found?
+    if (!found) {
+      // not found, give main message and end
+      // ReplyMessage('Your not found in the System. Try `+add` or `+help`');
+      return;
+    }
+    // check for opt_out status
+    if (optOut) {
+      // Opt Out, give main message and end
+      // ReplyMessage('You have opted out of the tipbot. Please send `+opt-in` to opt back in!');
+      return;
+    }
+    if (!agree) {
+      // not Agreed, give main message and end
+      // ReplyMessage('You need to agree, please see the `+terms`');
+      return;
+    }
+    else {
+      // user found and all checks pass
+      const userWalletPub = userInfo[0].wallet_pub;
+      const FaucetWalletPub = config.faucet.faucet_wallet_pub;
+      const faucetPayoutInterval = config.faucet.payout_interval;
+      const faucetMinPayout = config.faucet.min_payout;
+      const faucetMaxPayout = config.faucet.max_payout;
+      const botFee = config.wallet.tx_fee;
+      const botUrl = config.bot_details.bot_url;
+      const explorerURL = config.wallet.explorer_url;
+      // get updated bot wallet balance and faucet wallet balance
+    }
+  }
+  main();
 
+
+/*
+  async function getUserInfo() {
+    // look in the database for the user
+    const username = `${message.author}`;
+    const userName = username.slice(1, -1);
+    const userInfo = { service: 'discord', service_id: userName };
     const data = await dbHelper.GetAllUserInfo(userInfo);
+    // will return array of user data or not found.
     return data;
   }
 
@@ -111,8 +166,7 @@ module.exports = {
     const found = userInfo[0].user_found;
     const optOut = userInfo[0].opt_out;
     const agree = userInfo[0].user_agree;
-
-
+    // run through checks and fail if, else serve info to user
     // is user found?
     if (!found) {
       // not found, give main message and end
@@ -131,7 +185,8 @@ module.exports = {
       return;
     }
     else {
-      const userWalletPub = userInfo[0].wallet_pub;
+      // user found and all checks pass
+      const userWalletPub = userInfo[0].wallet_pub;      
       const FaucetWalletPub = config.faucet.faucet_wallet_pub;
       const faucetPayoutInterval = config.faucet.payout_interval;
       const faucetMinPayout = config.faucet.min_payout;
@@ -144,6 +199,6 @@ module.exports = {
 
     }
   });
-
+*/
   },
 };
