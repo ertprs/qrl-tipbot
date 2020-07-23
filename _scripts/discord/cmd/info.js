@@ -94,7 +94,7 @@ module.exports = {
       return;
     }
     // check for opt_out status
-    if (optOut) {
+    if (!optOut) {
       // Opt Out, give main message and end
       // ReplyMessage('You have opted out of the tipbot. Please send `+opt-in` to opt back in!');
       return;
