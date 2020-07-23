@@ -119,16 +119,16 @@ module.exports = {
       const explorerURL = config.wallet.explorer_url;
       // get updated bot wallet balance and faucet wallet balance
       const faucetBal = await faucetWalletBalance();
-      const userBal = await userWalletBalance();
+      const userBal = await userWalletBalance(userWalletPub);
       const cgData = await getCgData();
       const blockHeight = await getHeight();
       const poolData = await getPoolInfo();
 
       console.log(JSON.stringify(faucetBal));
       console.log(JSON.stringify(userBal));
-      console.log(JSON.stringify(cgData));
+      //console.log(JSON.stringify(cgData));
       console.log(JSON.stringify(blockHeight));
-      console.log(JSON.stringify(poolData));
+      //console.log(JSON.stringify(poolData));
 
 
     }
