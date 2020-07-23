@@ -115,8 +115,23 @@ module.exports = {
       const botUrl = config.bot_details.bot_url;
       const explorerURL = config.wallet.explorer_url;
       // get updated bot wallet balance and faucet wallet balance
+      const faucetBal = await faucetWalletBalance();
+      const userBal = await userWalletBalance();
+      const cgData = await getCgData();
+      const blockHeight = await getHeight();
+      const poolData = await getPoolInfo();
+
+      console.log(JSON.stringify(faucetBal));
+      console.log(JSON.stringify(userBal));
+      console.log(JSON.stringify(cgData));
+      console.log(JSON.stringify(blockHeight));
+      console.log(JSON.stringify(poolData));
+
+
     }
   }
+  
+  ReplyMessage('The QRL tipbot is available to all users of this channel. Use this bot to send and receive tips on the QRL network.\nIf you would like to support the bot\'s faucet, use the donation addresses below`\n**Faucet Donation Address:** `' + config.faucet.faucet_wallet_pub + '`');
   main();
 
 
@@ -158,7 +173,6 @@ module.exports = {
   }
 // /////////////////////////////////////////////
 
-  ReplyMessage('The QRL tipbot is available to all users of this channel. Use this bot to send and receive tips on the QRL network.\nIf you would like to support the bot\'s faucet, use the donation addresses below`\n**Faucet Donation Address:** `' + config.faucet.faucet_wallet_pub + '`');
 
   getUserInfo().then(function(userInfo) {
     // set variables from db search
