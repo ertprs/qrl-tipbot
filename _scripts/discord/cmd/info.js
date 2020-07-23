@@ -83,9 +83,9 @@ module.exports = {
     const userInfo = { service: 'discord', service_id: userName };
     const userData = await dbHelper.GetAllUserInfo(userInfo);
     console.log(JSON.stringify(userData));
-    const found = userInfo[0].user_found;
-    const optOut = userInfo[0].opt_out;
-    const agree = userInfo[0].user_agree;
+    const found = userData[0].userData;
+    const optOut = userData[0].opt_out;
+    const agree = userData[0].user_agree;
     // run through checks and fail if, else serve info to user
     // is user found?
     if (!found) {
@@ -106,7 +106,7 @@ module.exports = {
     }
     else {
       // user found and all checks pass
-      const userWalletPub = userInfo[0].wallet_pub;
+      const userWalletPub = userData[0].wallet_pub;
       const FaucetWalletPub = config.faucet.faucet_wallet_pub;
       const faucetPayoutInterval = config.faucet.payout_interval;
       const faucetMinPayout = config.faucet.min_payout;
