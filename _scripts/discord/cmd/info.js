@@ -80,9 +80,7 @@ module.exports = {
 
   async function cgData() {
     const data = await getCgData();
-    const array = [];
-    array.push({ cgData: data });
-    return array;
+    return data;
   }
 
   async function Height() {
