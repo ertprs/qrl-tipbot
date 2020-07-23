@@ -127,7 +127,7 @@ module.exports = {
       console.log(JSON.stringify(faucetBal));
       console.log(JSON.stringify(userBal));
       //console.log(JSON.stringify(cgData));
-      console.log(JSON.stringify(JSON.parse(blockHeight)));
+      console.log(JSON.stringify(JSON.parse(blockHeight.height)));
       //console.log(JSON.stringify(poolData));
 
 
