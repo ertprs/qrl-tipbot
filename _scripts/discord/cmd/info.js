@@ -89,17 +89,20 @@ module.exports = {
     // run through checks and fail if, else serve info to user
     // is user found?
     if (!found) {
+      console.log('!found');
       // not found, give main message and end
       // ReplyMessage('Your not found in the System. Try `+add` or `+help`');
       return;
     }
     // check for opt_out status
     if (!optOut) {
+      console.log('opt-out');
       // Opt Out, give main message and end
       // ReplyMessage('You have opted out of the tipbot. Please send `+opt-in` to opt back in!');
       return;
     }
     if (!agree) {
+      console.log('!agree');
       // not Agreed, give main message and end
       // ReplyMessage('You need to agree, please see the `+terms`');
       return;
