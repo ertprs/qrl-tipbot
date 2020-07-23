@@ -88,7 +88,7 @@ module.exports = {
     const agree = userData[0].user_agree;
     // run through checks and fail if, else serve info to user
     // is user found?
-    if (!found) {
+    if (found === 'false') {
       console.log('!found');
       // not found, give main message and end
       // ReplyMessage('Your not found in the System. Try `+add` or `+help`');
@@ -101,7 +101,7 @@ module.exports = {
       // ReplyMessage('You have opted out of the tipbot. Please send `+opt-in` to opt back in!');
       return;
     }
-    if (!agree) {
+    if (agree === 'false') {
       console.log('!agree');
       // not Agreed, give main message and end
       // ReplyMessage('You need to agree, please see the `+terms`');
