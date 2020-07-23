@@ -121,12 +121,14 @@ module.exports = {
       const faucetBal = await faucetWalletBalance();
       const userBal = await userWalletBalance(userWalletPub);
       const cgData = JSON.parse(await getCgData());
+      const usdValue = cgData.market_data.current_price.usd
       const blockHeight = JSON.parse(await getHeight());
       const poolData = JSON.parse(await getPoolInfo());
 
       //console.log(JSON.stringify(faucetBal.balance));
       //console.log(JSON.stringify(userBal.balance));
-      console.log(JSON.stringify(cgData));
+      //console.log(JSON.stringify(cgData));
+      console.log(usdValue);
       // console.log(JSON.stringify(blockHeight.height));
       //console.log(JSON.stringify(poolData));
 
