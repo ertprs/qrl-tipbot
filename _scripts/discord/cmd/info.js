@@ -74,7 +74,7 @@ module.exports = {
 
     const data = await dbHelper.GetAllUserInfo(userInfo);
     const array = [];
-    array.push({ userInfo: data });
+    array.push(data);
     return array;
   }
 
