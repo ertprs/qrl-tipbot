@@ -191,7 +191,7 @@ module.exports = {
         .setColor('GREEN')
         .setTitle('**QRL Exchange Info**')
         .setURL('https://theqrl.org/markets/')
-        .setDescription(`Exchange information where you can trade $QRL.
+        .setDescription(`Exchange information where you can trade $QRL
 
           [:small_blue_diamond: ${bittrexIdentifier}](${bittrexURL})\t\`${bittrexVolume}\`
           [:small_blue_diamond: ${upbitIdentifier}](${upbitURL})\t\`${upbitVolume}\`
@@ -205,7 +205,7 @@ module.exports = {
           [:small_blue_diamond: StealthEX](https://stealthex.io/coin/qrl)
 
           For listing inquires email: __info@theqrl.org__
-          *Volume data provided by [Coin Gecko](https://www.coingecko.com/en/coins/quantum-resistant-ledger)*.
+          *Volume data provided by [Coin Gecko](https://www.coingecko.com/en/coins/quantum-resistant-ledger)*
           `)
         .addFields(
         )
@@ -254,7 +254,7 @@ module.exports = {
         .setColor('GREEN')
         .setTitle('**QRL Tipbot Info**')
         .setURL(botUrl)
-        .setDescription('The tipbot enables sending QRL tips to other discord users. The bot will create an individual address for each bot user with the `+add` command. \n\n:diamond_shape_with_a_dot_inside: All tips are on chain and can be seen in the [QRL Block Explorer](' + explorerURL + '). \n:diamond_shape_with_a_dot_inside: You will need to create a new address and `+transfer` your earned tips to an address you control. Use the [QRL Web Wallet](' + config.wallet.wallet_url + ')\n:diamond_shape_with_a_dot_inside: You can send tips to users that have not signed up and the bot will save them for the user. Once they sign up these tips will be waiting for them.\n')
+        .setDescription('The tipbot enables sending QRL tips to other discord users. The bot will create an individual address for each bot user with the `+add` command. \n\n:small_blue_diamond: All tips are on chain and can be seen in the [QRL Block Explorer](' + explorerURL + '). \n:small_blue_diamond: You will need to create a new address and `+transfer` your earned tips to an address you control. Use the [QRL Web Wallet](' + config.wallet.wallet_url + ')\n:small_blue_diamond: You can send tips to users that have not signed up and the bot will save them for the user. Once they sign up these tips will be waiting for them.\n')
         .addFields(
           { name: 'Block Height: ', value: '`' + nodeBlockHeight.height + '`', inline: true },
           { name: 'Transaction Fee:', value: '`\u0024 ' + botFee + '`', inline: true },
