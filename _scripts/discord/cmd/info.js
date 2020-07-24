@@ -201,7 +201,7 @@ module.exports = {
         .setColor(0x000000)
         .setTitle('**QRL Tipbot Info**')
         .setURL(botUrl)
-        .setDescription('The tipbot enables sending QRL tips to other discord users. The bot will create an individual address using the automatic OTS system, creating an unlimited transactions on the QRL network.\nAll tips are on chain and can be seen in the [QRL Block Explorer](' + explorerURL + '). You can send tips to users that have not signed up and the bot willl save them for the user. Once they sign up with the `+add` command these tips will be waiting for them. ')
+        .setDescription('The tipbot enables sending QRL tips to other discord users. The bot will create an individual address for each bot user with the `+add` command. \n\n:diamond_shape_with_a_dot_inside: All tips are on chain and can be seen in the [QRL Block Explorer](' + explorerURL + '). \n\n:diamond_shape_with_a_dot_inside: You will need to create a new [QRL wallet](' + config.wallet.wallet_url + ') outside of the bot to `+transfer` tips to an address you control.\n\n:diamond_shape_with_a_dot_inside: You can send tips to users that have not signed up and the bot will save them for the user. Once they sign up these tips will be waiting for them. ')
         .addFields(
           { name: 'Block Height: ', value: '`' + nodeBlockHeight.height + '`', inline: true },
           { name: 'Transaction Fee:', value: '`\u0024 ' + botFee + '`', inline: true },
