@@ -242,7 +242,7 @@ module.exports = {
           { name: 'Tipbot Balance - USD', value: '`\u0024 ' + userUSDValue + '`', inline: true },
           { name: 'Tipbot QRL Address:', value: '[' + userWalletPub + '](' + config.bot_details.explorer_url + '/a/' + userWalletPub + ')' },
         )
-        .addField('QRL / USD', '`1 QRL = \u0024 ' + usdValue '`',true)
+        .addField('QRL / USD', '`1 QRL = \u0024 ' + usdValue + '`',true)
         .addField('Market data provided by [Coin Gecko](https://www.coingecko.com/en) using their API. ')
         .setTimestamp();
       message.author.send({ embed })
