@@ -235,7 +235,7 @@ module.exports = {
         .setColor(0x000000)
         .setTitle('**QRL Tipbot Info**')
         // .setDescription('Details from the balance query.')
-        .addField('Your Tipbot Wallet Balance: ' + userBal + ' QRL')
+        .addField('Your Tipbot Wallet Balance:', userBal + ' QRL', false)
         .addField('Your Balance in BTC:', `\`${userBTCValue} BTC\``, true)
         .addField('Your Balance in USD:', `\`$${userUSDValue} USD\``, true)
         .addField('QRL Address:', '[' + userWalletPub + '](' + config.bot_details.explorer_url + '/a/' + userWalletPub + ')')
