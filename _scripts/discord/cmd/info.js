@@ -191,15 +191,15 @@ module.exports = {
         .setColor(0x000000)
         .setTitle('**QRL Exchange Info**')
         .setURL('https://theqrl.org/markets/')
-        .setDescription(`Exchange information where you can trade $QRL. All volume data provided by Coin Gecko.
-          
+        .setDescription(`Exchange information where you can trade $QRL. *Volume data provided by Coin Gecko*.
+
           [${bittrexIdentifier}](${bittrexURL}) \`vol: ${bittrexVolume}\`
           [${upbitIdentifier}]( ${upbitURL}) \`vol: ${upbitVolume}\`
           [${upbitIndonesiaIdentifier}](${upbitIndonesiaURL}) \`vol: ${upbitIndonesiaVolume}\`
           [${vccIdentifier}](${vccURL}) \`vol: ${vccVolume}\`
           [BITEEU](https://trade.biteeu.com/search)
           [Bitvoicex](https://bitvoicex.net/markets/qrl_btc)
-          [CoinTiger](https://www.cointiger.com/en-us/#/trade_center?coin=qrl_btc)', inline: true },
+          [CoinTiger](https://www.cointiger.com/en-us/#/trade_center?coin=qrl_btc)
           [SimpleSwap](https://simpleswap.io/coins/quantum-resistant-ledger)
           [SwapZone](https://swapzone.io/?to=qrl)
           [StealthEX](https://stealthex.io/coin/qrl)
