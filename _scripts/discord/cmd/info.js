@@ -144,7 +144,7 @@ module.exports = {
       const btcPriceChange24h = cgData.market_data.price_change_24h_in_currency.btc;
       const btcMarketCapChange24h = cgData.market_data.market_cap_change_24h_in_currency.btc;
     
-    if (args[0] == 'market') {
+    if (args[0] == 'market' || args[0] == 'markets' || args[0] == 'price' || args[0] == 'value') {
       const embed = new Discord.MessageEmbed()
         .setColor(0x000000)
         .setTitle('**QRL Market Info**')
