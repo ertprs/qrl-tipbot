@@ -109,8 +109,8 @@ module.exports = {
       // get updated bot wallet balance and faucet wallet balance
       const cgData = JSON.parse(await getCgData());
       const priceChange24h = cgData.market_data.price_change_24h;
-      const totalSupply = cgData.market_data.total_supply;
       const circulatingSupply = cgData.market_data.circulating_supply;
+      const totalSupply = cgData.market_data.total_supply;
       // USD Market data
       const usdValue = cgData.market_data.current_price.usd;
       const usdATH = cgData.market_data.ath.usd;
@@ -140,6 +140,25 @@ module.exports = {
       const btcMarketCapChange24h = cgData.market_data.market_cap_change_24h_in_currency.btc;
     
     if (args[0] == 'market') {
+      const embed = new Discord.MessageEmbed()
+        .setColor(0x000000)
+        .setTitle('**QRL Market Info**')
+        .setURL('https://www.coingecko.com/en/coins/quantum-resistant-ledger')
+        // .setDescription('Details from the balance query.')
+        .addFields(
+          { name: 'QRL USD Value:', value: '`\u0024 ' + usdValue + '`' },
+
+          { name: 'Market Cap:', value: '`\u0024 ' + usdMarketCap + '`', inline: true },
+          { name: 'Volume', value: '`\u0024 ' + usdTotalVolume + '`', inline: true },
+          { name: '24hr Low / High', value: '`\u0024 ' + usdLow24h + ' / \u0024 ' + usdHigh24h + '`', inline: true },
+          { name: 'Circulating Supply', value: '`' + circulatingSupply + '/' + totalSupply + '`', inline: true },
+        )
+        .setTimestamp();
+        .setFooter('Market data provided by Coin Gecko, ')
+      message.reply({ embed })
+        .then(() => {
+          message.channel.stopTyping(true);
+
       console.log('priceChange24h: ' + priceChange24h)
       console.log('totalSupply: ' + totalSupply)
       console.log('circulatingSupply: ' + circulatingSupply)
@@ -223,14 +242,6 @@ module.exports = {
       console.log('userBal: ' + userBal)
 
 
-
-
-
-
-
-
-
-
       const embed = new Discord.MessageEmbed()
         .setColor(0x000000)
         .setTitle('**QRL Tipbot Info**')
@@ -243,8 +254,8 @@ module.exports = {
           { name: 'Tipbot QRL Address:', value: '[' + userWalletPub + '](' + config.bot_details.explorer_url + '/a/' + userWalletPub + ')' },
         )
         .addField('QRL / USD', '`1 QRL = \u0024 ' + usdValue + '`',true)
-        .setFooter('Market data provided by Coin Gecko')
         .setTimestamp();
+        .setFooter('Market data provided by Coin Gecko, ')
       message.author.send({ embed })
         .then(() => {
           message.channel.stopTyping(true);
