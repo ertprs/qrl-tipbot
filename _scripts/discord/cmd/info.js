@@ -97,7 +97,7 @@ module.exports = {
     const faucetMinPayout = config.faucet.min_payout;
     const faucetMaxPayout = config.faucet.max_payout;
     let faucetBal = await faucetWalletBalance();
-    let faucetBal = (faucetBal.balance / shor).toFixed(9)
+    const faucetBal = (faucetBal.balance / shor).toFixed(9)
     // general bot data
     const botFee = config.wallet.tx_fee;
     const botUrl = config.bot_details.bot_url;
