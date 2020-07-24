@@ -110,28 +110,28 @@ module.exports = {
       const totalSupply = cgData.market_data.total_supply;
       // vcc info
       const vccVolume = cgData.tickers[0].volume;
-      const vccLastBTC = cgData.tickers[0].last;
-      const vccBidAsk = cgData.tickers[0].bid_ask_spread_percentage;
       const vccIdentifier = cgData.tickers[0].market.name;
       const vccURL = cgData.tickers[0].trade_url;
+      const vccLastBTC = cgData.tickers[0].last;
+      const vccBidAsk = cgData.tickers[0].bid_ask_spread_percentage;
       // bittrex info from coinGecko
       const bittrexVolume = cgData.tickers[1].volume;
-      const bittrexLastBTC = cgData.tickers[1].last;
-      const bittrexBidAsk = cgData.tickers[1].bid_ask_spread_percentage;
       const bittrexIdentifier = cgData.tickers[1].market.name;
       const bittrexURL = cgData.tickers[1].trade_url;
+      const bittrexLastBTC = cgData.tickers[1].last;
+      const bittrexBidAsk = cgData.tickers[1].bid_ask_spread_percentage;
       // upbit info
       const upbitVolume = cgData.tickers[2].volume;
-      const upbitLastBTC = cgData.tickers[2].last;
-      const upbitBidAsk = cgData.tickers[2].bid_ask_spread_percentage;
       const upbitIdentifier = cgData.tickers[2].market.name;
       const upbitURL = cgData.tickers[2].trade_url;
+      const upbitLastBTC = cgData.tickers[2].last;
+      const upbitBidAsk = cgData.tickers[2].bid_ask_spread_percentage;
       // upbit Indonesia info
       const upbitIndonesiaVolume = cgData.tickers[3].volume;
-      const upbitIndonesiaLastBTC = cgData.tickers[3].last;
-      const upbitIndonesiaBidAsk = cgData.tickers[3].bid_ask_spread_percentage;
       const upbitIndonesiaIdentifier = cgData.tickers[3].market.name;
       const upbitIndonesiaURL = cgData.tickers[3].trade_url;
+      const upbitIndonesiaLastBTC = cgData.tickers[3].last;
+      const upbitIndonesiaBidAsk = cgData.tickers[3].bid_ask_spread_percentage;
 
       // USD Market data
       const usdValue = cgData.market_data.current_price.usd;
@@ -193,19 +193,20 @@ module.exports = {
         .setURL('https://theqrl.org/markets/')
         .setDescription('Exchange information where you can trade $QRL.')
         .addFields(
-          { name: vccIdentifier, value: 'Volume: `' + vccVolume + '` Last Traded: `' + vccLastBTC + '` URL: ' + vccURL },
-          { name: bittrexIdentifier, value: 'Volume: `' + bittrexVolume + '` Last Traded: `' + bittrexLastBTC + '` URL: ' + bittrexURL },
-          { name: upbitIdentifier, value: 'Volume: `' + upbitVolume + '` Last Traded: `' + upbitLastBTC + '` URL: ' + upbitURL },
-          { name: upbitIndonesiaIdentifier, value: 'Volume: `' + upbitIndonesiaVolume + '` Last Traded: `' + upbitIndonesiaLastBTC + '` URL: ' + upbitIndonesiaURL },
+          { name: vccIdentifier, value: '`Volume: ' + vccVolume + '` URL: ' + vccURL },
+          { name: bittrexIdentifier, value: '`Volume: ' + bittrexVolume + '` URL: ' + bittrexURL },
+          { name: upbitIdentifier, value: '`Volume: ' + upbitVolume + '` URL: ' + upbitURL },
+          { name: upbitIndonesiaIdentifier, value: '`Volume: ' + upbitIndonesiaVolume + '` URL: ' + upbitIndonesiaURL },
           { name: 'BITEEU', value: 'URL: https://trade.biteeu.com/search' },
           { name: 'Bitvoicex', value: 'URL: https://bitvoicex.net/markets/qrl_btc' },
           { name: 'CoinTiger', value: 'URL: https://www.cointiger.com/en-us/#/trade_center?coin=qrl_btc' },
           { name: 'SimpleSwap', value: 'URL: https://simpleswap.io/coins/quantum-resistant-ledger' },
           { name: 'SwapZone', value: 'URL: https://swapzone.io/?to=qrl' },
           { name: 'StealthEX', value: 'URL: https://stealthex.io/coin/qrl' },
+          { name: 'For listing inquires email:', value: 'mailto://info@theqrl.org'}
         )
         .setTimestamp()
-        .setFooter('Market data provided by Coin Gecko, If you want to list QRL - support@theqrl.org ');
+        .setFooter('Market data provided by Coin Gecko - The QRL Contributors ');
       message.reply({ embed })
         .then(() => {
           message.channel.stopTyping(true);
