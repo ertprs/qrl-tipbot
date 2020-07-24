@@ -76,8 +76,8 @@ module.exports = {
   return parseFloat(hashrate).toFixed(2) + byteUnits[i];
   }
 
-  function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  function thousandths(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
 
@@ -149,11 +149,11 @@ module.exports = {
         .setURL('https://www.coingecko.com/en/coins/quantum-resistant-ledger')
         // .setDescription('Details from the balance query.')
         .addFields(
-          { name: 'QRL USD Value:', value: '`\u0024 ' + usdValue + '`' },
+          { name: 'QRL USD Value:', value: '`\u0024 ' + thousandths(usdValue) + '`' },
 
-          { name: 'Market Cap:', value: '`\u0024 ' + numberWithCommas(usdMarketCap) + '`', inline: true },
-          { name: 'Volume', value: '`\u0024 ' + numberWithCommas(usdTotalVolume) + '`', inline: true },
-          { name: 'Circulating Supply', value: '`' + numberWithCommas(circulatingSupply.toFixed(0)) + ' / ' + totalSupply + '`' },
+          { name: 'Market Cap:', value: '`\u0024 ' + thousandths(usdMarketCap) + '`', inline: true },
+          { name: 'Volume', value: '`\u0024 ' + thousandths(usdTotalVolume) + '`', inline: true },
+          { name: 'Circulating Supply', value: '`' + thousandths(circulatingSupply.toFixed(0)) + ' / ' + thousandths(totalSupply) + '`' },
           { name: '24hr Low ', value: '`\u0024 ' + usdLow24h + '`', inline: true },
           { name: '24hr High', value: '`\u0024 ' + usdHigh24h + '`', inline: true },
         )
