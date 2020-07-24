@@ -195,6 +195,9 @@ module.exports = {
       // console.log('btcPriceChange24h: ' + btcPriceChange24h);
       // console.log('btcMarketCapChange24h: ' + btcMarketCapChange24h);
     }
+    else {
+      ReplyMessage('The QRL Tipbot.\nUse this bot to send and receive tips on the QRL network. +help for more');
+    }
 
     // get block height from node
     const nodeBlockHeight = JSON.parse(await getHeight());
@@ -270,9 +273,8 @@ module.exports = {
           return;
         });
   }
-}
 
-  ReplyMessage('The QRL tipbot is available to all users of this channel. Use this bot to send and receive tips on the QRL network.\nIf you would like to support the bot\'s faucet, use the donation addresses below`\n**Faucet Donation Address:** `' + config.faucet.faucet_wallet_pub + '`');
+}
   main();
 
 
