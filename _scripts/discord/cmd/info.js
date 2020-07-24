@@ -77,7 +77,9 @@ module.exports = {
   }
 
   function thousandths(number) {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    var splitNumber = number.toString().split(".");
+    splitNumber[0] = splitNumber[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return splitNumber.join(".");
   }
 
 
