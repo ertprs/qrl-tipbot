@@ -234,12 +234,18 @@ module.exports = {
       const embed = new Discord.MessageEmbed()
         .setColor(0x000000)
         .setTitle('**QRL Tipbot Info**')
+        .setURL(botUrl)
         // .setDescription('Details from the balance query.')
-        .addField('Your Tipbot Wallet Balance:', '`' + userBal + ' QRL`', false)
-        .addField('Your Balance in BTC:', `\`${userBTCValue} BTC\``, true)
-        .addField('Your Balance in USD:', `\`$${userUSDValue} USD\``, true)
-        .addField('QRL Address:', '[' + userWalletPub + '](' + config.bot_details.explorer_url + '/a/' + userWalletPub + ')')
-        .addField('Prices provided by __(Coin Gecko)[https://www.coingecko.com/en]__ using their API. ');
+        .addFields(
+          { name: 'Your Tipbot Wallet Balance:', value: '`' + userBal + ' QRL`' },
+          { name: '\u200B', value: '\u200B' },
+          { name: 'Balance BTC:', value: userBTCValue, inline: true },
+          { name: 'Balance USD', value: userUSDValue, inline: true },
+          { name: 'Tipbot QRL Address:', value: '[' + userWalletPub + '](' + config.bot_details.explorer_url + '/a/' + userWalletPub + ')' },
+        )
+        .addField('QRL USD', '$' + usdValue ,true)
+        .addField('Market data provided by (Coin Gecko)[https://www.coingecko.com/en] using their API. ');
+        .setTimestamp()
       message.author.send({ embed })
         .then(() => {
           message.channel.stopTyping(true);
