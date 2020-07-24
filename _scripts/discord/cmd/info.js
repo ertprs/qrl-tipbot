@@ -238,8 +238,8 @@ module.exports = {
         // .setDescription('Details from the balance query.')
         .addFields(
           { name: 'Your Tipbot Wallet Balance:', value: '`' + userBal + ' QRL`' },
-          { name: 'Balance BTC:', value: userBTCValue, inline: true },
-          { name: 'Balance USD', value: userUSDValue, inline: true },
+          { name: 'Balance BTC:', value: '\u20BF' +userBTCValue, inline: true },
+          { name: 'Balance USD', value: '\u0024' + userUSDValue, inline: true },
           { name: 'Tipbot QRL Address:', value: '[' + userWalletPub + '](' + config.bot_details.explorer_url + '/a/' + userWalletPub + ')' },
         )
         .addField('QRL USD', '$' + usdValue ,true)
