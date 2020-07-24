@@ -191,8 +191,8 @@ module.exports = {
         .setColor(0x000000)
         .setTitle('**QRL Exchange Info**')
         .setURL('https://theqrl.org/markets/')
-        .setDescription(`Exchange information where you can trade $QRL. *Volume data provided by Coin Gecko*.
-          **Exchange Link**               **Volume**
+        .setDescription(`Exchange information where you can trade $QRL.
+
           :black_small_square: [${bittrexIdentifier}](${bittrexURL})\t\`${bittrexVolume}\`
           :black_small_square: [${upbitIdentifier}](${upbitURL})\t\`${upbitVolume}\`
           :black_small_square: [${upbitIndonesiaIdentifier}](${upbitIndonesiaURL})\t\`${upbitIndonesiaVolume}\`
@@ -204,7 +204,8 @@ module.exports = {
           :black_small_square: [SwapZone](https://swapzone.io/?to=qrl)
           :black_small_square: [StealthEX](https://stealthex.io/coin/qrl)
 
-          For listing inquires email: *info@theqrl.org*
+          For listing inquires email: ***info@theqrl.org***
+          *Volume data provided by [Coin Gecko](https://www.coingecko.com/en/coins/quantum-resistant-ledger), not all exchanges are listed on their service.*.
           `)
         .addFields(
         )
