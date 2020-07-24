@@ -178,7 +178,7 @@ module.exports = {
           { name: '24hr High', value: '`\u0024 ' + thousandths(usdHigh24h) + '`', inline: true },
         )
         .setTimestamp()
-        .setFooter('Market data provided by Coin Gecko, ');
+        .setFooter('..\:The QRL Contributors\:.. \tMarket data provided by Coin Gecko');
       message.reply({ embed })
         .then(() => {
           message.channel.stopTyping(true);
@@ -260,7 +260,7 @@ module.exports = {
           { name: 'Transaction Fee:', value: '`\u0024 ' + botFee + '`', inline: true },
         )
         .setTimestamp()
-        .setFooter('Tipbot developed by the QRL Contributors and @fr1t2, Hope you enjoy it!');
+        .setFooter('..\:The QRL Contributors\:..');
       message.reply({ embed })
         .then(() => {
           message.channel.stopTyping(true);
@@ -329,7 +329,7 @@ module.exports = {
         )
         .addField('QRL / USD', '`1 QRL = \u0024 ' + thousandths(usdValue) + '`', true)
         .setTimestamp()
-        .setFooter('Market data provided by Coin Gecko, ');
+        .setFooter('..\:The QRL Contributors\:.. \tMarket data provided by Coin Gecko');
       message.author.send({ embed })
         .then(() => {
           message.channel.stopTyping(true);
