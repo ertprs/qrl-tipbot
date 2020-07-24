@@ -205,7 +205,7 @@ module.exports = {
           [:small_blue_diamond: StealthEX](https://stealthex.io/coin/qrl)
 
           For listing inquires email: ***info@theqrl.org***
-          *Volume data provided by [Coin Gecko](https://www.coingecko.com/en/coins/quantum-resistant-ledger), not all exchanges are listed on their service.*.
+          *Volume data provided by [Coin Gecko](https://www.coingecko.com/en/coins/quantum-resistant-ledger).*.
           `)
         .addFields(
         )
