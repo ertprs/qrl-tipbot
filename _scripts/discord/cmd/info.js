@@ -193,10 +193,10 @@ module.exports = {
         .setURL('https://theqrl.org/markets/')
         .setDescription('Exchange information where you can trade $QRL.')
         .addFields(
-          { name: vccIdentifier, value: '`Volume: ' + vccVolume + '` URL: ' + '[bittrex.com](' + vccURL + ')', inline: true },
-          { name: bittrexIdentifier, value: '`Volume: ' + bittrexVolume + '` URL: ' + '[vcc.Exchange](' + bittrexURL + ')', inline: true },
-          { name: upbitIdentifier, value: '`Volume: ' + upbitVolume + '` URL: ' + '[upbit.com](' + upbitURL + ')', inline: true },
-          { name: upbitIndonesiaIdentifier, value: '`Volume: ' + upbitIndonesiaVolume + '` URL: ' + '[id.upbit.com](' + upbitIndonesiaURL + ')', inline: true },
+          { name: '[' + bittrexIdentifier + '](' + bittrexURL + ')', value: '`vol: ' + bittrexVolume + '`', inline: true },
+          { name: '[' + upbitIdentifier + '](' + upbitURL + ')', value: '`vol: ' + upbitVolume + '`', inline: true },
+          { name: upbitIndonesiaIdentifier + '](' + upbitIndonesiaURL + ')', value: '`vol: ' + upbitIndonesiaVolume + '`', inline: true },
+          { name: vccIdentifier + '](' + vccURL + ')', value: '`vol: ' + vccVolume + '`', inline: true },
           { name: 'BITEEU', value: 'URL: [biteeu.com](https://trade.biteeu.com/search)', inline: true },
           { name: 'Bitvoicex', value: 'URL: [bitvoicex.net](https://bitvoicex.net/markets/qrl_btc)', inline: true },
           { name: 'CoinTiger', value: 'URL: [cointiger.com](https://www.cointiger.com/en-us/#/trade_center?coin=qrl_btc)', inline: true },
