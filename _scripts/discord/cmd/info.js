@@ -236,8 +236,8 @@ module.exports = {
         .setTitle('**QRL Tipbot Info**')
         // .setDescription('Details from the balance query.')
         .addField('Tipbot Balance - QRL:', `\`${userBal} QRL\``, true)
-        .addField('Tipbot Balance - BTC:', `\`${} BTC\``, true)
-        .addField('Tipbot Balance - USD:', `\`$${} USD\``, true)
+        .addField('Tipbot Balance - BTC:', `\`${userBTCValue} BTC\``, true)
+        .addField('Tipbot Balance - USD:', `\`$${userUSDValue} USD\``, true)
         .addField('QRL Address:', '[' + userWalletPub + '](' + config.bot_details.explorer_url + '/a/' + userWalletPub + ')')
         .setFooter('Prices provided by (Coin Gecko)[https://www.coingecko.com/en] using their API. ');
       message.author.send({ embed })
