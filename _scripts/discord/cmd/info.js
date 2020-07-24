@@ -192,7 +192,7 @@ module.exports = {
       // console.log('btcPriceChange24h: ' + btcPriceChange24h);
       // console.log('btcMarketCapChange24h: ' + btcMarketCapChange24h);
     }
-    if (args[0] == 'bot' || args[0] == 'tipbot' || args[0] == 'fee') {
+    else if (args[0] == 'bot' || args[0] == 'tipbot' || args[0] == 'fee') {
       // serve the bot info here
       // console.log('botFee: ' + botFee);
       // console.log('botUrl: ' + botUrl);
