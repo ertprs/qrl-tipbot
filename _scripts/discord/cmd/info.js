@@ -109,8 +109,6 @@ module.exports = {
       return;
     }
     else {
-
-
       // user found and all checks pass
       const userWalletPub = userData[0].wallet_pub;
       const FaucetWalletPub = config.faucet.faucet_wallet_pub;
@@ -161,13 +159,60 @@ module.exports = {
       const blockHeight = JSON.parse(await getHeight());
       const poolData = JSON.parse(await getPoolInfo());
 
-      //console.log(JSON.stringify(faucetBal.balance));
-      //console.log(JSON.stringify(userBal.balance));
-      //console.log(JSON.stringify(cgData));
-      console.log(usdValue);
-      console.log(btcValue);
+      // console.log(JSON.stringify(faucetBal.balance));
+      console.log(JSON.stringify(userBal));
+      // console.log(JSON.stringify(cgData));
+      // console.log(usdValue);
+      // console.log(btcValue);
       // console.log(JSON.stringify(blockHeight.height));
-      //console.log(JSON.stringify(poolData));
+      // console.log(JSON.stringify(poolData));
+      console.log('FaucetWalletPub: ' + FaucetWalletPub)
+      console.log('faucetPayoutInterval: ' + faucetPayoutInterval)
+      console.log('faucetMinPayout: ' + faucetMinPayout)
+      console.log('faucetMaxPayout: ' + faucetMaxPayout)
+      console.log('botFee: ' + botFee)
+      console.log('botUrl: ' + botUrl)
+      console.log('explorerURL: ' + explorerURL)
+      console.log('faucetBal: ' + faucetBal)
+      console.log('userBal: ' + userBal)
+      console.log('priceChange24h: ' + priceChange24h)
+      console.log('totalSupply: ' + totalSupply)
+      console.log('circulatingSupply: ' + circulatingSupply)
+      console.log('usdValue: ' + usdValue)
+      console.log('usdATH: ' + usdATH)
+      console.log('usdATHChange: ' + usdATHChange)
+      console.log('usdAthDate: ' + usdAthDate)
+      console.log('usdATL: ' + usdATL)
+      console.log('usdATLChange: ' + usdATLChange)
+      console.log('usdMarketCap: ' + usdMarketCap)
+      console.log('usdTotalVolume: ' + usdTotalVolume)
+      console.log('usdHigh24h: ' + usdHigh24h)
+      console.log('usdLow24h: ' + usdLow24h)
+      console.log('usdPriceChange24h: ' + usdPriceChange24h)
+      console.log('usdMarketCapChange24h: ' + usdMarketCapChange24h)
+      console.log('btcValue: ' + btcValue)
+      console.log('btcATH: ' + btcATH)
+      console.log('btcATHChange: ' + btcATHChange)
+      console.log('btcathDate: ' + btcathDate)
+      console.log('btcATL: ' + btcATL)
+      console.log('btcATLChange: ' + btcATLChange)
+      console.log('btcAthDate: ' + btcAthDate)
+      console.log('btcMarketCap: ' + btcMarketCap)
+      console.log('btcTotalVolume: ' + btcTotalVolume)
+      console.log('btcHigh24h: ' + btcHigh24h)
+      console.log('btcLow24h: ' + btcLow24h)
+      console.log('btcPriceChange24h: ' + btcPriceChange24h)
+      console.log('btcMarketCapChange24h: ' + btcMarketCapChange24h)
+      console.log('blockHeight: ' + blockHeight)
+
+
+
+
+
+
+
+
+
 
       const embed = new Discord.MessageEmbed()
         .setColor(0x000000)
