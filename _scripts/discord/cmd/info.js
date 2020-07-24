@@ -78,7 +78,6 @@ module.exports = {
 
 
   async function main() {
-    
     // look in the database for the user
     const username = `${message.author}`;
     const userName = username.slice(1, -1);
@@ -161,34 +160,34 @@ module.exports = {
           message.channel.stopTyping(true);
         });
 
-      console.log('priceChange24h: ' + priceChange24h)
-      console.log('totalSupply: ' + totalSupply)
-      console.log('circulatingSupply: ' + circulatingSupply)
-      console.log('usdValue: ' + usdValue)
-      console.log('usdATH: ' + usdATH)
-      console.log('usdATHChange: ' + usdATHChange)
-      console.log('usdAthDate: ' + usdAthDate)
-      console.log('usdATL: ' + usdATL)
-      console.log('usdATLChange: ' + usdATLChange)
-      console.log('usdMarketCap: ' + usdMarketCap)
-      console.log('usdTotalVolume: ' + usdTotalVolume)
-      console.log('usdHigh24h: ' + usdHigh24h)
-      console.log('usdLow24h: ' + usdLow24h)
-      console.log('usdPriceChange24h: ' + usdPriceChange24h)
-      console.log('usdMarketCapChange24h: ' + usdMarketCapChange24h)
-      console.log('btcValue: ' + btcValue)
-      console.log('btcATH: ' + btcATH)
-      console.log('btcATHChange: ' + btcATHChange)
-      console.log('btcathDate: ' + btcathDate)
-      console.log('btcATL: ' + btcATL)
-      console.log('btcATLChange: ' + btcATLChange)
-      console.log('btcAthDate: ' + btcAthDate)
-      console.log('btcMarketCap: ' + btcMarketCap)
-      console.log('btcTotalVolume: ' + btcTotalVolume)
-      console.log('btcHigh24h: ' + btcHigh24h)
-      console.log('btcLow24h: ' + btcLow24h)
-      console.log('btcPriceChange24h: ' + btcPriceChange24h)
-      console.log('btcMarketCapChange24h: ' + btcMarketCapChange24h)
+      // console.log('priceChange24h: ' + priceChange24h);
+      // console.log('totalSupply: ' + totalSupply);
+      // console.log('circulatingSupply: ' + circulatingSupply);
+      // console.log('usdValue: ' + usdValue);
+      // console.log('usdATH: ' + usdATH);
+      // console.log('usdATHChange: ' + usdATHChange);
+      // console.log('usdAthDate: ' + usdAthDate);
+      // console.log('usdATL: ' + usdATL);
+      // console.log('usdATLChange: ' + usdATLChange);
+      // console.log('usdMarketCap: ' + usdMarketCap);
+      // console.log('usdTotalVolume: ' + usdTotalVolume);
+      // console.log('usdHigh24h: ' + usdHigh24h);
+      // console.log('usdLow24h: ' + usdLow24h);
+      // console.log('usdPriceChange24h: ' + usdPriceChange24h);
+      // console.log('usdMarketCapChange24h: ' + usdMarketCapChange24h);
+      // console.log('btcValue: ' + btcValue);
+      // console.log('btcATH: ' + btcATH);
+      // console.log('btcATHChange: ' + btcATHChange);
+      // console.log('btcathDate: ' + btcathDate);
+      // console.log('btcATL: ' + btcATL);
+      // console.log('btcATLChange: ' + btcATLChange);
+      // console.log('btcAthDate: ' + btcAthDate);
+      // console.log('btcMarketCap: ' + btcMarketCap);
+      // console.log('btcTotalVolume: ' + btcTotalVolume);
+      // console.log('btcHigh24h: ' + btcHigh24h);
+      // console.log('btcLow24h: ' + btcLow24h);
+      // console.log('btcPriceChange24h: ' + btcPriceChange24h);
+      // console.log('btcMarketCapChange24h: ' + btcMarketCapChange24h);
     }
 
     // get block height from node
@@ -196,23 +195,18 @@ module.exports = {
     // get pool data from a pool
     const poolData = JSON.parse(await getPoolInfo());
     // usd values and AllTime change
-    
 
     // console.log(JSON.stringify(cgData));
     // console.log(JSON.stringify(poolData));
-    console.log('FaucetWalletPub: ' + FaucetWalletPub)
-    console.log('faucetPayoutInterval: ' + faucetPayoutInterval)
-    console.log('faucetMinPayout: ' + faucetMinPayout)
-    console.log('faucetMaxPayout: ' + faucetMaxPayout)
-    console.log('botFee: ' + botFee)
-    console.log('botUrl: ' + botUrl)
-    console.log('explorerURL: ' + explorerURL)
-    console.log('faucetBal: ' + faucetBal)
-    console.log('nodeBlockHeight: ' + nodeBlockHeight.height)
-
-
-
-
+    // console.log('FaucetWalletPub: ' + FaucetWalletPub);
+    // console.log('faucetPayoutInterval: ' + faucetPayoutInterval);
+    // console.log('faucetMinPayout: ' + faucetMinPayout);
+    // console.log('faucetMaxPayout: ' + faucetMaxPayout);
+    // console.log('botFee: ' + botFee);
+    // console.log('botUrl: ' + botUrl);
+    // console.log('explorerURL: ' + explorerURL);
+    // console.log('faucetBal: ' + faucetBal);
+    // console.log('nodeBlockHeight: ' + nodeBlockHeight.height);
     // run through checks and fail if, else serve User info to the user
     // is user found?
     if (found === 'false') {
@@ -241,7 +235,7 @@ module.exports = {
       const userBal = (userBalShor.balance / shor).toFixed(9);
       const userBTCValue = (userBal * btcValue).toFixed(9);
       const userUSDValue = (userBal * usdValue).toFixed(3);
-      console.log('userBal: ' + userBal)
+      console.log('userBal: ' + userBal);
 
 
       const embed = new Discord.MessageEmbed()
