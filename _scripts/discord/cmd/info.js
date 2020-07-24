@@ -192,11 +192,11 @@ module.exports = {
         .setTitle('**QRL Exchange Info**')
         .setURL('https://theqrl.org/markets/')
         .setDescription(`Exchange information where you can trade $QRL. *Volume data provided by Coin Gecko*.
-
-          [${bittrexIdentifier}](${bittrexURL}) \`vol: ${bittrexVolume}\`
-          [${upbitIdentifier}]( ${upbitURL}) \`vol: ${upbitVolume}\`
-          [${upbitIndonesiaIdentifier}](${upbitIndonesiaURL}) \`vol: ${upbitIndonesiaVolume}\`
-          [${vccIdentifier}](${vccURL}) \`vol: ${vccVolume}\`
+          **Exchange Link**\t**Volume**
+          [${bittrexIdentifier}](${bittrexURL}) \`\t${bittrexVolume}\`
+          [${upbitIdentifier}]( ${upbitURL}) \`\t${upbitVolume}\`
+          [${upbitIndonesiaIdentifier}](${upbitIndonesiaURL}) \`\t${upbitIndonesiaVolume}\`
+          [${vccIdentifier}](${vccURL}) \`\t${vccVolume}\`
           [BITEEU](https://trade.biteeu.com/search)
           [Bitvoicex](https://bitvoicex.net/markets/qrl_btc)
           [CoinTiger](https://www.cointiger.com/en-us/#/trade_center?coin=qrl_btc)
