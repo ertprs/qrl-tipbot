@@ -197,13 +197,13 @@ module.exports = {
           { name: bittrexIdentifier, value: '`Volume: ' + bittrexVolume + '` URL: ' + bittrexURL },
           { name: upbitIdentifier, value: '`Volume: ' + upbitVolume + '` URL: ' + upbitURL },
           { name: upbitIndonesiaIdentifier, value: '`Volume: ' + upbitIndonesiaVolume + '` URL: ' + upbitIndonesiaURL },
-          { name: 'BITEEU', value: 'URL: https://trade.biteeu.com/search' },
-          { name: 'Bitvoicex', value: 'URL: https://bitvoicex.net/markets/qrl_btc' },
-          { name: 'CoinTiger', value: 'URL: https://www.cointiger.com/en-us/#/trade_center?coin=qrl_btc' },
-          { name: 'SimpleSwap', value: 'URL: https://simpleswap.io/coins/quantum-resistant-ledger' },
-          { name: 'SwapZone', value: 'URL: https://swapzone.io/?to=qrl' },
-          { name: 'StealthEX', value: 'URL: https://stealthex.io/coin/qrl' },
-          { name: 'For listing inquires email:', value: 'mailto://info@theqrl.org'}
+          { name: 'BITEEU', value: 'URL: [biteeu.com](https://trade.biteeu.com/search)' },
+          { name: 'Bitvoicex', value: 'URL: [bitvoicex.net](https://bitvoicex.net/markets/qrl_btc)' },
+          { name: 'CoinTiger', value: 'URL: [cointiger.com](https://www.cointiger.com/en-us/#/trade_center?coin=qrl_btc)' },
+          { name: 'SimpleSwap', value: 'URL: [simpleswap.io](https://simpleswap.io/coins/quantum-resistant-ledger)' },
+          { name: 'SwapZone', value: 'URL: [swapzone.io](https://swapzone.io/?to=qrl)' },
+          { name: 'StealthEX', value: 'URL: [stealthex.io](https://stealthex.io/coin/qrl)' },
+          { name: 'For listing inquires email:', value: 'mailto://info@theqrl.org', true}
         )
         .setTimestamp()
         .setFooter('Market data provided by Coin Gecko - The QRL Contributors ');
