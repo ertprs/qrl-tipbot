@@ -77,9 +77,9 @@ module.exports = {
   }
 
   function thousandths(number) {
-    var splitNumber = number.toString().split(".");
-    splitNumber[0] = splitNumber[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    return splitNumber.join(".");
+    let splitNumber = number.toString().split('.');
+    splitNumber[0] = splitNumber[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return splitNumber.join('.');
   }
 
 
@@ -102,15 +102,13 @@ module.exports = {
     const faucetMinPayout = config.faucet.min_payout;
     const faucetMaxPayout = config.faucet.max_payout;
     const faucetBalShor = await faucetWalletBalance();
-    
-    const faucetBal = (faucetBalShor.balance / shor).toFixed(9)
+
+    const faucetBal = (faucetBalShor.balance / shor).toFixed(9);
     // general bot data
     const botFee = config.wallet.tx_fee;
     const botUrl = config.bot_details.bot_url;
     const explorerURL = config.bot_details.explorer_url;
 
-    
-    
       // get updated bot wallet balance and faucet wallet balance
       const cgData = JSON.parse(await getCgData());
       const priceChange24h = cgData.market_data.price_change_24h;
@@ -143,7 +141,6 @@ module.exports = {
       const btcLow24h = cgData.market_data.low_24h.btc;
       const btcPriceChange24h = cgData.market_data.price_change_24h_in_currency.btc;
       const btcMarketCapChange24h = cgData.market_data.market_cap_change_24h_in_currency.btc;
-    
     if (args[0] == 'market' || args[0] == 'markets' || args[0] == 'price' || args[0] == 'value') {
       const embed = new Discord.MessageEmbed()
         .setColor(0x000000)
@@ -195,12 +192,33 @@ module.exports = {
       // console.log('btcPriceChange24h: ' + btcPriceChange24h);
       // console.log('btcMarketCapChange24h: ' + btcMarketCapChange24h);
     }
+    if (args[0] == 'bot' || args[0] == 'tipbot' || args[0] == 'fee') {
+      // serve the bot info here
+      // console.log('botFee: ' + botFee);
+      // console.log('botUrl: ' + botUrl);
+      const nodeBlockHeight = JSON.parse(await getHeight());
+      const embed = new Discord.MessageEmbed()
+        .setColor(0x000000)
+        .setTitle('**QRL Tipbot Info**')
+        .setURL(botUrl)
+        .setDescription('The tipbot enables sending QRL tips to other discord users. The bot will create an individual address using the automatic OTS system, creating an unlimited transactions on the QRL network.\nAll tips are on chain and can be seen in the [QRL Block Explorer](' + explorerURL + '). You can send tips to users that have not signed up and the bot willl save them for the user. Once they sign up with the `+add` command these tips will be waiting for them. ')
+        .addFields(
+          { name: 'Block Height: ', value: '`' + nodeBlockHeight.height + '`', inline: true },
+          { name: 'Transaction Fee:', value: '`\u0024 ' + botFee + '`', inline: true },
+        )
+        .setTimestamp()
+        .setFooter('Tipbot developed by the QRL Contributors and @fr1t2, Hope you enjoy it!');
+      message.reply({ embed })
+        .then(() => {
+          message.channel.stopTyping(true);
+        });
+
+    }
     else {
-      ReplyMessage('The QRL Tipbot.\nUse this bot to send and receive tips on the QRL network. +help for more');
+      ReplyMessage('Use this bot to send and receive tips on the QRL network. +help for more');
     }
 
     // get block height from node
-    const nodeBlockHeight = JSON.parse(await getHeight());
     // get pool data from a pool
     const poolData = JSON.parse(await getPoolInfo());
     // usd values and AllTime change
@@ -211,8 +229,6 @@ module.exports = {
     // console.log('faucetPayoutInterval: ' + faucetPayoutInterval);
     // console.log('faucetMinPayout: ' + faucetMinPayout);
     // console.log('faucetMaxPayout: ' + faucetMaxPayout);
-    // console.log('botFee: ' + botFee);
-    // console.log('botUrl: ' + botUrl);
     // console.log('explorerURL: ' + explorerURL);
     // console.log('faucetBal: ' + faucetBal);
     // console.log('nodeBlockHeight: ' + nodeBlockHeight.height);
@@ -253,12 +269,12 @@ module.exports = {
         .setURL(botUrl)
         // .setDescription('Details from the balance query.')
         .addFields(
-          { name: 'Your Tipbot Wallet Balance:', value: '`' + userBal + ' QRL`' },
-          { name: 'Tipbot Balance - BTC:', value: '`\u20BF ' + userBTCValue + '`', inline: true },
-          { name: 'Tipbot Balance - USD', value: '`\u0024 ' + userUSDValue + '`', inline: true },
+          { name: 'Your Tipbot Wallet Balance:', value: '`' + thousandths(userBal) + ' QRL`' },
+          { name: 'Tipbot Balance - BTC:', value: '`\u20BF ' + thousandths(userBTCValue) + '`', inline: true },
+          { name: 'Tipbot Balance - USD', value: '`\u0024 ' + thousandths(userUSDValue) + '`', inline: true },
           { name: 'Tipbot QRL Address:', value: '[' + userWalletPub + '](' + config.bot_details.explorer_url + '/a/' + userWalletPub + ')' },
         )
-        .addField('QRL / USD', '`1 QRL = \u0024 ' + usdValue + '`', true)
+        .addField('QRL / USD', '`1 QRL = \u0024 ' + thousandths(usdValue) + '`', true)
         .setTimestamp()
         .setFooter('Market data provided by Coin Gecko, ');
       message.author.send({ embed })
@@ -343,7 +359,7 @@ module.exports = {
     }
     else {
       // user found and all checks pass
-      const userWalletPub = userInfo[0].wallet_pub;      
+      const userWalletPub = userInfo[0].wallet_pub;
       const FaucetWalletPub = config.faucet.faucet_wallet_pub;
       const faucetPayoutInterval = config.faucet.payout_interval;
       const faucetMinPayout = config.faucet.min_payout;
