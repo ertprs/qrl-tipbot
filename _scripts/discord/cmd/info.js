@@ -184,7 +184,7 @@ module.exports = {
     console.log('botFee: ' + botFee)
     console.log('botUrl: ' + botUrl)
     console.log('explorerURL: ' + explorerURL)
-    console.log('faucetBal: ' + faucetBal.balance * shor)
+    console.log('faucetBal: ' + faucetBal.balance / shor)
     console.log('nodeBlockHeight: ' + nodeBlockHeight.height)
 
 
@@ -216,7 +216,7 @@ module.exports = {
       const userWalletPub = userData[0].wallet_pub;
       const userBal = await userWalletBalance(userWalletPub);
       
-      console.log('userBal: ' + userBal.balance * shor)
+      console.log('userBal: ' + userBal.balance / shor)
 
 
 
