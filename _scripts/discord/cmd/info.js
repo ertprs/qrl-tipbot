@@ -164,7 +164,7 @@ module.exports = {
     // Market Request
     if (args[0] == 'market' || args[0] == 'markets' || args[0] == 'price' || args[0] == 'value') {
       const embed = new Discord.MessageEmbed()
-        .setColor(0x000000)
+        .setColor('GREEN')
         .setTitle('**QRL Market Info**')
         .setURL('https://www.coingecko.com/en/coins/quantum-resistant-ledger')
         // .setDescription('Details from the balance query.')
@@ -188,7 +188,7 @@ module.exports = {
     // Exchange Request
     if (args[0] == 'exchange' || args[0] == 'trade' || args[0] == 'buy' || args[0] == 'sell') {
       const embed = new Discord.MessageEmbed()
-        .setColor(0x000000)
+        .setColor('GREEN')
         .setTitle('**QRL Exchange Info**')
         .setURL('https://theqrl.org/markets/')
         .setDescription(`Exchange information where you can trade $QRL.
@@ -251,7 +251,7 @@ module.exports = {
       // console.log('botUrl: ' + botUrl);
       const nodeBlockHeight = JSON.parse(await getHeight());
       const embed = new Discord.MessageEmbed()
-        .setColor(GREEN)
+        .setColor('GREEN')
         .setTitle('**QRL Tipbot Info**')
         .setURL(botUrl)
         .setDescription('The tipbot enables sending QRL tips to other discord users. The bot will create an individual address for each bot user with the `+add` command. \n\n:diamond_shape_with_a_dot_inside: All tips are on chain and can be seen in the [QRL Block Explorer](' + explorerURL + '). \n:diamond_shape_with_a_dot_inside: You will need to create a new address and `+transfer` your earned tips to an address you control. Use the [QRL Web Wallet](' + config.wallet.wallet_url + ')\n:diamond_shape_with_a_dot_inside: You can send tips to users that have not signed up and the bot will save them for the user. Once they sign up these tips will be waiting for them.\n')
