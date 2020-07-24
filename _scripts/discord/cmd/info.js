@@ -203,7 +203,7 @@ module.exports = {
           { name: 'SimpleSwap', value: 'URL: [simpleswap.io](https://simpleswap.io/coins/quantum-resistant-ledger)' },
           { name: 'SwapZone', value: 'URL: [swapzone.io](https://swapzone.io/?to=qrl)' },
           { name: 'StealthEX', value: 'URL: [stealthex.io](https://stealthex.io/coin/qrl)' },
-          { name: 'For listing inquires email:', value: 'mailto://info@theqrl.org', true}
+          { name: 'For listing inquires email:', value: 'mailto://info@theqrl.org', inline: true },
         )
         .setTimestamp()
         .setFooter('Market data provided by Coin Gecko - The QRL Contributors ');
