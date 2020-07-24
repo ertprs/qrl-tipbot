@@ -204,8 +204,8 @@ module.exports = {
           [:small_blue_diamond: SwapZone](https://swapzone.io/?to=qrl)
           [:small_blue_diamond: StealthEX](https://stealthex.io/coin/qrl)
 
-          For listing inquires email: ***info@theqrl.org***
-          *Volume data provided by [Coin Gecko](https://www.coingecko.com/en/coins/quantum-resistant-ledger).*.
+          For listing inquires email: __info@theqrl.org__
+          *Volume data provided by [Coin Gecko](https://www.coingecko.com/en/coins/quantum-resistant-ledger)*.
           `)
         .addFields(
         )
