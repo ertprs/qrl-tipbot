@@ -238,13 +238,12 @@ module.exports = {
         // .setDescription('Details from the balance query.')
         .addFields(
           { name: 'Your Tipbot Wallet Balance:', value: '`' + userBal + ' QRL`' },
-          { name: '\u200B', value: '\u200B' },
           { name: 'Balance BTC:', value: userBTCValue, inline: true },
           { name: 'Balance USD', value: userUSDValue, inline: true },
           { name: 'Tipbot QRL Address:', value: '[' + userWalletPub + '](' + config.bot_details.explorer_url + '/a/' + userWalletPub + ')' },
         )
         .addField('QRL USD', '$' + usdValue ,true)
-        .addField('Market data provided by (Coin Gecko)[https://www.coingecko.com/en] using their API. ')
+        .addField('Market data provided by [Coin Gecko](https://www.coingecko.com/en) using their API. ')
         .setTimestamp();
       message.author.send({ embed })
         .then(() => {
