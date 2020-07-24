@@ -149,7 +149,7 @@ module.exports = {
 
           { name: 'Market Cap:', value: '`\u0024 ' + usdMarketCap + '`', inline: true },
           { name: 'Volume', value: '`\u0024 ' + usdTotalVolume + '`', inline: true },
-          { name: 'Circulating Supply', value: '`' + circulatingSupply + ' / ' + totalSupply + '`' },
+          { name: 'Circulating Supply', value: '`' + circulatingSupply..toFixed(3) + ' / ' + totalSupply + '`' },
           { name: '24hr Low ', value: '`\u0024 ' + usdLow24h + '`', inline: true },
           { name: '24hr High', value: '`\u0024 ' + usdHigh24h + '`', inline: true },
         )
