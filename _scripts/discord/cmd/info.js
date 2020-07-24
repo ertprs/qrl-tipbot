@@ -193,7 +193,7 @@ module.exports = {
         .setURL('https://theqrl.org/markets/')
         .setDescription(`Exchange information where you can trade $QRL.
 
-          :small_blue_diamond: [${bittrexIdentifier}](${bittrexURL})\t\`${bittrexVolume}\`
+          [:small_blue_diamond: ${bittrexIdentifier}](${bittrexURL})\t\`${bittrexVolume}\`
           :small_blue_diamond: [${upbitIdentifier}](${upbitURL})\t\`${upbitVolume}\`
           :small_blue_diamond: [${upbitIndonesiaIdentifier}](${upbitIndonesiaURL})\t\`${upbitIndonesiaVolume}\`
           :small_blue_diamond: [${vccIdentifier}](${vccURL})\t\`${vccVolume}\`
