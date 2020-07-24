@@ -117,7 +117,7 @@ module.exports = {
       const faucetMaxPayout = config.faucet.max_payout;
       const botFee = config.wallet.tx_fee;
       const botUrl = config.bot_details.bot_url;
-      const explorerURL = config.wallet.explorer_url;
+      const explorerURL = config.bot_details.explorer_url;
       // get updated bot wallet balance and faucet wallet balance
       const faucetBal = await faucetWalletBalance();
       const userBal = await userWalletBalance(userWalletPub);
@@ -173,8 +173,8 @@ module.exports = {
       console.log('botFee: ' + botFee)
       console.log('botUrl: ' + botUrl)
       console.log('explorerURL: ' + explorerURL)
-      console.log('faucetBal: ' + faucetBal)
-      console.log('userBal: ' + userBal)
+      console.log('faucetBal: ' + faucetBal.balance)
+      console.log('userBal: ' + userBal.balance)
       console.log('priceChange24h: ' + priceChange24h)
       console.log('totalSupply: ' + totalSupply)
       console.log('circulatingSupply: ' + circulatingSupply)
@@ -203,7 +203,7 @@ module.exports = {
       console.log('btcLow24h: ' + btcLow24h)
       console.log('btcPriceChange24h: ' + btcPriceChange24h)
       console.log('btcMarketCapChange24h: ' + btcMarketCapChange24h)
-      console.log('blockHeight: ' + blockHeight)
+      console.log('blockHeight: ' + blockHeight.height)
 
 
 
