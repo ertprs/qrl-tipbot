@@ -217,7 +217,7 @@ module.exports = {
       // user found and all checks pass
       const userWalletPub = userData[0].wallet_pub;
       const userBalShor = await userWalletBalance(userWalletPub);
-      const userBal = (userBal.balance / shor).toFixed(9)
+      const userBal = (userBalShor.balance / shor).toFixed(9)
       console.log('userBal: ' + userBal)
 
 
