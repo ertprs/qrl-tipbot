@@ -153,8 +153,8 @@ module.exports = {
           { name: '24hr Low / High', value: '`\u0024 ' + usdLow24h + ' / \u0024 ' + usdHigh24h + '`', inline: true },
           { name: 'Circulating Supply', value: '`' + circulatingSupply + '/' + totalSupply + '`', inline: true },
         )
-        .setTimestamp();
-        .setFooter('Market data provided by Coin Gecko, ')
+        .setTimestamp()
+        .setFooter('Market data provided by Coin Gecko, ');
       message.reply({ embed })
         .then(() => {
           message.channel.stopTyping(true);
@@ -254,8 +254,8 @@ module.exports = {
           { name: 'Tipbot QRL Address:', value: '[' + userWalletPub + '](' + config.bot_details.explorer_url + '/a/' + userWalletPub + ')' },
         )
         .addField('QRL / USD', '`1 QRL = \u0024 ' + usdValue + '`',true)
-        .setTimestamp();
-        .setFooter('Market data provided by Coin Gecko, ')
+        .setTimestamp()
+        .setFooter('Market data provided by Coin Gecko, ');
       message.author.send({ embed })
         .then(() => {
           message.channel.stopTyping(true);
