@@ -15,7 +15,6 @@ async function explorerData() {
   return stdout;
 }
 
-
 async function poolData() {
   // pulls stats from pool identified here
   const { stdout, stderr } = await exec('curl -H "Expect: 100-continue" -s -f -XGET "http://pool.qrlmining.com:8117/stats"');
@@ -25,8 +24,6 @@ async function poolData() {
   }
   // console.log(stdout)
   return stdout;
-
-
 }
 
   module.exports = {

@@ -78,55 +78,37 @@ module.exports = {
 
 
   async function main() {
+    
     // look in the database for the user
     const username = `${message.author}`;
     const userName = username.slice(1, -1);
     const userInfo = { service: 'discord', service_id: userName };
     const userData = await dbHelper.GetAllUserInfo(userInfo);
-    console.log(JSON.stringify(userData));
+    // console.log(JSON.stringify(userData));
+    // parse the user details
     const found = userData[0].userData;
     const optOut = userData[0].opt_out;
     const agree = userData[0].user_agree;
-    // run through checks and fail if, else serve User info to the user
-    // is user found?
-    if (found === 'false') {
-      console.log('!found');
-      // not found, give main message and end
-      // ReplyMessage('Your not found in the System. Try `+add` or `+help`');
-      return;
-    }
-    // check for opt_out status
-    if (optOut === 1) {
-      console.log('opt-out');
-      // Opt Out, give main message and end
-      // ReplyMessage('You have opted out of the tipbot. Please send `+opt-in` to opt back in!');
-      return;
-    }
-    if (agree === 'false') {
-      console.log('!agree');
-      // not Agreed, give main message and end
-      // ReplyMessage('You need to agree, please see the `+terms`');
-      return;
-    }
-    else {
-      // user found and all checks pass
-      const userWalletPub = userData[0].wallet_pub;
-      const FaucetWalletPub = config.faucet.faucet_wallet_pub;
-      const faucetPayoutInterval = config.faucet.payout_interval;
-      const faucetMinPayout = config.faucet.min_payout;
-      const faucetMaxPayout = config.faucet.max_payout;
-      const botFee = config.wallet.tx_fee;
-      const botUrl = config.bot_details.bot_url;
-      const explorerURL = config.bot_details.explorer_url;
+    // multiplier for balance calculations
+    const shor = 1000000000;
+    // faucet data
+    const FaucetWalletPub = config.faucet.faucet_wallet_pub;
+    const faucetPayoutInterval = config.faucet.payout_interval;
+    const faucetMinPayout = config.faucet.min_payout;
+    const faucetMaxPayout = config.faucet.max_payout;
+    const faucetBal = await faucetWalletBalance();
+    // general bot data
+    const botFee = config.wallet.tx_fee;
+    const botUrl = config.bot_details.bot_url;
+    const explorerURL = config.bot_details.explorer_url;
+
+    
+    if (args[0] == 'market') {
       // get updated bot wallet balance and faucet wallet balance
-      const faucetBal = await faucetWalletBalance();
-      const userBal = await userWalletBalance(userWalletPub);
       const cgData = JSON.parse(await getCgData());
-      // usd values and AllTime change
       const priceChange24h = cgData.market_data.price_change_24h;
       const totalSupply = cgData.market_data.total_supply;
       const circulatingSupply = cgData.market_data.circulating_supply;
-
       // USD Market data
       const usdValue = cgData.market_data.current_price.usd;
       const usdATH = cgData.market_data.ath.usd;
@@ -140,7 +122,6 @@ module.exports = {
       const usdLow24h = cgData.market_data.low_24h.usd;
       const usdPriceChange24h = cgData.market_data.price_change_24h_in_currency.usd;
       const usdMarketCapChange24h = cgData.market_data.market_cap_change_24h_in_currency.usd;
-
       // BTC market data from CoinGecko
       const btcValue = cgData.market_data.current_price.btc;
       const btcATH = cgData.market_data.ath.btc;
@@ -155,26 +136,6 @@ module.exports = {
       const btcLow24h = cgData.market_data.low_24h.btc;
       const btcPriceChange24h = cgData.market_data.price_change_24h_in_currency.btc;
       const btcMarketCapChange24h = cgData.market_data.market_cap_change_24h_in_currency.btc;
-
-      const blockHeight = JSON.parse(await getHeight());
-      const poolData = JSON.parse(await getPoolInfo());
-
-      // console.log(JSON.stringify(faucetBal.balance));
-      console.log(JSON.stringify(userBal));
-      // console.log(JSON.stringify(cgData));
-      // console.log(usdValue);
-      // console.log(btcValue);
-      // console.log(JSON.stringify(blockHeight.height));
-      // console.log(JSON.stringify(poolData));
-      console.log('FaucetWalletPub: ' + FaucetWalletPub)
-      console.log('faucetPayoutInterval: ' + faucetPayoutInterval)
-      console.log('faucetMinPayout: ' + faucetMinPayout)
-      console.log('faucetMaxPayout: ' + faucetMaxPayout)
-      console.log('botFee: ' + botFee)
-      console.log('botUrl: ' + botUrl)
-      console.log('explorerURL: ' + explorerURL)
-      console.log('faucetBal: ' + faucetBal.balance)
-      console.log('userBal: ' + userBal.balance)
       console.log('priceChange24h: ' + priceChange24h)
       console.log('totalSupply: ' + totalSupply)
       console.log('circulatingSupply: ' + circulatingSupply)
@@ -203,7 +164,57 @@ module.exports = {
       console.log('btcLow24h: ' + btcLow24h)
       console.log('btcPriceChange24h: ' + btcPriceChange24h)
       console.log('btcMarketCapChange24h: ' + btcMarketCapChange24h)
-      console.log('blockHeight: ' + blockHeight.height)
+    }
+
+    // get block height from node
+    const nodeBlockHeight = JSON.parse(await getHeight());
+    // get pool data from a pool
+    const poolData = JSON.parse(await getPoolInfo());
+    // usd values and AllTime change
+    
+
+    // console.log(JSON.stringify(cgData));
+    // console.log(JSON.stringify(poolData));
+    console.log('FaucetWalletPub: ' + FaucetWalletPub)
+    console.log('faucetPayoutInterval: ' + faucetPayoutInterval)
+    console.log('faucetMinPayout: ' + faucetMinPayout)
+    console.log('faucetMaxPayout: ' + faucetMaxPayout)
+    console.log('botFee: ' + botFee)
+    console.log('botUrl: ' + botUrl)
+    console.log('explorerURL: ' + explorerURL)
+    console.log('faucetBal: ' + faucetBal.balance * shor)
+    console.log('nodeBlockHeight: ' + nodeBlockHeight.height)
+
+
+
+
+    // run through checks and fail if, else serve User info to the user
+    // is user found?
+    if (found === 'false') {
+      console.log('!found');
+      // not found, give main message and end
+      // ReplyMessage('Your not found in the System. Try `+add` or `+help`');
+      return;
+    }
+    // check for opt_out status
+    if (optOut === 1) {
+      console.log('opt-out');
+      // Opt Out, give main message and end
+      // ReplyMessage('You have opted out of the tipbot. Please send `+opt-in` to opt back in!');
+      return;
+    }
+    if (agree === 'false') {
+      console.log('!agree');
+      // not Agreed, give main message and end
+      // ReplyMessage('You need to agree, please see the `+terms`');
+      return;
+    }
+    else {
+      // user found and all checks pass
+      const userWalletPub = userData[0].wallet_pub;
+      const userBal = await userWalletBalance(userWalletPub);
+      
+      console.log('userBal: ' + userBal.balance * shor)
 
 
 

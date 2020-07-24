@@ -40,7 +40,7 @@ module.exports = {
 
     if (args.includes('@here') || args.includes('@everyone') || args.includes('@developer') || args.includes('@founder')) {
       // console.log(chalk.red('cant send tip to these users. Call them by name'));
-      ReplyMessage('Can\'t send to a group. Please send to individual users.');
+      ReplyMessage('Can\'t send to a group. Please send to individual user(s).');
       return;
     }
     // check if user mentioned another user to tip
