@@ -178,7 +178,7 @@ module.exports = {
           { name: '24hr High', value: '`\u0024 ' + thousandths(usdHigh24h) + '`', inline: true },
         )
         .setTimestamp()
-        .setFooter('.: The QRL Contributors :. \tMarket data provided by Coin Gecko');
+        .setFooter('.: The QRL Contributors :. Market data provided by Coin Gecko');
       message.reply({ embed })
         .then(() => {
           message.channel.stopTyping(true);
@@ -257,7 +257,7 @@ module.exports = {
         .setDescription('The tipbot enables sending QRL tips to other discord users. The bot will create an individual address for each bot user with the `+add` command. \n\n:small_blue_diamond: All tips are on chain and can be seen in the [QRL Block Explorer](' + explorerURL + '). \n:small_blue_diamond: You will need to create a new address and `+transfer` your earned tips to an address you control. Use the [QRL Web Wallet](' + config.wallet.wallet_url + ')\n:small_blue_diamond: You can send tips to users that have not signed up and the bot will save them for the user. Once they sign up these tips will be waiting for them.\n')
         .addFields(
           { name: 'Block Height: ', value: '`' + nodeBlockHeight.height + '`', inline: true },
-          { name: 'Transaction Fee:', value: '`\u0024 ' + botFee + '`', inline: true },
+          { name: 'Bot Transaction Fees:', value: '`\u0024 ' + botFee + '`', inline: true },
         )
         .setTimestamp()
         .setFooter('.: The QRL Contributors :.');
@@ -329,7 +329,7 @@ module.exports = {
         )
         .addField('QRL / USD', '`1 QRL = \u0024 ' + thousandths(usdValue) + '`', true)
         .setTimestamp()
-        .setFooter('.: The QRL Contributors :. \tMarket data provided by Coin Gecko');
+        .setFooter('.: The QRL Contributors :. Market data provided by Coin Gecko');
       message.author.send({ embed })
         .then(() => {
           message.channel.stopTyping(true);
