@@ -184,7 +184,7 @@ module.exports = {
     console.log('botFee: ' + botFee)
     console.log('botUrl: ' + botUrl)
     console.log('explorerURL: ' + explorerURL)
-    console.log('faucetBal: ' + (faucetBal.balance / shor)).toFixed(9)
+    console.log('faucetBal: ' + (faucetBal.balance / shor).toFixed(9))
     console.log('nodeBlockHeight: ' + nodeBlockHeight.height)
 
 
