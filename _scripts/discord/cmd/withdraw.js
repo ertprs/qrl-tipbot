@@ -3,8 +3,8 @@ module.exports = {
   description: 'Transfer or withdraw QRL from your TipBot account to a personal wallet.',
   args: false,
   guildOnly: false,
-  aliases: ['wd', 'transfer', 'cashout'],
-  usage: '\n__**withdraw** { ***wd***, ***transfer***, ***cashout*** }__\nTransfer or withdraw QRL from your TIpBot account to another QRL address.\n`+transfer 2 QRLADDRESS`',
+  aliases: ['wd', 'transfer', 'cashout', 'send'],
+  usage: '\n__**withdraw** { ***wd***, ***transfer***, ***cashout***, ***send*** }__\nTransfer or withdraw QRL from your TIpBot account to another QRL address.\nRequires amount/all and a QRL address to send to.\n\nExample to transfer all funds from the tipbot wallet: `+transfer all QRLADDRESS`\nExample to transfer an amount of funds: `+transfer 2.01 QRLADDRESS` ',
   execute(message, args) {
     // console.log('transfer called...' + JSON.stringify(args));
 
