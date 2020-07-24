@@ -210,7 +210,7 @@ module.exports = {
         .addFields(
         )
         .setTimestamp()
-        .setFooter('\:The QRL Contributors\: ');
+        .setFooter('..\:The QRL Contributors\:..');
       message.reply({ embed })
         .then(() => {
           message.channel.stopTyping(true);
