@@ -156,8 +156,8 @@ module.exports = {
           { name: 'Market Cap:', value: '`\u0024 ' + thousandths(usdMarketCap) + '`', inline: true },
           { name: 'Volume', value: '`\u0024 ' + thousandths(usdTotalVolume) + '`', inline: true },
           { name: 'Circulating Supply', value: '`' + thousandths(circulatingSupply.toFixed(0)) + ' / ' + thousandths(totalSupply) + '`' },
-          { name: '24hr Low ', value: '`\u0024 ' + usdLow24h + '`', inline: true },
-          { name: '24hr High', value: '`\u0024 ' + usdHigh24h + '`', inline: true },
+          { name: '24hr Low ', value: '`\u0024 ' + thousandths(usdLow24h) + '`', inline: true },
+          { name: '24hr High', value: '`\u0024 ' + thousandths(usdHigh24h) + '`', inline: true },
         )
         .setTimestamp()
         .setFooter('Market data provided by Coin Gecko, ');
