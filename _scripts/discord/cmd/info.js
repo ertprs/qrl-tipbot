@@ -251,7 +251,7 @@ module.exports = {
       // console.log('botUrl: ' + botUrl);
       const nodeBlockHeight = JSON.parse(await getHeight());
       const embed = new Discord.MessageEmbed()
-        .setColor(0x000000)
+        .setColor(3066993)
         .setTitle('**QRL Tipbot Info**')
         .setURL(botUrl)
         .setDescription('The tipbot enables sending QRL tips to other discord users. The bot will create an individual address for each bot user with the `+add` command. \n\n:diamond_shape_with_a_dot_inside: All tips are on chain and can be seen in the [QRL Block Explorer](' + explorerURL + '). \n:diamond_shape_with_a_dot_inside: You will need to create a new address and `+transfer` your earned tips to an address you control. Use the [QRL Web Wallet](' + config.wallet.wallet_url + ')\n:diamond_shape_with_a_dot_inside: You can send tips to users that have not signed up and the bot will save them for the user. Once they sign up these tips will be waiting for them.\n')
