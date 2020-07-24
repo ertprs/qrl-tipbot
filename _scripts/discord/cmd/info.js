@@ -192,32 +192,18 @@ module.exports = {
         .setTitle('**QRL Exchange Info**')
         .setURL('https://theqrl.org/markets/')
         .setDescription(`Exchange information where you can trade $QRL. *Volume data provided by Coin Gecko*.
+          **Exchange Link**               **Volume**
+          :black_small_square: [${bittrexIdentifier}](${bittrexURL})\t\`${bittrexVolume}\`
+          :black_small_square: [${upbitIdentifier}](${upbitURL})\t\`${upbitVolume}\`
+          :black_small_square: [${upbitIndonesiaIdentifier}](${upbitIndonesiaURL})\t\`${upbitIndonesiaVolume}\`
+          :black_small_square: [${vccIdentifier}](${vccURL})\t\`${vccVolume}\`
+          :black_small_square: [BITEEU](https://trade.biteeu.com/search)
+          :black_small_square: [Bitvoicex](https://bitvoicex.net/markets/qrl_btc)
+          :black_small_square: [CoinTiger](https://www.cointiger.com/en-us/#/trade_center?coin=qrl_btc)
+          :black_small_square: [SimpleSwap](https://simpleswap.io/coins/quantum-resistant-ledger)
+          :black_small_square: [SwapZone](https://swapzone.io/?to=qrl)
+          :black_small_square: [StealthEX](https://stealthex.io/coin/qrl)
 
-\`\`\`properties
-+------------------+---------------------+
-| Exchange Link    | Volume              |
-+------------------+---------------------+
-| [${bittrexIdentifier}](${bittrexURL})          |  000036853.72216292 |
-+------------------+---------------------+
-| [${upbitIdentifier}](${upbitURL})            | 000036853.72216292  |
-+------------------+---------------------+
-| [${upbitIndonesiaIdentifier}](${upbitIndonesiaURL})  | 000036853.72216292  |
-+------------------+---------------------+
-| [${vccIdentifier}](${vccURL})     | 000036853.72216292  |
-+------------------+---------------------+
-| [BITEEU](https://trade.biteeu.com/search)           |                     |
-+------------------+---------------------+
-| [Bitvoicex](https://bitvoicex.net/markets/qrl_btc)        |                     |
-+------------------+---------------------+
-| [CoinTiger](https://www.cointiger.com/en-us/#/trade_center?coin=qrl_btc)        |                     |
-+------------------+---------------------+
-| [SimpleSwap](https://simpleswap.io/coins/quantum-resistant-ledger)       |                     |
-+------------------+---------------------+
-| [SwapZone](https://swapzone.io/?to=qrl)         |                     |
-+------------------+---------------------+
-| [StealthEX](https://stealthex.io/coin/qrl)        |                     |
-+------------------+---------------------+
-\`\`\`
           For listing inquires email: *info@theqrl.org*
           `)
         .addFields(
