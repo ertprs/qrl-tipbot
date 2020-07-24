@@ -243,7 +243,7 @@ module.exports = {
           { name: 'Tipbot QRL Address:', value: '[' + userWalletPub + '](' + config.bot_details.explorer_url + '/a/' + userWalletPub + ')' },
         )
         .addField('QRL / USD', '`1 QRL = \u0024 ' + usdValue + '`',true)
-        .addField('Market data provided by coingecko.com using their API. ')
+        .setFooter('Market data provided by Coin Gecko')
         .setTimestamp();
       message.author.send({ embed })
         .then(() => {
