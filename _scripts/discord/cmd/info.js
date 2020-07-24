@@ -76,6 +76,10 @@ module.exports = {
   return parseFloat(hashrate).toFixed(2) + byteUnits[i];
   }
 
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
 
   async function main() {
     // look in the database for the user
@@ -147,9 +151,9 @@ module.exports = {
         .addFields(
           { name: 'QRL USD Value:', value: '`\u0024 ' + usdValue + '`' },
 
-          { name: 'Market Cap:', value: '`\u0024 ' + usdMarketCap + '`', inline: true },
-          { name: 'Volume', value: '`\u0024 ' + usdTotalVolume + '`', inline: true },
-          { name: 'Circulating Supply', value: '`' + circulatingSupply.toFixed(0) + ' / ' + totalSupply + '`' },
+          { name: 'Market Cap:', value: '`\u0024 ' + numberWithCommas(usdMarketCap) + '`', inline: true },
+          { name: 'Volume', value: '`\u0024 ' + numberWithCommas(usdTotalVolume) + '`', inline: true },
+          { name: 'Circulating Supply', value: '`' + numberWithCommas(circulatingSupply.toFixed(0)) + ' / ' + totalSupply + '`' },
           { name: '24hr Low ', value: '`\u0024 ' + usdLow24h + '`', inline: true },
           { name: '24hr High', value: '`\u0024 ' + usdHigh24h + '`', inline: true },
         )
