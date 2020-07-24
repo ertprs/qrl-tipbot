@@ -235,11 +235,11 @@ module.exports = {
         .setColor(0x000000)
         .setTitle('**QRL Tipbot Info**')
         // .setDescription('Details from the balance query.')
-        .addField('Tipbot Balance - QRL:', `\`${userBal} QRL\``, true)
-        .addField('Tipbot Balance - BTC:', `\`${userBTCValue} BTC\``, true)
-        .addField('Tipbot Balance - USD:', `\`$${userUSDValue} USD\``, true)
+        .addField('Your Tipbot Wallet Balance: ' + userBal + ' QRL')
+        .addField('Your Balance in BTC:', `\`${userBTCValue} BTC\``, true)
+        .addField('Your Balance in USD:', `\`$${userUSDValue} USD\``, true)
         .addField('QRL Address:', '[' + userWalletPub + '](' + config.bot_details.explorer_url + '/a/' + userWalletPub + ')')
-        .setFooter('Prices provided by (Coin Gecko)[https://www.coingecko.com/en] using their API. ');
+        .addField('Prices provided by __(Coin Gecko)[https://www.coingecko.com/en]__ using their API. ');
       message.author.send({ embed })
         .then(() => {
           message.channel.stopTyping(true);
