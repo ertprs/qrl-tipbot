@@ -158,6 +158,7 @@ module.exports = {
       message.reply({ embed })
         .then(() => {
           message.channel.stopTyping(true);
+        });
 
       console.log('priceChange24h: ' + priceChange24h)
       console.log('totalSupply: ' + totalSupply)
@@ -253,7 +254,7 @@ module.exports = {
           { name: 'Tipbot Balance - USD', value: '`\u0024 ' + userUSDValue + '`', inline: true },
           { name: 'Tipbot QRL Address:', value: '[' + userWalletPub + '](' + config.bot_details.explorer_url + '/a/' + userWalletPub + ')' },
         )
-        .addField('QRL / USD', '`1 QRL = \u0024 ' + usdValue + '`',true)
+        .addField('QRL / USD', '`1 QRL = \u0024 ' + usdValue + '`', true)
         .setTimestamp()
         .setFooter('Market data provided by Coin Gecko, ');
       message.author.send({ embed })
