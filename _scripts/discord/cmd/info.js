@@ -191,7 +191,8 @@ module.exports = {
         .setColor(0x000000)
         .setTitle('**QRL Exchange Info**')
         .setURL('https://theqrl.org/markets/')
-        .setDescription(`Exchange information where you can trade $QRL.
+        .setDescription(`Exchange information where you can trade $QRL. All volume data provided by Coin Gecko.
+          
           [${bittrexIdentifier}](${bittrexURL}) \`vol: ${bittrexVolume}\`
           [${upbitIdentifier}]( ${upbitURL}) \`vol: ${upbitVolume}\`
           [${upbitIndonesiaIdentifier}](${upbitIndonesiaURL}) \`vol: ${upbitIndonesiaVolume}\`
@@ -203,13 +204,11 @@ module.exports = {
           [SwapZone](https://swapzone.io/?to=qrl)
           [StealthEX](https://stealthex.io/coin/qrl)
           For listing inquires email: *info@theqrl.org*
-
-
           `)
         .addFields(
         )
         .setTimestamp()
-        .setFooter('Market data provided by Coin Gecko - The QRL Contributors ');
+        .setFooter('\:The QRL Contributors\: ');
       message.reply({ embed })
         .then(() => {
           message.channel.stopTyping(true);
