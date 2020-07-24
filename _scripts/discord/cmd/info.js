@@ -313,7 +313,7 @@ module.exports = {
       const userBal = (userBalShor.balance / shor).toFixed(9);
       const userBTCValue = (userBal * btcValue).toFixed(9);
       const userUSDValue = (userBal * usdValue).toFixed(3);
-      console.log('userBal: ' + userBal);
+      // console.log('userBal: ' + userBal);
 
 
       const embed = new Discord.MessageEmbed()
