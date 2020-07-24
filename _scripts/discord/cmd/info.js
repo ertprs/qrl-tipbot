@@ -194,15 +194,15 @@ module.exports = {
         .setDescription(`Exchange information where you can trade $QRL.
 
           [:small_blue_diamond: ${bittrexIdentifier}](${bittrexURL})\t\`${bittrexVolume}\`
-          :small_blue_diamond: [${upbitIdentifier}](${upbitURL})\t\`${upbitVolume}\`
-          :small_blue_diamond: [${upbitIndonesiaIdentifier}](${upbitIndonesiaURL})\t\`${upbitIndonesiaVolume}\`
-          :small_blue_diamond: [${vccIdentifier}](${vccURL})\t\`${vccVolume}\`
-          :small_blue_diamond: [BITEEU](https://trade.biteeu.com/search)
-          :small_blue_diamond: [Bitvoicex](https://bitvoicex.net/markets/qrl_btc)
-          :small_blue_diamond: [CoinTiger](https://www.cointiger.com/en-us/#/trade_center?coin=qrl_btc)
-          :small_blue_diamond: [SimpleSwap](https://simpleswap.io/coins/quantum-resistant-ledger)
-          :small_blue_diamond: [SwapZone](https://swapzone.io/?to=qrl)
-          :small_blue_diamond: [StealthEX](https://stealthex.io/coin/qrl)
+          [:small_blue_diamond: ${upbitIdentifier}](${upbitURL})\t\`${upbitVolume}\`
+          [:small_blue_diamond: ${upbitIndonesiaIdentifier}](${upbitIndonesiaURL})\t\`${upbitIndonesiaVolume}\`
+          [:small_blue_diamond: ${vccIdentifier}](${vccURL})\t\`${vccVolume}\`
+          [:small_blue_diamond: BITEEU](https://trade.biteeu.com/search)
+          [:small_blue_diamond: Bitvoicex](https://bitvoicex.net/markets/qrl_btc)
+          [:small_blue_diamond: CoinTiger](https://www.cointiger.com/en-us/#/trade_center?coin=qrl_btc)
+          [:small_blue_diamond: SimpleSwap](https://simpleswap.io/coins/quantum-resistant-ledger)
+          [:small_blue_diamond: SwapZone](https://swapzone.io/?to=qrl)
+          [:small_blue_diamond: StealthEX](https://stealthex.io/coin/qrl)
 
           For listing inquires email: ***info@theqrl.org***
           *Volume data provided by [Coin Gecko](https://www.coingecko.com/en/coins/quantum-resistant-ledger), not all exchanges are listed on their service.*.
