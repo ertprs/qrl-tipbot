@@ -96,7 +96,8 @@ module.exports = {
     const faucetPayoutInterval = config.faucet.payout_interval;
     const faucetMinPayout = config.faucet.min_payout;
     const faucetMaxPayout = config.faucet.max_payout;
-    const faucetBal = await faucetWalletBalance();
+    let faucetBal = await faucetWalletBalance();
+    let faucetBal = (faucetBal.balance / shor).toFixed(9)
     // general bot data
     const botFee = config.wallet.tx_fee;
     const botUrl = config.bot_details.bot_url;
@@ -184,7 +185,7 @@ module.exports = {
     console.log('botFee: ' + botFee)
     console.log('botUrl: ' + botUrl)
     console.log('explorerURL: ' + explorerURL)
-    console.log('faucetBal: ' + (faucetBal.balance / shor).toFixed(9))
+    console.log('faucetBal: ' + faucetBal)
     console.log('nodeBlockHeight: ' + nodeBlockHeight.height)
 
 
