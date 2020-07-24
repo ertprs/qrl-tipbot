@@ -103,7 +103,7 @@ module.exports = {
     const explorerURL = config.bot_details.explorer_url;
 
     
-    if (args[0] == 'market') {
+    
       // get updated bot wallet balance and faucet wallet balance
       const cgData = JSON.parse(await getCgData());
       const priceChange24h = cgData.market_data.price_change_24h;
@@ -136,6 +136,8 @@ module.exports = {
       const btcLow24h = cgData.market_data.low_24h.btc;
       const btcPriceChange24h = cgData.market_data.price_change_24h_in_currency.btc;
       const btcMarketCapChange24h = cgData.market_data.market_cap_change_24h_in_currency.btc;
+    
+    if (args[0] == 'market') {
       console.log('priceChange24h: ' + priceChange24h)
       console.log('totalSupply: ' + totalSupply)
       console.log('circulatingSupply: ' + circulatingSupply)
