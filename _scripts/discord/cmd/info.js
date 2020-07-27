@@ -136,7 +136,7 @@ module.exports = {
     const usdValue = cgData.market_data.current_price.usd;
     const usdATH = cgData.market_data.ath.usd;
     const usdATHChange = cgData.market_data.ath_change_percentage.usd;
-    const usdAthDate = cgData.market_data.ath_date.usd;
+    const usdAthDate = Date.parse(cgData.market_data.ath_date.usd);
     const usdATL = cgData.market_data.atl.usd;
     const usdATLChange = cgData.market_data.atl_change_percentage.usd;
     const usdMarketCap = cgData.market_data.market_cap.usd;
@@ -171,24 +171,22 @@ module.exports = {
         .setURL('https://www.coingecko.com/en/coins/quantum-resistant-ledger')
         // .setDescription('Details from the balance query.')
         .addFields(
-          { name: 'QRL USD Value:', value: '`\u0024 ' + thousandths(usdValue) + '`' },
-
+          { name: 'QRL USD Value:', value: '`\u0024 ' + thousandths(usdValue) + '`', inline: true },
           { name: 'Market Cap:', value: '`\u0024 ' + thousandths(usdMarketCap) + '`', inline: true },
           { name: 'Volume', value: '`\u0024 ' + thousandths(usdTotalVolume) + '`', inline: true },
-          { name: 'Circulating Supply', value: '`' + thousandths(circulatingSupply.toFixed(0)) + ' / ' + thousandths(totalSupply) + '`' },
-          { name: '24hr Low ', value: '`\u0024 ' + thousandths(usdLow24h) + '`', inline: true },
-          { name: '24hr High', value: '`\u0024 ' + thousandths(usdHigh24h) + '`', inline: true },
+          { name: 'Circulating Supply', value: '`' + thousandths(circulatingSupply.toFixed(0)) + ' / ' + thousandths(totalSupply) + '`', inline: true },
+          { name: '24hr Low/High ', value: '`\u0024 ' + thousandths(usdLow24h) + ' / \u0024 ' + thousandths(usdHigh24h) + '`' },
+          
           { name: 'Price Change 24h', value: priceChange24h, inline: true },
           { name: 'Price Change 24h %', value: priceChange24hPercent, inline: true },
-          { name: 'USD All Time High: ', value: usdATH, inline: true },
+
+          { name: 'USD All Time High: ', value: '\u0024 ' + thousandths(usdATH), inline: true },
           { name: 'USD All Time High Change: ', value: usdATHChange, inline: true },
           { name: 'All Time High Date: ', value: usdAthDate, inline: true },
           { name: 'All Time Low: ', value: usdATL, inline: true },
           { name: 'All Time Low Change: ', value: usdATLChange, inline: true },
           { name: 'Market Cap: ', value: usdMarketCap, inline: true },
           { name: 'Total Volume: ', value: usdTotalVolume, inline: true },
-          { name: 'High 24h: ', value: usdHigh24h, inline: true },
-          { name: 'Low 24h: ', value: usdLow24h, inline: true },
           { name: 'Price Change 24h: ', value: usdPriceChange24h, inline: true },
           { name: 'Market Cap Change24h: ', value: usdMarketCapChange24h, inline: true },
         )
