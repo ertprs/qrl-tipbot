@@ -218,7 +218,7 @@ module.exports = {
         .setDescription('The QRL Tipbot has a faucet included that will give Quanta away to any user signed up to the tipbot. Faucet details below.')
         .addFields(
           { name: 'Tipbot Faucet Balance:', value: '`' + thousandths(faucetBal) + '`' },
-          { name: 'Faucet Payout interval:', value: ':timer: `' + (faucetPayoutInterval / 60) / 24 + ' Day(s)`' },
+          { name: 'Faucet Payout interval:', value: ':timer: `' + ((faucetPayoutInterval / 60) / 24).toFixed(4) + ' Day(s)`' },
           { name: 'Minimum Faucet Payout', value: ':small_red_triangle_down: ` ' + faucetMinPayout + ' shor`', inline: true },
           { name: 'Maximum Faucet Payout', value: ':small_red_triangle: ` ' + faucetMaxPayout + ' shor`', inline: true },
           { name: 'Faucet Wallet Address', value: '[' + FaucetWalletPub + '](' + config.bot_details.explorer_url + '/a/' + FaucetWalletPub + ')' },
