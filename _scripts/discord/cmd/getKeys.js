@@ -75,7 +75,7 @@ module.exports = {
               .addField('Hexseed: ', '||' + keys.hexseed + '||')
               .addField('Mnemonic: ', '||' + keys.mnemonic + '||')
               .addField('For all of my commands:\t', '`+help`');
-            message.author.send({ embed });
+            message.author.send({ embed })
               .then(() => {
                 if (message.channel.type === 'dm') return;
                 ReplyMessage('Details in your DM');
