@@ -243,9 +243,9 @@ module.exports = {
           .setDescription(`Exchange information for the __[Bittrex](${bittrexURL}__) exchange trading QRL.`)
           .addFields(
           { name: 'Volume:', value: '`' + bittrexVolumeRaw + '`' },
-          { name: 'Volume:', value: '`\u0024 ' + bittrexConvertedVolumeUsd + ' usd`', inline: true },
-          { name: 'Volume:', value: '`\u20BF ' + bittrexConvertedVolumeBtc + ' btc`', inline: true },
-          { name: 'Volume:', value: '` ' + bittrexConvertedVolumeEth + ' eth`', inline: true },
+          { name: 'Converted Volume Usd:', value: '`\u0024 ' + bittrexConvertedVolumeUsd + ' usd`', inline: true },
+          { name: 'Converted Volume BTC:', value: '`\u20BF ' + bittrexConvertedVolumeBtc + ' btc`', inline: true },
+          { name: 'Converted Volume ETH:', value: '`\u039E ' + bittrexConvertedVolumeEth + ' eth`', inline: true },
           { name: 'Last Trade: ', value: '\u20BF ` ' + bittrexLastBTC + '`', inline: true },
           { name: 'Bid / Ask Spread:', value: '` ' + bittrexBidAsk + ' %`', inline: true },
           )
@@ -272,9 +272,9 @@ module.exports = {
           .setDescription(`Exchange information for the __[Upbit](${upbitURL}__) exchange trading QRL.`)
           .addFields(
           { name: 'Volume:', value: '`' + upbitVolumeRaw + '`' },
-          { name: 'Volume:', value: '`\u0024 ' + upbitConvertedVolumeUsd + ' usd`', inline: true },
-          { name: 'Volume:', value: '`\u20BF ' + upbitConvertedVolumeBtc + ' btc`', inline: true },
-          { name: 'Volume:', value: '` ' + upbitConvertedVolumeEth + ' eth`', inline: true },
+          { name: 'Converted Volume Usd:', value: '`\u0024 ' + upbitConvertedVolumeUsd + ' usd`', inline: true },
+          { name: 'Converted Volume BTC:', value: '`\u20BF ' + upbitConvertedVolumeBtc + ' btc`', inline: true },
+          { name: 'Converted Volume ETH:', value: '`\u039E ' + upbitConvertedVolumeEth + ' eth`', inline: true },
           { name: 'Last Trade: ', value: '\u20BF ` ' + upbitLastBTC + '`', inline: true },
           { name: 'Bid / Ask Spread:', value: '` ' + upbitBidAsk + ' %`', inline: true },
           )
@@ -301,9 +301,9 @@ module.exports = {
           .setDescription(`Exchange information for the __[Upbit Indonesia](${upbitIndonesiaURL}__) exchange trading QRL.`)
           .addFields(
           { name: 'Volume:', value: '`' + upbitIndonesiaVolumeRaw + '`' },
-          { name: 'Volume:', value: '`\u0024 ' + upbitIndonesiaConvertedVolumeUsd + ' usd`', inline: true },
-          { name: 'Volume:', value: '`\u20BF ' + upbitIndonesiaConvertedVolumeBtc + ' btc`', inline: true },
-          { name: 'Volume:', value: '` ' + upbitIndonesiaConvertedVolumeEth + ' eth`', inline: true },
+          { name: 'Converted Volume Usd:', value: '`\u0024 ' + upbitIndonesiaConvertedVolumeUsd + ' usd`', inline: true },
+          { name: 'Converted Volume BTC:', value: '`\u20BF ' + upbitIndonesiaConvertedVolumeBtc + ' btc`', inline: true },
+          { name: 'Converted Volume ETH:', value: '`\u039E ' + upbitIndonesiaConvertedVolumeEth + ' eth`', inline: true },
           { name: 'Last Trade: ', value: '\u20BF ` ' + upbitIndonesiaLastBTC + '`', inline: true },
           { name: 'Bid / Ask Spread:', value: '` ' + upbitIndonesiaBidAsk + ' %`', inline: true },
           )
@@ -330,9 +330,9 @@ module.exports = {
           .setDescription(`Exchange information for the __[VCC](${upbitIndonesiaURL}__) exchange trading QRL.`)
           .addFields(
           { name: 'Volume:', value: '`' + vccVolumeRaw + '`' },
-          { name: 'Volume:', value: '`\u0024 ' + vccConvertedVolumeUsd + ' usd`', inline: true },
-          { name: 'Volume:', value: '`\u20BF ' + vccConvertedVolumeBtc + ' btc`', inline: true },
-          { name: 'Volume:', value: '` ' + vccConvertedVolumeEth + ' eth`', inline: true },
+          { name: 'Converted Volume Usd:', value: '`\u0024 ' + vccConvertedVolumeUsd + ' usd`', inline: true },
+          { name: 'Converted Volume BTC:', value: '`\u20BF ' + vccConvertedVolumeBtc + ' btc`', inline: true },
+          { name: 'Converted Volume ETH:', value: '`\u039E ' + vccConvertedVolumeEth + ' eth`', inline: true },
           { name: 'Last Trade: ', value: '\u20BF ` ' + vccLastBTC + '`', inline: true },
           { name: 'Bid / Ask Spread:', value: '` ' + vccBidAsk + ' %`', inline: true },
           )
