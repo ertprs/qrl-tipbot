@@ -162,9 +162,9 @@ module.exports = {
 
     // get pool data from a pool
     const poolData = JSON.parse(await getPoolInfo());
-    console.log(poolData.network.difficulty)
+    const hashrate = getHashRate(poolData.network.difficulty / poolData.config.coinDifficultyTarget) + '/sec';
+    console.log(hashrate)
     // const poolInfoData = poolData[0].poolInfo;
-    // const hashrate = getHashRate(poolInfoData.network.difficulty / data.config.coinDifficultyTarget) + '/sec';
     
 
     // ///////////////////////////////
