@@ -196,7 +196,7 @@ module.exports = {
         .setURL('https://faucet.qrl.tips')
         .setDescription('The QRL Tipbot has a faucet included that will give Quanta away to any user signed up to the tipbot. Faucet details below.')
         .addFields(
-          { name: 'Tipbot Faucet Balance:', value: '`' + thousandths(faucetBal) + '`'},
+          { name: 'Tipbot Faucet Balance:', value: '`' + thousandths(faucetBal) + '`' },
           { name: 'Faucet Payout interval:', value: ':timer: `' + faucetPayoutInterval + ' Hours`' },
           { name: 'Minimum Faucet Payout', value: ':small_red_triangle_down: ` ' + faucetMinPayout + ' shor`', inline: true },
           { name: 'Maximum Faucet Payout', value: ':small_red_triangle: ` ' + faucetMaxPayout + ' shor`', inline: true },
@@ -219,10 +219,10 @@ module.exports = {
         .setURL('https://theqrl.org/markets/')
         .setDescription(`Exchange information where you can trade $QRL
 
-          [:small_blue_diamond: ${bittrexIdentifier}](${bittrexURL})\t\`${bittrexVolume}\`
-          [:small_blue_diamond: ${upbitIdentifier}](${upbitURL})\t\`${upbitVolume}\`
-          [:small_blue_diamond: ${upbitIndonesiaIdentifier}](${upbitIndonesiaURL})\t\`${upbitIndonesiaVolume}\`
-          [:small_blue_diamond: ${vccIdentifier}](${vccURL})\t\`${vccVolume}\`
+          [:small_blue_diamond: ${bittrexIdentifier}](${bittrexURL})\t\`${(bittrexVolume).toFixed(4)}\`
+          [:small_blue_diamond: ${upbitIdentifier}](${upbitURL})\t\`${(upbitVolume).toFixed(9)}\`
+          [:small_blue_diamond: ${upbitIndonesiaIdentifier}](${upbitIndonesiaURL})\t\`${(upbitIndonesiaVolume).toFixed(4)}\`
+          [:small_blue_diamond: ${vccIdentifier}](${vccURL})\t\`${(vccVolume).toFixed(9)}\`
           [:small_blue_diamond: BITEEU](https://trade.biteeu.com/search)
           [:small_blue_diamond: Bitvoicex](https://bitvoicex.net/markets/qrl_btc)
           [:small_blue_diamond: CoinTiger](https://www.cointiger.com/en-us/#/trade_center?coin=qrl_btc)
