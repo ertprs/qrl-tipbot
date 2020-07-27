@@ -179,9 +179,9 @@ module.exports = {
           { name: '24hr BTC Low/High', value: '`\u20BF' + thousandths(btcLow24h) + ' / \u20BF' + thousandths(btcHigh24h) + '`' },
 
           { name: 'ATH USD:', value: '`\u0024' + thousandths((usdATH).toFixed(2)) + ' %' + (usdATHChange).toFixed(2) + '`', inline: true },
-          { name: 'ATH BTC:', value: '`\u20BF' + thousandths((btcATH).toFixed(9)) + ' %' + (btcATHChange).toFixed(2) + '`', inline: true },
+          { name: 'ATH BTC:', value: '`\u20BF' + thousandths((btcATH).toFixed(8)) + ' %' + (btcATHChange).toFixed(2) + '`', inline: true },
           { name: 'ATL USD:', value: '`\u0024' + thousandths((usdATL).toFixed(2)) + ' %' + (usdATLChange).toFixed(2) + '`', inline: true },
-          { name: 'ATL BTC:', value: '`\u20BF' + thousandths((btcATL).toFixed(9)) + ' %' + (btcATLChange).toFixed(2) + '`', inline: true },
+          { name: 'ATL BTC:', value: '`\u20BF' + thousandths((btcATL).toFixed(8)) + ' %' + (btcATLChange).toFixed(2) + '`', inline: true },
 
           { name: 'Market Cap Change24h: ', value: usdMarketCapChange24h, inline: true },
           { name: 'Circulating / Total Supply', value: '`' + thousandths(circulatingSupply.toFixed(0)) + ' / ' + thousandths(totalSupply) + '`', inline: true },
