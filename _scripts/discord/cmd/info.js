@@ -109,28 +109,28 @@ module.exports = {
     const totalSupply = cgData.market_data.total_supply;
     // vcc info
     let vccVolume = cgData.tickers[0].volume;
-    vccVolume = thousandths(vccVolume.toFixed(4));
+    vccVolume = thousandths(vccVolume.toFixed(2));
     const vccIdentifier = cgData.tickers[0].market.name;
     const vccURL = cgData.tickers[0].trade_url;
     const vccLastBTC = cgData.tickers[0].last;
     const vccBidAsk = cgData.tickers[0].bid_ask_spread_percentage;
     // bittrex info from coinGecko
     let bittrexVolume = cgData.tickers[1].volume;
-    bittrexVolume = thousandths(bittrexVolume.toFixed(4));
+    bittrexVolume = thousandths(bittrexVolume.toFixed(2));
     const bittrexIdentifier = cgData.tickers[1].market.name;
     const bittrexURL = cgData.tickers[1].trade_url;
     const bittrexLastBTC = cgData.tickers[1].last;
     const bittrexBidAsk = cgData.tickers[1].bid_ask_spread_percentage;
     // upbit info
     let upbitVolume = cgData.tickers[2].volume;
-    upbitVolume = thousandths(upbitVolume.toFixed(4));
+    upbitVolume = thousandths(upbitVolume.toFixed(2));
     const upbitIdentifier = cgData.tickers[2].market.name;
     const upbitURL = cgData.tickers[2].trade_url;
     const upbitLastBTC = cgData.tickers[2].last;
     const upbitBidAsk = cgData.tickers[2].bid_ask_spread_percentage;
     // upbit Indonesia info
     let upbitIndonesiaVolume = cgData.tickers[3].volume;
-    upbitIndonesiaVolume = thousandths(upbitIndonesiaVolume.toFixed(4));
+    upbitIndonesiaVolume = thousandths(upbitIndonesiaVolume.toFixed(2));
     const upbitIndonesiaIdentifier = cgData.tickers[3].market.name;
     const upbitIndonesiaURL = cgData.tickers[3].trade_url;
     const upbitIndonesiaLastBTC = cgData.tickers[3].last;
