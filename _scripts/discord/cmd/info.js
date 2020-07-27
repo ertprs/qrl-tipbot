@@ -199,7 +199,7 @@ module.exports = {
           { name: 'Tipbot Faucet Balance:', value: '`' + thousandths(faucetBal) + '`', inline: true },
           { name: 'Faucet Payout interval:', value: ':timer: `' + faucetPayoutInterval + ' Hours`', inline: true },
           { name: 'Minimum Faucet Payout', value: ':small_red_triangle_down: ` ' + faucetMinPayout + ' shor`', inline: true },
-          { name: 'Maximum Faucet Payout', value: ':small_red_triangle_up: ` ' + faucetMaxPayout + ' shor`', inline: true },
+          { name: 'Maximum Faucet Payout', value: ':small_red_triangle: ` ' + faucetMaxPayout + ' shor`', inline: true },
           { name: 'Faucet Wallet Address', value: '[' + FaucetWalletPub + '](' + config.bot_details.explorer_url + '/a/' + FaucetWalletPub + ')' },
         )
         .setTimestamp()
