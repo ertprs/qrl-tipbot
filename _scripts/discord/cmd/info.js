@@ -191,10 +191,10 @@ module.exports = {
           { name: '24hr USD Low/High', value: '`\u0024 ' + thousandths((usdLow24h).toFixed(3)) + ' / \u0024 ' + thousandths((usdHigh24h).toFixed(3)) + '`' },
           { name: '24hr BTC Low/High', value: '`\u20BF ' + thousandths(btcLow24h) + ' / \u20BF ' + thousandths(btcHigh24h) + '`' },
 
-          { name: 'ALl TIme High:', value: 'USD: `\u0024 ' + thousandths((usdATH).toFixed(2)) + ' (% ' + (usdATHChange).toFixed(2) + ')` BTC: `\u20BF ' + thousandths((btcATH).toFixed(9)) + ' (% ' + (btcATHChange).toFixed(2) + ')`' },
+          { name: 'All TIme High:', value: '**USD:** `\u0024 ' + thousandths((usdATH).toFixed(2)) + ' (% ' + (usdATHChange).toFixed(2) + ')` **BTC:** `\u20BF ' + thousandths((btcATH).toFixed(9)) + ' (% ' + (btcATHChange).toFixed(2) + ')`' },
           // { name: 'ATH BTC:', value: '`\u20BF ' + thousandths((btcATH).toFixed(9)) + ' (% ' + (btcATHChange).toFixed(2) + ')`', inline: true },
           // { name: 'ATH Date:', value: '`' + new Date(usdATHDateRaw) + '`' },
-          { name: 'All Time Low', value: 'USD: `\u0024 ' + thousandths((usdATL).toFixed(2)) + ' (% ' + (usdATLChange).toFixed(2) + ')` BTC: `\u20BF ' + thousandths((btcATL).toFixed(9)) + ' (% ' + (btcATLChange).toFixed(2) + ')`', inline: true },
+          { name: 'All Time Low', value: '**USD:** `\u0024 ' + thousandths((usdATL).toFixed(2)) + ' (% ' + (usdATLChange).toFixed(2) + ')` **BTC:** `\u20BF ' + thousandths((btcATL).toFixed(9)) + ' (% ' + (btcATLChange).toFixed(2) + ')`', inline: true },
           // { name: 'ATL BTC:', value: '', inline: true },
           // { name: 'ATL Date:', value: '`' + new Date(usdATLDate) + '`' },
 
