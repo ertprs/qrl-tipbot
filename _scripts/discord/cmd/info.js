@@ -249,7 +249,7 @@ module.exports = {
           .setURL(bittrexURL)
           .setDescription(`QRL trading information for the [Bittrex](${bittrexURL}) exchange.`)
           .addFields(
-          { name: 'Volume:', value: '`' + bittrexVolumeRaw + '`' },
+          { name: 'Volume:', value: '`' + bittrexVolumeRaw + ' QRL`' },
           { name: 'Converted Volume Usd:', value: '`\u0024 ' + bittrexConvertedVolumeUsd + ' usd`', inline: true },
           { name: 'Converted Volume BTC:', value: '`\u20BF ' + bittrexConvertedVolumeBtc + ' btc`', inline: true },
           { name: 'Converted Volume ETH:', value: '`\u039E ' + bittrexConvertedVolumeEth + ' eth`', inline: true },
@@ -278,7 +278,7 @@ module.exports = {
           .setURL(upbitURL)
           .setDescription(`QRL trading information for the [Upbit](${upbitURL}) exchange.`)
           .addFields(
-          { name: 'Volume:', value: '`' + upbitVolumeRaw + '`' },
+          { name: 'Volume:', value: '`' + upbitVolumeRaw + ' QRL`' },
           { name: 'Converted Volume Usd:', value: '`\u0024 ' + upbitConvertedVolumeUsd + ' usd`', inline: true },
           { name: 'Converted Volume BTC:', value: '`\u20BF ' + upbitConvertedVolumeBtc + ' btc`', inline: true },
           { name: 'Converted Volume ETH:', value: '`\u039E ' + upbitConvertedVolumeEth + ' eth`', inline: true },
@@ -307,7 +307,7 @@ module.exports = {
           .setURL(upbitURL)
           .setDescription(`QRL trading information for the [Upbit Indonesia](${upbitIndonesiaURL}) exchange.`)
           .addFields(
-          { name: 'Volume:', value: '`' + upbitIndonesiaVolumeRaw + '`' },
+          { name: 'Volume:', value: '`' + upbitIndonesiaVolumeRaw + ' QRL`' },
           { name: 'Converted Volume Usd:', value: '`\u0024 ' + upbitIndonesiaConvertedVolumeUsd + ' usd`', inline: true },
           { name: 'Converted Volume BTC:', value: '`\u20BF ' + upbitIndonesiaConvertedVolumeBtc + ' btc`', inline: true },
           { name: 'Converted Volume ETH:', value: '`\u039E ' + upbitIndonesiaConvertedVolumeEth + ' eth`', inline: true },
@@ -336,7 +336,7 @@ module.exports = {
           .setURL(upbitURL)
           .setDescription(`QRL trading information for the [VCC](${upbitIndonesiaURL}) exchange.`)
           .addFields(
-          { name: 'Volume:', value: '`' + vccVolumeRaw + '`' },
+          { name: 'Volume:', value: '`' + vccVolumeRaw + ' QRL`' },
           { name: 'Converted Volume Usd:', value: '`\u0024 ' + vccConvertedVolumeUsd + ' usd`', inline: true },
           { name: 'Converted Volume BTC:', value: '`\u20BF ' + vccConvertedVolumeBtc + ' btc`', inline: true },
           { name: 'Converted Volume ETH:', value: '`\u039E ' + vccConvertedVolumeEth + ' eth`', inline: true },
