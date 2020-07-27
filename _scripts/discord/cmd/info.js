@@ -3,7 +3,7 @@ module.exports = {
   description: 'Information about this bot and the QRL Network.',
   aliases: ['information', '??', 'details', 'stats', 'status', 'state'],
   args: false,
-  usage: '\n`{alias: information | details | stats | status | state}`\n`{args: market | exchange {exchange_name} | faucet | bot }`\nGives details about the network, QRL Market, tipbot etc. Will also print your current tipbot details to DM',
+  usage: '\n`{alias: ?? | information | details | stats | status | state}`\n`{args: market | exchange {exchange_name} | faucet | bot | user }`\nGives details about the network, QRL Market, tipbot etc. Will also print your current tipbot details to DM',
   cooldown: 1,
   execute(message, args) {
 
@@ -105,7 +105,7 @@ module.exports = {
     const faucetBal = (faucetBalShor.balance / shor).toFixed(9);
 
     // general bot data
-    const botFee = config.wallet.tx_fee;
+    // const botFee = config.wallet.tx_fee;
     const botUrl = config.bot_details.bot_url;
     const explorerURL = config.bot_details.explorer_url;
     // get updated bot wallet balance and faucet wallet balance
@@ -413,8 +413,8 @@ module.exports = {
           { name: 'Block Height: ', value: '`' + nodeBlockHeight.height + '`', inline: true },
           { name: 'Network Hashrate:', value: '`' + hashrate + '`', inline: true },
           { name: 'Mining Difficulty:', value: '`' + hashrate + '`', inline: true },
-          // FIX-ME: 
-          //    add more information about the bot here 
+          // FIX-ME:
+          //    add more information about the bot here
           //    including how many accounts signed up, total tips sent, servers and other bot stats.
 
           // { name: 'Bot Transaction Fees:', value: '`\u0024 ' + botFee + '`', inline: true },
@@ -451,6 +451,11 @@ module.exports = {
       else {
         deleteMessage();
         // user found and all checks pass Send them a message with tipbot account details
+        //
+        // FIX-ME
+        //
+        // Add more details for users here, tips sent, tips received, faucet withdraws etc fro DB
+        //
         // if (message.channel.type === 'dm') return;
         const userWalletPub = userData[0].wallet_pub;
         const userBalShor = await userWalletBalance(userWalletPub);
@@ -483,94 +488,13 @@ module.exports = {
             ReplyMessage('it seems like I can\'t DM you! Do you have DMs disabled?');
             return;
           });
+        }
+      }
+      // get block height from node
+      else {
+        ReplyMessage('Use this bot to send and receive tips on the QRL network. `+help info` for more commands.');
       }
     }
-    // get block height from node
-    else {
-      ReplyMessage('Use this bot to send and receive tips on the QRL network. `+help info` for more commands.');
-    }
-}
-  main();
-
-
-/*
-  async function getUserInfo() {
-    // look in the database for the user
-    const username = `${message.author}`;
-    const userName = username.slice(1, -1);
-    const userInfo = { service: 'discord', service_id: userName };
-    const data = await dbHelper.GetAllUserInfo(userInfo);
-    // will return array of user data or not found.
-    return data;
-  }
-
-  async function cgData() {
-    const data = await getCgData();
-    const array = [];
-    array.push({ cgData: data });
-    return array;
-  }
-
-  async function Height() {
-    const data = await getHeight();
-    const array = [];
-    array.push({ height: data });
-    return array;
-  }
-  async function poolInfo() {
-    const data = await getPoolInfo();
-    const array = [];
-    array.push({ poolInfo: data });
-    return array;
-  }
-  async function faucetBal() {
-    const data = await faucetWalletBalance();
-    const array = [];
-    array.push({ faucetBal: data });
-    return array;
-  }
-// /////////////////////////////////////////////
-
-
-  getUserInfo().then(function(userInfo) {
-    // set variables from db search
-    console.log(JSON.stringify(userInfo));
-    const found = userInfo[0].user_found;
-    const optOut = userInfo[0].opt_out;
-    const agree = userInfo[0].user_agree;
-    // run through checks and fail if, else serve info to user
-    // is user found?
-    if (!found) {
-      // not found, give main message and end
-      // ReplyMessage('Your not found in the System. Try `+add` or `+help`');
-      return;
-    }
-    // check for opt_out status
-    if (optOut) {
-      // Opt Out, give main message and end
-      // ReplyMessage('You have opted out of the tipbot. Please send `+opt-in` to opt back in!');
-      return;
-    }
-    if (!agree) {
-      // not Agreed, give main message and end
-      // ReplyMessage('You need to agree, please see the `+terms`');
-      return;
-    }
-    else {
-      // user found and all checks pass
-      const userWalletPub = userInfo[0].wallet_pub;
-      const FaucetWalletPub = config.faucet.faucet_wallet_pub;
-      const faucetPayoutInterval = config.faucet.payout_interval;
-      const faucetMinPayout = config.faucet.min_payout;
-      const faucetMaxPayout = config.faucet.max_payout;
-      const botFee = config.wallet.tx_fee;
-      const botUrl = config.bot_details.bot_url;
-      const explorerURL = config.wallet.explorer_url;
-      // get updated bot wallet balance and faucet wallet balance
-
-
-    }
-  });
-*/
+    main();
   },
 };

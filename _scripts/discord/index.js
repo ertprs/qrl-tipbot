@@ -122,6 +122,7 @@ let counter = 0;
 // const i = setInterval(function() {
   setInterval(function() {
   counter++;
+  /*
   if(counter === 1) {
     // call the function and get the results
     cgData().then(function(usdResp) {
@@ -156,7 +157,8 @@ let counter = 0;
         .catch(console.error);
     });
   }
-  if(counter === 4) {
+  */
+  if(counter === 1) {
     // call the function and get the results
     poolInfo().then(function(poolInfoResp) {
       // console.log(JSON.stringify(usdResp[0].cgData))
@@ -167,7 +169,7 @@ let counter = 0;
         .catch(console.error);
     });
   }
-  if(counter === 5) {
+  if(counter === 2) {
     // call the function and get the results
     faucetBal().then(function(faucetBalResp) {
       // console.log(JSON.stringify(faucetBalResp[0].faucetBal))
@@ -187,7 +189,7 @@ let counter = 0;
       }
     });
   }
-  if(counter === 6) {
+  if(counter === 3) {
     Height().then(function(heightResp) {
       const height = JSON.parse(heightResp[0].height);
     // console.log('print blockheight');
@@ -196,7 +198,7 @@ let counter = 0;
       .catch(console.error);
     });
   }
-  if(counter === 7) {
+  if(counter === 4) {
     // reset to initial message
     client.user.setPresence({ activity: { name: 'for tips', type: 'WATCHING', url: 'https://qrl.tips', details: 'QRL TipBot sending quanta, and giving away funds in the faucet.', state: 'active and awake', applicationID: 'v1.0.0' }, status: 'online' })
       .catch(console.error);
