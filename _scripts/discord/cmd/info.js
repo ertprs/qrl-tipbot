@@ -386,10 +386,10 @@ module.exports = {
           .setURL('https://theqrl.org/markets/')
           .setDescription(`Exchange information where you can trade $QRL
 
-          [:small_blue_diamond: ${bittrexIdentifier}](${bittrexURL})\tvolume: \`\u0024 ${bittrexVolume}\`
-          [:small_blue_diamond: ${upbitIdentifier}](${upbitURL})\tvolume: \`\u0024 ${upbitVolume}\`
-          [:small_blue_diamond: ${upbitIndonesiaIdentifier}](${upbitIndonesiaURL})\tvolume: \`\u0024 ${upbitIndonesiaVolume}\`
-          [:small_blue_diamond: ${vccIdentifier}](${vccURL})\tvolume: \`\u0024 ${vccVolume}\`
+          [:small_blue_diamond: ${bittrexIdentifier}](${bittrexURL})\tvolume: \`\u0024${bittrexVolume}\`
+          [:small_blue_diamond: ${upbitIdentifier}](${upbitURL})\tvolume: \`\u0024${upbitVolume}\`
+          [:small_blue_diamond: ${upbitIndonesiaIdentifier}](${upbitIndonesiaURL})\tvolume: \`\u0024${upbitIndonesiaVolume}\`
+          [:small_blue_diamond: ${vccIdentifier}](${vccURL})\tvolume: \`\u0024${vccVolume}\`
           [:small_blue_diamond: BITEEU](https://trade.biteeu.com/search)
           [:small_blue_diamond: Bitvoicex](https://bitvoicex.net/markets/qrl_btc)
           [:small_blue_diamond: CoinTiger](https://www.cointiger.com/en-us/#/trade_center?coin=qrl_btc)
