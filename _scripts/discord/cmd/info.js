@@ -174,8 +174,8 @@ module.exports = {
           { name: 'QRL USD Value:', value: '`\u0024' + thousandths(usdValue) + '`', inline: true },
           { name: 'Market Cap:', value: '`\u0024' + thousandths(usdMarketCap) + '`', inline: true },
           { name: 'Volume', value: '`\u0024' + thousandths(usdTotalVolume) + '`', inline: true },
-          { name: '24hr USD Low/High', value: '`\u0024' + thousandths((usdLow24h).toFixed(3)) + ' / \u0024' + thousandths((usdHigh24h).toFixed(3)) + '`', inline: true },
-          { name: '24hr BTC Low/High', value: '`\u20BF' + thousandths(btcLow24h) + ' / \u20BF' + thousandths(btcHigh24h) + '`', inline: true },
+          { name: '24hr USD Low/High', value: '`\u0024' + thousandths((usdLow24h).toFixed(3)) + ' / \u0024' + thousandths((usdHigh24h).toFixed(3)) + '`' },
+          { name: '24hr BTC Low/High', value: '`\u20BF' + thousandths(btcLow24h) + ' / \u20BF' + thousandths(btcHigh24h) + '`' },
           { name: 'Price Change 24h - QRL', value: '`' + (priceChange24h).toFixed(4) + ' %' + (priceChange24hPercent).toFixed(2) + '`', inline: true },
           
 
