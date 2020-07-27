@@ -170,18 +170,18 @@ module.exports = {
         .setURL('https://www.coingecko.com/en/coins/quantum-resistant-ledger')
         // .setDescription('Details from the balance query.')
         .addFields(
-          { name: 'QRL USD Value:', value: '`\u0024 ' + thousandths(usdValue) + '`', inline: true },
-          { name: 'Volume USD / BTC', value: '`\u0024 ' + thousandths(usdTotalVolume) + ' / \u20BF ' + thousandths(btcTotalVolume) + '`', inline: true },
-          { name: 'Price Change USD / BTC 24h', value: '`\u0024 ' + (usdPriceChange24h).toFixed(4) + ' \u20BF   ' + (btcPriceChange24h).toFixed(9) + ' (% ' + (priceChange24hPercent).toFixed(2) + ')`' },
-          { name: 'Market Cap:', value: '`\u0024 ' + thousandths(usdMarketCap) + ' / \u20BF ' + thousandths(btcMarketCap) + '`', inline: true },
-          { name: 'Market Cap Change 24h: ', value: '`\u0024 ' + thousandths(usdMarketCapChange24h) + ' / \u20BF ' + thousandths(btcMarketCapChange24h) + '`', inline: true },
-          { name: '24hr USD Low/High', value: '`\u0024 ' + thousandths((usdLow24h).toFixed(3)) + ' / \u0024 ' + thousandths((usdHigh24h).toFixed(3)) + '`' },
-          { name: '24hr BTC Low/High', value: '`\u20BF ' + thousandths(btcLow24h) + ' / \u20BF ' + thousandths(btcHigh24h) + '`' },
+          { name: 'QRL USD Value:', value: '`\u0024' + thousandths(usdValue) + '`', inline: true },
+          { name: 'Volume USD / BTC', value: '`\u0024' + thousandths(usdTotalVolume) + ' / \u20BF' + thousandths(btcTotalVolume) + '`', inline: true },
+          { name: 'Price Change USD / BTC 24h', value: '`\u0024' + (usdPriceChange24h).toFixed(4) + ' \u20BF' + (btcPriceChange24h).toFixed(9) + ' (% ' + (priceChange24hPercent).toFixed(2) + ')`' },
+          { name: 'Market Cap:', value: '`\u0024' + thousandths(usdMarketCap) + ' / \u20BF' + thousandths(btcMarketCap) + '`', inline: true },
+          { name: 'Market Cap Change 24h: ', value: '`\u0024' + thousandths(usdMarketCapChange24h) + ' / \u20BF' + thousandths(btcMarketCapChange24h) + '`', inline: true },
+          { name: '24hr USD Low/High', value: '`\u0024' + thousandths((usdLow24h).toFixed(3)) + ' / \u0024' + thousandths((usdHigh24h).toFixed(3)) + '`' },
+          { name: '24hr BTC Low/High', value: '`\u20BF' + thousandths(btcLow24h) + ' / \u20BF' + thousandths(btcHigh24h) + '`' },
 
-          { name: 'All TIme High:', value: '**USD:** `\u0024 ' + thousandths((usdATH).toFixed(2)) + ' (% ' + (usdATHChange).toFixed(2) + ')` **BTC:** `\u20BF ' + thousandths((btcATH).toFixed(9)) + ' (% ' + (btcATHChange).toFixed(2) + ')`' },
+          { name: 'All TIme High:', value: '**USD:** `\u0024' + thousandths((usdATH).toFixed(2)) + ' (% ' + (usdATHChange).toFixed(2) + ')` **BTC:** `\u20BF' + thousandths((btcATH).toFixed(9)) + ' (% ' + (btcATHChange).toFixed(2) + ')`' },
           // { name: 'ATH BTC:', value: '`\u20BF ' + thousandths((btcATH).toFixed(9)) + ' (% ' + (btcATHChange).toFixed(2) + ')`', inline: true },
           // { name: 'ATH Date:', value: '`' + new Date(usdATHDateRaw) + '`' },
-          { name: 'All Time Low', value: '**USD:** `\u0024 ' + thousandths((usdATL).toFixed(2)) + ' (% ' + (usdATLChange).toFixed(2) + ')` **BTC:** `\u20BF ' + thousandths((btcATL).toFixed(9)) + ' (% ' + (btcATLChange).toFixed(2) + ')`', inline: true },
+          { name: 'All Time Low', value: '**USD:** `\u0024' + thousandths((usdATL).toFixed(2)) + ' (% ' + (usdATLChange).toFixed(2) + ')` **BTC:** `\u20BF' + thousandths((btcATL).toFixed(9)) + ' (% ' + (btcATLChange).toFixed(2) + ')`', inline: true },
           // { name: 'ATL BTC:', value: '', inline: true },
           // { name: 'ATL Date:', value: '`' + new Date(usdATLDate) + '`' },
 
