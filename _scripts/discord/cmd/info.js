@@ -171,22 +171,21 @@ module.exports = {
         .setURL('https://www.coingecko.com/en/coins/quantum-resistant-ledger')
         // .setDescription('Details from the balance query.')
         .addFields(
-          { name: 'QRL USD Value:', value: '`\u0024 ' + thousandths(usdValue) + '`', inline: true },
-          { name: 'Market Cap:', value: '`\u0024 ' + thousandths(usdMarketCap) + '`', inline: true },
-          { name: 'Volume', value: '`\u0024 ' + thousandths(usdTotalVolume) + '`', inline: true },
-          { name: 'Circulating Supply', value: '`' + thousandths(circulatingSupply.toFixed(0)) + ' / ' + thousandths(totalSupply) + '`', inline: true },
-          { name: '24hr USD Low/High', value: '`\u0024 ' + thousandths((usdLow24h).toFixed(3)) + ' / \u0024 ' + thousandths((usdHigh24h).toFixed(3)) + '`', inline: true },
-          { name: '24hr BTC Low/High', value: '`\u20BF ' + thousandths(btcLow24h) + ' / \u20BF ' + thousandths(btcHigh24h) + '`', inline: true },
+          { name: 'QRL USD Value:', value: '`\u0024' + thousandths(usdValue) + '`', inline: true },
+          { name: 'Market Cap:', value: '`\u0024' + thousandths(usdMarketCap) + '`', inline: true },
+          { name: 'Volume', value: '`\u0024' + thousandths(usdTotalVolume) + '`', inline: true },
+          { name: '24hr USD Low/High', value: '`\u0024' + thousandths((usdLow24h).toFixed(3)) + ' / \u0024' + thousandths((usdHigh24h).toFixed(3)) + '`', inline: true },
+          { name: '24hr BTC Low/High', value: '`\u20BF' + thousandths(btcLow24h) + ' / \u20BF' + thousandths(btcHigh24h) + '`', inline: true },
+          { name: 'Price Change 24h - QRL', value: '`' + (priceChange24h).toFixed(4) + ' %' + (priceChange24hPercent).toFixed(2) + '`', inline: true },
+          
 
-          { name: 'Price Change 24h - QRL', value: '`' + (priceChange24h).toFixed(4) + (priceChange24hPercent).toFixed(2) + '`', inline: true },
-          
-          
           { name: 'All Time High: ', value: '`\u0024' + thousandths(usdATH) + ' %' + usdATHChange + ' / \u20BF' + thousandths(btcATH) + ' %' + btcATHChange + '`', inline: true },
           { name: 'All Time Low: ', value: '`\u0024' + thousandths(usdATL) + ' %' + usdATLChange + ' / \u20BF' + thousandths(btcATL) + ' %' + btcATLChange + '`', inline: true },
           { name: 'Market Cap: ', value: usdMarketCap, inline: true },
           { name: 'Total Volume: ', value: usdTotalVolume, inline: true },
           { name: 'Price Change 24h: ', value: usdPriceChange24h, inline: true },
           { name: 'Market Cap Change24h: ', value: usdMarketCapChange24h, inline: true },
+          { name: 'Circulating / Total Supply', value: '`' + thousandths(circulatingSupply.toFixed(0)) + ' / ' + thousandths(totalSupply) + '`', inline: true },
         )
         .setTimestamp()
         .setFooter('.: The QRL Contributors :. Market data provided by Coin Gecko');
