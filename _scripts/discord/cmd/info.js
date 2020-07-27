@@ -138,7 +138,7 @@ module.exports = {
     const usdATHChange = cgData.market_data.ath_change_percentage.usd;
 
     const usdATHDateRaw = cgData.market_data.ath_date.usd;
-    const usdATHDate = Date.parse(usdATHDateRaw);
+    const usdATHDate = new Date(usdATHDateRaw);
     let d = new Date(0);
 
 
@@ -192,10 +192,10 @@ module.exports = {
 
           { name: 'ATH USD:', value: '`\u0024' + thousandths((usdATH).toFixed(2)) + ' %' + (usdATHChange).toFixed(2) + '`', inline: true },
           { name: 'ATH BTC:', value: '`\u20BF' + thousandths((btcATH).toFixed(8)) + ' %' + (btcATHChange).toFixed(2) + '`', inline: true },
-          { name: 'ATH Date:', value: '`' + new Date(usdATHDate.toDateString()) + '`' },
+          { name: 'ATH Date:', value: '`' + new Date(usdATHDate.setHours(0, 0, 0, 0)) + '`' },
           { name: 'ATL USD:', value: '`\u0024' + thousandths((usdATL).toFixed(2)) + ' %' + (usdATLChange).toFixed(2) + '`', inline: true },
           { name: 'ATL BTC:', value: '`\u20BF' + thousandths((btcATL).toFixed(8)) + ' %' + (btcATLChange).toFixed(2) + '`', inline: true },
-          { name: 'ATL Date:', value: '`' + new Date(usdATLDate.toDateString()) + '`' },
+          { name: 'ATL Date:', value: '`' + new Date(usdATLDate) + '`' },
 
           { name: 'Market Cap Change24h: ', value: usdMarketCapChange24h, inline: true },
           { name: 'Circulating / Total Supply', value: '`' + thousandths(circulatingSupply.toFixed(0)) + ' / ' + thousandths(totalSupply) + '`', inline: true },
