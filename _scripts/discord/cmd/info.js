@@ -172,7 +172,7 @@ module.exports = {
         // .setDescription('Details from the balance query.')
         .addFields(
           { name: 'QRL USD Value:', value: '`\u0024' + thousandths(usdValue) + '`', inline: true },
-          { name: 'Price Change 24h - QRL', value: '`' + (priceChange24h).toFixed(4) + ' shor | %' + (priceChange24hPercent).toFixed(2) + '( \u0024' + usdPriceChange24h + ' )`', inline: true },
+          { name: 'Price Change 24h - QRL', value: '`' + (priceChange24h).toFixed(4) + ' shor | %' + (priceChange24hPercent).toFixed(2) + '( \u0024' + (usdPriceChange24h).toFixed(2) + ' )`', inline: true },
           
           { name: 'Price Change 24h: ', value: usdPriceChange24h, inline: true },
           { name: 'Volume', value: '`\u0024' + thousandths(usdTotalVolume) + '`', inline: true },
