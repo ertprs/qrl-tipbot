@@ -159,7 +159,7 @@ module.exports = {
     const btcPriceChange24h = cgData.market_data.price_change_24h_in_currency.btc;
     const btcMarketCapChange24h = cgData.market_data.market_cap_change_24h_in_currency.btc;
     // get pool data from a pool
-      const poolData = JSON.parse(await getPoolInfo());
+    const poolData = JSON.parse(await getPoolInfo());
     // ///////////////////////////////
     // Market Request               //
     // ///////////////////////////////
@@ -171,10 +171,10 @@ module.exports = {
         // .setDescription('Details from the balance query.')
         .addFields(
           { name: 'QRL USD Value:', value: '`\u0024 ' + thousandths(usdValue) + '`', inline: true },
-          { name: 'Volume', value: '`\u0024 ' + thousandths(usdTotalVolume) + '` | `\u20BF ' + thousandths(btcTotalVolume) + '`', inline: true },
-          { name: 'Price Change 24h', value: '`\u0024 ' + (usdPriceChange24h).toFixed(4) + ' (% ' + (priceChange24hPercent).toFixed(2) + ')`', inline: true },
-          { name: 'Market Cap:', value: '`\u0024 ' + thousandths(usdMarketCap) + '` | `\u20BF ' + thousandths(btcMarketCap) + '`', inline: true },
-          { name: 'Market Cap Change24h: ', value: '`' + thousandths(usdMarketCapChange24h) + '`', inline: true },
+          { name: 'Volume USD / BTC', value: '`\u0024 ' + thousandths(usdTotalVolume) + ' / \u20BF ' + thousandths(btcTotalVolume) + '`', inline: true },
+          { name: 'Price Change USD / BTC 24h', value: '`\u0024 ' + (usdPriceChange24h).toFixed(4) + ' \u20BF   ' + (btcPriceChange24h).toFixed(9) + ' (% ' + (priceChange24hPercent).toFixed(2) + ')`' },
+          { name: 'Market Cap:', value: '`\u0024 ' + thousandths(usdMarketCap) + ' / \u20BF ' + thousandths(btcMarketCap) + '`', inline: true },
+          { name: 'Market Cap Change 24h: ', value: '`\u0024 ' + thousandths(usdMarketCapChange24h) + ' / \u20BF ' + thousandths(btcMarketCapChange24h) + '`', inline: true },
           { name: '24hr USD Low/High', value: '`\u0024 ' + thousandths((usdLow24h).toFixed(3)) + ' / \u0024 ' + thousandths((usdHigh24h).toFixed(3)) + '`' },
           { name: '24hr BTC Low/High', value: '`\u20BF ' + thousandths(btcLow24h) + ' / \u20BF ' + thousandths(btcHigh24h) + '`' },
 
