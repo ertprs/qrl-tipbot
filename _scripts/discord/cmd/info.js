@@ -158,8 +158,15 @@ module.exports = {
     const btcLow24h = cgData.market_data.low_24h.btc;
     const btcPriceChange24h = cgData.market_data.price_change_24h_in_currency.btc;
     const btcMarketCapChange24h = cgData.market_data.market_cap_change_24h_in_currency.btc;
+    
+
     // get pool data from a pool
     const poolData = JSON.parse(await getPoolInfo());
+    console.log(poolData)
+    // const poolInfoData = poolData[0].poolInfo;
+    // const hashrate = getHashRate(poolInfoData.network.difficulty / data.config.coinDifficultyTarget) + '/sec';
+    
+
     // ///////////////////////////////
     // Market Request               //
     // ///////////////////////////////
@@ -168,7 +175,7 @@ module.exports = {
         .setColor('GREEN')
         .setTitle('**QRL Market Info**')
         .setURL('https://www.coingecko.com/en/coins/quantum-resistant-ledger')
-        .setDescription('Market information from Coin Gecko for QRL. For information only, DYOR!.')
+        .setDescription('Market information from Coin Gecko for QRL. For information only, *DYOR!*')
         .addFields(
           { name: 'QRL USD Value:', value: '`\u0024' + thousandths(usdValue) + '`', inline: true },
           { name: 'Volume USD / BTC', value: '`\u0024' + thousandths(usdTotalVolume) + ' / \u20BF' + thousandths(btcTotalVolume) + '`', inline: true },
