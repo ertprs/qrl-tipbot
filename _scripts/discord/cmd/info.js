@@ -136,9 +136,10 @@ module.exports = {
     const usdValue = cgData.market_data.current_price.usd;
     const usdATH = cgData.market_data.ath.usd;
     const usdATHChange = cgData.market_data.ath_change_percentage.usd;
-    const usdAthDate = Date.parse(cgData.market_data.ath_date.usd);
+    const usdATHDate = Date.parse(cgData.market_data.ath_date.usd);
     const usdATL = cgData.market_data.atl.usd;
     const usdATLChange = cgData.market_data.atl_change_percentage.usd;
+    const usdATLDate = cgData.market_data.atl_date.usd;
     const usdMarketCap = cgData.market_data.market_cap.usd;
     const usdTotalVolume = cgData.market_data.total_volume.usd;
     const usdHigh24h = cgData.market_data.high_24h.usd;
@@ -180,8 +181,10 @@ module.exports = {
 
           { name: 'ATH USD:', value: '`\u0024' + thousandths((usdATH).toFixed(2)) + ' %' + (usdATHChange).toFixed(2) + '`', inline: true },
           { name: 'ATH BTC:', value: '`\u20BF' + thousandths((btcATH).toFixed(8)) + ' %' + (btcATHChange).toFixed(2) + '`', inline: true },
+          { name: 'ATH Date:', value: '`' + usdATHDate + '`' },
           { name: 'ATL USD:', value: '`\u0024' + thousandths((usdATL).toFixed(2)) + ' %' + (usdATLChange).toFixed(2) + '`', inline: true },
           { name: 'ATL BTC:', value: '`\u20BF' + thousandths((btcATL).toFixed(8)) + ' %' + (btcATLChange).toFixed(2) + '`', inline: true },
+          { name: 'ATL Date:', value: '`' + usdATLDate + '`' },
 
           { name: 'Market Cap Change24h: ', value: usdMarketCapChange24h, inline: true },
           { name: 'Circulating / Total Supply', value: '`' + thousandths(circulatingSupply.toFixed(0)) + ' / ' + thousandths(totalSupply) + '`', inline: true },
