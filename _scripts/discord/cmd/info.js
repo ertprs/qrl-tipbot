@@ -175,7 +175,7 @@ module.exports = {
           { name: 'Market Cap:', value: '`\u0024 ' + thousandths(usdMarketCap) + '`', inline: true },
           { name: 'Volume', value: '`\u0024 ' + thousandths(usdTotalVolume) + '`', inline: true },
           { name: 'Circulating Supply', value: '`' + thousandths(circulatingSupply.toFixed(0)) + ' / ' + thousandths(totalSupply) + '`', inline: true },
-          { name: '24hr USD Low/High', value: '`\u0024' + thousandths(usdLow24h) + ' / \u0024' + thousandths(usdHigh24h) + '`') },
+          { name: '24hr USD Low/High', value: '`\u0024' + thousandths(usdLow24h) + ' / \u0024' + thousandths(usdHigh24h) + '`' },
           { name: '24hr USD Low/High', value: '`\u20BF' + thousandths(btcLow24h) + ' / \u20BF' + thousandths(btcHigh24h) + '`' },
 
           { name: 'Price Change 24h', value: '`' + priceChange24h + priceChange24hPercent + '`', inline: true },
