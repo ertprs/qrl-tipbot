@@ -68,12 +68,11 @@ module.exports = {
 
             const embed = new Discord.MessageEmbed()
               .setColor('RED')
-              .setTitle('**TipBot Secret Info**')
-              .addField('Tipbot Secret Keys', '**__WARNING:__** ***NEVER SHARE THESE KEYS WITH ANYONE!!***')
+              .setTitle('**TipBot Secret Keys**')
+              // .setDescription('')
+              .addField('**__WARNING: Protect These Keys!__**', ' ***NEVER SHARE THESE KEYS WITH ANYONE!!***')
               .addField('Hexseed: ', '||' + keys.hexseed + '||')
-              .setDescription('**__Protect These Keys!!__** They give anyone access to all of the funds in your tipbot address!')
               .addField('Mnemonic: ', '||' + keys.mnemonic + '||')
-              .setDescription('**__Protect These Keys!!__** They give anyone access to all of the funds in your tipbot address!')
               .addField('Use the QRL Web Wallet to withdraw funds from your Tipbot account', '__**[QRL Web Wallet Link](' + config.wallet.wallet_url + ')**__')
               .setFooter('.: The QRL Contributors :.');
             message.author.send({ embed })
