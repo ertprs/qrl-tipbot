@@ -20,7 +20,13 @@ module.exports = {
       message.channel.stopTyping(true);
     }, 1000);
   }
-
+  function deleteMessage() {
+    // Delete the previous message
+    if(message.guild != null) {
+      message.channel.stopTyping(true);
+      message.delete();
+    }
+   }
   function getHeight() {
       return new Promise(resolve => {
       const height = wallet.GetHeight();
@@ -396,8 +402,6 @@ module.exports = {
       // get pool data from a pool
       const poolData = JSON.parse(await getPoolInfo());
       const hashrate = getHashRate(poolData.network.difficulty / poolData.config.coinDifficultyTarget) + '/sec';
-      // console.log(hashrate)
-
       // serve the bot info here
       const nodeBlockHeight = JSON.parse(await getHeight());
       const embed = new Discord.MessageEmbed()
@@ -409,7 +413,11 @@ module.exports = {
           { name: 'Block Height: ', value: '`' + nodeBlockHeight.height + '`', inline: true },
           { name: 'Network Hashrate:', value: '`' + hashrate + '`', inline: true },
           { name: 'Mining Difficulty:', value: '`' + hashrate + '`', inline: true },
-          { name: 'Bot Transaction Fees:', value: '`\u0024 ' + botFee + '`', inline: true },
+          // FIX-ME: 
+          //    add more information about the bot here 
+          //    including how many accounts signed up, total tips sent, servers and other bot stats.
+
+          // { name: 'Bot Transaction Fees:', value: '`\u0024 ' + botFee + '`', inline: true },
         )
         .setTimestamp()
         .setFooter('.: The QRL Contributors :.');
@@ -424,23 +432,24 @@ module.exports = {
       if (found === 'false') {
         console.log('!found');
         // not found, give main message and end
-        // ReplyMessage('Your not found in the System. Try `+add` or `+help`');
+        ReplyMessage('Your not found in the System. Try `+add` or `+help`');
         return;
       }
       // check for opt_out status
       if (optOut === 1) {
         console.log('opt-out');
         // Opt Out, give main message and end
-        // ReplyMessage('You have opted out of the tipbot. Please send `+opt-in` to opt back in!');
+        ReplyMessage('You have opted out of the tipbot. Please send `+opt-in` to opt back in!');
         return;
       }
       if (agree === 'false') {
         console.log('!agree');
         // not Agreed, give main message and end
-        // ReplyMessage('You need to agree, please see the `+terms`');
+        ReplyMessage('You need to agree, please see the `+terms`');
         return;
       }
       else {
+        deleteMessage();
         // user found and all checks pass Send them a message with tipbot account details
         // if (message.channel.type === 'dm') return;
         const userWalletPub = userData[0].wallet_pub;
