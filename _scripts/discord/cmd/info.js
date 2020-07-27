@@ -174,7 +174,6 @@ module.exports = {
           { name: 'QRL USD Value:', value: '`\u0024' + thousandths(usdValue) + '`', inline: true },
           { name: 'Price Change 24h - QRL', value: '`' + (priceChange24h).toFixed(4) + ' shor | %' + (priceChange24hPercent).toFixed(2) + '( \u0024' + (usdPriceChange24h).toFixed(2) + ' )`', inline: true },
           
-          { name: 'Price Change 24h: ', value: usdPriceChange24h, inline: true },
           { name: 'Volume', value: '`\u0024' + thousandths(usdTotalVolume) + '`', inline: true },
           { name: 'Market Cap:', value: '`\u0024' + thousandths(usdMarketCap) + '`', inline: true },
           { name: '24hr USD Low/High', value: '`\u0024' + thousandths((usdLow24h).toFixed(3)) + ' / \u0024' + thousandths((usdHigh24h).toFixed(3)) + '`' },
