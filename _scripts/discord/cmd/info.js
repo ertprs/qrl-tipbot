@@ -105,36 +105,33 @@ module.exports = {
     // get updated bot wallet balance and faucet wallet balance
     const cgData = JSON.parse(await getCgData());
     const priceChange24h = cgData.market_data.price_change_24h;
+    const priceChange24hPercent = cgData.market_data.price_change_percentage_24h;
     const circulatingSupply = cgData.market_data.circulating_supply;
     const totalSupply = cgData.market_data.total_supply;
     // vcc info
-    let vccVolume = cgData.tickers[0].volume;
-    vccVolume = thousandths(vccVolume.toFixed(2));
+    const vccVolumeRaw = cgData.tickers[0].volume;
+    const vccVolume = thousandths(vccVolumeRaw.toFixed(2));
     const vccIdentifier = cgData.tickers[0].market.name;
     const vccURL = cgData.tickers[0].trade_url;
-    const vccLastBTC = cgData.tickers[0].last;
-    const vccBidAsk = cgData.tickers[0].bid_ask_spread_percentage;
+
     // bittrex info from coinGecko
-    let bittrexVolume = cgData.tickers[1].volume;
-    bittrexVolume = thousandths(bittrexVolume.toFixed(2));
+    const bittrexVolumeRaw = cgData.tickers[1].volume;
+    const bittrexVolume = thousandths(bittrexVolumeRaw.toFixed(2));
     const bittrexIdentifier = cgData.tickers[1].market.name;
     const bittrexURL = cgData.tickers[1].trade_url;
-    const bittrexLastBTC = cgData.tickers[1].last;
-    const bittrexBidAsk = cgData.tickers[1].bid_ask_spread_percentage;
+
     // upbit info
-    let upbitVolume = cgData.tickers[2].volume;
-    upbitVolume = thousandths(upbitVolume.toFixed(2));
+    const upbitVolumeRaw = cgData.tickers[2].volume;
+    const upbitVolume = thousandths(upbitVolumeRaw.toFixed(2));
     const upbitIdentifier = cgData.tickers[2].market.name;
     const upbitURL = cgData.tickers[2].trade_url;
-    const upbitLastBTC = cgData.tickers[2].last;
-    const upbitBidAsk = cgData.tickers[2].bid_ask_spread_percentage;
+
     // upbit Indonesia info
-    let upbitIndonesiaVolume = cgData.tickers[3].volume;
-    upbitIndonesiaVolume = thousandths(upbitIndonesiaVolume.toFixed(2));
+    const upbitIndonesiaVolumeRaw = cgData.tickers[3].volume;
+    const upbitIndonesiaVolume = thousandths(upbitIndonesiaVolumeRaw.toFixed(2));
     const upbitIndonesiaIdentifier = cgData.tickers[3].market.name;
     const upbitIndonesiaURL = cgData.tickers[3].trade_url;
-    const upbitIndonesiaLastBTC = cgData.tickers[3].last;
-    const upbitIndonesiaBidAsk = cgData.tickers[3].bid_ask_spread_percentage;
+
      // USD Market data
     const usdValue = cgData.market_data.current_price.usd;
     const usdATH = cgData.market_data.ath.usd;
@@ -182,6 +179,8 @@ module.exports = {
           { name: 'Circulating Supply', value: '`' + thousandths(circulatingSupply.toFixed(0)) + ' / ' + thousandths(totalSupply) + '`' },
           { name: '24hr Low ', value: '`\u0024 ' + thousandths(usdLow24h) + '`', inline: true },
           { name: '24hr High', value: '`\u0024 ' + thousandths(usdHigh24h) + '`', inline: true },
+          { name: 'Price Change 24h', priceChange24h, inline: true },
+          { name: 'Price Change 24h %', priceChange24hPercent, inline: true },
         )
         .setTimestamp()
         .setFooter('.: The QRL Contributors :. Market data provided by Coin Gecko');
@@ -213,15 +212,171 @@ module.exports = {
           message.channel.stopTyping(true);
       });
     }
+
+
+
+
+
+
+
+
+
+
+
     // ///////////////////////////////
     // Exchange Request             //
     // ///////////////////////////////
     else if (args[0] == 'exchange' || args[0] == 'trade' || args[0] == 'buy' || args[0] == 'sell') {
-      const embed = new Discord.MessageEmbed()
-        .setColor('GREEN')
-        .setTitle('**QRL Exchange Info**')
-        .setURL('https://theqrl.org/markets/')
-        .setDescription(`Exchange information where you can trade $QRL
+      // #####################
+      // Bittrex
+      // #####################
+      if (args[1] == 'bittrex') {
+        const bittrexLastBTC = cgData.tickers[1].last;
+        const bittrexBidAsk = cgData.tickers[1].bid_ask_spread_percentage;
+        const bittrexConvertedVolumeBtc = cgData.tickers[1].converted_volume.btc;
+        const bittrexConvertedVolumeEth = cgData.tickers[1].converted_volume.eth;
+        const bittrexConvertedVolumeUsd = cgData.tickers[1].converted_volume.usd;
+        const embed = new Discord.MessageEmbed()
+          .setColor('GREEN')
+          .setTitle('**QRL Bittrex Information**')
+          .setURL(bittrexURL)
+          .setDescription(`Exchange information for the __[Bittrex](${bittrexURL}__) exchange trading QRL.`)
+          .addFields(
+          { name: 'Volume:', value: '`' + bittrexVolumeRaw + '`' },
+          { name: 'Volume:', value: '`\u0024 ' + bittrexConvertedVolumeUsd + ' usd`', inline: true },
+          { name: 'Volume:', value: '`\u20BF ' + bittrexConvertedVolumeBtc + ' btc`', inline: true },
+          { name: 'Volume:', value: '` ' + bittrexConvertedVolumeEth + ' eth`', inline: true },
+          { name: 'Last Trade: ', value: '\u20BF ` ' + bittrexLastBTC + '`', inline: true },
+          { name: 'Bid / Ask Spread:', value: '` ' + bittrexBidAsk + ' %`', inline: true },
+          )
+          .setTimestamp()
+          .setFooter('Market Data provided by Coin Gecko - .: The QRL Contributors :. ');
+        message.reply({ embed })
+          .then(() => {
+            message.channel.stopTyping(true);
+        });
+      }
+      // #####################
+      // Upbit
+      // #####################
+      else if (args[1] == 'upbit') {
+        const upbitLastBTC = cgData.tickers[2].last;
+        const upbitBidAsk = cgData.tickers[2].bid_ask_spread_percentage;
+        const upbitConvertedVolumeBtc = cgData.tickers[2].converted_volume.btc;
+        const upbitConvertedVolumeEth = cgData.tickers[2].converted_volume.eth;
+        const upbitConvertedVolumeUsd = cgData.tickers[2].converted_volume.usd;
+        const embed = new Discord.MessageEmbed()
+          .setColor('GREEN')
+          .setTitle('**QRL upbit Information**')
+          .setURL(upbitURL)
+          .setDescription(`Exchange information for the __[Upbit](${upbitURL}__) exchange trading QRL.`)
+          .addFields(
+          { name: 'Volume:', value: '`' + upbitVolumeRaw + '`' },
+          { name: 'Volume:', value: '`\u0024 ' + upbitConvertedVolumeUsd + ' usd`', inline: true },
+          { name: 'Volume:', value: '`\u20BF ' + upbitConvertedVolumeBtc + ' btc`', inline: true },
+          { name: 'Volume:', value: '` ' + upbitConvertedVolumeEth + ' eth`', inline: true },
+          { name: 'Last Trade: ', value: '\u20BF ` ' + upbitLastBTC + '`', inline: true },
+          { name: 'Bid / Ask Spread:', value: '` ' + upbitBidAsk + ' %`', inline: true },
+          )
+          .setTimestamp()
+          .setFooter('Market Data provided by Coin Gecko - .: The QRL Contributors :. ');
+        message.reply({ embed })
+          .then(() => {
+            message.channel.stopTyping(true);
+        });
+      }
+      // #####################
+      // Upbit Indonesia
+      // #####################
+      else if (args[1] == 'upbitIndonesia') {
+        const upbitIndonesiaLastBTC = cgData.tickers[3].last;
+        const upbitIndonesiaBidAsk = cgData.tickers[3].bid_ask_spread_percentage;
+        const upbitIndonesiaConvertedVolumeBtc = cgData.tickers[3].converted_volume.btc;
+        const upbitIndonesiaConvertedVolumeEth = cgData.tickers[3].converted_volume.eth;
+        const upbitIndonesiaConvertedVolumeUsd = cgData.tickers[3].converted_volume.usd;
+        const embed = new Discord.MessageEmbed()
+          .setColor('GREEN')
+          .setTitle('**QRL Upbit Indonesia Information**')
+          .setURL(upbitURL)
+          .setDescription(`Exchange information for the __[Upbit Indonesia](${upbitIndonesiaURL}__) exchange trading QRL.`)
+          .addFields(
+          { name: 'Volume:', value: '`' + upbitIndonesiaVolumeRaw + '`' },
+          { name: 'Volume:', value: '`\u0024 ' + upbitIndonesiaConvertedVolumeUsd + ' usd`', inline: true },
+          { name: 'Volume:', value: '`\u20BF ' + upbitIndonesiaConvertedVolumeBtc + ' btc`', inline: true },
+          { name: 'Volume:', value: '` ' + upbitIndonesiaConvertedVolumeEth + ' eth`', inline: true },
+          { name: 'Last Trade: ', value: '\u20BF ` ' + upbitIndonesiaLastBTC + '`', inline: true },
+          { name: 'Bid / Ask Spread:', value: '` ' + upbitIndonesiaBidAsk + ' %`', inline: true },
+          )
+          .setTimestamp()
+          .setFooter('Market Data provided by Coin Gecko - .: The QRL Contributors :. ');
+        message.reply({ embed })
+          .then(() => {
+            message.channel.stopTyping(true);
+        });
+      }
+      // #####################
+      // VCC Exchange
+      // #####################
+      else if (args[1] == 'vcc') {
+        const vccLastBTC = cgData.tickers[0].last;
+        const vccBidAsk = cgData.tickers[0].bid_ask_spread_percentage;
+        const vccConvertedVolumeBtc = cgData.tickers[0].converted_volume.btc;
+        const vccConvertedVolumeEth = cgData.tickers[0].converted_volume.eth;
+        const vccConvertedVolumeUsd = cgData.tickers[0].converted_volume.usd;
+        const embed = new Discord.MessageEmbed()
+          .setColor('GREEN')
+          .setTitle('**QRL VCC Information**')
+          .setURL(upbitURL)
+          .setDescription(`Exchange information for the __[VCC](${upbitIndonesiaURL}__) exchange trading QRL.`)
+          .addFields(
+          { name: 'Volume:', value: '`' + vccVolumeRaw + '`' },
+          { name: 'Volume:', value: '`\u0024 ' + vccConvertedVolumeUsd + ' usd`', inline: true },
+          { name: 'Volume:', value: '`\u20BF ' + vccConvertedVolumeBtc + ' btc`', inline: true },
+          { name: 'Volume:', value: '` ' + vccConvertedVolumeEth + ' eth`', inline: true },
+          { name: 'Last Trade: ', value: '\u20BF ` ' + vccLastBTC + '`', inline: true },
+          { name: 'Bid / Ask Spread:', value: '` ' + vccBidAsk + ' %`', inline: true },
+          )
+          .setTimestamp()
+          .setFooter('Market Data provided by Coin Gecko - .: The QRL Contributors :. ');
+        message.reply({ embed })
+          .then(() => {
+            message.channel.stopTyping(true);
+        });
+      }
+
+      else if (args[1] == 'biteeu' || args[1] == 'bitvoicex' || args[1] == 'cointiger' || args[1] == 'simpleswap' || args[1] == 'swapzone' || args[1] == 'stealthex') {
+        const embed = new Discord.MessageEmbed()
+          .setColor('GREEN')
+          .setTitle('**QRL Exchange Info**')
+          .setURL('https://theqrl.org/markets/')
+          .setDescription(`Exchange information where you can trade $QRL.
+          [:small_blue_diamond: BITEEU](https://trade.biteeu.com/search)
+          [:small_blue_diamond: Bitvoicex](https://bitvoicex.net/markets/qrl_btc)
+          [:small_blue_diamond: CoinTiger](https://www.cointiger.com/en-us/#/trade_center?coin=qrl_btc)
+          [:small_blue_diamond: SimpleSwap](https://simpleswap.io/coins/quantum-resistant-ledger)
+          [:small_blue_diamond: SwapZone](https://swapzone.io/?to=qrl)
+          [:small_blue_diamond: StealthEX](https://stealthex.io/coin/qrl)
+
+          For listing inquires email: __info@theqrl.org__
+          *Volume data provided by [Coin Gecko](https://www.coingecko.com/en/coins/quantum-resistant-ledger)*
+          *Bot Development Needed, Ask how you can help!*
+          `)
+          .addFields(
+          )
+          .setTimestamp()
+          .setFooter('.: The QRL Contributors :.');
+        message.reply({ embed })
+          .then(() => {
+            message.channel.stopTyping(true);
+        });
+      }
+      else {
+        // give default response with listing info
+        const embed = new Discord.MessageEmbed()
+          .setColor('GREEN')
+          .setTitle('**QRL Exchange Info**')
+          .setURL('https://theqrl.org/markets/')
+          .setDescription(`Exchange information where you can trade $QRL
 
           [:small_blue_diamond: ${bittrexIdentifier}](${bittrexURL})\tvol: \`${bittrexVolume}\`
           [:small_blue_diamond: ${upbitIdentifier}](${upbitURL})\tvol: \`${upbitVolume}\`
@@ -237,14 +392,15 @@ module.exports = {
           For listing inquires email: __info@theqrl.org__
           *Volume data provided by [Coin Gecko](https://www.coingecko.com/en/coins/quantum-resistant-ledger)*
           `)
-        .addFields(
-        )
-        .setTimestamp()
-        .setFooter('.: The QRL Contributors :.');
-      message.reply({ embed })
-        .then(() => {
-          message.channel.stopTyping(true);
-      });
+          .addFields(
+          )
+          .setTimestamp()
+          .setFooter('.: The QRL Contributors :.');
+        message.reply({ embed })
+          .then(() => {
+            message.channel.stopTyping(true);
+        });
+      }
     }
     // ///////////////////////////////
     // Bot Request               //
