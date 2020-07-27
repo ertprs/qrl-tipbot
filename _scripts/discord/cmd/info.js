@@ -1,9 +1,9 @@
 module.exports = {
   name: 'info',
   description: 'Information about this bot and the QRL Network.',
-  aliases: ['information', 'details', 'stats', 'status', 'state'],
+  aliases: ['information', '??', 'details', 'stats', 'status', 'state'],
   args: false,
-  usage: ' { market|price|value, bot, exchange,  } - gives details about the network, tipbot etc. Add the {verbose} argument to have all deails printed to DM',
+  usage: ' { alias: information || details || stats || status || state}\n{args: market || price || value || bot || exchange }\nGives details about the network, QRL Market, tipbot etc. Will also print your current tipbot details to DM',
   cooldown: 1,
   execute(message, args) {
 
@@ -162,7 +162,7 @@ module.exports = {
       const btcMarketCapChange24h = cgData.market_data.market_cap_change_24h_in_currency.btc;
 
     // Market Request
-    if (args[0] == 'market' || args[0] == 'markets' || args[0] == 'price' || args[0] == 'value') {
+    if (args[0] == 'market' || args[0] == 'markets' || args[0] == 'price' || args[0] == 'value'|| args[0] == '$$') {
       const embed = new Discord.MessageEmbed()
         .setColor('GREEN')
         .setTitle('**QRL Market Info**')
