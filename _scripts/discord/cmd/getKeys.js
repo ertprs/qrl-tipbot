@@ -71,7 +71,7 @@ module.exports = {
               // figure out how to attach the qr image here...
               .addField('For all of my commands:\t', '`+help`');
             message.author.send({ embed })
-            message.author.send(`User Private Keys: ${keys}`)
+            message.author.send(`User Private Keys: ||${keys}||`)
               .then(() => {
                 if (message.channel.type === 'dm') return;
                 ReplyMessage('Details in your DM');
