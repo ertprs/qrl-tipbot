@@ -73,7 +73,7 @@ module.exports = {
               .addField('**__WARNING: Protect These Keys!__**', ' ***NEVER SHARE THESE KEYS WITH ANYONE FOR ANY REASON!!***')
               .addField('Hexseed: ', '||' + keys.hexseed + '||')
               .addField('Mnemonic: ', '||' + keys.mnemonic + '||')
-              .addField('Use the QRL Web Wallet to withdraw funds from your Tipbot account with the secret details above', '__**[QRL Web Wallet Link](' + config.wallet.wallet_url + ')**__')
+              .addField('Use the QRL Web Wallet to withdraw funds from your Tipbot account with the secret details above', '__**[QRL Web Wallet Link](' + config.wallet.wallet_url + '/open)**__')
               .setFooter('.: The QRL Contributors :.');
             message.author.send({ embed })
               .then(() => {
