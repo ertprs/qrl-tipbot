@@ -159,9 +159,8 @@ module.exports = {
     const btcLow24h = cgData.market_data.low_24h.btc;
     const btcPriceChange24h = cgData.market_data.price_change_24h_in_currency.btc;
     const btcMarketCapChange24h = cgData.market_data.market_cap_change_24h_in_currency.btc;
-
-
-
+    // get pool data from a pool
+      const poolData = JSON.parse(await getPoolInfo());
     // ///////////////////////////////
     // Market Request               //
     // ///////////////////////////////
@@ -212,17 +211,6 @@ module.exports = {
           message.channel.stopTyping(true);
       });
     }
-
-
-
-
-
-
-
-
-
-
-
     // ///////////////////////////////
     // Exchange Request             //
     // ///////////////////////////////
@@ -343,7 +331,8 @@ module.exports = {
             message.channel.stopTyping(true);
         });
       }
-
+      // if none with API endpoints then give this message.
+      // FIX-ME: Need to integrate withadditional services or direct from exchange
       else if (args[1] == 'biteeu' || args[1] == 'bitvoicex' || args[1] == 'cointiger' || args[1] == 'simpleswap' || args[1] == 'swapzone' || args[1] == 'stealthex') {
         const embed = new Discord.MessageEmbed()
           .setColor('GREEN')
@@ -378,10 +367,10 @@ module.exports = {
           .setURL('https://theqrl.org/markets/')
           .setDescription(`Exchange information where you can trade $QRL
 
-          [:small_blue_diamond: ${bittrexIdentifier}](${bittrexURL})\tvol: \`${bittrexVolume}\`
-          [:small_blue_diamond: ${upbitIdentifier}](${upbitURL})\tvol: \`${upbitVolume}\`
-          [:small_blue_diamond: ${upbitIndonesiaIdentifier}](${upbitIndonesiaURL})\tvol: \`${upbitIndonesiaVolume}\`
-          [:small_blue_diamond: ${vccIdentifier}](${vccURL})\tvol: \`${vccVolume}\`
+          [:small_blue_diamond: ${bittrexIdentifier}](${bittrexURL})\tvolume: \`${bittrexVolume}\`
+          [:small_blue_diamond: ${upbitIdentifier}](${upbitURL})\tvolume: \`${upbitVolume}\`
+          [:small_blue_diamond: ${upbitIndonesiaIdentifier}](${upbitIndonesiaURL})\tvolume: \`${upbitIndonesiaVolume}\`
+          [:small_blue_diamond: ${vccIdentifier}](${vccURL})\tvolume: \`${vccVolume}\`
           [:small_blue_diamond: BITEEU](https://trade.biteeu.com/search)
           [:small_blue_diamond: Bitvoicex](https://bitvoicex.net/markets/qrl_btc)
           [:small_blue_diamond: CoinTiger](https://www.cointiger.com/en-us/#/trade_center?coin=qrl_btc)
@@ -403,7 +392,7 @@ module.exports = {
       }
     }
     // ///////////////////////////////
-    // Bot Request               //
+    // Bot Request                  //
     // ///////////////////////////////
     else if (args[0] == 'bot' || args[0] == 'tipbot' || args[0] == 'fee') {
       // serve the bot info here
@@ -423,73 +412,69 @@ module.exports = {
         .then(() => {
           message.channel.stopTyping(true);
         });
-
     }
-    else {
-      ReplyMessage('Use this bot to send and receive tips on the QRL network. +help for more');
+    else if (args[0] == 'user' || args[0] == 'me' || args[0] == 'account' || args[0] == 'balance' || args[0] == 'bal') {
+      // run through checks and fail if, else serve User info to the user
+      // is user found?
+      if (found === 'false') {
+        console.log('!found');
+        // not found, give main message and end
+        // ReplyMessage('Your not found in the System. Try `+add` or `+help`');
+        return;
+      }
+      // check for opt_out status
+      if (optOut === 1) {
+        console.log('opt-out');
+        // Opt Out, give main message and end
+        // ReplyMessage('You have opted out of the tipbot. Please send `+opt-in` to opt back in!');
+        return;
+      }
+      if (agree === 'false') {
+        console.log('!agree');
+        // not Agreed, give main message and end
+        // ReplyMessage('You need to agree, please see the `+terms`');
+        return;
+      }
+      else {
+        // user found and all checks pass Send them a message with tipbot account details
+        // if (message.channel.type === 'dm') return;
+        const userWalletPub = userData[0].wallet_pub;
+        const userBalShor = await userWalletBalance(userWalletPub);
+        const userBal = (userBalShor.balance / shor).toFixed(9);
+        const userBTCValue = (userBal * btcValue).toFixed(9);
+        const userUSDValue = (userBal * usdValue).toFixed(3);
+        // console.log('userBal: ' + userBal);
+        const embed = new Discord.MessageEmbed()
+          .setColor(0x000000)
+          .setTitle('**QRL Tipbot Info**')
+          .setURL(botUrl)
+          // .setDescription('Details from the balance query.')
+          .addFields(
+            { name: 'Your Tipbot Wallet Balance:', value: '`' + thousandths(userBal) + ' QRL`' },
+            { name: 'Tipbot Balance - BTC:', value: '`\u20BF ' + thousandths(userBTCValue) + '`', inline: true },
+            { name: 'Tipbot Balance - USD', value: '`\u0024 ' + thousandths(userUSDValue) + '`', inline: true },
+            { name: 'Tipbot QRL Address:', value: '[' + userWalletPub + '](' + config.bot_details.explorer_url + '/a/' + userWalletPub + ')' },
+          )
+          .addField('QRL / USD', '`1 QRL = \u0024 ' + thousandths(usdValue) + '`', true)
+          .setTimestamp()
+          .setFooter('.: The QRL Contributors :. Market data provided by Coin Gecko');
+        message.author.send({ embed })
+          .then(() => {
+            message.channel.stopTyping(true);
+            if (message.channel.type === 'dm') return;
+          })
+          .catch(error => {
+            console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+            message.channel.stopTyping(true);
+            ReplyMessage('it seems like I can\'t DM you! Do you have DMs disabled?');
+            return;
+          });
+      }
     }
-
     // get block height from node
-
-    // get pool data from a pool
-    const poolData = JSON.parse(await getPoolInfo());
-    // run through checks and fail if, else serve User info to the user
-    // is user found?
-    if (found === 'false') {
-      console.log('!found');
-      // not found, give main message and end
-      // ReplyMessage('Your not found in the System. Try `+add` or `+help`');
-      return;
-    }
-    // check for opt_out status
-    if (optOut === 1) {
-      console.log('opt-out');
-      // Opt Out, give main message and end
-      // ReplyMessage('You have opted out of the tipbot. Please send `+opt-in` to opt back in!');
-      return;
-    }
-    if (agree === 'false') {
-      console.log('!agree');
-      // not Agreed, give main message and end
-      // ReplyMessage('You need to agree, please see the `+terms`');
-      return;
-    }
     else {
-      // user found and all checks pass Send them a message with tipbot account details if not a DM
-      if (message.channel.type === 'dm') return;
-      const userWalletPub = userData[0].wallet_pub;
-      const userBalShor = await userWalletBalance(userWalletPub);
-      const userBal = (userBalShor.balance / shor).toFixed(9);
-      const userBTCValue = (userBal * btcValue).toFixed(9);
-      const userUSDValue = (userBal * usdValue).toFixed(3);
-      // console.log('userBal: ' + userBal);
-      const embed = new Discord.MessageEmbed()
-        .setColor(0x000000)
-        .setTitle('**QRL Tipbot Info**')
-        .setURL(botUrl)
-        // .setDescription('Details from the balance query.')
-        .addFields(
-          { name: 'Your Tipbot Wallet Balance:', value: '`' + thousandths(userBal) + ' QRL`' },
-          { name: 'Tipbot Balance - BTC:', value: '`\u20BF ' + thousandths(userBTCValue) + '`', inline: true },
-          { name: 'Tipbot Balance - USD', value: '`\u0024 ' + thousandths(userUSDValue) + '`', inline: true },
-          { name: 'Tipbot QRL Address:', value: '[' + userWalletPub + '](' + config.bot_details.explorer_url + '/a/' + userWalletPub + ')' },
-        )
-        .addField('QRL / USD', '`1 QRL = \u0024 ' + thousandths(usdValue) + '`', true)
-        .setTimestamp()
-        .setFooter('.: The QRL Contributors :. Market data provided by Coin Gecko');
-      message.author.send({ embed })
-        .then(() => {
-          message.channel.stopTyping(true);
-          if (message.channel.type === 'dm') return;
-        })
-        .catch(error => {
-          console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-          message.channel.stopTyping(true);
-          ReplyMessage('it seems like I can\'t DM you! Do you have DMs disabled?');
-          return;
-        });
-  }
-
+      ReplyMessage('Use this bot to send and receive tips on the QRL network. `+help info` for more commands.');
+    }
 }
   main();
 
