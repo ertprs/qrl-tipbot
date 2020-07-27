@@ -175,16 +175,13 @@ module.exports = {
           { name: 'Market Cap:', value: '`\u0024 ' + thousandths(usdMarketCap) + '`', inline: true },
           { name: 'Volume', value: '`\u0024 ' + thousandths(usdTotalVolume) + '`', inline: true },
           { name: 'Circulating Supply', value: '`' + thousandths(circulatingSupply.toFixed(0)) + ' / ' + thousandths(totalSupply) + '`', inline: true },
-          { name: '24hr Low/High ', value: '`\u0024 ' + thousandths(usdLow24h) + ' / \u0024 ' + thousandths(usdHigh24h) + '`' },
-          
-          { name: 'Price Change 24h', value: priceChange24h, inline: true },
+          { name: '24hr Low/High ', value: '`\u0024' + thousandths(usdLow24h) + ' / \u0024' + thousandths(usdHigh24h) + '` | `\u20BF' + thousandths(btcLow24h) + ' / \u20BF' + thousandths(btcHigh24h) + '`' },
+
+          { name: 'Price Change 24h', value: '`' + priceChange24h + priceChange24hPercent + '`', inline: true },
           { name: 'Price Change 24h %', value: priceChange24hPercent, inline: true },
 
-          { name: 'USD All Time High: ', value: '\u0024 ' + thousandths(usdATH), inline: true },
-          { name: 'USD All Time High Change: ', value: usdATHChange, inline: true },
-          { name: 'All Time High Date: ', value: usdAthDate, inline: true },
-          { name: 'All Time Low: ', value: usdATL, inline: true },
-          { name: 'All Time Low Change: ', value: usdATLChange, inline: true },
+          { name: 'All Time High: ', value: '`\u0024' + thousandths(usdATH) + ' %' + usdATHChange + ' / \u20BF' + thousandths(btcATH) + ' %' + btcATHChange + '`', inline: true },
+          { name: 'All Time Low: ', value: '`\u0024' + thousandths(usdATL) + ' %' + usdATLChange + ' / \u20BF' + thousandths(btcATL) + ' %' + btcATLChange + '`', inline: true },
           { name: 'Market Cap: ', value: usdMarketCap, inline: true },
           { name: 'Total Volume: ', value: usdTotalVolume, inline: true },
           { name: 'Price Change 24h: ', value: usdPriceChange24h, inline: true },
