@@ -69,12 +69,13 @@ module.exports = {
             const embed = new Discord.MessageEmbed()
               .setColor(0x000000)
               .setTitle('**TipBot Secret Info**')
-              .setDescription('Protect these keys, they give anyone access to all of your funds!')
+              .setDescription('Use the QRL Web Wallet to open your address and interact with your Tipbot funds.\n__Protect These Keys!!__ They give anyone access to all of the funds in your tipbot address!')
               .addField('Use the QRL Wallet to withdraw funds:', '[QRL Web Wallet](' + config.wallet.wallet_url + ')')
-              // figure out how to attach the qr image here...
+              .addField('Tipbot Secret Keys', '__WARNING:__ **NEVER SHARE THESE KEYS WITH ANYONE!!**')
+              .addField('Hexseed: ', '||' + keys.hexseed + '||')
+              .addField('Mnemonic: ', '||' + keys.mnemonic + '||')
               .addField('For all of my commands:\t', '`+help`');
             message.author.send({ embed });
-            message.author.send(`User Private Keys: ||${keys}||`)
               .then(() => {
                 if (message.channel.type === 'dm') return;
                 ReplyMessage('Details in your DM');
