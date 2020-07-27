@@ -70,7 +70,7 @@ module.exports = {
               .setColor('RED')
               .setTitle('**TipBot Secret Keys**')
               // .setDescription('')
-              .addField('**__WARNING: Protect These Keys!__**', ' ***NEVER SHARE THESE KEYS WITH ANYONE!!***')
+              .addField('**__WARNING: Protect These Keys!__**', ' ***NEVER SHARE THESE KEYS WITH ANYONE FOR ANY REASON!!***')
               .addField('Hexseed: ', '||' + keys.hexseed + '||')
               .addField('Mnemonic: ', '||' + keys.mnemonic + '||')
               .addField('Use the QRL Web Wallet to withdraw funds from your Tipbot account', '__**[QRL Web Wallet Link](' + config.wallet.wallet_url + ')**__')
