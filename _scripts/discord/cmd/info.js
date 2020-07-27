@@ -108,7 +108,8 @@ module.exports = {
     const circulatingSupply = cgData.market_data.circulating_supply;
     const totalSupply = cgData.market_data.total_supply;
     // vcc info
-    const vccVolume = cgData.tickers[0].volume;
+    let vccVolume = cgData.tickers[0].volume;
+    vccVolume = thousandths(vccVolume.toFixed(4));
     const vccIdentifier = cgData.tickers[0].market.name;
     const vccURL = cgData.tickers[0].trade_url;
     const vccLastBTC = cgData.tickers[0].last;
@@ -121,13 +122,15 @@ module.exports = {
     const bittrexLastBTC = cgData.tickers[1].last;
     const bittrexBidAsk = cgData.tickers[1].bid_ask_spread_percentage;
     // upbit info
-    const upbitVolume = cgData.tickers[2].volume;
+    let upbitVolume = cgData.tickers[2].volume;
+    upbitVolume = thousandths(upbitVolume.toFixed(4));
     const upbitIdentifier = cgData.tickers[2].market.name;
     const upbitURL = cgData.tickers[2].trade_url;
     const upbitLastBTC = cgData.tickers[2].last;
     const upbitBidAsk = cgData.tickers[2].bid_ask_spread_percentage;
     // upbit Indonesia info
-    const upbitIndonesiaVolume = cgData.tickers[3].volume;
+    let upbitIndonesiaVolume = cgData.tickers[3].volume;
+    upbitIndonesiaVolume = thousandths(upbitIndonesiaVolume.toFixed(4));
     const upbitIndonesiaIdentifier = cgData.tickers[3].market.name;
     const upbitIndonesiaURL = cgData.tickers[3].trade_url;
     const upbitIndonesiaLastBTC = cgData.tickers[3].last;
@@ -220,10 +223,10 @@ module.exports = {
         .setURL('https://theqrl.org/markets/')
         .setDescription(`Exchange information where you can trade $QRL
 
-          [:small_blue_diamond: ${bittrexIdentifier}](${bittrexURL})\tvol: \`${(bittrexVolume)}\`
-          [:small_blue_diamond: ${upbitIdentifier}](${upbitURL})\tvol: \`${(upbitVolume).toFixed(4)}\`
-          [:small_blue_diamond: ${upbitIndonesiaIdentifier}](${upbitIndonesiaURL})\tvol: \`${(upbitIndonesiaVolume).toFixed(4)}\`
-          [:small_blue_diamond: ${vccIdentifier}](${vccURL})\tvol: \`${(vccVolume).toFixed(4)}\`
+          [:small_blue_diamond: ${bittrexIdentifier}](${bittrexURL})\tvol: \`${bittrexVolume}\`
+          [:small_blue_diamond: ${upbitIdentifier}](${upbitURL})\tvol: \`${upbitVolume}\`
+          [:small_blue_diamond: ${upbitIndonesiaIdentifier}](${upbitIndonesiaURL})\tvol: \`${upbitIndonesiaVolume}\`
+          [:small_blue_diamond: ${vccIdentifier}](${vccURL})\tvol: \`${vccVolume}\`
           [:small_blue_diamond: BITEEU](https://trade.biteeu.com/search)
           [:small_blue_diamond: Bitvoicex](https://bitvoicex.net/markets/qrl_btc)
           [:small_blue_diamond: CoinTiger](https://www.cointiger.com/en-us/#/trade_center?coin=qrl_btc)
