@@ -185,8 +185,9 @@ module.exports = {
         .addFields(
           { name: 'QRL USD Value:', value: '`\u0024' + thousandths(usdValue) + '`', inline: true },
           { name: 'Volume', value: '`\u0024' + thousandths(usdTotalVolume) + '`', inline: true },
-          { name: 'Market Cap:', value: '`\u0024' + thousandths(usdMarketCap) + '`', inline: true },
           { name: 'Price Change 24h - QRL', value: '`\u0024' + (usdPriceChange24h).toFixed(4) + ' (% ' + (priceChange24hPercent).toFixed(2) + ')`', inline: true },
+          { name: 'Market Cap:', value: '`\u0024' + thousandths(usdMarketCap) + '`', inline: true },
+          { name: 'Market Cap Change24h: ', value: '`' + thousandths(usdMarketCapChange24h) + '`', inline: true },
           { name: '24hr USD Low/High', value: '`\u0024' + thousandths((usdLow24h).toFixed(3)) + ' / \u0024' + thousandths((usdHigh24h).toFixed(3)) + '`' },
           { name: '24hr BTC Low/High', value: '`\u20BF' + thousandths(btcLow24h) + ' / \u20BF' + thousandths(btcHigh24h) + '`' },
 
@@ -197,8 +198,7 @@ module.exports = {
           { name: 'ATL BTC:', value: '`\u20BF' + thousandths((btcATL).toFixed(8)) + ' %' + (btcATLChange).toFixed(2) + '`', inline: true },
           { name: 'ATL Date:', value: '`' + new Date(usdATLDate) + '`' },
 
-          { name: 'Market Cap Change24h: ', value: usdMarketCapChange24h, inline: true },
-          { name: 'Circulating / Total Supply', value: '`' + thousandths(circulatingSupply.toFixed(0)) + ' / ' + thousandths(totalSupply) + '`', inline: true },
+          { name: 'Circulating / Total Supply', value: '`' + thousandths(circulatingSupply.toFixed(0)) + ' / ' + thousandths(totalSupply) + '`' },
         )
         .setTimestamp()
         .setFooter('.: The QRL Contributors :. Market data provided by Coin Gecko');
