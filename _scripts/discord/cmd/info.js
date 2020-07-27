@@ -220,9 +220,9 @@ module.exports = {
         .setDescription(`Exchange information where you can trade $QRL
 
           [:small_blue_diamond: ${bittrexIdentifier}](${bittrexURL})\t\`${(bittrexVolume).toFixed(4)}\`
-          [:small_blue_diamond: ${upbitIdentifier}](${upbitURL})\t\`${(upbitVolume).toFixed(9)}\`
+          [:small_blue_diamond: ${upbitIdentifier}](${upbitURL})\t\`${(upbitVolume).toFixed(4)}\`
           [:small_blue_diamond: ${upbitIndonesiaIdentifier}](${upbitIndonesiaURL})\t\`${(upbitIndonesiaVolume).toFixed(4)}\`
-          [:small_blue_diamond: ${vccIdentifier}](${vccURL})\t\`${(vccVolume).toFixed(9)}\`
+          [:small_blue_diamond: ${vccIdentifier}](${vccURL})\t\`${(vccVolume).toFixed(4)}\`
           [:small_blue_diamond: BITEEU](https://trade.biteeu.com/search)
           [:small_blue_diamond: Bitvoicex](https://bitvoicex.net/markets/qrl_btc)
           [:small_blue_diamond: CoinTiger](https://www.cointiger.com/en-us/#/trade_center?coin=qrl_btc)
