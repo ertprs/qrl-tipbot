@@ -77,10 +77,6 @@ module.exports = {
     return splitNumber.join('.');
   }
 
-  function timeConvert(time) {
-  return time / 24 / 60 + ':' + time / 60 % 24 + ':' + time % 60;
-  }
-
   async function main() {
     // look in the database for the user
     const username = `${message.author}`;
@@ -168,7 +164,7 @@ module.exports = {
     // ///////////////////////////////
     // Market Request               //
     // ///////////////////////////////
-    if (args[0] == 'market' || args[0] == 'markets' || args[0] == 'price' || args[0] == 'value'|| args[0] == '$$') {
+    if (args[0] == 'market' || args[0] == 'markets' || args[0] == 'price' || args[0] == 'value' || args[0] == '$$') {
       const embed = new Discord.MessageEmbed()
         .setColor('GREEN')
         .setTitle('**QRL Market Info**')
@@ -193,21 +189,21 @@ module.exports = {
     // ///////////////////////////////
     // Faucet Request               //
     // ///////////////////////////////
-    else if (args[0] == 'faucet' || args[0] == 'drip' || args[0] == 'free' || args[0] == 'charity'|| args[0] == 'giveaway') {
+    else if (args[0] == 'faucet' || args[0] == 'drip' || args[0] == 'free' || args[0] == 'charity' || args[0] == 'giveaway') {
       const embed = new Discord.MessageEmbed()
         .setColor('GREEN')
         .setTitle('**QRL Faucet Info**')
         .setURL('https://faucet.qrl.tips')
         .setDescription('The QRL Tipbot has a faucet included that will give Quanta away to any user signed up to the tipbot. Faucet details below.')
         .addFields(
-          { name: 'Tipbot Faucet Balance:', value: '`' + thousandths(faucetBal) + '`' },
-
-          { name: 'Faucet Payout interval:', value: '`' + timeConvert(faucetPayoutInterval) + '`', inline: true },
-          { name: 'Volume', value: '` ' + thousandths(usdTotalVolume) + '`', inline: true },
-          { name: '24hr High', value: '`\u0024 ' + thousandths(usdHigh24h) + '`', inline: true },
+          { name: 'Tipbot Faucet Balance:', value: '`' + thousandths(faucetBal) + '`', inline: true },
+          { name: 'Faucet Payout interval:', value: ':timer: `' + faucetPayoutInterval + ' Hours`', inline: true },
+          { name: 'Minimum Faucet Payout', value: ':small_red_triangle_down: ` ' + faucetMinPayout + ' shor`', inline: true },
+          { name: 'Maximum Faucet Payout', value: ':small_red_triangle_up: ` ' + faucetMaxPayout + ' shor`', inline: true },
+          { name: 'Faucet Wallet Address', value: '[' + FaucetWalletPub + '](' + config.bot_details.explorer_url + '/a/' + FaucetWalletPub + ')' },
         )
         .setTimestamp()
-        .setFooter('.: The QRL Contributors :. Market data provided by Coin Gecko');
+        .setFooter('.: The QRL Contributors :. Use the address above if you would like to contribute to the faucet.');
       message.reply({ embed })
         .then(() => {
           message.channel.stopTyping(true);
