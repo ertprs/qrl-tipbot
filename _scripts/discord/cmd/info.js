@@ -3,7 +3,7 @@ module.exports = {
   description: 'Information about this bot and the QRL Network.',
   aliases: ['information', '??', 'details', 'stats', 'status', 'state'],
   args: false,
-  usage: '\n`{ alias: information | details | stats | status | state}`\n`{args: market | price | value | bot | exchange }`\nGives details about the network, QRL Market, tipbot etc. Will also print your current tipbot details to DM',
+  usage: '\n`{alias: information | details | stats | status | state}`\n`{args: market | exchange {exchange_name} | faucet | bot }`\nGives details about the network, QRL Market, tipbot etc. Will also print your current tipbot details to DM',
   cooldown: 1,
   execute(message, args) {
 
@@ -137,19 +137,8 @@ module.exports = {
     const usdATH = cgData.market_data.ath.usd;
     const usdATHChange = cgData.market_data.ath_change_percentage.usd;
 
-    const usdATHDateRaw = cgData.market_data.ath_date.usd;
-    const usdATHDate = new Date(usdATHDateRaw);
-    let d = new Date(0);
-
-
-
     const usdATL = cgData.market_data.atl.usd;
     const usdATLChange = cgData.market_data.atl_change_percentage.usd;
-
-
-    const usdATLDateRaw = cgData.market_data.atl_date.usd;
-    const usdATLDate = Date.parse(usdATLDateRaw);
-
 
     const usdMarketCap = cgData.market_data.market_cap.usd;
     const usdTotalVolume = cgData.market_data.total_volume.usd;
@@ -161,10 +150,8 @@ module.exports = {
     const btcValue = cgData.market_data.current_price.btc;
     const btcATH = cgData.market_data.ath.btc;
     const btcATHChange = cgData.market_data.ath_change_percentage.btc;
-    const btcathDate = cgData.market_data.ath_date.btc;
     const btcATL = cgData.market_data.atl.btc;
     const btcATLChange = cgData.market_data.atl_change_percentage.btc;
-    const btcAthDate = cgData.market_data.ath_date.btc;
     const btcMarketCap = cgData.market_data.market_cap.btc;
     const btcTotalVolume = cgData.market_data.total_volume.btc;
     const btcHigh24h = cgData.market_data.high_24h.btc;
@@ -184,9 +171,9 @@ module.exports = {
         // .setDescription('Details from the balance query.')
         .addFields(
           { name: 'QRL USD Value:', value: '`\u0024 ' + thousandths(usdValue) + '`', inline: true },
-          { name: 'Volume', value: '`\u0024 ' + thousandths(usdTotalVolume) + '`', inline: true },
-          { name: 'Price Change 24h - QRL', value: '`\u0024 ' + (usdPriceChange24h).toFixed(4) + ' (% ' + (priceChange24hPercent).toFixed(2) + ')`', inline: true },
-          { name: 'Market Cap:', value: '`\u0024 ' + thousandths(usdMarketCap) + '`', inline: true },
+          { name: 'Volume', value: '`\u0024 ' + thousandths(usdTotalVolume) + '` | `\u20BF ' + thousandths(btcTotalVolume) + '`', inline: true },
+          { name: 'Price Change 24h', value: '`\u0024 ' + (usdPriceChange24h).toFixed(4) + ' (% ' + (priceChange24hPercent).toFixed(2) + ')`', inline: true },
+          { name: 'Market Cap:', value: '`\u0024 ' + thousandths(usdMarketCap) + '` | `\u20BF ' + thousandths(btcMarketCap) + '`', inline: true },
           { name: 'Market Cap Change24h: ', value: '`' + thousandths(usdMarketCapChange24h) + '`', inline: true },
           { name: '24hr USD Low/High', value: '`\u0024 ' + thousandths((usdLow24h).toFixed(3)) + ' / \u0024 ' + thousandths((usdHigh24h).toFixed(3)) + '`' },
           { name: '24hr BTC Low/High', value: '`\u20BF ' + thousandths(btcLow24h) + ' / \u20BF ' + thousandths(btcHigh24h) + '`' },
