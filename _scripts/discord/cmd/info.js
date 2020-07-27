@@ -178,8 +178,19 @@ module.exports = {
           { name: 'Circulating Supply', value: '`' + thousandths(circulatingSupply.toFixed(0)) + ' / ' + thousandths(totalSupply) + '`' },
           { name: '24hr Low ', value: '`\u0024 ' + thousandths(usdLow24h) + '`', inline: true },
           { name: '24hr High', value: '`\u0024 ' + thousandths(usdHigh24h) + '`', inline: true },
-          { name: 'Price Change 24h', priceChange24h, inline: true },
-          { name: 'Price Change 24h %', priceChange24hPercent, inline: true },
+          { name: 'Price Change 24h', value: priceChange24h, inline: true },
+          { name: 'Price Change 24h %', value: priceChange24hPercent, inline: true },
+          { name: 'USD All Time High: ', value: usdATH, inline: true },
+          { name: 'USD All Time High Change: ', value: usdATHChange, inline: true },
+          { name: 'All Time High Date: ', value: usdAthDate, inline: true },
+          { name: 'All Time Low: ', value: usdATL, inline: true },
+          { name: 'All Time Low Change: ', value: usdATLChange, inline: true },
+          { name: 'Market Cap: ', value: usdMarketCap, inline: true },
+          { name: 'Total Volume: ', value: usdTotalVolume, inline: true },
+          { name: 'High 24h: ', value: usdHigh24h, inline: true },
+          { name: 'Low 24h: ', value: usdLow24h, inline: true },
+          { name: 'Price Change 24h: ', value: usdPriceChange24h, inline: true },
+          { name: 'Market Cap Change24h: ', value: usdMarketCapChange24h, inline: true },
         )
         .setTimestamp()
         .setFooter('.: The QRL Contributors :. Market data provided by Coin Gecko');
