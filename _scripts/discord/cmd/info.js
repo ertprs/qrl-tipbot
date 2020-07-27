@@ -240,7 +240,7 @@ module.exports = {
           .setColor('GREEN')
           .setTitle('**QRL Bittrex Information**')
           .setURL(bittrexURL)
-          .setDescription(`Exchange information for the [Bittrex](${bittrexURL}) exchange trading QRL.`)
+          .setDescription(`QRL trading information for the [Bittrex](${bittrexURL}) exchange.`)
           .addFields(
           { name: 'Volume:', value: '`' + bittrexVolumeRaw + '`' },
           { name: 'Converted Volume Usd:', value: '`\u0024 ' + bittrexConvertedVolumeUsd + ' usd`', inline: true },
@@ -269,7 +269,7 @@ module.exports = {
           .setColor('GREEN')
           .setTitle('**QRL upbit Information**')
           .setURL(upbitURL)
-          .setDescription(`Exchange information for the [Upbit](${upbitURL}) exchange trading QRL.`)
+          .setDescription(`QRL trading information for the [Upbit](${upbitURL}) exchange.`)
           .addFields(
           { name: 'Volume:', value: '`' + upbitVolumeRaw + '`' },
           { name: 'Converted Volume Usd:', value: '`\u0024 ' + upbitConvertedVolumeUsd + ' usd`', inline: true },
@@ -298,7 +298,7 @@ module.exports = {
           .setColor('GREEN')
           .setTitle('**QRL Upbit Indonesia Information**')
           .setURL(upbitURL)
-          .setDescription(`Exchange information for the [Upbit Indonesia](${upbitIndonesiaURL}) exchange trading QRL.`)
+          .setDescription(`QRL trading information for the [Upbit Indonesia](${upbitIndonesiaURL}) exchange.`)
           .addFields(
           { name: 'Volume:', value: '`' + upbitIndonesiaVolumeRaw + '`' },
           { name: 'Converted Volume Usd:', value: '`\u0024 ' + upbitIndonesiaConvertedVolumeUsd + ' usd`', inline: true },
@@ -327,7 +327,7 @@ module.exports = {
           .setColor('GREEN')
           .setTitle('**QRL VCC Information**')
           .setURL(upbitURL)
-          .setDescription(`Exchange information for the [VCC](${upbitIndonesiaURL}) exchange trading QRL.`)
+          .setDescription(`QRL trading information for the [VCC](${upbitIndonesiaURL}) exchange.`)
           .addFields(
           { name: 'Volume:', value: '`' + vccVolumeRaw + '`' },
           { name: 'Converted Volume Usd:', value: '`\u0024 ' + vccConvertedVolumeUsd + ' usd`', inline: true },
