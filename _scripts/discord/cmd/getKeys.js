@@ -35,7 +35,7 @@ module.exports = {
     }
     GetUserInfoPromise.then(function(userInfo) {
       // set variables from db search
-      //console.log(JSON.stringify(userInfo))
+      // console.log(JSON.stringify(userInfo))
       const found = userInfo[0].user_found;
       const optOut = userInfo[0].opt_out;
       const agree = userInfo[0].user_agree;
@@ -62,12 +62,9 @@ module.exports = {
           const userSecretKeyPromise = secretKey(walletPub);
           userSecretKeyPromise.then(function(userSecrets) {
 
-            const keys = JSON.stringify(JSON.parse(userSecrets))
-            const stringifyKeys = JSON.stringify(userSecrets)
-            const parseKeys = JSON.parse(userSecrets)
-            console.log('keys: ' + keys)
-            console.log('stringifyKeys: ' + stringifyKeys)
-            console.log('parseKeys: ' + parseKeys.hexseed)
+            const keys = JSON.parse(userSecrets);
+            console.log('keys: ' + JSON.stringify(keys));
+
 
             const embed = new Discord.MessageEmbed()
               .setColor(0x000000)
@@ -76,7 +73,7 @@ module.exports = {
               .addField('Use the QRL Wallet to withdraw funds:', '[QRL Web Wallet](' + config.wallet.wallet_url + ')')
               // figure out how to attach the qr image here...
               .addField('For all of my commands:\t', '`+help`');
-            message.author.send({ embed })
+            message.author.send({ embed });
             message.author.send(`User Private Keys: ||${keys}||`)
               .then(() => {
                 if (message.channel.type === 'dm') return;
