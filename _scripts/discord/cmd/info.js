@@ -196,20 +196,19 @@ module.exports = {
         .setURL('https://faucet.qrl.tips')
         .setDescription('The QRL Tipbot has a faucet included that will give Quanta away to any user signed up to the tipbot. Faucet details below.')
         .addFields(
-          { name: 'Tipbot Faucet Balance:', value: '`' + thousandths(faucetBal) + '`' },
-          { name: 'Faucet Payout interval:', value: ':timer: `' + faucetPayoutInterval + ' Hours`'},
+          { name: 'Tipbot Faucet Balance:', value: '`' + thousandths(faucetBal) + '`'},
+          { name: 'Faucet Payout interval:', value: ':timer: `' + faucetPayoutInterval + ' Hours`' },
           { name: 'Minimum Faucet Payout', value: ':small_red_triangle_down: ` ' + faucetMinPayout + ' shor`', inline: true },
           { name: 'Maximum Faucet Payout', value: ':small_red_triangle: ` ' + faucetMaxPayout + ' shor`', inline: true },
           { name: 'Faucet Wallet Address', value: '[' + FaucetWalletPub + '](' + config.bot_details.explorer_url + '/a/' + FaucetWalletPub + ')' },
         )
         .setTimestamp()
-        .setFooter('.: The QRL Contributors :. Use the address above if you would like to contribute to the faucet.');
+        .setFooter('Use the address above if you would like to contribute to the faucet .: The QRL Contributors :.');
       message.reply({ embed })
         .then(() => {
           message.channel.stopTyping(true);
       });
     }
-
     // ///////////////////////////////
     // Exchange Request             //
     // ///////////////////////////////
@@ -296,7 +295,8 @@ module.exports = {
       return;
     }
     else {
-      // user found and all checks pass Send them a message with tipbot account details
+      // user found and all checks pass Send them a message with tipbot account details if not a DM
+      if (message.channel.type === 'dm') return;
       const userWalletPub = userData[0].wallet_pub;
       const userBalShor = await userWalletBalance(userWalletPub);
       const userBal = (userBalShor.balance / shor).toFixed(9);
