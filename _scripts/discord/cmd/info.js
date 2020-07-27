@@ -174,10 +174,10 @@ module.exports = {
           { name: 'QRL USD Value:', value: '`\u0024' + thousandths(usdValue) + '`', inline: true },
           { name: 'Volume', value: '`\u0024' + thousandths(usdTotalVolume) + '`', inline: true },
           { name: 'Market Cap:', value: '`\u0024' + thousandths(usdMarketCap) + '`', inline: true },
-          { name: 'Price Change 24h - QRL', value: '`' + (priceChange24h).toFixed(4) + ' shor | %' + (priceChange24hPercent).toFixed(2) + '( \u0024' + (usdPriceChange24h).toFixed(2) + ' )`', inline: true },
+          { name: 'Price Change 24h - QRL', value: '`' + (priceChange24h).toFixed(4) + ' shor | \u0024' + (usdPriceChange24h).toFixed(4) + ' (% ' + (priceChange24hPercent).toFixed(2) + ')`', inline: true },
           { name: '24hr USD Low/High', value: '`\u0024' + thousandths((usdLow24h).toFixed(3)) + ' / \u0024' + thousandths((usdHigh24h).toFixed(3)) + '`' },
           { name: '24hr BTC Low/High', value: '`\u20BF' + thousandths(btcLow24h) + ' / \u20BF' + thousandths(btcHigh24h) + '`' },
-          
+
           { name: 'All Time High USD:', value: '`\u0024' + thousandths(usdATH) + ' %' + usdATHChange + '`', inline: true },
           { name: 'All Time Low USD:', value: '`\u0024' + thousandths(usdATL) + ' %' + usdATLChange + '`', inline: true },
           { name: 'All Time High BTC:', value: '`\u20BF' + thousandths(btcATH) + ' %' + btcATHChange + '`', inline: true },
