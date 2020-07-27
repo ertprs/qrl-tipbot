@@ -67,7 +67,7 @@ module.exports = {
             const parseKeys = JSON.parse(userSecrets)
             console.log('keys: ' + keys)
             console.log('stringifyKeys: ' + stringifyKeys)
-            console.log('parseKeys: ' + parseKeys)
+            console.log('parseKeys: ' + parseKeys.hexseed)
 
             const embed = new Discord.MessageEmbed()
               .setColor(0x000000)
