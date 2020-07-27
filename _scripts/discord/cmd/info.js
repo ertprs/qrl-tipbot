@@ -72,7 +72,7 @@ module.exports = {
   }
 
   function thousandths(number) {
-    let splitNumber = number.toString().split('.');
+    const splitNumber = number.toString().split('.');
     splitNumber[0] = splitNumber[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     return splitNumber.join('.');
   }
@@ -104,7 +104,6 @@ module.exports = {
     const explorerURL = config.bot_details.explorer_url;
     // get updated bot wallet balance and faucet wallet balance
     const cgData = JSON.parse(await getCgData());
-    const priceChange24h = cgData.market_data.price_change_24h;
     const priceChange24hPercent = cgData.market_data.price_change_percentage_24h;
     const circulatingSupply = cgData.market_data.circulating_supply;
     const totalSupply = cgData.market_data.total_supply;
@@ -158,14 +157,6 @@ module.exports = {
     const btcLow24h = cgData.market_data.low_24h.btc;
     const btcPriceChange24h = cgData.market_data.price_change_24h_in_currency.btc;
     const btcMarketCapChange24h = cgData.market_data.market_cap_change_24h_in_currency.btc;
-    
-
-    // get pool data from a pool
-    const poolData = JSON.parse(await getPoolInfo());
-    const hashrate = getHashRate(poolData.network.difficulty / poolData.config.coinDifficultyTarget) + '/sec';
-    console.log(hashrate)
-    // const poolInfoData = poolData[0].poolInfo;
-    
 
     // ///////////////////////////////
     // Market Request               //
@@ -402,6 +393,11 @@ module.exports = {
     // Bot Request                  //
     // ///////////////////////////////
     else if (args[0] == 'bot' || args[0] == 'tipbot' || args[0] == 'fee') {
+      // get pool data from a pool
+      const poolData = JSON.parse(await getPoolInfo());
+      const hashrate = getHashRate(poolData.network.difficulty / poolData.config.coinDifficultyTarget) + '/sec';
+      // console.log(hashrate)
+
       // serve the bot info here
       const nodeBlockHeight = JSON.parse(await getHeight());
       const embed = new Discord.MessageEmbed()
@@ -411,6 +407,8 @@ module.exports = {
         .setDescription('The tipbot enables sending QRL tips to other discord users. The bot will create an individual address for each bot user with the `+add` command. \n\n:small_blue_diamond: All tips are on chain and can be seen in the [QRL Block Explorer](' + explorerURL + '). \n:small_blue_diamond: You will need to create a new address and `+transfer` your earned tips to an address you control. Use the [QRL Web Wallet](' + config.wallet.wallet_url + ')\n:small_blue_diamond: You can send tips to users that have not signed up and the bot will save them for the user. Once they sign up these tips will be waiting for them.\n')
         .addFields(
           { name: 'Block Height: ', value: '`' + nodeBlockHeight.height + '`', inline: true },
+          { name: 'Network Hashrate:', value: '`' + hashrate + '`', inline: true },
+          { name: 'Mining Difficulty:', value: '`' + hashrate + '`', inline: true },
           { name: 'Bot Transaction Fees:', value: '`\u0024 ' + botFee + '`', inline: true },
         )
         .setTimestamp()
