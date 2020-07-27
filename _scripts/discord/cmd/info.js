@@ -114,7 +114,7 @@ module.exports = {
     const vccLastBTC = cgData.tickers[0].last;
     const vccBidAsk = cgData.tickers[0].bid_ask_spread_percentage;
     // bittrex info from coinGecko
-    const bittrexVolume = cgData.tickers[1].volume;
+    const bittrexVolume = thousandths(cgData.tickers[1].volume);
     const bittrexIdentifier = cgData.tickers[1].market.name;
     const bittrexURL = cgData.tickers[1].trade_url;
     const bittrexLastBTC = cgData.tickers[1].last;
