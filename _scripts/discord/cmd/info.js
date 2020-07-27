@@ -3,7 +3,7 @@ module.exports = {
   description: 'Information about this bot and the QRL Network.',
   aliases: ['information', '??', 'details', 'stats', 'status', 'state'],
   args: false,
-  usage: ' { alias: information || details || stats || status || state}\n{args: market || price || value || bot || exchange }\nGives details about the network, QRL Market, tipbot etc. Will also print your current tipbot details to DM',
+  usage: '\n`{ alias: information | details | stats | status | state}`\n`{args: market | price | value | bot | exchange }`\nGives details about the network, QRL Market, tipbot etc. Will also print your current tipbot details to DM',
   cooldown: 1,
   execute(message, args) {
 
@@ -68,7 +68,7 @@ module.exports = {
         i++;
       }
     }
-  return parseFloat(hashrate).toFixed(2) + byteUnits[i];
+    return parseFloat(hashrate).toFixed(2) + byteUnits[i];
   }
 
   function thousandths(number) {
@@ -77,91 +77,97 @@ module.exports = {
     return splitNumber.join('.');
   }
 
+  function timeConvert(time) {
+  return time / 24 / 60 + ':' + time / 60 % 24 + ':' + time % 60;
+  }
+
   async function main() {
     // look in the database for the user
     const username = `${message.author}`;
     const userName = username.slice(1, -1);
     const userInfo = { service: 'discord', service_id: userName };
     const userData = await dbHelper.GetAllUserInfo(userInfo);
-    // console.log(JSON.stringify(userData));
     // parse the user details
     const found = userData[0].userData;
     const optOut = userData[0].opt_out;
     const agree = userData[0].user_agree;
     // multiplier for balance calculations
     const shor = 1000000000;
+
     // faucet data
     const FaucetWalletPub = config.faucet.faucet_wallet_pub;
     const faucetPayoutInterval = config.faucet.payout_interval;
     const faucetMinPayout = config.faucet.min_payout;
     const faucetMaxPayout = config.faucet.max_payout;
     const faucetBalShor = await faucetWalletBalance();
-
     const faucetBal = (faucetBalShor.balance / shor).toFixed(9);
+
     // general bot data
     const botFee = config.wallet.tx_fee;
     const botUrl = config.bot_details.bot_url;
     const explorerURL = config.bot_details.explorer_url;
+    // get updated bot wallet balance and faucet wallet balance
+    const cgData = JSON.parse(await getCgData());
+    const priceChange24h = cgData.market_data.price_change_24h;
+    const circulatingSupply = cgData.market_data.circulating_supply;
+    const totalSupply = cgData.market_data.total_supply;
+    // vcc info
+    const vccVolume = cgData.tickers[0].volume;
+    const vccIdentifier = cgData.tickers[0].market.name;
+    const vccURL = cgData.tickers[0].trade_url;
+    const vccLastBTC = cgData.tickers[0].last;
+    const vccBidAsk = cgData.tickers[0].bid_ask_spread_percentage;
+    // bittrex info from coinGecko
+    const bittrexVolume = cgData.tickers[1].volume;
+    const bittrexIdentifier = cgData.tickers[1].market.name;
+    const bittrexURL = cgData.tickers[1].trade_url;
+    const bittrexLastBTC = cgData.tickers[1].last;
+    const bittrexBidAsk = cgData.tickers[1].bid_ask_spread_percentage;
+    // upbit info
+    const upbitVolume = cgData.tickers[2].volume;
+    const upbitIdentifier = cgData.tickers[2].market.name;
+    const upbitURL = cgData.tickers[2].trade_url;
+    const upbitLastBTC = cgData.tickers[2].last;
+    const upbitBidAsk = cgData.tickers[2].bid_ask_spread_percentage;
+    // upbit Indonesia info
+    const upbitIndonesiaVolume = cgData.tickers[3].volume;
+    const upbitIndonesiaIdentifier = cgData.tickers[3].market.name;
+    const upbitIndonesiaURL = cgData.tickers[3].trade_url;
+    const upbitIndonesiaLastBTC = cgData.tickers[3].last;
+    const upbitIndonesiaBidAsk = cgData.tickers[3].bid_ask_spread_percentage;
+     // USD Market data
+    const usdValue = cgData.market_data.current_price.usd;
+    const usdATH = cgData.market_data.ath.usd;
+    const usdATHChange = cgData.market_data.ath_change_percentage.usd;
+    const usdAthDate = cgData.market_data.ath_date.usd;
+    const usdATL = cgData.market_data.atl.usd;
+    const usdATLChange = cgData.market_data.atl_change_percentage.usd;
+    const usdMarketCap = cgData.market_data.market_cap.usd;
+    const usdTotalVolume = cgData.market_data.total_volume.usd;
+    const usdHigh24h = cgData.market_data.high_24h.usd;
+    const usdLow24h = cgData.market_data.low_24h.usd;
+    const usdPriceChange24h = cgData.market_data.price_change_24h_in_currency.usd;
+    const usdMarketCapChange24h = cgData.market_data.market_cap_change_24h_in_currency.usd;
+    // BTC market data from CoinGecko
+    const btcValue = cgData.market_data.current_price.btc;
+    const btcATH = cgData.market_data.ath.btc;
+    const btcATHChange = cgData.market_data.ath_change_percentage.btc;
+    const btcathDate = cgData.market_data.ath_date.btc;
+    const btcATL = cgData.market_data.atl.btc;
+    const btcATLChange = cgData.market_data.atl_change_percentage.btc;
+    const btcAthDate = cgData.market_data.ath_date.btc;
+    const btcMarketCap = cgData.market_data.market_cap.btc;
+    const btcTotalVolume = cgData.market_data.total_volume.btc;
+    const btcHigh24h = cgData.market_data.high_24h.btc;
+    const btcLow24h = cgData.market_data.low_24h.btc;
+    const btcPriceChange24h = cgData.market_data.price_change_24h_in_currency.btc;
+    const btcMarketCapChange24h = cgData.market_data.market_cap_change_24h_in_currency.btc;
 
-      // get updated bot wallet balance and faucet wallet balance
-      const cgData = JSON.parse(await getCgData());
-      const priceChange24h = cgData.market_data.price_change_24h;
-      const circulatingSupply = cgData.market_data.circulating_supply;
-      const totalSupply = cgData.market_data.total_supply;
-      // vcc info
-      const vccVolume = cgData.tickers[0].volume;
-      const vccIdentifier = cgData.tickers[0].market.name;
-      const vccURL = cgData.tickers[0].trade_url;
-      const vccLastBTC = cgData.tickers[0].last;
-      const vccBidAsk = cgData.tickers[0].bid_ask_spread_percentage;
-      // bittrex info from coinGecko
-      const bittrexVolume = cgData.tickers[1].volume;
-      const bittrexIdentifier = cgData.tickers[1].market.name;
-      const bittrexURL = cgData.tickers[1].trade_url;
-      const bittrexLastBTC = cgData.tickers[1].last;
-      const bittrexBidAsk = cgData.tickers[1].bid_ask_spread_percentage;
-      // upbit info
-      const upbitVolume = cgData.tickers[2].volume;
-      const upbitIdentifier = cgData.tickers[2].market.name;
-      const upbitURL = cgData.tickers[2].trade_url;
-      const upbitLastBTC = cgData.tickers[2].last;
-      const upbitBidAsk = cgData.tickers[2].bid_ask_spread_percentage;
-      // upbit Indonesia info
-      const upbitIndonesiaVolume = cgData.tickers[3].volume;
-      const upbitIndonesiaIdentifier = cgData.tickers[3].market.name;
-      const upbitIndonesiaURL = cgData.tickers[3].trade_url;
-      const upbitIndonesiaLastBTC = cgData.tickers[3].last;
-      const upbitIndonesiaBidAsk = cgData.tickers[3].bid_ask_spread_percentage;
 
-      // USD Market data
-      const usdValue = cgData.market_data.current_price.usd;
-      const usdATH = cgData.market_data.ath.usd;
-      const usdATHChange = cgData.market_data.ath_change_percentage.usd;
-      const usdAthDate = cgData.market_data.ath_date.usd;
-      const usdATL = cgData.market_data.atl.usd;
-      const usdATLChange = cgData.market_data.atl_change_percentage.usd;
-      const usdMarketCap = cgData.market_data.market_cap.usd;
-      const usdTotalVolume = cgData.market_data.total_volume.usd;
-      const usdHigh24h = cgData.market_data.high_24h.usd;
-      const usdLow24h = cgData.market_data.low_24h.usd;
-      const usdPriceChange24h = cgData.market_data.price_change_24h_in_currency.usd;
-      const usdMarketCapChange24h = cgData.market_data.market_cap_change_24h_in_currency.usd;
-      // BTC market data from CoinGecko
-      const btcValue = cgData.market_data.current_price.btc;
-      const btcATH = cgData.market_data.ath.btc;
-      const btcATHChange = cgData.market_data.ath_change_percentage.btc;
-      const btcathDate = cgData.market_data.ath_date.btc;
-      const btcATL = cgData.market_data.atl.btc;
-      const btcATLChange = cgData.market_data.atl_change_percentage.btc;
-      const btcAthDate = cgData.market_data.ath_date.btc;
-      const btcMarketCap = cgData.market_data.market_cap.btc;
-      const btcTotalVolume = cgData.market_data.total_volume.btc;
-      const btcHigh24h = cgData.market_data.high_24h.btc;
-      const btcLow24h = cgData.market_data.low_24h.btc;
-      const btcPriceChange24h = cgData.market_data.price_change_24h_in_currency.btc;
-      const btcMarketCapChange24h = cgData.market_data.market_cap_change_24h_in_currency.btc;
 
-    // Market Request
+    // ///////////////////////////////
+    // Market Request               //
+    // ///////////////////////////////
     if (args[0] == 'market' || args[0] == 'markets' || args[0] == 'price' || args[0] == 'value'|| args[0] == '$$') {
       const embed = new Discord.MessageEmbed()
         .setColor('GREEN')
@@ -184,9 +190,34 @@ module.exports = {
           message.channel.stopTyping(true);
       });
     }
+    // ///////////////////////////////
+    // Faucet Request               //
+    // ///////////////////////////////
+    else if (args[0] == 'faucet' || args[0] == 'drip' || args[0] == 'free' || args[0] == 'charity'|| args[0] == 'giveaway') {
+      const embed = new Discord.MessageEmbed()
+        .setColor('GREEN')
+        .setTitle('**QRL Faucet Info**')
+        .setURL('https://faucet.qrl.tips')
+        .setDescription('The QRL Tipbot has a faucet included that will give Quanta away to any user signed up to the tipbot. Faucet details below.')
+        .addFields(
+          { name: 'Tipbot Faucet Balance:', value: '`' + thousandths(faucetBal) + '`' },
 
-    // Exchange Request
-    if (args[0] == 'exchange' || args[0] == 'trade' || args[0] == 'buy' || args[0] == 'sell') {
+          { name: 'Faucet Payout interval:', value: '`' + timeConvert(faucetPayoutInterval) + '`', inline: true },
+          { name: 'Volume', value: '` ' + thousandths(usdTotalVolume) + '`', inline: true },
+          { name: '24hr High', value: '`\u0024 ' + thousandths(usdHigh24h) + '`', inline: true },
+        )
+        .setTimestamp()
+        .setFooter('.: The QRL Contributors :. Market data provided by Coin Gecko');
+      message.reply({ embed })
+        .then(() => {
+          message.channel.stopTyping(true);
+      });
+    }
+
+    // ///////////////////////////////
+    // Exchange Request             //
+    // ///////////////////////////////
+    else if (args[0] == 'exchange' || args[0] == 'trade' || args[0] == 'buy' || args[0] == 'sell') {
       const embed = new Discord.MessageEmbed()
         .setColor('GREEN')
         .setTitle('**QRL Exchange Info**')
@@ -216,39 +247,11 @@ module.exports = {
           message.channel.stopTyping(true);
       });
     }
-
-      // console.log('priceChange24h: ' + priceChange24h);
-      // console.log('totalSupply: ' + totalSupply);
-      // console.log('circulatingSupply: ' + circulatingSupply);
-      // console.log('usdValue: ' + usdValue);
-      // console.log('usdATH: ' + usdATH);
-      // console.log('usdATHChange: ' + usdATHChange);
-      // console.log('usdAthDate: ' + usdAthDate);
-      // console.log('usdATL: ' + usdATL);
-      // console.log('usdATLChange: ' + usdATLChange);
-      // console.log('usdMarketCap: ' + usdMarketCap);
-      // console.log('usdTotalVolume: ' + usdTotalVolume);
-      // console.log('usdHigh24h: ' + usdHigh24h);
-      // console.log('usdLow24h: ' + usdLow24h);
-      // console.log('usdPriceChange24h: ' + usdPriceChange24h);
-      // console.log('usdMarketCapChange24h: ' + usdMarketCapChange24h);
-      // console.log('btcValue: ' + btcValue);
-      // console.log('btcATH: ' + btcATH);
-      // console.log('btcATHChange: ' + btcATHChange);
-      // console.log('btcathDate: ' + btcathDate);
-      // console.log('btcATL: ' + btcATL);
-      // console.log('btcATLChange: ' + btcATLChange);
-      // console.log('btcAthDate: ' + btcAthDate);
-      // console.log('btcMarketCap: ' + btcMarketCap);
-      // console.log('btcTotalVolume: ' + btcTotalVolume);
-      // console.log('btcHigh24h: ' + btcHigh24h);
-      // console.log('btcLow24h: ' + btcLow24h);
-      // console.log('btcPriceChange24h: ' + btcPriceChange24h);
-      // console.log('btcMarketCapChange24h: ' + btcMarketCapChange24h);
+    // ///////////////////////////////
+    // Bot Request               //
+    // ///////////////////////////////
     else if (args[0] == 'bot' || args[0] == 'tipbot' || args[0] == 'fee') {
       // serve the bot info here
-      // console.log('botFee: ' + botFee);
-      // console.log('botUrl: ' + botUrl);
       const nodeBlockHeight = JSON.parse(await getHeight());
       const embed = new Discord.MessageEmbed()
         .setColor('GREEN')
@@ -272,19 +275,9 @@ module.exports = {
     }
 
     // get block height from node
+
     // get pool data from a pool
     const poolData = JSON.parse(await getPoolInfo());
-    // usd values and AllTime change
-
-    // console.log(JSON.stringify(cgData));
-    // console.log(JSON.stringify(poolData));
-    // console.log('FaucetWalletPub: ' + FaucetWalletPub);
-    // console.log('faucetPayoutInterval: ' + faucetPayoutInterval);
-    // console.log('faucetMinPayout: ' + faucetMinPayout);
-    // console.log('faucetMaxPayout: ' + faucetMaxPayout);
-    // console.log('explorerURL: ' + explorerURL);
-    // console.log('faucetBal: ' + faucetBal);
-    // console.log('nodeBlockHeight: ' + nodeBlockHeight.height);
     // run through checks and fail if, else serve User info to the user
     // is user found?
     if (found === 'false') {
@@ -307,15 +300,13 @@ module.exports = {
       return;
     }
     else {
-      // user found and all checks pass
+      // user found and all checks pass Send them a message with tipbot account details
       const userWalletPub = userData[0].wallet_pub;
       const userBalShor = await userWalletBalance(userWalletPub);
       const userBal = (userBalShor.balance / shor).toFixed(9);
       const userBTCValue = (userBal * btcValue).toFixed(9);
       const userUSDValue = (userBal * usdValue).toFixed(3);
       // console.log('userBal: ' + userBal);
-
-
       const embed = new Discord.MessageEmbed()
         .setColor(0x000000)
         .setTitle('**QRL Tipbot Info**')
