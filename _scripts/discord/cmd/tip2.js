@@ -100,7 +100,7 @@ module.exports = {
         message.channel.stopTyping(true);
         return;
       }
-      const userInfo = JSON.parse(await getUserInfo({ service: 'discord', service_id: userID }));
+      const userInfo = await getUserInfo({ service: 'discord', service_id: userID });
       console.log(userInfo);
 
     }
