@@ -44,9 +44,9 @@ module.exports = {
     }
 
   // Get user info if found.
-  function getUserInfo() {
+  function getUserInfo(args) {
       return new Promise(resolve => {
-      const data = dbHelper.GetAllUserInfo();
+      const data = dbHelper.GetAllUserInfo(args);
       resolve(data);
     });
   }
