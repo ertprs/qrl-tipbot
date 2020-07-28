@@ -104,7 +104,8 @@ module.exports = {
       console.log(userInfo);
 
     }
-    checks();
+    const tipAmount = args[0];
+    checks(tipAmount);
 
     console.log('');
   },
