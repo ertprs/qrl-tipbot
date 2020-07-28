@@ -37,6 +37,13 @@ module.exports = {
       }, 1000);
     }
 
+    function deleteMessage() {
+      // Delete the previous message
+      if(message.guild != null) {
+        message.channel.stopTyping(true);
+        message.delete();
+      }
+     }
 
     if (args.includes('@here') || args.includes('@everyone') || args.includes('@developer') || args.includes('@founder')) {
       // console.log(chalk.red('cant send tip to these users. Call them by name'));

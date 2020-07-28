@@ -20,6 +20,7 @@ module.exports = {
       message.channel.stopTyping(true);
     }, 1000);
   }
+
   function deleteMessage() {
     // Delete the previous message
     if(message.guild != null) {
@@ -27,6 +28,7 @@ module.exports = {
       message.delete();
     }
    }
+
   function getHeight() {
       return new Promise(resolve => {
       const height = wallet.GetHeight();
