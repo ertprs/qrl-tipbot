@@ -148,6 +148,12 @@ module.exports = {
       const output = '@' + JSON.parse(JSON.stringify(userName));
       const service_user_ID = user.id;
       const userid = '<@!' + user.id + '>';
+      const bot = user.bot;
+      const discriminator = user.discriminator;
+      const lastMessageID = user.lastMessageID;
+      const lastMessageChannelID = user.lastMessageChannelID;
+      const avatar = user.avatar;
+
       const details = { userName: output, service_user_ID: service_user_ID, userid: userid };
       return details;
     });
