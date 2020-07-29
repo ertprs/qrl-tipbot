@@ -131,7 +131,7 @@ module.exports = {
     // set tip amount here
     let tip = tipAmount();
 
-    console.log('message.mentions.users.size: ' + message.mentions.users.size);
+    console.log('message.mentions.users: ' + message.mentions.users);
     // console.log('args' + args);
 
     checks(tip);
@@ -148,7 +148,7 @@ module.exports = {
       const output = '@' + JSON.parse(JSON.stringify(userName));
       const service_user_ID = user.id;
       const userid = '<@!' + user.id + '>';
-      const details = { userNames: output, service_user_ID: service_user_ID, userid: userid };
+      const details = { userName: output, service_user_ID: service_user_ID, userid: userid };
       return details;
     });
     console.log('tipList: \n' + JSON.stringify(tipList));
