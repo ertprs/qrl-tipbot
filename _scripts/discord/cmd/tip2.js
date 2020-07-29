@@ -128,7 +128,7 @@ module.exports = {
     console.log('message.mentions.users.size' + message.mentions.users.size);
     // console.log('args' + args);
     checks(tip);
-    console.log('tipAmount: ' + tip.toString());
+    console.log('tipAmount: ' + tip..toString());
 
 
 // We have users mentioned, get the tipList into map
