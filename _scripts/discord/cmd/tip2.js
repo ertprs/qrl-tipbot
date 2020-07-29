@@ -51,8 +51,13 @@ module.exports = {
     });
   }
 
+  function toShor(number) {
+    const shor = 1000000000;
+    return number / shor;
+  }
+
    // function to check all required
-    async function checks(tipAmount) {
+    async function checks(amount) {
       // Check for
       /*
       - Calling @here/groups- this is not enabled yet
@@ -75,31 +80,31 @@ module.exports = {
       }
 
       // check if amount is NaN
-      if (isNaN(tipAmount)) {
-        console.log('isNaN')
+      if (isNaN(amount)) {
+        console.log('isNaN');
         ReplyMessage('Please enter a valid amount to tip! +tip {AMOUNT} @USER(\'s)');
         return ;
       }
       // Check that tip amount is above fee
-      if (tipAmount < config.wallet.tx_fee) {
+      if (amount < config.wallet.tx_fee) {
         message.channel.stopTyping(true);
-        console.log('tipAmount < config.wallet.tx_fee')
+        console.log('tipAmount < config.wallet.tx_fee');
         ReplyMessage('Please enter a valid amount to tip! Must be more than the fee `{' + config.wallet.tx_fee + '}` +tip {AMOUNT} @USER(\'s)');
         return ;
       }
 
       // Check that value is within the QRL limits
-      const test = isQRLValue(tipAmount);
+      const test = isQRLValue(amount);
       if (!test) {
         message.channel.stopTyping(true);
-        console.log('isQRLValue')
+        console.log('isQRLValue');
         ReplyMessage('Invalid amount. Please try again.');
         return;
       }
       // Check if mentions user
       if (message.mentions.users.first() == message.author) {
         ReplyMessage('You can\'t tip yourself');
-        console.log('message.mentions.users.first() == message.author')
+        console.log('message.mentions.users.first() == message.author');
         message.channel.stopTyping(true);
         return;
       }
@@ -123,12 +128,13 @@ module.exports = {
     }
 
     // set tip amount here
-    const tip = tipAmount();
+    let tip = tipAmount();
 
     console.log('message.mentions.users.size' + message.mentions.users.size);
     // console.log('args' + args);
     checks(tip);
-    console.log('tipAmount: ' + tip.toString(10));
+    tip = toShor(tip);
+    console.log('tipAmount: ' + tip);
 
 
 // We have users mentioned, get the tipList into map
@@ -176,6 +182,5 @@ module.exports = {
 
     console.log('final tipUserCount: ' + tipUserCount);
     console.log('final tipListJSON: ' + tipListJSON);
-tipListJSON
   },
 };
