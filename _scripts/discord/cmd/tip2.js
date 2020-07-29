@@ -118,8 +118,10 @@ function tip() {
     // set tip amount here
 //    const tipAmount = args[0];
     const tipAmount = tip();
+
     console.log('message.mentions.users.size' + message.mentions.users.size);
     console.log('args' + args);
+    console.log('tipAmount' + tipAmount);
     checks(tipAmount);
 
 
@@ -167,6 +169,7 @@ function tip() {
     const tipUserCount = TipUserCount();
 
     console.log('final tipUserCount: ' + tipUserCount);
-
+    console.log('final tipListJSON: ' + tipListJSON);
+tipListJSON
   },
 };
