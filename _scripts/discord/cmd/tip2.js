@@ -85,11 +85,12 @@ module.exports = {
         ReplyMessage('Please enter a valid amount to tip! +tip {AMOUNT} @USER(\'s)');
         return ;
       }
+      const fee = toShor(config.wallet.tx_fee)
       // Check that tip amount is above fee
-      if (amount < toShor(config.wallet.tx_fee)) {
+      if (amount < fee) {
         message.channel.stopTyping(true);
         console.log('tipAmount < config.wallet.tx_fee');
-        ReplyMessage('Please enter a valid amount to tip! Must be more than the fee `{' + toShor(config.wallet.tx_fee) + '}` +tip {AMOUNT} @USER(\'s)');
+        ReplyMessage('Please enter a valid amount to tip! Must be more than the fee `{' + config.wallet.tx_fee + '}` +tip {AMOUNT} @USER(\'s)');
         return ;
       }
 
