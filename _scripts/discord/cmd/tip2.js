@@ -85,7 +85,7 @@ module.exports = {
         ReplyMessage('Please enter a valid amount to tip! +tip {AMOUNT} @USER(\'s)');
         return ;
       }
-      const fee = toShor(config.wallet.tx_fee)
+      const fee = toShor(config.wallet.tx_fee);
       // Check that tip amount is above fee
       if (amount > fee) {
         message.channel.stopTyping(true);
@@ -111,7 +111,7 @@ module.exports = {
       }
       const userInfo = await getUserInfo({ service: 'discord', service_id: userID });
       console.log(userInfo[0].wallet_pub);
-
+      // check balance and if less than tipAmount fail
     }
 
     function tipAmount() {
@@ -141,9 +141,15 @@ module.exports = {
 // We have users mentioned, get the tipList into map
     const tipList = message.mentions.users.map(user => {
       const userName = user.username;
-      const output = JSON.parse(JSON.stringify(userName));
-      return `@${output}`;
+      // const output = JSON.parse(JSON.stringify(userName));
+      // return `@${output}`;
+      const output = '@' + JSON.parse(JSON.stringify(userName));
+      const service_user_ID = user.id;
+      const userid = '<@!' + user.id + '>';
+      const details = { userNames: output, service_user_ID: service_user_ID, userid: userid };
+      return details;
     });
+    console.log('tipList' + tipList);
 
     const userList = message.mentions.users.map(user => {
       const service_user_ID = user.id;
