@@ -179,14 +179,14 @@ module.exports = {
     function TipUserCount() {
       // console.log('tipList: ' + JSON.stringify(tipList));
 
-      if (tipList.includes('@' + config.bot_details.bot_name && (!args.includes(config.discord.bot_id)))) {
+      if (tipList.includes('@' + config.bot_details.bot_name)) {
         const tipUserCount = (tipListJSON.length - 1);
         console.log('tipUserCount: ' + tipUserCount);
         return tipUserCount;
       }
       else {
         const tipUserCount = tipListJSON.length;
-        console.log('tipUserCount: ' + tipUserCount);
+        console.log('else tipUserCount: ' + tipUserCount);
         return tipUserCount;
       }
     }
