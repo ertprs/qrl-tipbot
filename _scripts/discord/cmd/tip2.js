@@ -44,13 +44,12 @@ module.exports = {
     }
 
   // Get user info if found.
-  function getUserInfo(args) {
+  function getUserInfo(usrInfo) {
       return new Promise(resolve => {
-      const data = dbHelper.GetAllUserInfo(args);
+      const data = dbHelper.GetAllUserInfo(usrInfo);
       resolve(data);
     });
   }
-
 
    // function to check all required
     async function checks(tipAmount) {
@@ -104,9 +103,84 @@ module.exports = {
       console.log(userInfo);
 
     }
+
+/*
+  function TipUserCount() {
+    const tipListJSON = JSON.parse(JSON.stringify(tipList));
+    // console.log('tipList: ' + JSON.stringify(tipList));
+    if (tipList.includes('@' + config.bot_details.bot_name && (!args.includes(config.discord.bot_id)))) {
+      const tipUserCount = (tipListJSON.length - 1);
+      // console.log(chalk.green('tipUserCount: ' + tipUserCount));
+      return tipUserCount;
+    }
+    else {
+      const tipUserCount = tipListJSON.length;
+      // console.log(chalk.green('tipUserCount: ' + tipUserCount));
+      return tipUserCount;
+    }
+  }
+*/
+
+  function userLists() {
+    // We have users mentioned, get the tipList into map
+    const tipList = message.mentions.users.map(user => {
+      const userName = user.username;
+      const serviceUserID = user.id;
+      const userid = '<@!' + user.id + '>';
+      const output = { userName: userName, serviceUserID: serviceUserID, userid: userid };
+      console.log(output);
+      const tipListJSON = JSON.parse(JSON.stringify(tipList));
+      // console.log('tipList: ' + JSON.stringify(tipList));
+      if (tipList.includes('@' + config.bot_details.bot_name && (!args.includes(config.discord.bot_id)))) {
+        const tipUserCount = (tipListJSON.length - 1);
+        // console.log(chalk.green('tipUserCount: ' + tipUserCount));
+        output.push({ tipUserCount: tipUserCount });
+      }
+      else {
+        const tipUserCount = tipListJSON.length;
+        // console.log(chalk.green('tipUserCount: ' + tipUserCount));
+        output.push({ tipUserCount: tipUserCount });
+      }
+      console.log(output);
+      return output;
+    });
+
+
+    /*
+      if ((userid === config.discord.bot_id) && (!args.includes(config.discord.bot_id))) {
+        // console.log(chalk.red('bot mentioned, don\'t count it, again'));
+      }
+      else {
+        const output = JSON.parse(JSON.stringify(service_user_ID));
+        return `<@${output}>`;
+      }
+    */
+
+
+  }
+
+    // const tipUserCount = TipUserCount();
+
+
+
+
+
+
+
+    // set tip amount here
     const tipAmount = args[0];
+
+    console.log('message.mentions.users.size' + message.mentions.users.size);
+    console.log('message.mentions.users.size' + args.size);
     checks(tipAmount);
+    userLists();
+
+
+
+
+
 
     console.log('');
+
   },
 };
