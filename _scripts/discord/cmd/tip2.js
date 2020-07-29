@@ -114,7 +114,7 @@ module.exports = {
     const tipAmount = args[0];
 
     console.log('message.mentions.users.size' + message.mentions.users.size);
-    console.log('message.mentions.users.size' + args.size);
+    console.log('args' + args);
     checks(tipAmount);
 
 
@@ -163,7 +163,7 @@ module.exports = {
 
 
 
-    console.log('tipUserCount' + tipUserCount);
+    console.log('final tipUserCount: ' + tipUserCount);
 
   },
 };
