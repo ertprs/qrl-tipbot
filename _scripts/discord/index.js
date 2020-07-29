@@ -7,7 +7,7 @@ const chalk = require('chalk');
 const Discord = require('discord.js');
 const wallet = require('../qrl/walletTools');
 const explorer = require('../qrl/explorerTools');
-const cgTools = require('../coinGecko/cgTools');
+// const cgTools = require('../coinGecko/cgTools'); /* Enable for Coin Data ticker */
 
 // Require the config file. Create it from the example
 const config = require('../../_config/config.json');
@@ -47,13 +47,14 @@ function getHeight() {
   });
 }
 
+/* Enable for Coin Data ticker
 function getCgData() {
   return new Promise(resolve => {
     const cgdata = cgTools.cgData();
     resolve(cgdata);
   });
 }
-
+*/
 function getPoolInfo() {
   return new Promise(resolve => {
     const poolData = explorer.poolData();
@@ -82,13 +83,14 @@ function getHashRate(hashrate) {
   return parseFloat(hashrate).toFixed(2) + byteUnits[i];
   }
 
+/* Enable for Coin Data ticker
 async function cgData() {
   const data = await getCgData();
   const array = [];
   array.push({ cgData: data });
   return array;
   }
-
+*/
 async function Height() {
   const data = await getHeight();
   const array = [];

@@ -107,7 +107,9 @@ module.exports = {
 
 
 
-
+    for (const arg of args) {
+      console.log(arg);
+    }
 
 
     // set tip amount here
