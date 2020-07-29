@@ -92,7 +92,7 @@ module.exports = {
       const test = isQRLValue(tipAmount);
       if (!test) {
         message.channel.stopTyping(true);
-        console.log('isQRLValue')
+        console.log('isQRLValue');
         ReplyMessage('Invalid amount. Please try again.');
         return;
       }
@@ -128,7 +128,7 @@ module.exports = {
     console.log('message.mentions.users.size' + message.mentions.users.size);
     // console.log('args' + args);
     checks(tip);
-    console.log('tipAmount: ' + tip.toString());
+    console.log('tipAmount: ' + tip.toNumber());
 
 
 // We have users mentioned, get the tipList into map
