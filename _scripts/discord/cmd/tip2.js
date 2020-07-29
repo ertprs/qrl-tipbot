@@ -181,12 +181,12 @@ module.exports = {
 
       if (tipList.includes('@' + config.bot_details.bot_name && (!args.includes(config.discord.bot_id)))) {
         const tipUserCount = (tipListJSON.length - 1);
-        console.log(chalk.green('tipUserCount: ' + tipUserCount));
+        console.log('tipUserCount: ' + tipUserCount);
         return tipUserCount;
       }
       else {
         const tipUserCount = tipListJSON.length;
-        console.log(chalk.green('tipUserCount: ' + tipUserCount));
+        console.log('tipUserCount: ' + tipUserCount);
         return tipUserCount;
       }
     }
