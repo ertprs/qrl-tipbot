@@ -83,6 +83,7 @@ module.exports = {
       // Check that tip amount is above fee
       if (tipAmount < config.wallet.tx_fee) {
         message.channel.stopTyping(true);
+        console.log('tipAmount < config.wallet.tx_fee')
         ReplyMessage('Please enter a valid amount to tip! Must be more than the fee `{' + config.wallet.tx_fee + '}` +tip {AMOUNT} @USER(\'s)');
         return ;
       }
@@ -91,12 +92,14 @@ module.exports = {
       const test = isQRLValue(tipAmount);
       if (!test) {
         message.channel.stopTyping(true);
+        console.log('isQRLValue')
         ReplyMessage('Invalid amount. Please try again.');
         return;
       }
       // Check if mentions user
       if (message.mentions.users.first() == message.author) {
         ReplyMessage('You can\'t tip yourself');
+        console.log('message.mentions.users.first() == message.author')
         message.channel.stopTyping(true);
         return;
       }
