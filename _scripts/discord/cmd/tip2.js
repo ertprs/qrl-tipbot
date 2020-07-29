@@ -131,7 +131,7 @@ module.exports = {
     // set tip amount here
     let tip = tipAmount();
 
-    console.log('message.mentions.users: ' + message.mentions.users);
+    console.dir('message.mentions.users: ' + message.mentions.users);
     // console.log('args' + args);
 
     checks(tip);
