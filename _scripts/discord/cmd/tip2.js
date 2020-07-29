@@ -84,7 +84,7 @@ module.exports = {
       if (tipAmount < config.wallet.tx_fee) {
         message.channel.stopTyping(true);
         ReplyMessage('Please enter a valid amount to tip! Must be more than the fee `{' + config.wallet.tx_fee + '}` +tip {AMOUNT} @USER(\'s)');
-        // return ;
+        return ;
       }
 
       // Check that value is within the QRL limits
@@ -92,16 +92,16 @@ module.exports = {
       if (!test) {
         message.channel.stopTyping(true);
         ReplyMessage('Invalid amount. Please try again.');
-        // return;
+        return;
       }
       // Check if mentions user
       if (message.mentions.users.first() == message.author) {
         ReplyMessage('You can\'t tip yourself');
         message.channel.stopTyping(true);
-        // return;
+        return;
       }
       const userInfo = await getUserInfo({ service: 'discord', service_id: userID });
-      console.log(userInfo);
+      console.log(userInfo[0].wallet_pub);
 
     }
 
