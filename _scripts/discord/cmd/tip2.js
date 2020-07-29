@@ -53,7 +53,7 @@ module.exports = {
 
   function toShor(number) {
     const shor = 1000000000;
-    return number / shor;
+    return number * shor;
   }
 
    // function to check all required
