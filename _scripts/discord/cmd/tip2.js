@@ -107,10 +107,13 @@ module.exports = {
 function tip() {
     for (const arg of args) {
       console.log(arg);
-      checks(arg);
-      if(checks) {
+      const checkValue = isQRLValue(arg);
+      if(checkValue) {
         const amount = arg;
       return amount;
+      }
+      else {
+        console.log('not a value');
       }
     }
 }
