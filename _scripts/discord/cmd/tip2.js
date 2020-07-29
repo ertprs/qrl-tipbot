@@ -65,24 +65,25 @@ module.exports = {
       if (args.includes('@here') || args.includes('@everyone') || args.includes('@developer') || args.includes('@founder')) {
         // console.log(chalk.red('cant send tip to these users. Call them by name'));
         ReplyMessage('Can\'t send to a group. Please send to individual user(s).');
-        // return;
+        return;
       }
 
       // check if user mentioned another user to tip
       if (!message.mentions.users.size) {
         ReplyMessage('No Users mentioned. `+help tip` for help');
-        // return ;
+        return ;
       }
 
       // check if amount is NaN
       if (isNaN(tipAmount)) {
+        console.log('isNaN')
         ReplyMessage('Please enter a valid amount to tip! +tip {AMOUNT} @USER(\'s)');
-        // return ;
+        return ;
       }
-      // Check that tip amount is above 0
-      if (tipAmount < 0) {
+      // Check that tip amount is above fee
+      if (tipAmount < config.wallet.tx_fee) {
         message.channel.stopTyping(true);
-        ReplyMessage('Please enter a valid amount to tip! +tip {AMOUNT} @USER(\'s)');
+        ReplyMessage('Please enter a valid amount to tip! Must be more than the fee `{' + config.wallet.tx_fee + '}` +tip {AMOUNT} @USER(\'s)');
         // return ;
       }
 
@@ -104,28 +105,27 @@ module.exports = {
 
     }
 
-function tip() {
-    for (const arg of args) {
-      console.log(arg);
-      const checkValue = isQRLValue(arg);
-      if(checkValue) {
-        const amount = arg;
-      return amount;
-      }
-      else {
-        console.log('not a value');
+    function tipAmount() {
+      for (const arg of args) {
+        console.log(arg);
+        const checkValue = isQRLValue(arg);
+        if(checkValue) {
+          const amount = arg;
+        return amount;
+        }
+        else {
+          console.log('not a value');
+        }
       }
     }
-}
 
     // set tip amount here
-//    const tipAmount = args[0];
-    const tipAmount = tip();
+    const tip = tipAmount();
 
     console.log('message.mentions.users.size' + message.mentions.users.size);
     console.log('args' + args);
-    console.log('tipAmount' + tipAmount);
-    checks(tipAmount);
+    console.log('tipAmount' + tip);
+    checks(tip);
 
 
 // We have users mentioned, get the tipList into map
