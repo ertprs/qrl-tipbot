@@ -65,25 +65,25 @@ module.exports = {
       if (args.includes('@here') || args.includes('@everyone') || args.includes('@developer') || args.includes('@founder')) {
         // console.log(chalk.red('cant send tip to these users. Call them by name'));
         ReplyMessage('Can\'t send to a group. Please send to individual user(s).');
-        return;
+        // return;
       }
 
       // check if user mentioned another user to tip
       if (!message.mentions.users.size) {
         ReplyMessage('No Users mentioned. `+help tip` for help');
-        return ;
+        // return ;
       }
 
       // check if amount is NaN
       if (isNaN(tipAmount)) {
         ReplyMessage('Please enter a valid amount to tip! +tip {AMOUNT} @USER(\'s)');
-        return ;
+        // return ;
       }
       // Check that tip amount is above 0
       if (tipAmount < 0) {
         message.channel.stopTyping(true);
         ReplyMessage('Please enter a valid amount to tip! +tip {AMOUNT} @USER(\'s)');
-        return ;
+        // return ;
       }
 
       // Check that value is within the QRL limits
@@ -91,13 +91,13 @@ module.exports = {
       if (!test) {
         message.channel.stopTyping(true);
         ReplyMessage('Invalid amount. Please try again.');
-        return;
+        // return;
       }
       // Check if mentions user
       if (message.mentions.users.first() == message.author) {
         ReplyMessage('You can\'t tip yourself');
         message.channel.stopTyping(true);
-        return;
+        // return;
       }
       const userInfo = await getUserInfo({ service: 'discord', service_id: userID });
       console.log(userInfo);
