@@ -135,7 +135,7 @@ module.exports = {
     // console.log('args' + args);
 
     checks(tip);
-    
+
     tip = toShor(tip);
     console.log('tipAmount: ' + tip);
 
@@ -154,7 +154,7 @@ module.exports = {
       const lastMessageChannelID = user.lastMessageChannelID;
       const avatar = user.avatar;
 
-      const details = { userName: output, service_user_ID: service_user_ID, userid: userid };
+      const details = { userName: output, service_user_ID: service_user_ID, userid: userid, bot: bot, discriminator: discriminator, avatar: avatar, lastMessageID: lastMessageID, lastMessageChannelID: lastMessageChannelID };
       return details;
     });
     console.log('tipList: \n' + JSON.stringify(tipList));
@@ -164,9 +164,6 @@ module.exports = {
       const userid = '<@!' + user.id + '>';
       if ((userid === config.discord.bot_id) && (!args.includes(config.discord.bot_id))) {
         // console.log(chalk.red('bot mentioned, don\'t count it, again'));
-
-
-
       }
       else {
         const output = JSON.parse(JSON.stringify(service_user_ID));
