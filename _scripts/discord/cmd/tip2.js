@@ -104,63 +104,6 @@ module.exports = {
 
     }
 
-/*
-  function TipUserCount() {
-    const tipListJSON = JSON.parse(JSON.stringify(tipList));
-    // console.log('tipList: ' + JSON.stringify(tipList));
-    if (tipList.includes('@' + config.bot_details.bot_name && (!args.includes(config.discord.bot_id)))) {
-      const tipUserCount = (tipListJSON.length - 1);
-      // console.log(chalk.green('tipUserCount: ' + tipUserCount));
-      return tipUserCount;
-    }
-    else {
-      const tipUserCount = tipListJSON.length;
-      // console.log(chalk.green('tipUserCount: ' + tipUserCount));
-      return tipUserCount;
-    }
-  }
-*/
-
-  function userLists() {
-    // We have users mentioned, get the tipList into map
-    const tipList = message.mentions.users.map(user => {
-      const userName = user.username;
-      const serviceUserID = user.id;
-      const userid = '<@!' + user.id + '>';
-      const output = { userName: userName, serviceUserID: serviceUserID, userid: userid };
-      console.log(output);
-      const tipListJSON = JSON.parse(JSON.stringify(tipList));
-      // console.log('tipList: ' + JSON.stringify(tipList));
-      if (tipList.includes('@' + config.bot_details.bot_name && (!args.includes(config.discord.bot_id)))) {
-        const tipUserCount = (tipListJSON.length - 1);
-        // console.log(chalk.green('tipUserCount: ' + tipUserCount));
-        output.push({ tipUserCount: tipUserCount });
-      }
-      else {
-        const tipUserCount = tipListJSON.length;
-        // console.log(chalk.green('tipUserCount: ' + tipUserCount));
-        output.push({ tipUserCount: tipUserCount });
-      }
-      console.log(output);
-      return output;
-    });
-
-
-    /*
-      if ((userid === config.discord.bot_id) && (!args.includes(config.discord.bot_id))) {
-        // console.log(chalk.red('bot mentioned, don\'t count it, again'));
-      }
-      else {
-        const output = JSON.parse(JSON.stringify(service_user_ID));
-        return `<@${output}>`;
-      }
-    */
-
-
-  }
-
-    // const tipUserCount = TipUserCount();
-
 
 
 
@@ -173,14 +116,54 @@ module.exports = {
     console.log('message.mentions.users.size' + message.mentions.users.size);
     console.log('message.mentions.users.size' + args.size);
     checks(tipAmount);
-    userLists();
+
+
+// We have users mentioned, get the tipList into map
+    const tipList = message.mentions.users.map(user => {
+      const userName = user.username;
+      const output = JSON.parse(JSON.stringify(userName));
+      return `@${output}`;
+    });
+
+    const userList = message.mentions.users.map(user => {
+      const service_user_ID = user.id;
+      const userid = '<@!' + user.id + '>';
+      if ((userid === config.discord.bot_id) && (!args.includes(config.discord.bot_id))) {
+        // console.log(chalk.red('bot mentioned, don\'t count it, again'));
+      }
+      else {
+        const output = JSON.parse(JSON.stringify(service_user_ID));
+        return `<@${output}>`;
+      }
+    });
+    // get the tip-to userID into map
+    const UserIDList = message.mentions.users.map(user => {
+      const user_ID = '@' + user.id;
+      const userName = user.username;
+      const output = JSON.parse(JSON.stringify({ Service_ID: user_ID, service_user_name: userName }));
+      return output;
+    });
+    const tipListJSON = JSON.parse(JSON.stringify(tipList));
+
+    function TipUserCount() {
+      // console.log('tipList: ' + JSON.stringify(tipList));
+
+      if (tipList.includes('@' + config.bot_details.bot_name && (!args.includes(config.discord.bot_id)))) {
+        const tipUserCount = (tipListJSON.length - 1);
+        // console.log(chalk.green('tipUserCount: ' + tipUserCount));
+        return tipUserCount;
+      }
+      else {
+        const tipUserCount = tipListJSON.length;
+        // console.log(chalk.green('tipUserCount: ' + tipUserCount));
+        return tipUserCount;
+      }
+    }
+    const tipUserCount = TipUserCount();
 
 
 
-
-
-
-    console.log('');
+    console.log('tipUserCount' + tipUserCount);
 
   },
 };
