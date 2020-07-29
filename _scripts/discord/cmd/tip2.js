@@ -133,12 +133,14 @@ module.exports = {
 
     console.log('message.mentions.users.size: ' + message.mentions.users.size);
     // console.log('args' + args);
+
     checks(tip);
+    
     tip = toShor(tip);
     console.log('tipAmount: ' + tip);
 
 
-// We have users mentioned, get the tipList into map
+    // We have users mentioned, get the tipList into map
     const tipList = message.mentions.users.map(user => {
       const userName = user.username;
       // const output = JSON.parse(JSON.stringify(userName));
@@ -156,6 +158,9 @@ module.exports = {
       const userid = '<@!' + user.id + '>';
       if ((userid === config.discord.bot_id) && (!args.includes(config.discord.bot_id))) {
         // console.log(chalk.red('bot mentioned, don\'t count it, again'));
+
+
+
       }
       else {
         const output = JSON.parse(JSON.stringify(service_user_ID));
@@ -174,7 +179,7 @@ module.exports = {
     function TipUserCount() {
       // console.log('tipList: ' + JSON.stringify(tipList));
 
-      if (tipList.includes('@' + config.bot_details.bot_name && (!args.includes(config.discord.bot_id)))) {
+      if (tipList.includes('@' + config.bot_details.bot_name )) {
         const tipUserCount = (tipListJSON.length - 1);
         // console.log(chalk.green('tipUserCount: ' + tipUserCount));
         return tipUserCount;
