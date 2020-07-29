@@ -104,17 +104,20 @@ module.exports = {
 
     }
 
-
-
-
+function tip() {
     for (const arg of args) {
       console.log(arg);
+      checks(arg);
+      if(checks) {
+        const amount = arg;
+      return amount;
+      }
     }
-
+}
 
     // set tip amount here
-    const tipAmount = args[0];
-
+//    const tipAmount = args[0];
+    const tipAmount = tip();
     console.log('message.mentions.users.size' + message.mentions.users.size);
     console.log('args' + args);
     checks(tipAmount);
@@ -162,8 +165,6 @@ module.exports = {
       }
     }
     const tipUserCount = TipUserCount();
-
-
 
     console.log('final tipUserCount: ' + tipUserCount);
 
