@@ -116,7 +116,8 @@ module.exports = {
 
     function tipAmount() {
       for (const arg of args) {
-        if (typeof (arg) === 'number') {
+        // if (typeof (arg) === 'number') {
+          console.log(typeof (arg));
           console.log('tipAmount arg given: ' + arg);
           const checkValue = isQRLValue(arg);
           console.log('isQRLValue/CheckValue: ' + checkValue);
@@ -127,7 +128,7 @@ module.exports = {
           else {
             console.log('not a value');
           }
-        }
+        // }
       }
     }
 
@@ -135,7 +136,7 @@ module.exports = {
     let tip = tipAmount();
     // log the entire map of users into console
     console.dir(message.mentions.users);
-    
+
     // console.log('args' + args);
 
     checks(tip);
