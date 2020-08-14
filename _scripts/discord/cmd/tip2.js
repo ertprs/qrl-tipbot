@@ -43,7 +43,7 @@ module.exports = {
       return test;
     }
 
-  // Get user info if found.
+  // Get user info.
   function getUserInfo(usrInfo) {
       return new Promise(resolve => {
       const data = dbHelper.GetAllUserInfo(usrInfo);
@@ -56,11 +56,11 @@ module.exports = {
     return number * shor;
   }
 
-   // function to check all required
+   // sanity checks
     async function checks(amount) {
-      // Check for
       /*
-      - Calling @here/groups- this is not enabled yet
+      checking for--
+        - Calling @here/groups like @developers- this is not enabled yet
         - Check if mentioned any users, fail if not
         - Is tip valid amount?, must be above fee and more than 0...
         - Did you tip yourself?
@@ -116,8 +116,9 @@ module.exports = {
 
     function tipAmount() {
       for (const arg of args) {
-        console.log(arg);
+        console.log('tipAmount arg given: ' + arg);
         const checkValue = isQRLValue(arg);
+        console.log('isQRLValue/CheckValue: ' + checkValue);
         if(checkValue) {
           const amount = arg;
         return amount;
@@ -196,6 +197,6 @@ module.exports = {
     const tipUserCount = TipUserCount();
 
     console.log('final tipUserCount: ' + tipUserCount);
-    console.log('final tipListJSON: ' + tipListJSON);
+    console.log('final tipListJSON: ' + JSON.stringify(tipListJSON));
   },
 };
