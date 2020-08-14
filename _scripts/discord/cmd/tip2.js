@@ -133,8 +133,9 @@ module.exports = {
 
     // set tip amount here
     let tip = tipAmount();
-
+    // log the entire map of users into console
     console.dir(message.mentions.users);
+    
     // console.log('args' + args);
 
     checks(tip);
