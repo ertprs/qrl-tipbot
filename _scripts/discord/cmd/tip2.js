@@ -122,14 +122,14 @@ module.exports = {
         if(checkValue) {
           const amount = arg;
           console.log('tipAmount given: ' + arg);
-        return amount, checkValue;
+        return [amount, checkValue];
         }
       }
     }
 
     // set tip amount here
     let tip = tipAmount();
-    console.log('tip contents' + tip)
+    console.log('tip contents ' + tip)
     // log the entire map of users into console
     console.dir(message.mentions.users);
 
