@@ -122,7 +122,7 @@ module.exports = {
         if(checkValue) {
           const amount = arg;
           console.log('tipAmount given: ' + arg);
-        return amount;
+        return amount, checkValue;
         }
       }
     }
