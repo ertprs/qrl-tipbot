@@ -117,11 +117,11 @@ module.exports = {
     function tipAmount() {
       for (const arg of args) {
         console.log(typeof (arg));
-        console.log('tipAmount arg given: ' + arg);
         const checkValue = isQRLValue(arg);
         console.log('isQRLValue/CheckValue: ' + checkValue);
         if(checkValue) {
           const amount = arg;
+          console.log('tipAmount given: ' + arg);
         return amount;
         }
       }
