@@ -30,13 +30,21 @@ module.exports = {
       }
     }
 
+    function toShor(number) {
+      const shor = 1000000000;
+      return number * shor;
+    }
+    
     function isQRLValue(str) {
+      // recieve amnount in shor, do accordingly
       // Fail immediately.
       let test = false;
       // Check if it's only numeric and periods (no spaces, etc)
       if(/^[0-9]{0,8}[.]?[0-9]{0,9}$/.test(str)) {
         // And check for a value between 0.000000001 and 105000000
-        if(str >= 0.000000001 && str <= 105000000) {
+        const min = 0.000000001;
+        const max = 105000000;
+        if(str >= toShor(min) && str <= toShor(max)) {
           test = true;
         }
       }
@@ -51,10 +59,6 @@ module.exports = {
       });
     }
 
-    function toShor(number) {
-      const shor = 1000000000;
-      return number * shor;
-    }
 
     function tipAmount() {
       for (const arg of args) {
@@ -174,7 +178,7 @@ module.exports = {
       if (userid === config.discord.bot_id || bot) {
         // don't do anything for the bot.. silly bot
       }
-      else  {
+      else {
         return details;
       }
     });
