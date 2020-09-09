@@ -34,7 +34,7 @@ module.exports = {
       const shor = 1000000000;
       return number * shor;
     }
-    
+
     function isQRLValue(str) {
       // recieve amnount in shor, do accordingly
       // Fail immediately.
@@ -182,7 +182,13 @@ module.exports = {
         return details;
       }
     });
-    console.log('tipList: \n' + JSON.stringify(tipList));
+
+    const filteredTipList = tipList.filter(function(el) {
+      return el != null;
+    });
+
+
+    console.log('tipList: \n' + JSON.stringify(filteredTipList));
 
     const userList = message.mentions.users.map(user => {
       const service_user_ID = user.id;
@@ -205,12 +211,12 @@ module.exports = {
       const output = JSON.parse(JSON.stringify({ Service_ID: user_ID, service_user_name: userName }));
       return output;
     });
-    const tipListJSON = JSON.parse(JSON.stringify(tipList));
+    const tipListJSON = JSON.parse(JSON.stringify(filteredTipList));
 
     function TipUserCount() {
       // console.log('tipList: ' + JSON.stringify(tipList));
 
-      if (tipList.includes('@' + config.bot_details.bot_name)) {
+      if (filteredTipList.includes('@' + config.bot_details.bot_name)) {
         const tipUserCount = (tipListJSON.length - 1);
         console.log('tipUserCount: ' + tipUserCount);
         return tipUserCount;
