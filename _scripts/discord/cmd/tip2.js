@@ -58,7 +58,8 @@ module.exports = {
 
     function tipAmount() {
       for (const arg of args) {
-        console.log(typeof (arg));
+        // Log the type of arg
+        // console.log(typeof (arg));
         const checkValue = isQRLValue(arg);
         // console.log('isQRLValue/CheckValue: ' + checkValue);
         if(checkValue) {
@@ -151,17 +152,14 @@ module.exports = {
     console.dir(message.mentions.users);
 
     // console.log('args' + args);
-
+    // check through requirements and fail if not met.
     checks(givenTip);
 
+    // All checks passed
     console.log('tipAmount: ' + givenTip);
-
-
     // We have users mentioned, get the tipList into map
     const tipList = message.mentions.users.map(user => {
       const userName = user.username;
-      // const output = JSON.parse(JSON.stringify(userName));
-      // return `@${output}`;
       const output = '@' + JSON.parse(JSON.stringify(userName));
       const service_user_ID = user.id;
       const userid = '<@!' + user.id + '>';
@@ -172,7 +170,10 @@ module.exports = {
       const avatar = user.avatar;
       const verified = user.verified;
       const mfaEnabled = user.mfaEnabled;
-      const details = { userName: output, service_user_ID: service_user_ID, userid: userid, bot: bot, discriminator: discriminator, avatar: avatar, lastMessageID: lastMessageID, lastMessageChannelID: lastMessageChannelID };
+      const details = { userName: output, service_user_ID: service_user_ID, userid: userid, bot: bot, discriminator: discriminator, avatar: avatar, lastMessageID: lastMessageID, lastMessageChannelID: lastMessageChannelID, verified: verified, mfaEnabled: mfaEnabled };
+      if (userid === config.discord.bot_id || bot) {
+        // don't do anything for the bot.. silly bot
+      }
       return details;
     });
     console.log('tipList: \n' + JSON.stringify(tipList));
