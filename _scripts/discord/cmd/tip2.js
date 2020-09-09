@@ -143,7 +143,7 @@ module.exports = {
 
 
     // set tip amount here
-    let tip = toShore(tipAmount());
+    let tip = toShor(tipAmount());
     console.log('tip contents ' + tip);
     
     // log the entire map of users into console
