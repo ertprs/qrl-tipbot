@@ -142,7 +142,8 @@ module.exports = {
     let tip = tipAmount();
     console.log('tip contents ' + tip);
     // log the entire map of users into console
-    console.dir('message.mentions.users\n\n' + message.mentions.users);
+    console.log('message.mentions.users\n\n');
+    console.dir(message.mentions.users);
 
     // console.log('args' + args);
 
