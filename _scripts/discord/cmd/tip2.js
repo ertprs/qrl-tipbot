@@ -220,8 +220,8 @@ module.exports = {
       return Count;
     }
 
-    const tipUserCount = TipUserCount(tipListJSON);
-    const botUserCount = TipUserCount(botListJSON);
+    const tipUserCount = Count(tipListJSON);
+    const botUserCount = Count(botListJSON);
 
     console.log('final tipUserCount: ' + tipUserCount);
     console.log('final botUserCount: ' + botUserCount);
