@@ -70,8 +70,7 @@ module.exports = {
     }
 
     // sanity checks
-    async function checks(tip) {
-      const amount = toShor(tip);
+    async function checks(amount) {
       /*
       checking for--
         - Calling @here/groups like @developers- this is not enabled yet
@@ -143,7 +142,7 @@ module.exports = {
 
 
     // set tip amount here
-    let tip = toShor(tipAmount());
+    const tip = toShor(tipAmount());
     console.log('tip contents ' + tip);
     
     // log the entire map of users into console
@@ -154,7 +153,6 @@ module.exports = {
 
     checks(tip);
 
-    tip = toShor(tip);
     console.log('tipAmount: ' + tip);
 
 
