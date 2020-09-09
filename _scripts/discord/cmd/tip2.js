@@ -174,7 +174,9 @@ module.exports = {
       if (userid === config.discord.bot_id || bot) {
         // don't do anything for the bot.. silly bot
       }
-      return details;
+      else  {
+        return details;
+      }
     });
     console.log('tipList: \n' + JSON.stringify(tipList));
 
