@@ -89,7 +89,7 @@ module.exports = {
         - Is tip valid amount?, must be above fee and more than 0...
         - Did you tip yourself?
         */
-      const userInfo = tipbotInfo(userID);
+      const userInfo = await tipbotInfo(userID);
       // check if user has enough funds in their account and if it exists
       console.log('checks - userInfo: ' + userInfo);
 
@@ -180,7 +180,7 @@ module.exports = {
       // check for user in the tipbot database and grab addresses etc. for them.
       const userInfo = tipbotInfo(userID);
       // Not a bot, return details
-      const details = { userName: output, service_user_ID: service_user_ID, userid: userid, bot: bot, discriminator: discriminator, avatar: avatar, lastMessageID: lastMessageID, lastMessageChannelID: lastMessageChannelID, verified: verified, mfaEnabled: mfaEnabled, userInfo: userInfo };
+      const details = { userName: output, service_user_ID: service_user_ID, userid: userid, bot: bot, discriminator: discriminator, avatar: avatar, lastMessageID: lastMessageID, lastMessageChannelID: lastMessageChannelID, verified: verified, mfaEnabled: mfaEnabled, userInfo: [ userInfo ] };
       return details;
     });
     // remove any null or empty array contents
