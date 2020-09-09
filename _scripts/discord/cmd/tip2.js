@@ -176,7 +176,8 @@ module.exports = {
       const service_user_ID = user.id;
       const userid = '<@!' + user.id + '>';
       const isBot = user.bot;
-      if ((!args.includes(config.discord.bot_id))) {
+
+      if ((userid === config.discord.bot_id) && (args.includes(config.discord.bot_id))) {
         console.log('bot mentioned, don\'t count it, again');
       }
       else {
