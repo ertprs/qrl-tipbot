@@ -81,7 +81,7 @@ module.exports = {
 
       // check if mentioned group and fail if so
       if (args.includes('@here') || args.includes('@everyone') || args.includes('@developer') || args.includes('@founder')) {
-        console.log('Can\'t send to a group'));
+        console.log('Can\'t send to a group');
         ReplyMessage('Can\'t send to a group. Please send to individual user(s).');
         return;
       }
