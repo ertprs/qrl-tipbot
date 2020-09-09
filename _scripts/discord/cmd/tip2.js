@@ -77,7 +77,7 @@ module.exports = {
     async function tipbotInfo(ID) {
       // FIX ME HERE!!!
       const userInfo = await getUserInfo({ service: 'discord', service_id: ID });
-      console.log(userInfo[0].wallet_pub);
+      console.log(userInfo);
       return userInfo;
     }
     // sanity checks
