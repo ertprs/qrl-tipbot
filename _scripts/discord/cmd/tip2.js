@@ -22,13 +22,14 @@ module.exports = {
       }, 1000);
     }
 
+
     function deleteMessage() {
       // Delete the previous message
       if(message.guild != null) {
         message.channel.stopTyping(true);
         message.delete();
       }
-     }
+    }
 
     function isQRLValue(str) {
       // Fail immediately.
@@ -43,20 +44,20 @@ module.exports = {
       return test;
     }
 
-  // Get user info.
-  function getUserInfo(usrInfo) {
+    // Get user info.
+    function getUserInfo(usrInfo) {
       return new Promise(resolve => {
-      const data = dbHelper.GetAllUserInfo(usrInfo);
-      resolve(data);
-    });
-  }
+        const data = dbHelper.GetAllUserInfo(usrInfo);
+        resolve(data);
+      });
+    }
 
-  function toShor(number) {
-    const shor = 1000000000;
-    return number * shor;
-  }
+    function toShor(number) {
+      const shor = 1000000000;
+      return number * shor;
+    }
 
-   // sanity checks
+    // sanity checks
     async function checks(amount) {
       /*
       checking for--
@@ -111,7 +112,17 @@ module.exports = {
       }
       const userInfo = await getUserInfo({ service: 'discord', service_id: userID });
       console.log(userInfo[0].wallet_pub);
+
+
+      //
+      //
+      //
       // check balance and if less than tipAmount fail
+      //
+      //
+      //
+      //
+      //
     }
 
     function tipAmount() {
@@ -122,16 +133,16 @@ module.exports = {
         if(checkValue) {
           const amount = arg;
           console.log('tipAmount given: ' + arg);
-        return [amount, checkValue];
+          return amount;
         }
       }
     }
 
     // set tip amount here
     let tip = tipAmount();
-    console.log('tip contents ' + tip)
+    console.log('tip contents ' + tip);
     // log the entire map of users into console
-    console.dir(message.mentions.users);
+    console.dir('message.mentions.users\n\n' + message.mentions.users);
 
     // console.log('args' + args);
 
