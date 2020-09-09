@@ -177,57 +177,29 @@ module.exports = {
       const details = { userName: output, service_user_ID: service_user_ID, userid: userid, bot: bot, discriminator: discriminator, avatar: avatar, lastMessageID: lastMessageID, lastMessageChannelID: lastMessageChannelID, verified: verified, mfaEnabled: mfaEnabled };
       if (userid === config.discord.bot_id || bot) {
         // don't do anything for the bot.. silly bot
-        console.log('tipbot mentioned, doing nothing');
+        console.log('bot mentioned, doing nothing');
       }
       else {
         return details;
       }
     });
 
+    // remove any null or empty array contents
     const filteredTipList = tipList.filter(function(el) {
       return el != null;
     });
 
-
     console.log('tipList: \n' + JSON.stringify(filteredTipList));
 
-    const userList = message.mentions.users.map(user => {
-      const service_user_ID = user.id;
-      const userid = '<@!' + user.id + '>';
-      const isBot = user.bot;
-
-      if ((userid === config.discord.bot_id) && (args.includes(config.discord.bot_id))) {
-        console.log('bot mentioned, don\'t count it, again');
-      }
-      else {
-        const output = JSON.parse(JSON.stringify(service_user_ID));
-        return `<@${output}>`;
-      }
-    });
-
-    // get the tip-to userID into map
-    const UserIDList = message.mentions.users.map(user => {
-      const user_ID = '@' + user.id;
-      const userName = user.username;
-      const output = JSON.parse(JSON.stringify({ Service_ID: user_ID, service_user_name: userName }));
-      return output;
-    });
     const tipListJSON = JSON.parse(JSON.stringify(filteredTipList));
 
     function TipUserCount() {
       // console.log('tipList: ' + JSON.stringify(tipList));
-
-      if (filteredTipList.includes('@' + config.bot_details.bot_name)) {
-        const tipUserCount = (tipListJSON.length - 1);
-        console.log('tipUserCount: ' + tipUserCount);
-        return tipUserCount;
-      }
-      else {
-        const tipUserCount = tipListJSON.length;
-        console.log('else tipUserCount: ' + tipUserCount);
-        return tipUserCount;
-      }
+      const tipUserCount = tipListJSON.length;
+      console.log('else tipUserCount: ' + tipUserCount);
+      return tipUserCount;
     }
+    
     const tipUserCount = TipUserCount();
 
     console.log('final tipUserCount: ' + tipUserCount);
