@@ -74,6 +74,12 @@ module.exports = {
       }
     }
 
+    async function tipbotInfo(ID) {
+      // FIX ME HERE!!!
+      const userInfo = await getUserInfo({ service: 'discord', service_id: ID });
+      console.log(userInfo[0].wallet_pub);
+      return userInfo;
+    }
     // sanity checks
     async function checks(amount) {
       /*
@@ -83,6 +89,10 @@ module.exports = {
         - Is tip valid amount?, must be above fee and more than 0...
         - Did you tip yourself?
         */
+      const userInfo = tipbotInfo(userID);
+      // check if user has enough funds in their account and if it exists
+      console.log('checks - userInfo: ' + userInfo);
+
 
       // check if mentioned group and fail if so
       if (args.includes('@here') || args.includes('@everyone') || args.includes('@developer') || args.includes('@founder')) {
@@ -130,22 +140,9 @@ module.exports = {
         message.channel.stopTyping(true);
         return;
       }
-      const userInfo = await getUserInfo({ service: 'discord', service_id: userID });
-      console.log(userInfo[0].wallet_pub);
 
 
-      //
-      //
-      //
-      // check balance and if less than tipAmount fail
-      //
-      //
-      //
-      //
-      //
     }
-
-
     // set tip amount here. Pulls the args and checks untill it finds a good tip amount
     // also converts to shor here...
     const givenTip = toShor(tipAmount());
@@ -180,8 +177,10 @@ module.exports = {
         // console.log('bot mentioned, doing nothing');
         return;
       }
-      // Not a bot, add details to map
-      const details = { userName: output, service_user_ID: service_user_ID, userid: userid, bot: bot, discriminator: discriminator, avatar: avatar, lastMessageID: lastMessageID, lastMessageChannelID: lastMessageChannelID, verified: verified, mfaEnabled: mfaEnabled };
+      // check for user in the tipbot database and grab addresses etc. for them.
+      const userInfo = tipbotInfo(userID);
+      // Not a bot, return details
+      const details = { userName: output, service_user_ID: service_user_ID, userid: userid, bot: bot, discriminator: discriminator, avatar: avatar, lastMessageID: lastMessageID, lastMessageChannelID: lastMessageChannelID, verified: verified, mfaEnabled: mfaEnabled, userInfo: userInfo };
       return details;
     });
     // remove any null or empty array contents
