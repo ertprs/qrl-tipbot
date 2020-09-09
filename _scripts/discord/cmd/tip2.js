@@ -175,13 +175,9 @@ module.exports = {
       const verified = user.verified;
       const mfaEnabled = user.mfaEnabled;
       const details = { userName: output, service_user_ID: service_user_ID, userid: userid, bot: bot, discriminator: discriminator, avatar: avatar, lastMessageID: lastMessageID, lastMessageChannelID: lastMessageChannelID, verified: verified, mfaEnabled: mfaEnabled };
-      if (userid === config.discord.bot_id) {
+      if (userid === config.discord.bot_id || bot) {
         // don't do anything for the bot.. silly bot
         console.log('tipbot mentioned, doing nothing');
-      }
-      else if (bot) {
-        // don't do anything for the bot.. silly bot
-        ReplyMessage('Not sending tips to bots until robot liberation happens.');
       }
       else {
         return details;
