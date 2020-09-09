@@ -70,7 +70,8 @@ module.exports = {
     }
 
     // sanity checks
-    async function checks(amount) {
+    async function checks(tip) {
+      const amount = toShor(tip);
       /*
       checking for--
         - Calling @here/groups like @developers- this is not enabled yet
