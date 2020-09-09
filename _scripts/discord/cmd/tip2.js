@@ -103,10 +103,10 @@ module.exports = {
       }
       const fee = toShor(config.wallet.tx_fee);
       // Check that tip amount is above fee
-      console.log('fee: ' + fee + '\namount: ' + amount)
+      console.log('fee: ' + fee + '\namount: ' + amount);
       if (amount < fee) {
         message.channel.stopTyping(true);
-        console.log('tipAmount < config.wallet.tx_fee - fee:\nFee: ' + fee + '\nTip: ' + amount);
+        console.log('tipAmount < tx_fee - fee:\nFee: ' + fee + ' - Tip: ' + amount);
         ReplyMessage('Please enter a valid amount to tip! Must be more than the fee `{' + config.wallet.tx_fee + '}` +tip {AMOUNT} @USER(\'s)');
         return ;
       }
@@ -143,7 +143,7 @@ module.exports = {
 
 
     // set tip amount here
-    let tip = tipAmount();
+    let tip = toShore(tipAmount());
     console.log('tip contents ' + tip);
     
     // log the entire map of users into console
