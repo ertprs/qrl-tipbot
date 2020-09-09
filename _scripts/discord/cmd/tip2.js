@@ -104,7 +104,7 @@ module.exports = {
       const fee = toShor(config.wallet.tx_fee);
       // Check that tip amount is above fee
       console.log('fee: ' + fee + '\namount: ' + amount)
-      if (amount > fee) {
+      if (amount < fee) {
         message.channel.stopTyping(true);
         console.log('tipAmount < config.wallet.tx_fee - fee:\nFee: ' + fee + '\nTip: ' + amount);
         ReplyMessage('Please enter a valid amount to tip! Must be more than the fee `{' + config.wallet.tx_fee + '}` +tip {AMOUNT} @USER(\'s)');
