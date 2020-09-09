@@ -179,9 +179,9 @@ module.exports = {
         // don't do anything for the bot.. silly bot
         console.log('tipbot mentioned, doing nothing');
       }
-      else if (userid !== config.discord.bot_id || bot) {
+      else if (bot) {
         // don't do anything for the bot.. silly bot
-        ReplyMessage('Not sending tips to bots untill robot liberation happens.');
+        ReplyMessage('Not sending tips to bots until robot liberation happens.');
       }
       else {
         return details;
