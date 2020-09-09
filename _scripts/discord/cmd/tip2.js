@@ -141,19 +141,20 @@ module.exports = {
     }
 
 
-    // set tip amount here
-    const tip = toShor(tipAmount());
-    console.log('tip contents ' + tip);
-    
+    // set tip amount here. Pulls the args and checks untill it finds a good tip amount
+    // also converts to shor here...
+    const givenTip = toShor(tipAmount());
+    console.log('tip contents ' + givenTip);
+
     // log the entire map of users into console
     console.log('message.mentions.users:');
     console.dir(message.mentions.users);
 
     // console.log('args' + args);
 
-    checks(tip);
+    checks(givenTip);
 
-    console.log('tipAmount: ' + tip);
+    console.log('tipAmount: ' + givenTip);
 
 
     // We have users mentioned, get the tipList into map
