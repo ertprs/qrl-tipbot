@@ -174,8 +174,9 @@ module.exports = {
     const userList = message.mentions.users.map(user => {
       const service_user_ID = user.id;
       const userid = '<@!' + user.id + '>';
-
-      if ((userid === config.discord.bot_id)) {
+      const isBot = user.bot;
+      
+      if ((!args.includes(config.discord.bot_id))) {
         // console.log(chalk.red('bot mentioned, don\'t count it, again'));
       }
       else {
