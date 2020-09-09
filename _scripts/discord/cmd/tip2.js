@@ -102,6 +102,7 @@ module.exports = {
       }
       const fee = toShor(config.wallet.tx_fee);
       // Check that tip amount is above fee
+      console.log('fee: ' + fee + '\namount: ' + amount)
       if (amount > fee) {
         message.channel.stopTyping(true);
         console.log('tipAmount < config.wallet.tx_fee - fee:\nFee: ' + fee + '\nTip: ' + amount);
