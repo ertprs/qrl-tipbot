@@ -142,7 +142,7 @@ module.exports = {
     let tip = tipAmount();
     console.log('tip contents ' + tip);
     // log the entire map of users into console
-    console.log('message.mentions.users\n\n');
+    console.log('message.mentions.users:');
     console.dir(message.mentions.users);
 
     // console.log('args' + args);
@@ -166,7 +166,8 @@ module.exports = {
       const lastMessageID = user.lastMessageID;
       const lastMessageChannelID = user.lastMessageChannelID;
       const avatar = user.avatar;
-
+      const verified = user.verified;
+      const mfaEnabled = user.mfaEnabled;
       const details = { userName: output, service_user_ID: service_user_ID, userid: userid, bot: bot, discriminator: discriminator, avatar: avatar, lastMessageID: lastMessageID, lastMessageChannelID: lastMessageChannelID };
       return details;
     });
