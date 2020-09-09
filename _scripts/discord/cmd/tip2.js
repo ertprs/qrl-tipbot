@@ -174,14 +174,14 @@ module.exports = {
       const avatar = user.avatar;
       const verified = user.verified;
       const mfaEnabled = user.mfaEnabled;
-      const details = { userName: output, service_user_ID: service_user_ID, userid: userid, bot: bot, discriminator: discriminator, avatar: avatar, lastMessageID: lastMessageID, lastMessageChannelID: lastMessageChannelID, verified: verified, mfaEnabled: mfaEnabled };
-      if (userid === config.discord.bot_id || bot) {
+      if (bot) {
         // don't do anything for the bot.. silly bot
         console.log('bot mentioned, doing nothing');
+        return;
       }
-      else {
-        return details;
-      }
+      // Not a bot, add details to map
+      const details = { userName: output, service_user_ID: service_user_ID, userid: userid, bot: bot, discriminator: discriminator, avatar: avatar, lastMessageID: lastMessageID, lastMessageChannelID: lastMessageChannelID, verified: verified, mfaEnabled: mfaEnabled };
+      return details;
     });
 
     // remove any null or empty array contents
@@ -199,7 +199,7 @@ module.exports = {
       console.log('else tipUserCount: ' + tipUserCount);
       return tipUserCount;
     }
-    
+
     const tipUserCount = TipUserCount();
 
     console.log('final tipUserCount: ' + tipUserCount);
