@@ -174,7 +174,8 @@ module.exports = {
     const userList = message.mentions.users.map(user => {
       const service_user_ID = user.id;
       const userid = '<@!' + user.id + '>';
-      if ((userid === config.discord.bot_id) && (!args.includes(config.discord.bot_id))) {
+
+      if ((userid === config.discord.bot_id)) {
         // console.log(chalk.red('bot mentioned, don\'t count it, again'));
       }
       else {
@@ -182,6 +183,7 @@ module.exports = {
         return `<@${output}>`;
       }
     });
+
     // get the tip-to userID into map
     const UserIDList = message.mentions.users.map(user => {
       const user_ID = '@' + user.id;
