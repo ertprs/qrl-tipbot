@@ -152,8 +152,8 @@ module.exports = {
     console.log('tip contents ' + givenTip);
 
     // log the entire map of users into console
-    console.log('message.mentions.users:');
-    console.dir(message.mentions.users);
+    // console.log('message.mentions.users:');
+    // console.dir(message.mentions.users);
 
     // console.log('args' + args);
     // check through requirements and fail if not met.
@@ -177,7 +177,7 @@ module.exports = {
       // check if mentioned user is a bot
       if (bot) {
         // don't do anything for the bot.. silly bot
-        console.log('bot mentioned, doing nothing');
+        // console.log('bot mentioned, doing nothing');
         return;
       }
       // Not a bot, add details to map
@@ -190,7 +190,7 @@ module.exports = {
     });
     console.log('filteredTipList: \n' + JSON.stringify(filteredTipList));
 
-    // get the tip-to userID into map
+    // get the bots into array
     const botList = message.mentions.users.map(user => {
       const userName = user.username;
       const output = '@' + JSON.parse(JSON.stringify(userName));
@@ -198,7 +198,7 @@ module.exports = {
       const bot = user.bot;
       if (!bot) {
         // don't do anything for the bot.. silly bot
-        console.log('bot mentioned, doing nothing');
+        // console.log('bot not mentioned, doing nothing');
         return;
       }
       const botListOutput = JSON.parse(JSON.stringify({ userName: output, userid: userid, bot: bot }));
@@ -211,13 +211,12 @@ module.exports = {
 
 
     const botListJSON = JSON.parse(JSON.stringify(filteredBotList));
-
     const tipListJSON = JSON.parse(JSON.stringify(filteredTipList));
 
     function Count(list) {
       // console.log('tipList: ' + JSON.stringify(tipList));
-      const Count = list.length;
-      return Count;
+      const arrayCount = list.length;
+      return arrayCount;
     }
 
     const tipUserCount = Count(tipListJSON);
@@ -225,6 +224,6 @@ module.exports = {
 
     console.log('final tipUserCount: ' + tipUserCount);
     console.log('final botUserCount: ' + botUserCount);
-    console.log('final tipListJSON: ' + JSON.stringify(tipListJSON));
+    // console.log('final tipListJSON: ' + JSON.stringify(tipListJSON));
   },
 };
