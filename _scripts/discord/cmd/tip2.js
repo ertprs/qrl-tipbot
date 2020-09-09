@@ -22,7 +22,6 @@ module.exports = {
       }, 1000);
     }
 
-
     function deleteMessage() {
       // Delete the previous message
       if(message.guild != null) {
@@ -57,6 +56,19 @@ module.exports = {
       return number * shor;
     }
 
+    function tipAmount() {
+      for (const arg of args) {
+        console.log(typeof (arg));
+        const checkValue = isQRLValue(arg);
+        // console.log('isQRLValue/CheckValue: ' + checkValue);
+        if(checkValue) {
+          const amount = arg;
+          // console.log('tipAmount given: ' + arg);
+          return amount;
+        }
+      }
+    }
+
     // sanity checks
     async function checks(amount) {
       /*
@@ -69,13 +81,14 @@ module.exports = {
 
       // check if mentioned group and fail if so
       if (args.includes('@here') || args.includes('@everyone') || args.includes('@developer') || args.includes('@founder')) {
-        // console.log(chalk.red('cant send tip to these users. Call them by name'));
+        console.log('Can\'t send to a group'));
         ReplyMessage('Can\'t send to a group. Please send to individual user(s).');
         return;
       }
 
       // check if user mentioned another user to tip
       if (!message.mentions.users.size) {
+        console.log('No Users mentioned.');
         ReplyMessage('No Users mentioned. `+help tip` for help');
         return ;
       }
@@ -83,6 +96,7 @@ module.exports = {
       // check if amount is NaN
       if (isNaN(amount)) {
         console.log('isNaN');
+        console.log('enter a valid amount to tip');
         ReplyMessage('Please enter a valid amount to tip! +tip {AMOUNT} @USER(\'s)');
         return ;
       }
@@ -90,7 +104,7 @@ module.exports = {
       // Check that tip amount is above fee
       if (amount > fee) {
         message.channel.stopTyping(true);
-        console.log('tipAmount < config.wallet.tx_fee - fee: ' + fee);
+        console.log('tipAmount < config.wallet.tx_fee - fee:\nFee: ' + fee + '\nTip: ' + amount);
         ReplyMessage('Please enter a valid amount to tip! Must be more than the fee `{' + config.wallet.tx_fee + '}` +tip {AMOUNT} @USER(\'s)');
         return ;
       }
@@ -99,14 +113,14 @@ module.exports = {
       const test = isQRLValue(amount);
       if (!test) {
         message.channel.stopTyping(true);
-        console.log('isQRLValue');
+        console.log('Invalid amount given.');
         ReplyMessage('Invalid amount. Please try again.');
         return;
       }
       // Check if mentions user
       if (message.mentions.users.first() == message.author) {
+        console.log('can\'t tip yourself, message.mentions.users.first() == message.author');
         ReplyMessage('You can\'t tip yourself');
-        console.log('message.mentions.users.first() == message.author');
         message.channel.stopTyping(true);
         return;
       }
@@ -125,22 +139,11 @@ module.exports = {
       //
     }
 
-    function tipAmount() {
-      for (const arg of args) {
-        console.log(typeof (arg));
-        const checkValue = isQRLValue(arg);
-        console.log('isQRLValue/CheckValue: ' + checkValue);
-        if(checkValue) {
-          const amount = arg;
-          console.log('tipAmount given: ' + arg);
-          return amount;
-        }
-      }
-    }
 
     // set tip amount here
     let tip = tipAmount();
     console.log('tip contents ' + tip);
+    
     // log the entire map of users into console
     console.log('message.mentions.users:');
     console.dir(message.mentions.users);
