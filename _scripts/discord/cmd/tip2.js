@@ -161,7 +161,7 @@ module.exports = {
 
     // All checks passed
     console.log('tipAmount: ' + givenTip);
-    // We have users mentioned, get the tipList into map
+    // We have users mentioned, get the tipList with out bots
     const tipList = message.mentions.users.map(user => {
       const userName = user.username;
       const output = '@' + JSON.parse(JSON.stringify(userName));
@@ -174,6 +174,7 @@ module.exports = {
       const avatar = user.avatar;
       const verified = user.verified;
       const mfaEnabled = user.mfaEnabled;
+      // check if mentioned user is a bot
       if (bot) {
         // don't do anything for the bot.. silly bot
         console.log('bot mentioned, doing nothing');
@@ -183,26 +184,47 @@ module.exports = {
       const details = { userName: output, service_user_ID: service_user_ID, userid: userid, bot: bot, discriminator: discriminator, avatar: avatar, lastMessageID: lastMessageID, lastMessageChannelID: lastMessageChannelID, verified: verified, mfaEnabled: mfaEnabled };
       return details;
     });
-
     // remove any null or empty array contents
     const filteredTipList = tipList.filter(function(el) {
       return el != null;
     });
+    console.log('filteredTipList: \n' + JSON.stringify(filteredTipList));
 
-    console.log('tipList: \n' + JSON.stringify(filteredTipList));
+    // get the tip-to userID into map
+    const botList = message.mentions.users.map(user => {
+      const userName = user.username;
+      const output = '@' + JSON.parse(JSON.stringify(userName));
+      const userid = '<@!' + user.id + '>';
+      const bot = user.bot;
+      if (!bot) {
+        // don't do anything for the bot.. silly bot
+        console.log('bot mentioned, doing nothing');
+        return;
+      }
+      const botListOutput = JSON.parse(JSON.stringify({ userName: output, userid: userid, bot: bot }));
+      return botListOutput;
+    });
+    const filteredBotList = botList.filter(function(el) {
+      return el != null;
+    });
+    console.log('filteredBotList: \n' + JSON.stringify(filteredBotList));
+
+
+    const botListJSON = JSON.parse(JSON.stringify(filteredBotList));
 
     const tipListJSON = JSON.parse(JSON.stringify(filteredTipList));
 
-    function TipUserCount() {
+    function Count(list) {
       // console.log('tipList: ' + JSON.stringify(tipList));
-      const tipUserCount = tipListJSON.length;
-      console.log('else tipUserCount: ' + tipUserCount);
-      return tipUserCount;
+      const Count = list.length;
+      return Count;
     }
 
-    const tipUserCount = TipUserCount();
+    const tipUserCount = TipUserCount(tipListJSON);
+    const botUserCount = TipUserCount(botListJSON);
 
     console.log('final tipUserCount: ' + tipUserCount);
+    console.log('final botUserCount: ' + botUserCount);
     console.log('final tipListJSON: ' + JSON.stringify(tipListJSON));
   },
 };
