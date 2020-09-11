@@ -134,7 +134,7 @@ module.exports = {
         return;
       }
       // Check if mentions user
-      console.log("message.mentions.users" + message.mentions);
+      console.log("message.mentions.users" + JSON.stringify(message.mentions));
       if (message.mentions.users.first() == message.author) {
         console.log('can\'t tip yourself, message.mentions.users.first() == message.author');
         ReplyMessage('You can\'t tip yourself');
