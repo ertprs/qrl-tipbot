@@ -97,7 +97,7 @@ module.exports = {
       // check if mentioned group and fail if so
       if (args.includes('@here') || args.includes('@everyone') || args.includes('@developer') || args.includes('@founder')) {
         console.log('Can\'t send to a group');
-        ReplyMessage('Can\'t send to a group. Please send to individual user(s).');
+        ReplyMessage('Can\'t send to a group. Please send to individual user(s), up to 100 in a tip.');
         return;
       }
 
@@ -134,6 +134,7 @@ module.exports = {
         return;
       }
       // Check if mentions user
+      console.log("message.mentions.users" + message.mentions.users);
       if (message.mentions.users.first() == message.author) {
         console.log('can\'t tip yourself, message.mentions.users.first() == message.author');
         ReplyMessage('You can\'t tip yourself');
