@@ -135,8 +135,8 @@ module.exports = {
       }
       // Check if mentions user
       console.log('message.mentions.users' + JSON.stringify(message.mentions));
-      console.log(message.mentions.users.includes(message.author));
-      if (message.mentions.users == message.author) {
+      
+      if (message.mentions.users.includes(message.author)) {
         console.log('can\'t tip yourself, message.mentions.users.first() == message.author');
         ReplyMessage('You can\'t tip yourself');
         message.channel.stopTyping(true);
