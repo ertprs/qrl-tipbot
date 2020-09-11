@@ -178,10 +178,14 @@ module.exports = {
         return;
       }
       // check for user in the tipbot database and grab addresses etc. for them.
-      const userInfo = tipbotInfo('@' + service_user_ID);
-      // Not a bot, return details
-      const details = { userName: output, service_user_ID: service_user_ID, userid: userid, bot: bot, discriminator: discriminator, avatar: avatar, lastMessageID: lastMessageID, lastMessageChannelID: lastMessageChannelID, verified: verified, mfaEnabled: mfaEnabled, userInfo: [ userInfo ] };
-      return details;
+
+// move this outside of map and iterate over the tiplist for async functions...
+      tipbotInfo('@' + service_user_ID).then(function(INFO) {
+        const userInfo = INFO;
+        // Not a bot, return details
+        const details = { userName: output, service_user_ID: service_user_ID, userid: userid, bot: bot, discriminator: discriminator, avatar: avatar, lastMessageID: lastMessageID, lastMessageChannelID: lastMessageChannelID, verified: verified, mfaEnabled: mfaEnabled, userInfo: [ userInfo ] };
+        return details;
+      });
     });
     // remove any null or empty array contents
     const filteredTipList = tipList.filter(function(el) {
