@@ -138,12 +138,12 @@ module.exports = {
 
       console.log('userInfoArray: ' + JSON.stringify(userInfoArray));
       console.log('message Author: ' + message.author);
-      console.log('users: ' + (message.mentions.users).includes(message.author, 0));
+      console.log('users: ' + (userInfoArray).includes(message.author, 0));
 
 
 
 
-      if ((message.mentions.users).includes(message.author, 0)) {
+      if ((userInfoArray).includes(message.author, 0)) {
         console.log('can\'t tip yourself, message.mentions.users.first() == message.author');
         ReplyMessage('You can\'t tip yourself');
         message.channel.stopTyping(true);
