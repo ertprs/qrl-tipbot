@@ -181,22 +181,29 @@ module.exports = {
     const filteredTipList = tipList.filter(function(el) {
       return el != null;
     });
+
+
+    const found = filteredTipList.find(element => element == (message.author));
+
+
+    // Check if mentions user
     console.log('filteredTipList: \n' + JSON.stringify(filteredTipList));
+    console.log(message + '\n\n\n');
+    console.log('message Author: ' + message.author);
+    console.log('found: ' + found);
+    console.log('message auth user found: ' + (JSON.stringify(filteredTipList)).includes(message.author));
 
-      // Check if mentions user
-      console.log(message + '\n\n\n')
-      console.log('message Author: ' + message.author);
-      console.log('message auth user found: ' + (JSON.stringify(filteredTipList)).includes(message.author));
+    if ((filteredTipList).includes(message.author, 0)) {
+      console.log('can\'t tip yourself, message.mentions.users.first() == message.author');
+      ReplyMessage('You can\'t tip yourself');
+      message.channel.stopTyping(true);
+      return;
+    }
 
 
 
 
-      if ((filteredTipList).includes(message.author, 0)) {
-        console.log('can\'t tip yourself, message.mentions.users.first() == message.author');
-        ReplyMessage('You can\'t tip yourself');
-        message.channel.stopTyping(true);
-        return;
-      }
+
 
 
     // get the bots into array
