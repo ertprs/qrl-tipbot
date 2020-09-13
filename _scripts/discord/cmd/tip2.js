@@ -191,7 +191,7 @@ module.exports = {
     console.log(message + '\n\n\n');
     console.log('message Author: ' + message.author);
     console.log('found: ' + found);
-    console.log('message auth user found: ' + (JSON.stringify(filteredTipList)).includes(userID));
+    console.log('message auth user found: ' + (JSON.stringify(filteredTipList)).includes(userID, 1));
 
     if ((filteredTipList).includes(userID, 0)) {
       console.log('can\'t tip yourself, message.mentions.users.first() == message.author');
