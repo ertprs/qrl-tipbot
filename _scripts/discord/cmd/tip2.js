@@ -174,23 +174,6 @@ module.exports = {
       return details;
     });
 
-
-      // Check if mentions user
-
-      console.log('userInfoArray: ' + JSON.stringify(userInfoArray));
-      console.log('message Author: ' + message.author);
-      console.log('users: ' + (userInfoArray).includes(message.author, 0));
-
-
-
-
-      if ((userInfoArray).includes(message.author, 0)) {
-        console.log('can\'t tip yourself, message.mentions.users.first() == message.author');
-        ReplyMessage('You can\'t tip yourself');
-        message.channel.stopTyping(true);
-        return;
-      }
-
 //    const userInfo = tipbotInfo('@' + service_user_ID);
 
 
