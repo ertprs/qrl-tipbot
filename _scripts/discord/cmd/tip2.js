@@ -137,7 +137,8 @@ module.exports = {
       console.log('message.mentions.users:' + JSON.stringify(message.mentions.users));
       const userInfoArray = [message.mentions.users];
 
-      console.log('users:' + userInfoArray.includes(message.author));
+      console.log('message Author: ' + message.author);
+      console.log('users: ' + userInfoArray.includes(message.author));
 
 
 
