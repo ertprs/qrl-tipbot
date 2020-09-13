@@ -193,7 +193,7 @@ module.exports = {
     console.log('found: ' + found);
     console.log('message auth user found: ' + (JSON.stringify(filteredTipList)).includes(message.author));
 
-    if ((filteredTipList).includes(message.author, 0)) {
+    if ((filteredTipList).includes(userID, 0)) {
       console.log('can\'t tip yourself, message.mentions.users.first() == message.author');
       ReplyMessage('You can\'t tip yourself');
       message.channel.stopTyping(true);
