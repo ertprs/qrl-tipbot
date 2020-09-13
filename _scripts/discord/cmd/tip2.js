@@ -183,6 +183,21 @@ module.exports = {
     });
     console.log('filteredTipList: \n' + JSON.stringify(filteredTipList));
 
+      // Check if mentions user
+      console.log('message Author: ' + message.author);
+      console.log('message auth user found: ' + (filteredTipList).includes(message.author));
+
+
+
+
+      if ((userInfoArray).includes(message.author, 0)) {
+        console.log('can\'t tip yourself, message.mentions.users.first() == message.author');
+        ReplyMessage('You can\'t tip yourself');
+        message.channel.stopTyping(true);
+        return;
+      }
+
+
     // get the bots into array
     const botList = message.mentions.users.map(user => {
       const userName = user.username;
