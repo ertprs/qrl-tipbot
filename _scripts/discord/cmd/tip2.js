@@ -135,7 +135,7 @@ module.exports = {
       }
       // Check if mentions user
       console.log('message.mentions.users:' + JSON.stringify(message.mentions.users));
-      const userInfoArray = [message.mentions];
+      const userInfoArray = [message.mentions.users];
 
       console.log('users:' + userInfoArray.includes(message.author));
 
