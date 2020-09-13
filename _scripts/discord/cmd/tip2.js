@@ -183,7 +183,7 @@ module.exports = {
     });
 
 
-    const found = filteredTipList.find(element => element == (message.author));
+    const found = filteredTipList.find(element => element == message.author);
 
 
     // Check if mentions user
