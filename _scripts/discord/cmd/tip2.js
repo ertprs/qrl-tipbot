@@ -136,7 +136,7 @@ module.exports = {
       // Check if mentions user
       console.log('message.mentions.users:' + JSON.stringify(message.mentions.users));
 
-      console.log('users:' + message.mentions.users.includes(message.author));
+      console.log('users:' + message.mentions.includes(message.author));
 
 
 
