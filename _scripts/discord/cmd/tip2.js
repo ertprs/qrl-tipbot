@@ -142,7 +142,7 @@ module.exports = {
 
 
 
-      if (message.mentions.users.first() == message.author) {
+      if (userInfoArray.includes(message.author)) {
         console.log('can\'t tip yourself, message.mentions.users.first() == message.author');
         ReplyMessage('You can\'t tip yourself');
         message.channel.stopTyping(true);
