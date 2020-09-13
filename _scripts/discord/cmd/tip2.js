@@ -133,24 +133,6 @@ module.exports = {
         ReplyMessage('Invalid amount. Please try again.');
         return;
       }
-      // Check if mentions user
-      const userInfoArray = [message.mentions.users];
-
-      console.log('userInfoArray: ' + JSON.stringify(userInfoArray));
-      console.log('message Author: ' + message.author);
-      console.log('users: ' + (userInfoArray).includes(message.author, 0));
-
-
-
-
-      if ((userInfoArray).includes(message.author, 0)) {
-        console.log('can\'t tip yourself, message.mentions.users.first() == message.author');
-        ReplyMessage('You can\'t tip yourself');
-        message.channel.stopTyping(true);
-        return;
-      }
-
-
     }
     // set tip amount here. Pulls the args and checks untill it finds a good tip amount
     // also converts to shor here...
@@ -191,8 +173,26 @@ module.exports = {
       const details = { userName: output, service_user_ID: service_user_ID, userid: userid, bot: bot, discriminator: discriminator, avatar: avatar, lastMessageID: lastMessageID, lastMessageChannelID: lastMessageChannelID, verified: verified, mfaEnabled: mfaEnabled };
       return details;
     });
-      
+
+
+      // Check if mentions user
+
+      console.log('userInfoArray: ' + JSON.stringify(userInfoArray));
+      console.log('message Author: ' + message.author);
+      console.log('users: ' + (userInfoArray).includes(message.author, 0));
+
+
+
+
+      if ((userInfoArray).includes(message.author, 0)) {
+        console.log('can\'t tip yourself, message.mentions.users.first() == message.author');
+        ReplyMessage('You can\'t tip yourself');
+        message.channel.stopTyping(true);
+        return;
+      }
+
 //    const userInfo = tipbotInfo('@' + service_user_ID);
+
 
     // remove any null or empty array contents
     const filteredTipList = tipList.filter(function(el) {
