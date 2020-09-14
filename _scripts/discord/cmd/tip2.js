@@ -64,7 +64,7 @@ module.exports = {
 
     function tipAmount() {
       for (const arg of args) {
-        const checkValue = isQRLValue(arg);
+        const checkValue = isQRLValue(toShor(arg));
         // console.log('isQRLValue/CheckValue: ' + checkValue);
         if(checkValue) {
           return toShor(arg);
