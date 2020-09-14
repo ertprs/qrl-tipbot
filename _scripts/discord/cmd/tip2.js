@@ -249,7 +249,7 @@ module.exports = {
         bots.push(filteredBotList[i].userid);
         console.log(bots);
       }
-      ReplyMessage('No bot tipping allowed! Removing the robots and sending to the rest...\rBots mentioned ' + JSON.stringify(bots));
+      ReplyMessage('No bot tipping allowed! Removing the robots and sending to the rest...\rBots mentioned ' + bots);
     }
     
     const tipListJSON = JSON.parse(JSON.stringify(filteredTipList));
