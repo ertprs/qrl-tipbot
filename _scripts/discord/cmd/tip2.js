@@ -201,6 +201,9 @@ module.exports = {
         // console.log('bot mentioned, doing nothing');
         return;
       }
+      console.log(service_user_ID);
+      console.log(username);
+
       if (service_user_ID === username) {
         console.log('User mentioned self');
       }
