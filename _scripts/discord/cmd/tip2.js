@@ -209,9 +209,7 @@ module.exports = {
           console.log('tipToUserInfo' + tipToUserInfo);
           // check for user in the tipbot database and grab addresses etc. for them.
           // Not a bot, return details
-          const details = { userName: output, service_user_ID: service_user_ID, userid: userid, bot: bot, discriminator: discriminator, avatar: avatar, lastMessageID: lastMessageID, lastMessageChannelID: lastMessageChannelID, verified: verified, mfaEnabled: mfaEnabled };
-          // push tipToUserInfo into details and return
-          details.push(tipToUserInfo);
+          const details = { userName: output, service_user_ID: service_user_ID, userid: userid, bot: bot, discriminator: discriminator, avatar: avatar, lastMessageID: lastMessageID, lastMessageChannelID: lastMessageChannelID, verified: verified, mfaEnabled: mfaEnabled, tipToUserInfo: [tipToUserInfo] };
           return details;
         });
       });
