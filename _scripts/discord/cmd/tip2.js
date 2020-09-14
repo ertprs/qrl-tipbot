@@ -201,7 +201,7 @@ module.exports = {
         // console.log('bot mentioned, doing nothing');
         return;
       }
-      console.log(service_user_ID);
+      console.log(userid);
       console.log(username);
 
       if (userid === username) {
