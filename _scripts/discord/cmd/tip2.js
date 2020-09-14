@@ -154,11 +154,18 @@ module.exports = {
       }
       if (tippingUserOpt_Out == 0) {
         const tippingUserOptOut_Date = JSON.stringify(tipingUserInfo[0].optout_date);
-        console.log('Datetime ' + DateTime.fromISO(tippingUserOptOut_Date.toString()));
+        const oodate = tippingUserOptOut_Date.toString();
+
+        console.log('Datetime ' + oodate.toLocalString());
 
         ReplyMessage('User opt\'ed out of the bot on ' + DateTime.fromISO(toString(tippingUserOptOut_Date)) + '. Please opt back in to use the bot. `+opt-in`');
         return;
       }
+
+
+
+
+
       if (!tippingUserUser_agree) {
         console.log('User has not agreed. Fail and warn');
         ReplyMessage('User needs to agree to the terms. `+agree`');
