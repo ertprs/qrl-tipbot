@@ -44,7 +44,7 @@ module.exports = {
         const min = toShor(0.000000001);
         const max = toShor(105000000);
 
-        if(toShor(str) >= min && toShor(str) <= max) {
+        if(str >= min && str <= max) {
           test = true;
         }
       }
