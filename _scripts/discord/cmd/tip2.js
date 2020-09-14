@@ -193,7 +193,6 @@ module.exports = {
 
     // Check if mentions user
     console.log('filteredTipList: \n' + JSON.stringify(filteredTipList));
-    console.log(message + '\n\n\n');
     console.log('message Author: ' + message.author);
     console.log('found: ' + found);
     console.log('message auth user found: ' + (JSON.stringify(filteredTipList)).includes(userID));
