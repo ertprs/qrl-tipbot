@@ -137,9 +137,9 @@ module.exports = {
 
     tipbotInfo(userID).then(function(tipingUserInfo) {
       console.log('INFO: ' + JSON.stringify(tipingUserInfo));
-      const tippingUserUser_Found = tipingUserInfo[0].user_found;
-      const tippingUserUser_agree = tipingUserInfo[0].user_agree;
-      const tippingUserOpt_Out = tipingUserInfo[0].opt_out;
+      const tippingUserUser_Found = JSON.stringify(tipingUserInfo[0].user_found);
+      const tippingUserUser_agree = JSON.stringify(tipingUserInfo[0].user_agree);
+      const tippingUserOpt_Out = JSON.stringify(tipingUserInfo[0].opt_out);
 
       if (tippingUserUser_Found) {
         console.log('User not found. Fail and warn');
