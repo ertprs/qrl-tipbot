@@ -155,7 +155,7 @@ module.exports = {
       if (tippingUserOpt_Out == 0) {
         const tippingUserOptOut_Date = JSON.stringify(tipingUserInfo[0].optout_date);
         const oodate = tippingUserOptOut_Date.toString();
-        const DateTimeOODate = DateTime.fromISO(oodate)
+        const DateTimeOODate = DateTime.fromObject(oodate);
         console.log('oodate ' + DateTimeOODate);
         console.log('Datetime ' + DateTimeOODate.year);
         console.log('Datetime fromISO ' + DateTime.fromISO(oodate));
