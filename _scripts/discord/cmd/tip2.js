@@ -256,10 +256,10 @@ module.exports = {
           tippedUserIDs.push(tipToUserInfo);
 
         }
+        console.log('tippedUserIDs: ' + JSON.stringify(tippedUserIDs));
       }
       // get all tippedToUser info from the database
       userInfo();
-      console.log('tippedUserIDs: ' + JSON.stringify(tippedUserIDs));
 
     // console.log('final tipListJSON: ' + JSON.stringify(tipListJSON));
     });
