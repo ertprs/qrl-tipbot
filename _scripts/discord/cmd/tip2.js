@@ -8,6 +8,7 @@ module.exports = {
   usage: '\n<tip amount> <user1> <user2> <user3> <etc.> \nEXAMPLE: `+tip2 1 @CoolUser`',
   execute(message, args) {
     message.channel.startTyping();
+    const { DateTime } = require('luxon');
     const dbHelper = require('../../db/dbHelper');
     const config = require('../../../_config/config.json');
     // const wallet = require('../../qrl/walletTools');
@@ -155,7 +156,7 @@ module.exports = {
         console.log('User has opted out. Fail and warn');
         const tippingUserOptOut_Date = JSON.stringify(tipingUserInfo[0].optout_date);
 
-        ReplyMessage('User opt\'ed out of the bot on ' + tippingUserOptOut_Date + '. Please opt back in to use the bot. `+opt-in`');
+        ReplyMessage('User opt\'ed out of the bot on ' + DateTime.fromISO(tippingUserOptOut_Date) + '. Please opt back in to use the bot. `+opt-in`');
         return;
       }
       if (!tippingUserUser_agree) {
