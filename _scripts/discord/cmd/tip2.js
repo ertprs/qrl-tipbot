@@ -82,7 +82,6 @@ module.exports = {
     }
 
 
-    // ///////////////// sanity checks //////////////////////////////
     async function checks() {
       console.log('checks');
       /*
@@ -96,7 +95,8 @@ module.exports = {
 
 
     }
-    // ///////////////// end sanity checks //////////////////////////////
+    
+    // ///////////////// sanity checks //////////////////////////////
 
     // check if user mentioned another user to tip
     if (!message.mentions.users.size) {
@@ -133,14 +133,11 @@ module.exports = {
       return ;
     }
 
-
-    // log the entire map of users into console
-    // console.log('message.mentions.users:');
-    // console.dir(message.mentions.users);
-
-    // console.log('args' + args);
-    // check through requirements and fail if not met.
-    checks(givenTip);
+    // ///////////////// end sanity checks //////////////////////////////
+    
+    checks().then(function(INFO) {
+      console.log('INFO: ' + INFO);
+    });
 
     // All checks passed
     console.log('tipAmount: ' + givenTip);
