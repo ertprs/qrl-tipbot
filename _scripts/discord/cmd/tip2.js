@@ -240,16 +240,17 @@ module.exports = {
 
 
     const botListJSON = JSON.parse(JSON.stringify(filteredBotList));
+    const bots = '';
     const botUserCount = Count(botListJSON);
     console.log('botUserCount: ' + botUserCount);
     if (botUserCount > 0) {
       console.log('Bots are tipped, send warning and continue..');
       for(let i = 0, l = filteredBotList.length; i < l; i++) {
-        const obj = filteredBotList[i].userName;
-        console.log(obj);
-
+        const bots = filteredBotList[i].userName;
+        console.log(bots);
+        return bots;
       }
-      ReplyMessage('No bot tipping allowed! Removing the robots and sending to the rest...\rYou mentioned ' + filteredBotList.userMame);
+      ReplyMessage('No bot tipping allowed! Removing the robots and sending to the rest...\rYou mentioned ' + obj);
     }
     
     const tipListJSON = JSON.parse(JSON.stringify(filteredTipList));
