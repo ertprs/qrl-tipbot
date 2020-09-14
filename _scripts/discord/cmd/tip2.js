@@ -257,13 +257,19 @@ module.exports = {
       }
       const tippedUsers = [];
       // get all tippedToUser info from the database
-      for(let i = 0, l = filteredTipList.length; i < l; i++) {
+      let i = 0;
+      const l = filteredTipList.length;
+      do {
         // check for user in the tipbot database and grab addresses etc. for them.
         checks(filteredTipList[i].userid).then(function(tipToUserInfo) {
           console.log('tipToUserInfo: ' + JSON.stringify(tipToUserInfo));
           tippedUsers.push(tipToUserInfo);
         });
+        i++;
       }
+      while (i < l);
+
+
       console.log('tippedUsers: ' + JSON.stringify(tippedUsers));
     // console.log('final tipListJSON: ' + JSON.stringify(tipListJSON));
     });
