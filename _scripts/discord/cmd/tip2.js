@@ -204,7 +204,7 @@ module.exports = {
       if (userid === userID) {
         // user mentioned self, do not count and move on
         console.log('User mentioned self');
-        ReplyMessage('You can\'t tip yourself, removing you from the tip and sending to the rest.');
+        ReplyMessage('You can\'t tip yourself! Removing you from the tip, sending the rest...');
         return;
       }
       // check for user in the tipbot database and grab addresses etc. for them.
