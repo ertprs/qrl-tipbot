@@ -248,7 +248,6 @@ module.exports = {
       for(let i = 0, l = filteredBotList.length; i < l; i++) {
         const bots = filteredBotList[i].userName;
         console.log(bots);
-        return bots;
       }
       ReplyMessage('No bot tipping allowed! Removing the robots and sending to the rest...\rYou mentioned ' + obj);
     }
