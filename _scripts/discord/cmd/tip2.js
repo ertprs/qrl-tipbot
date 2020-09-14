@@ -80,7 +80,7 @@ module.exports = {
     async function tipbotInfo(ID) {
       // FIX ME HERE!!!
       return new Promise(resolve => {
-      const userInfo = await getUserInfo({ service: 'discord', service_id: ID });
+      const userInfo = getUserInfo({ service: 'discord', service_id: ID });
       console.log(userInfo);
       resolve(userInfo);
       });
@@ -94,7 +94,7 @@ module.exports = {
         - Is tip valid amount?, must be above fee and more than 0...
         - Did you tip yourself?
         */
-      const userInfo = tipbotInfo(userID);
+      const userInfo = await tipbotInfo(userID);
       // check if user has enough funds in their account and if it exists
       console.log('checks - userInfo: ' + JSON.stringify(userInfo));
 
