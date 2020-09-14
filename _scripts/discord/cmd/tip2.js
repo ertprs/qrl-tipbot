@@ -201,10 +201,10 @@ module.exports = {
         // console.log('bot mentioned, doing nothing');
         return;
       }
-      console.log(service_user_ID);
+      console.log(output);
       console.log(userID);
 
-      if (service_user_ID === userID) {
+      if (output === userID) {
         console.log('User mentioned self');
       }
       // check for user in the tipbot database and grab addresses etc. for them.
