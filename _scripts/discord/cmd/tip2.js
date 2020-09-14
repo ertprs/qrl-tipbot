@@ -64,8 +64,6 @@ module.exports = {
 
     function tipAmount() {
       for (const arg of args) {
-        // Log the type of arg
-        // console.log(typeof (arg));
         const checkValue = isQRLValue(arg);
         // console.log('isQRLValue/CheckValue: ' + checkValue);
         if(checkValue) {
@@ -85,61 +83,56 @@ module.exports = {
 
 
     // ///////////////// sanity checks //////////////////////////////
-    async function checks(amount) {
+    async function checks() {
+      console.log('checks');
       /*
       checking for--
         - Calling @here/groups like @developers- this is not enabled yet
-        - Check if mentioned any users, fail if not
-        - Is tip valid amount?, must be above fee and more than 0...
         - Did you tip yourself?
         */
       const userInfo = await tipbotInfo(userID);
       // check if user has enough funds in their account and if it exists
       console.log('checks - userInfo: ' + JSON.stringify(userInfo));
-      // check if mentioned group and fail if so
-      if (args.includes('@here') || args.includes('@everyone') || args.includes('@developer') || args.includes('@founder')) {
-        console.log('Can\'t send to a group');
-        ReplyMessage('Can\'t send to a group. Please send to individual user(s), up to 100 in a tip.');
-        return;
-      }
-      // check if user mentioned another user to tip
-      if (!message.mentions.users.size) {
-        console.log('No Users mentioned.');
-        ReplyMessage('No Users mentioned. `+help tip` for help');
-        return ;
-      }
-      // check if amount is NaN
-      if (isNaN(amount)) {
-        console.log('isNaN');
-        console.log('enter a valid amount to tip');
-        ReplyMessage('Please enter a valid amount to tip! +tip {AMOUNT} @USER(\'s)');
-        return ;
-      }
-      const fee = toShor(config.wallet.tx_fee);
-      // Check that tip amount is above fee
-      console.log('fee: ' + fee + '\namount: ' + amount);
-      if (amount < fee) {
-        message.channel.stopTyping(true);
-        console.log('tipAmount < tx_fee - fee:\nFee: ' + fee + ' - Tip: ' + amount);
-        ReplyMessage('Please enter a valid amount to tip! Must be more than the fee `{' + config.wallet.tx_fee + '}` +tip {AMOUNT} @USER(\'s)');
-        return ;
-      }
-      // Check that value is within the QRL limits
-      const test = isQRLValue(amount);
-      if (!test) {
-        message.channel.stopTyping(true);
-        console.log('Invalid amount given.');
-        ReplyMessage('Invalid amount. Please try again.');
-        return;
-      }
+
+
     }
     // ///////////////// end sanity checks //////////////////////////////
 
-    // set tip amount here. Pulls the args and checks untill it finds a good tip amount
-    // also converts to shor here...
+    // check if user mentioned another user to tip
+    if (!message.mentions.users.size) {
+      console.log('No Users mentioned.');
+      ReplyMessage('No Users mentioned. `+help tip` for help');
+      return ;
+    }
+    // check if mentioned group and fail if so
+    if (args.includes('@here') || args.includes('@everyone') || args.includes('@developer') || args.includes('@founder')) {
+      console.log('Can\'t send to a group');
+      ReplyMessage('Can\'t send to a group. Please send to individual user(s), up to 100 in a tip.');
+      return;
+    }
+    // set tip amount here. Pulls the args and checks until it finds a good tip amount
+    // iterates through the list of args given and looks for a number, first found wins.
+    // This also checks the number to validate its a qrl amount isQRLValue()
     const givenTip = tipAmount();
-
     console.log('tip contents ' + givenTip);
+
+    // check if amount is NaN
+    if (isNaN(givenTip)) {
+      console.log('isNaN');
+      console.log('enter a valid amount to tip');
+      ReplyMessage('Please enter a valid amount to tip! +tip {AMOUNT} @USER(\'s)');
+      return ;
+    }
+    // Check that tip amount is above fee
+    const fee = toShor(config.wallet.tx_fee);
+    console.log('fee: ' + fee + '\namount: ' + givenTip);
+    if (givenTip < fee) {
+      message.channel.stopTyping(true);
+      console.log('tipAmount < tx_fee - fee:\nFee: ' + fee + ' - Tip: ' + givenTip);
+      ReplyMessage('Please enter a valid amount to tip! Must be more than the fee `{' + config.wallet.tx_fee + '}` +tip {AMOUNT} @USER(\'s)');
+      return ;
+    }
+
 
     // log the entire map of users into console
     // console.log('message.mentions.users:');
