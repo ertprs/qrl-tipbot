@@ -218,22 +218,6 @@ module.exports = {
     });
     console.log('filteredTipList: ' + JSON.stringify(filteredTipList));
 
-
-
-    // FIX THIS!!! Check if mentions self
-    console.log('message Author: ' + message.author);
-
-    if ((filteredTipList).includes(userID, 0)) {
-      console.log('can\'t tip yourself, message.mentions.users.first() == message.author');
-      ReplyMessage('You can\'t tip yourself');
-      message.channel.stopTyping(true);
-      return;
-    }
-    // FIX THIS!!! Check if mentions self
-
-
-
-
     // get the bots into array
     const botList = message.mentions.users.map(user => {
       const userName = user.username;
@@ -258,6 +242,10 @@ module.exports = {
     const botListJSON = JSON.parse(JSON.stringify(filteredBotList));
     const botUserCount = Count(botListJSON);
     console.log('botUserCount: ' + botUserCount);
+    if (filteredBotList > 0) {
+      console.log('Bots are tipped, send warning and continue..')
+      ReplyMessage('No bot tipping allowed! Removing the robots and sending to the rest...\rYou mentioned ' + filteredBotList.userMame);
+    }
     
     const tipListJSON = JSON.parse(JSON.stringify(filteredTipList));
     const tipUserCount = Count(tipListJSON);
