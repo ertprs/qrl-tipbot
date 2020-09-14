@@ -151,14 +151,11 @@ module.exports = {
         ReplyMessage('User not found. Add your user to the bot. `+add`');
         return;
       }
-      if (tippingUserOpt_Out == 0) {
+      if (tippingUserOpt_Out == 1) {
         const tippingUserOptOut_Date = JSON.stringify(tipingUserInfo[0].optout_date);
         ReplyMessage('User opt\'ed out of the bot on ' + tippingUserOptOut_Date + '. Please opt back in to use the bot. `+opt-in`');
         return;
       }
-
-
-
 
 
       if (!tippingUserUser_agree) {
@@ -166,7 +163,7 @@ module.exports = {
         ReplyMessage('User needs to agree to the terms. `+agree`');
         return;
       }
-      // user found in database and passes initial checks. 
+      // user found in database and passes initial checks.
       const tippingUserWallet_Pub = JSON.stringify(tipingUserInfo[0].wallet_pub);
       const tippingUserWallet_Bal = toShor(JSON.stringify(tipingUserInfo[0].wallet_bal));
       const tippingUserUser_Id = JSON.stringify(tipingUserInfo[0].user_id);
@@ -180,9 +177,7 @@ module.exports = {
         return;
       }
 
-    // All checks passed
-    console.log('tipAmount: ' + givenTip);
-    // We have users mentioned, get the tipList with out bots
+    // Get the tipList without bots
     const tipList = message.mentions.users.map(user => {
       const userName = user.username;
       const output = '@' + JSON.parse(JSON.stringify(userName));
@@ -206,9 +201,6 @@ module.exports = {
       const details = { userName: output, service_user_ID: service_user_ID, userid: userid, bot: bot, discriminator: discriminator, avatar: avatar, lastMessageID: lastMessageID, lastMessageChannelID: lastMessageChannelID, verified: verified, mfaEnabled: mfaEnabled };
       return details;
     });
-
-    // const userInfo = tipbotInfo('@' + service_user_ID);
-
 
     // remove any null or empty array contents
     const filteredTipList = tipList.filter(function(el) {
