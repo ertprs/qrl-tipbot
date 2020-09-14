@@ -145,7 +145,7 @@ module.exports = {
       console.log('tippingUserOpt_Out: ' + tippingUserOpt_Out);
 
 
-      if (tippingUserUser_Found) {
+      if (!tippingUserUser_Found) {
         console.log('User not found. Fail and warn');
         ReplyMessage('User not found. Add your user to the bot. \n\n`+add`');
         return;
