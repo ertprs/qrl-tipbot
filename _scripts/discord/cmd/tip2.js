@@ -140,6 +140,10 @@ module.exports = {
       const tippingUserUser_Found = JSON.stringify(tipingUserInfo[0].user_found);
       const tippingUserUser_agree = JSON.stringify(tipingUserInfo[0].user_agree);
       const tippingUserOpt_Out = JSON.stringify(tipingUserInfo[0].opt_out);
+      console.log('tippingUserUser_Found: ' + tippingUserUser_Found);
+      console.log('tippingUserUser_agree: ' + tippingUserUser_agree);
+      console.log('tippingUserOpt_Out: ' + tippingUserOpt_Out);
+
 
       if (tippingUserUser_Found) {
         console.log('User not found. Fail and warn');
