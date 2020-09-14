@@ -204,7 +204,7 @@ module.exports = {
       console.log(service_user_ID);
       console.log(username);
 
-      if (service_user_ID === username) {
+      if (userid === username) {
         console.log('User mentioned self');
       }
       // check for user in the tipbot database and grab addresses etc. for them.
