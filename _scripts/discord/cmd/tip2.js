@@ -150,7 +150,7 @@ module.exports = {
         ReplyMessage('User not found. Add your user to the bot. \n\n`+add`');
         return;
       }
-      if (tippingUserOpt_Out == 0) {
+      if (tippingUserOpt_Out == 1) {
         console.log('User has opted out. Fail and warn');
         ReplyMessage('User has opt\'ed out of the bot. Please opt back in to use the bot. \n\n`+opt-in`');
         return;
