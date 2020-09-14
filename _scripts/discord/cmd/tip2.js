@@ -245,7 +245,7 @@ module.exports = {
     if (botUserCount > 0) {
       console.log('Bots are tipped, send warning and continue..');
       for(let i = 0, l = filteredBotList.length; i < l; i++) {
-        const obj = filteredBotList.userName[i];
+        const obj = filteredBotList.[i];
         console.log(obj);
 
       }
