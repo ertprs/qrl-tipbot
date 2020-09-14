@@ -206,7 +206,7 @@ module.exports = {
           return;
         }
         tipbotInfo(userid).then(function(tipToUserInfo) {
-          console.log('tipToUserInfo' + JSON.log(tipToUserInfo));
+          console.log('tipToUserInfo' + JSON.stringify(tipToUserInfo));
           // check for user in the tipbot database and grab addresses etc. for them.
           // Not a bot, return details
           const details = { userName: output, service_user_ID: service_user_ID, userid: userid, bot: bot, discriminator: discriminator, avatar: avatar, lastMessageID: lastMessageID, lastMessageChannelID: lastMessageChannelID, verified: verified, mfaEnabled: mfaEnabled, tipToUserInfo: [tipToUserInfo] };
