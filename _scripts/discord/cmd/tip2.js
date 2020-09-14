@@ -48,8 +48,8 @@ module.exports = {
           test = true;
         }
       }
-      console.log('str' + toShor(str));
-      console.log('isQRLValue: ' + test);
+      // console.log('str' + toShor(str));
+      // console.log('isQRLValue: ' + test);
       return test;
     }
 
@@ -69,7 +69,7 @@ module.exports = {
         const checkValue = isQRLValue(arg);
         // console.log('isQRLValue/CheckValue: ' + checkValue);
         if(checkValue) {
-          return arg;
+          return toShor(arg);
         }
       }
     }
@@ -84,7 +84,7 @@ module.exports = {
     }
 
 
-    // sanity checks
+    // ///////////////// sanity checks //////////////////////////////
     async function checks(amount) {
       /*
       checking for--
@@ -96,22 +96,18 @@ module.exports = {
       const userInfo = await tipbotInfo(userID);
       // check if user has enough funds in their account and if it exists
       console.log('checks - userInfo: ' + JSON.stringify(userInfo));
-
-
       // check if mentioned group and fail if so
       if (args.includes('@here') || args.includes('@everyone') || args.includes('@developer') || args.includes('@founder')) {
         console.log('Can\'t send to a group');
         ReplyMessage('Can\'t send to a group. Please send to individual user(s), up to 100 in a tip.');
         return;
       }
-
       // check if user mentioned another user to tip
       if (!message.mentions.users.size) {
         console.log('No Users mentioned.');
         ReplyMessage('No Users mentioned. `+help tip` for help');
         return ;
       }
-
       // check if amount is NaN
       if (isNaN(amount)) {
         console.log('isNaN');
@@ -128,7 +124,6 @@ module.exports = {
         ReplyMessage('Please enter a valid amount to tip! Must be more than the fee `{' + config.wallet.tx_fee + '}` +tip {AMOUNT} @USER(\'s)');
         return ;
       }
-
       // Check that value is within the QRL limits
       const test = isQRLValue(amount);
       if (!test) {
@@ -138,9 +133,12 @@ module.exports = {
         return;
       }
     }
+    // ///////////////// end sanity checks //////////////////////////////
+
     // set tip amount here. Pulls the args and checks untill it finds a good tip amount
     // also converts to shor here...
-    const givenTip = toShor(tipAmount());
+    const givenTip = tipAmount();
+
     console.log('tip contents ' + givenTip);
 
     // log the entire map of users into console
