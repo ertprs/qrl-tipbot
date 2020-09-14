@@ -10,8 +10,7 @@ module.exports = {
     message.channel.startTyping();
     const dbHelper = require('../../db/dbHelper');
     const config = require('../../../_config/config.json');
-    const wallet = require('../../qrl/walletTools');
-
+    // const wallet = require('../../qrl/walletTools');
     const username = `${message.author}`;
     const userID = username.slice(1, -1);
 
@@ -44,9 +43,8 @@ module.exports = {
       if(/^[0-9]{0,8}[.]?[0-9]{0,9}$/.test(str)) {
         // And check for a value between 0.000000001 and 105000000
         const min = toShor(0.000000001);
-        console.log('min ' + min)
         const max = toShor(105000000);
-        console.log('max ' + max)
+
         if(toShor(str) >= min && toShor(str) <= max) {
           test = true;
         }
@@ -80,11 +78,13 @@ module.exports = {
     async function tipbotInfo(ID) {
       // FIX ME HERE!!!
       return new Promise(resolve => {
-      const userInfo = getUserInfo({ service: 'discord', service_id: ID });
-      console.log(userInfo);
-      resolve(userInfo);
+        const userInfo = getUserInfo({ service: 'discord', service_id: ID });
+        console.log(userInfo);
+        resolve(userInfo);
       });
     }
+
+
     // sanity checks
     async function checks(amount) {
       /*
@@ -179,7 +179,7 @@ module.exports = {
       return details;
     });
 
-//    const userInfo = tipbotInfo('@' + service_user_ID);
+    // const userInfo = tipbotInfo('@' + service_user_ID);
 
 
     // remove any null or empty array contents
@@ -204,11 +204,6 @@ module.exports = {
       message.channel.stopTyping(true);
       return;
     }
-
-
-
-
-
 
 
     // get the bots into array
