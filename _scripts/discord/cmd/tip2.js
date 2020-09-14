@@ -204,7 +204,7 @@ module.exports = {
       if (userid === userID) {
         // user mentioned self, do not count and move on
         console.log('User mentioned self');
-        ReplyMessage('You can\'t tip yourself! Removing you from the tip, sending the rest...');
+        ReplyMessage('You can\'t tip yourself! Removing you from the tip...');
         return;
       }
       // check for user in the tipbot database and grab addresses etc. for them.
@@ -243,7 +243,12 @@ module.exports = {
     const botUserCount = Count(botListJSON);
     console.log('botUserCount: ' + botUserCount);
     if (botUserCount > 0) {
-      console.log('Bots are tipped, send warning and continue..')
+      console.log('Bots are tipped, send warning and continue..');
+      for(let i = 0, l = filteredBotList.items.length; i < l; i++) {
+        const obj = filteredBotList.items[i];
+        console.log(obj);
+
+      }
       ReplyMessage('No bot tipping allowed! Removing the robots and sending to the rest...\rYou mentioned ' + filteredBotList.userMame);
     }
     
