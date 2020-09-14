@@ -242,7 +242,7 @@ module.exports = {
     const botListJSON = JSON.parse(JSON.stringify(filteredBotList));
     const botUserCount = Count(botListJSON);
     console.log('botUserCount: ' + botUserCount);
-    if (filteredBotList < 0) {
+    if (botUserCount < 0) {
       console.log('Bots are tipped, send warning and continue..')
       ReplyMessage('No bot tipping allowed! Removing the robots and sending to the rest...\rYou mentioned ' + filteredBotList.userMame);
     }
