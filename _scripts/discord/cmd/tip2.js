@@ -3,7 +3,7 @@ module.exports = {
   description: 'Tips!',
   args: true,
   guildOnly: false,
-  cooldown: 10,
+  cooldown: 1,
   aliases: ['!$'],
   usage: '\n<tip amount> <user1> <user2> <user3> <etc.> \nEXAMPLE: `+tip2 1 @CoolUser`',
   execute(message, args) {
