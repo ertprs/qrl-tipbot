@@ -36,7 +36,6 @@ module.exports = {
 
     function isQRLValue(str) {
       // recieve amnount in shor, do accordingly
-      console.log('str' + toShor(str));
       // Fail immediately.
       let test = false;
       // Check if it's only numeric and periods (no spaces, etc)
@@ -49,6 +48,8 @@ module.exports = {
           test = true;
         }
       }
+      console.log('str' + toShor(str));
+      console.log('isQRLValue: ' + test);
       return test;
     }
 
@@ -68,9 +69,7 @@ module.exports = {
         const checkValue = isQRLValue(arg);
         // console.log('isQRLValue/CheckValue: ' + checkValue);
         if(checkValue) {
-          const amount = toShor(arg);
-          console.log('tipAmount given: ' + amount);
-          return amount;
+          return arg;
         }
       }
     }
