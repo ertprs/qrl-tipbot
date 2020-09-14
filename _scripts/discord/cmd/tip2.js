@@ -86,16 +86,12 @@ module.exports = {
     }
 
 
-    async function checks() {
+    async function checks(uuid) {
       console.log('checks');
-      /*
-      checking for--
-        - Calling @here/groups like @developers- this is not enabled yet
-        - Did you tip yourself?
-        */
-      const userInfo = await tipbotInfo(userID);
       // check if user has enough funds in their account and if it exists
+      const userInfo = await tipbotInfo(uuid);
       console.log('checks - userInfo: ' + JSON.stringify(userInfo));
+      return userInfo;
     }
 
     function Count(list) {
@@ -263,7 +259,7 @@ module.exports = {
       // get all tippedToUser info from the database
       for(let i = 0, l = filteredTipList.length; i < l; i++) {
         // check for user in the tipbot database and grab addresses etc. for them.
-        tipbotInfo(filteredTipList[i].userid).then(function(tipToUserInfo) {
+        checks(filteredTipList[i].userid).then(function(tipToUserInfo) {
           console.log('tipToUserInfo: ' + JSON.stringify(tipToUserInfo));
           tippedUsers.push(tipToUserInfo);
         });
