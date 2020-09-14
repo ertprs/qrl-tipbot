@@ -68,8 +68,8 @@ module.exports = {
         const checkValue = isQRLValue(arg);
         // console.log('isQRLValue/CheckValue: ' + checkValue);
         if(checkValue) {
-          const amount = arg;
-          console.log('tipAmount given: ' + arg);
+          const amount = toShor(arg);
+          console.log('tipAmount given: ' + amount);
           return amount;
         }
       }
