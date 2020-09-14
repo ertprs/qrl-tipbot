@@ -37,14 +37,17 @@ module.exports = {
 
     function isQRLValue(str) {
       // recieve amnount in shor, do accordingly
+      console.log(str)
       // Fail immediately.
       let test = false;
       // Check if it's only numeric and periods (no spaces, etc)
       if(/^[0-9]{0,8}[.]?[0-9]{0,9}$/.test(str)) {
         // And check for a value between 0.000000001 and 105000000
-        const min = 0.000000001;
-        const max = 105000000;
-        if(str >= toShor(min) && str <= toShor(max)) {
+        const min = toShor(0.000000001);
+        console.log('min' + min)
+        const max = toShor(105000000);
+        console.log('max' + max)
+        if(str >= min && str <= max) {
           test = true;
         }
       }
@@ -183,7 +186,7 @@ module.exports = {
     });
 
 
-    const found = filteredTipList.find(element => console.log(element));
+    const found = filteredTipList.find(element => element == userID);
 
 
     // Check if mentions user
@@ -191,7 +194,7 @@ module.exports = {
     console.log(message + '\n\n\n');
     console.log('message Author: ' + message.author);
     console.log('found: ' + found);
-    console.log('message auth user found: ' + (JSON.stringify(filteredTipList)).includes(userID, 1));
+    console.log('message auth user found: ' + (JSON.stringify(filteredTipList)).includes(userID));
 
     if ((filteredTipList).includes(userID, 0)) {
       console.log('can\'t tip yourself, message.mentions.users.first() == message.author');
