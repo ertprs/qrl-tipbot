@@ -157,7 +157,7 @@ module.exports = {
         const oodate = tippingUserOptOut_Date.toString();
 
         console.log('Datetime ' + oodate.toLocaleString(DateTime.DATETIME_MED));
-        console.log('Datetime fromISO ' + DateTime.fromISO(oodate);
+        console.log('Datetime fromISO ' + DateTime.fromISO(oodate));
 
         ReplyMessage('User opt\'ed out of the bot on ' + DateTime.fromISO(toString(tippingUserOptOut_Date)) + '. Please opt back in to use the bot. `+opt-in`');
         return;
