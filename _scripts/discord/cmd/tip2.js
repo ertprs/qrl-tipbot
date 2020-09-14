@@ -140,6 +140,7 @@ module.exports = {
       const tippingUserUser_Found = JSON.stringify(tipingUserInfo[0].user_found);
       const tippingUserUser_agree = JSON.stringify(tipingUserInfo[0].user_agree);
       const tippingUserOpt_Out = JSON.stringify(tipingUserInfo[0].opt_out);
+
       console.log('tippingUserUser_Found: ' + tippingUserUser_Found);
       console.log('tippingUserUser_agree: ' + tippingUserUser_agree);
       console.log('tippingUserOpt_Out: ' + tippingUserOpt_Out);
@@ -147,17 +148,32 @@ module.exports = {
 
       if (!tippingUserUser_Found) {
         console.log('User not found. Fail and warn');
-        ReplyMessage('User not found. Add your user to the bot. \n\n`+add`');
+        ReplyMessage('User not found. Add your user to the bot. `+add`');
         return;
       }
-      if (tippingUserOpt_Out == 1) {
+      if (tippingUserOpt_Out == 0) {
         console.log('User has opted out. Fail and warn');
-        ReplyMessage('User has opt\'ed out of the bot. Please opt back in to use the bot. \n\n`+opt-in`');
+        const tippingUserOptOut_Date = JSON.stringify(tipingUserInfo[0].optout_date);
+
+        ReplyMessage('User opt\'ed out of the bot on ' + tippingUserOptOut_Date'. Please opt back in to use the bot. `+opt-in`');
         return;
       }
       if (!tippingUserUser_agree) {
         console.log('User has not agreed. Fail and warn');
-        ReplyMessage('User needs to agree to the terms. \n\n`+agree`');
+        ReplyMessage('User needs to agree to the terms. `+agree`');
+        return;
+      }
+      // user found in database and passes initial checks. 
+      const tippingUserWallet_Pub = JSON.stringify(tipingUserInfo[0].wallet_pub);
+      const tippingUserWallet_Bal = toShor(JSON.stringify(tipingUserInfo[0].wallet_bal));
+      const tippingUserUser_Id = JSON.stringify(tipingUserInfo[0].user_id);
+      const tippingUserUser_Name = JSON.stringify(tipingUserInfo[0].user_name);
+      
+
+      // check balance to tip amount
+      if (tippingUserWallet_Bal <= 0) {
+        console.log('User has 0 balance. Fail and warn');
+        ReplyMessage('You have no funds to tip. `+bal`');
         return;
       }
 
