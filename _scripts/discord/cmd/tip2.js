@@ -48,8 +48,8 @@ module.exports = {
           test = true;
         }
       }
-      // console.log('str' + toShor(str));
-      // console.log('isQRLValue: ' + test);
+      console.log('str' + str);
+      console.log('isQRLValue: ' + test);
       return test;
     }
 
