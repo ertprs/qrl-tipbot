@@ -134,10 +134,10 @@ module.exports = {
     }
 
     // ///////////////// end sanity checks //////////////////////////////
-    
+
     tipbotInfo(userID).then(function(INFO) {
       console.log('INFO: ' + INFO);
-    });
+
 
     // All checks passed
     console.log('tipAmount: ' + givenTip);
@@ -227,5 +227,6 @@ module.exports = {
     console.log('final tipUserCount: ' + tipUserCount);
     console.log('final botUserCount: ' + botUserCount);
     // console.log('final tipListJSON: ' + JSON.stringify(tipListJSON));
+  });
   },
 };
