@@ -34,6 +34,10 @@ module.exports = {
       return number * shor;
     }
 
+    function toQuanta(number) {
+      const shor = 1000000000;
+      return number / shor;
+    }
     function isQRLValue(str) {
       // recieve amnount in shor, do accordingly
       // Fail immediately.
@@ -93,16 +97,12 @@ module.exports = {
       // check if user has enough funds in their account and if it exists
       console.log('checks - userInfo: ' + JSON.stringify(userInfo));
     }
-    
+
     function Count(list) {
       // console.log('tipList: ' + JSON.stringify(tipList));
       const arrayCount = list.length;
       return arrayCount;
     }
-
-
-    // ///////////////// sanity checks //////////////////////////////
-
     // check if user mentioned another user to tip
     if (!message.mentions.users.size) {
       console.log('No Users mentioned.');
@@ -138,42 +138,40 @@ module.exports = {
       return ;
     }
 
-    // ///////////////// end sanity checks //////////////////////////////
-
+    // Get user info into scope from database
     tipbotInfo(userID).then(function(tipingUserInfo) {
-      console.log('INFO: ' + JSON.stringify(tipingUserInfo));
+      console.log('Tipping user INFO: ' + JSON.stringify(tipingUserInfo));
       const tippingUserUser_Found = JSON.stringify(tipingUserInfo[0].user_found);
       const tippingUserUser_agree = JSON.stringify(tipingUserInfo[0].user_agree);
       const tippingUserOpt_Out = JSON.stringify(tipingUserInfo[0].opt_out);
-
+      // log the output for debug
       console.log('tippingUserUser_Found: ' + tippingUserUser_Found);
       console.log('tippingUserUser_agree: ' + tippingUserUser_agree);
       console.log('tippingUserOpt_Out: ' + tippingUserOpt_Out);
-
-
+      // check for tipping user in the system
       if (!tippingUserUser_Found) {
         console.log('User not found. Fail and warn');
         ReplyMessage('User not found. Add your user to the bot. `+add`');
         return;
       }
+      // check for tipping user opt-out
       if (tippingUserOpt_Out == 1) {
         const tippingUserOptOut_Date = JSON.stringify(tipingUserInfo[0].optout_date);
         ReplyMessage('User opt\'ed out of the bot on ' + tippingUserOptOut_Date + '. Please opt back in to use the bot. `+opt-in`');
         return;
       }
-
-
+      // check for tipping user agree
       if (!tippingUserUser_agree) {
         console.log('User has not agreed. Fail and warn');
         ReplyMessage('User needs to agree to the terms. `+agree`');
         return;
       }
+
       // user found in database and passes initial checks.
       const tippingUserWallet_Pub = JSON.stringify(tipingUserInfo[0].wallet_pub);
       const tippingUserWallet_Bal = toShor(JSON.stringify(tipingUserInfo[0].wallet_bal));
       const tippingUserUser_Id = JSON.stringify(tipingUserInfo[0].user_id);
       const tippingUserUser_Name = JSON.stringify(tipingUserInfo[0].user_name);
-      
 
       // check balance to tip amount
       if (tippingUserWallet_Bal <= 0) {
@@ -182,84 +180,93 @@ module.exports = {
         return;
       }
 
-    // Get the tipList without bots
-    const tipList = message.mentions.users.map(user => {
-      const userName = user.username;
-      const output = '@' + JSON.parse(JSON.stringify(userName));
-      const service_user_ID = user.id;
-      const userid = '@' + user.id;
-      const bot = user.bot;
-      const discriminator = user.discriminator;
-      const lastMessageID = user.lastMessageID;
-      const lastMessageChannelID = user.lastMessageChannelID;
-      const avatar = user.avatar;
-      const verified = user.verified;
-      const mfaEnabled = user.mfaEnabled;
-      // check if mentioned user is a bot
-      if (bot) {
+      // Get the tipList (send tip to) without bots in the array
+      const tipList = message.mentions.users.map(user => {
+        const userName = user.username;
+        const output = '@' + JSON.parse(JSON.stringify(userName));
+        const service_user_ID = user.id;
+        const userid = '@' + user.id;
+        const bot = user.bot;
+        const discriminator = user.discriminator;
+        const lastMessageID = user.lastMessageID;
+        const lastMessageChannelID = user.lastMessageChannelID;
+        const avatar = user.avatar;
+        const verified = user.verified;
+        const mfaEnabled = user.mfaEnabled;
+        // check if mentioned user is a bot
+        if (bot) {
         // don't do anything for the bot.. silly bot
         // console.log('bot mentioned, doing nothing');
-        return;
-      }
-      if (userid === userID) {
+          return;
+        }
+        if (userid === userID) {
         // user mentioned self, do not count and move on
-        console.log('User mentioned self');
-        ReplyMessage('You can\'t tip yourself! Removing you from the tip...');
+          console.log('User mentioned self');
+          ReplyMessage('You can\'t tip yourself! Removing you from the tip...');
+          return;
+        }
+        tipbotInfo(userid).then(function(tipToUserInfo) {
+          console.log('tipToUserInfo' + tipToUserInfo);
+          // check for user in the tipbot database and grab addresses etc. for them.
+          // Not a bot, return details
+          const details = { userName: output, service_user_ID: service_user_ID, userid: userid, bot: bot, discriminator: discriminator, avatar: avatar, lastMessageID: lastMessageID, lastMessageChannelID: lastMessageChannelID, verified: verified, mfaEnabled: mfaEnabled };
+          // push tipToUserInfo into details and return
+          details.push(tipToUserInfo);
+          return details;
+        });
+      });
+      // remove any null or empty array contents
+      const filteredTipList = tipList.filter(function(el) {
+        return el != null;
+      });
+      console.log('filteredTipList: ' + JSON.stringify(filteredTipList));
+      // get the bots into array
+      const botList = message.mentions.users.map(user => {
+        const userName = user.username;
+        const output = '@' + JSON.parse(JSON.stringify(userName));
+        const userid = '<@!' + user.id + '>';
+        const bot = user.bot;
+        if (!bot) {
+          // if not a bot don't do anything
+          // console.log('bot not mentioned, doing nothing');
+          return;
+        }
+        const botListOutput = JSON.parse(JSON.stringify({ userName: output, userid: userid, bot: bot }));
+        return botListOutput;
+      });
+      const filteredBotList = botList.filter(function(el) {
+        return el != null;
+      });
+      console.log('filteredBotList: \n' + JSON.stringify(filteredBotList));
+      const botListJSON = JSON.parse(JSON.stringify(filteredBotList));
+      const bots = [];
+      const botUserCount = Count(botListJSON);
+      console.log('botUserCount: ' + botUserCount);
+      // if bot count is positive warn user and continue
+      if (botUserCount > 0) {
+        console.log('Bots are tipped, send warning and continue..');
+        // getting bot userid into array to respond to user with. userid is the correct format to notify user in
+        for(let i = 0, l = filteredBotList.length; i < l; i++) {
+          bots.push(' ' + filteredBotList[i].userid);
+        }
+        ReplyMessage('No bot tipping allowed! Removing the robots and sending to the rest...\rBots mentioned ' + bots);
+      }
+      const tipListJSON = JSON.parse(JSON.stringify(filteredTipList));
+      const tipUserCount = Count(tipListJSON);
+      console.log('tipUserCount: ' + tipUserCount);
+
+      // check the balance of tipping user to total tip amount
+      console.log('user Balance: ' + tippingUserWallet_Bal);
+      console.log('Tip Amount: ' + (givenTip * tipUserCount));
+      const tipTotal = ((givenTip * tipUserCount) + fee);
+      if (tippingUserWallet_Bal < tipTotal) {
+        console.log('More than user bal. fail and error with balance');
+        ReplyMessage('Trying to send more than you have... Please try again. \nYou tried sending `' + toQuanta(tipTotal)) + 'qrl` which is `' + (tipTotal - tippingUserWallet_Bal) + 'qrl` more than you have.';
         return;
       }
-      // check for user in the tipbot database and grab addresses etc. for them.
-      // Not a bot, return details
-      const details = { userName: output, service_user_ID: service_user_ID, userid: userid, bot: bot, discriminator: discriminator, avatar: avatar, lastMessageID: lastMessageID, lastMessageChannelID: lastMessageChannelID, verified: verified, mfaEnabled: mfaEnabled };
-      return details;
-    });
-    // remove any null or empty array contents
-    const filteredTipList = tipList.filter(function(el) {
-      return el != null;
-    });
-    console.log('filteredTipList: ' + JSON.stringify(filteredTipList));
-
-    // get the bots into array
-    const botList = message.mentions.users.map(user => {
-      const userName = user.username;
-      const output = '@' + JSON.parse(JSON.stringify(userName));
-      const userid = '<@!' + user.id + '>';
-      const bot = user.bot;
-      if (!bot) {
-        // don't do anything for the bot.. silly bot
-        // console.log('bot not mentioned, doing nothing');
-        return;
-      }
-      const botListOutput = JSON.parse(JSON.stringify({ userName: output, userid: userid, bot: bot }));
-      return botListOutput;
-    });
-    const filteredBotList = botList.filter(function(el) {
-      return el != null;
-    });
-    console.log('filteredBotList: \n' + JSON.stringify(filteredBotList));
-
-
-
-    const botListJSON = JSON.parse(JSON.stringify(filteredBotList));
-    const bots = [];
-    const botUserCount = Count(botListJSON);
-    console.log('botUserCount: ' + botUserCount);
-    if (botUserCount > 0) {
-      console.log('Bots are tipped, send warning and continue..');
-      for(let i = 0, l = filteredBotList.length; i < l; i++) {
-        bots.push(' ' + filteredBotList[i].userid);
-        console.log(bots);
-      }
-      ReplyMessage('No bot tipping allowed! Removing the robots and sending to the rest...\rBots mentioned ' + bots);
-    }
-    
-    const tipListJSON = JSON.parse(JSON.stringify(filteredTipList));
-    const tipUserCount = Count(tipListJSON);
-    console.log('tipUserCount: ' + tipUserCount);
-
-
 
 
     // console.log('final tipListJSON: ' + JSON.stringify(tipListJSON));
-  });
+    });
   },
 };
