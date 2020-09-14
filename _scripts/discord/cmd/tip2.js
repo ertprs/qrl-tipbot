@@ -246,7 +246,7 @@ module.exports = {
     if (botUserCount > 0) {
       console.log('Bots are tipped, send warning and continue..');
       for(let i = 0, l = filteredBotList.length; i < l; i++) {
-        bots.push(filteredBotList[i].userid);
+        bots.push(filteredBotList[i].userid + ' ');
         console.log(bots);
       }
       ReplyMessage('No bot tipping allowed! Removing the robots and sending to the rest...\rBots mentioned ' + bots);
