@@ -80,7 +80,6 @@ module.exports = {
       // FIX ME HERE!!!
       return new Promise(resolve => {
         const userInfo = getUserInfo({ service: 'discord', service_id: ID });
-        console.log(userInfo);
         resolve(userInfo);
       });
     }
