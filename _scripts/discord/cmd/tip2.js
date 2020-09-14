@@ -187,7 +187,7 @@ module.exports = {
       const userName = user.username;
       const output = '@' + JSON.parse(JSON.stringify(userName));
       const service_user_ID = user.id;
-      const userid = '<@!' + user.id + '>';
+      const userid = '<@' + user.id + '>';
       const bot = user.bot;
       const discriminator = user.discriminator;
       const lastMessageID = user.lastMessageID;
@@ -201,10 +201,10 @@ module.exports = {
         // console.log('bot mentioned, doing nothing');
         return;
       }
-      console.log(output);
+      console.log(userid);
       console.log(userID);
 
-      if (output === userID) {
+      if (userid === userID) {
         console.log('User mentioned self');
       }
       // check for user in the tipbot database and grab addresses etc. for them.
