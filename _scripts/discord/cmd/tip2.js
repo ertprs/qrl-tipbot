@@ -136,7 +136,7 @@ module.exports = {
     // ///////////////// end sanity checks //////////////////////////////
 
     tipbotInfo(userID).then(function(tipingUserInfo) {
-      console.log('INFO: ' + JSON.stringify(tipingUserInfo[0].user_found));
+      console.log('INFO: ' + JSON.stringify(tipingUserInfo));
       const tippingUserUser_Found = tipingUserInfo[0].user_found;
       const tippingUserUser_agree = tipingUserInfo[0].user_agree;
       const tippingUserOpt_Out = tipingUserInfo[0].opt_out;
