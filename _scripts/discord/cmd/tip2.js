@@ -201,11 +201,9 @@ module.exports = {
         // console.log('bot mentioned, doing nothing');
         return;
       }
-      console.log(userid);
-      console.log(userID);
-
       if (userid === userID) {
         console.log('User mentioned self');
+        ReplyMessage('You can\'t tip yourself, removing you from the tip and sending to the rest.');
       }
       // check for user in the tipbot database and grab addresses etc. for them.
       // Not a bot, return details
