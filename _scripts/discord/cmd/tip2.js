@@ -136,14 +136,26 @@ module.exports = {
     // ///////////////// end sanity checks //////////////////////////////
 
     tipbotInfo(userID).then(function(tipingUserInfo) {
-      console.log('INFO: ' + tipingUserInfo.user_found);
+      console.log('INFO: ' + JSON.stringify(tipingUserInfo[0].user_found));
+      const tippingUserUser_Found = tipingUserInfo[0].user_found;
+      const tippingUserUser_agree = tipingUserInfo[0].user_agree;
+      const tippingUserOpt_Out = tipingUserInfo[0].opt_out;
 
-      
-
-
-
-
-
+      if (tippingUserUser_Found) {
+        console.log('User not found. Fail and warn');
+        ReplyMessage('User not found. Add your user to the bot. \n\n`+add`');
+        return;
+      }
+      if (tippingUserOpt_Out) {
+        console.log('User has opted out. Fail and warn');
+        ReplyMessage('User has opt\'ed out of the bot. Please opt back in to use the bot. \n\n`+opt-in`');
+        return;
+      }
+      if (!tippingUserUser_agree) {
+        console.log('User has not agreed. Fail and warn');
+        ReplyMessage('User needs to agree to the terms. \n\n`+agree`');
+        return;
+      }
 
     // All checks passed
     console.log('tipAmount: ' + givenTip);
