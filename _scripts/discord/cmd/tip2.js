@@ -92,10 +92,15 @@ module.exports = {
       const userInfo = await tipbotInfo(userID);
       // check if user has enough funds in their account and if it exists
       console.log('checks - userInfo: ' + JSON.stringify(userInfo));
-
-
     }
     
+    function Count(list) {
+      // console.log('tipList: ' + JSON.stringify(tipList));
+      const arrayCount = list.length;
+      return arrayCount;
+    }
+
+
     // ///////////////// sanity checks //////////////////////////////
 
     // check if user mentioned another user to tip
@@ -196,26 +201,24 @@ module.exports = {
         // console.log('bot mentioned, doing nothing');
         return;
       }
+      if (service_user_ID === username) {
+        console.log('User mentioned self');
+      }
       // check for user in the tipbot database and grab addresses etc. for them.
       // Not a bot, return details
       const details = { userName: output, service_user_ID: service_user_ID, userid: userid, bot: bot, discriminator: discriminator, avatar: avatar, lastMessageID: lastMessageID, lastMessageChannelID: lastMessageChannelID, verified: verified, mfaEnabled: mfaEnabled };
       return details;
     });
-
     // remove any null or empty array contents
     const filteredTipList = tipList.filter(function(el) {
       return el != null;
     });
+    console.log('filteredTipList: ' + JSON.stringify(filteredTipList));
 
 
-    const found = filteredTipList.find(element => element == userID);
 
-
-    // Check if mentions user
-    console.log('filteredTipList: \n' + JSON.stringify(filteredTipList));
+    // FIX THIS!!! Check if mentions self
     console.log('message Author: ' + message.author);
-    console.log('found: ' + found);
-    console.log('message auth user found: ' + (JSON.stringify(filteredTipList)).includes(userID));
 
     if ((filteredTipList).includes(userID, 0)) {
       console.log('can\'t tip yourself, message.mentions.users.first() == message.author');
@@ -223,6 +226,9 @@ module.exports = {
       message.channel.stopTyping(true);
       return;
     }
+    // FIX THIS!!! Check if mentions self
+
+
 
 
     // get the bots into array
@@ -245,20 +251,18 @@ module.exports = {
     console.log('filteredBotList: \n' + JSON.stringify(filteredBotList));
 
 
+
     const botListJSON = JSON.parse(JSON.stringify(filteredBotList));
-    const tipListJSON = JSON.parse(JSON.stringify(filteredTipList));
-
-    function Count(list) {
-      // console.log('tipList: ' + JSON.stringify(tipList));
-      const arrayCount = list.length;
-      return arrayCount;
-    }
-
-    const tipUserCount = Count(tipListJSON);
     const botUserCount = Count(botListJSON);
+    console.log('botUserCount: ' + botUserCount);
+    
+    const tipListJSON = JSON.parse(JSON.stringify(filteredTipList));
+    const tipUserCount = Count(tipListJSON);
+    console.log('tipUserCount: ' + tipUserCount);
 
-    console.log('final tipUserCount: ' + tipUserCount);
-    console.log('final botUserCount: ' + botUserCount);
+
+
+
     // console.log('final tipListJSON: ' + JSON.stringify(tipListJSON));
   });
   },
