@@ -135,8 +135,14 @@ module.exports = {
 
     // ///////////////// end sanity checks //////////////////////////////
 
-    tipbotInfo(userID).then(function(INFO) {
-      console.log('INFO: ' + JSON.stringify(INFO));
+    tipbotInfo(userID).then(function(tipingUserInfo) {
+      console.log('INFO: ' + JSON.stringify(tipingUserInfo.user_found));
+
+      
+
+
+
+
 
 
     // All checks passed
