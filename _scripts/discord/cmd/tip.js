@@ -234,7 +234,7 @@ module.exports = {
         return id.id;
       });
       const stringUserIDs = allServiceIDs.join();
-      // console.log('stringUserIDs' + stringUserIDs);
+      console.log('stringUserIDs' + stringUserIDs);
       // add users to the tips db and create a tip_id to track this tip through
       // we need to send { trans_id, from_user_id, to_users_id, tip_amount, from_service, time_stamp}
       const addToTipsDBinfo = { from_user_id: userID, to_users_id: stringUserIDs, tip_amount: tipAmountQuanta, from_service: 'discord', time_stamp: new Date() };

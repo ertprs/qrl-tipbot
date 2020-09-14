@@ -58,7 +58,7 @@ module.exports = {
     }
 
     // Get user info.
-    function getUserInfo(usrInfo) {
+    async function getUserInfo(usrInfo) {
       return new Promise(resolve => {
         const data = dbHelper.GetAllUserInfo(usrInfo);
         resolve(data);
@@ -247,12 +247,20 @@ module.exports = {
         return;
       }
       const tippedUserIDs = [];
-      for(let i = 0, l = filteredTipList.length; i < l; i++) {
-        tippedUserIDs.push(' ' + filteredTipList[i].userid);
+
+      async function userInfo() {
+        for(let i = 0, l = filteredTipList.length; i < l; i++) {
+          // check for user in the tipbot database and grab addresses etc. for them.
+          const tipToUserInfo = await tipbotInfo(filteredTipList[i].userid);
+          console.log('tipToUserInfo: ' + JSON.stringify(tipToUserInfo));
+          tippedUserIDs.push(tipToUserInfo);
+
+        }
       }
       // get all tippedToUser info from the database
-      
+      userInfo();
       console.log('tippedUserIDs: ' + JSON.stringify(tippedUserIDs));
+
     // console.log('final tipListJSON: ' + JSON.stringify(tipListJSON));
     });
   },
