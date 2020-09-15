@@ -269,7 +269,7 @@ module.exports = {
             tippedUserInfo.push(tipToUserInfo);
             tippedUserWallets.push(config.wallet.hold_address);
             tippedUserTipAmt.push(givenTip);
-            break;
+            return;
           }
 
           if (tipToUserFound && tipToUserOptOut) {
