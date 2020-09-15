@@ -246,15 +246,14 @@ module.exports = {
         ReplyMessage('Trying to send more than you have... Please try again. \nYou tried sending `' + toQuanta(tipTotal)) + 'qrl` which is `' + (tipTotal - tippingUserWallet_Bal) + 'qrl` more than you have.';
         return;
       }
-      const tippedUserIDs = [];
 
       async function userInfo() {
+        const tippedUserIDs = [];
         for(let i = 0, l = filteredTipList.length; i < l; i++) {
           // check for user in the tipbot database and grab addresses etc. for them.
           const tipToUserInfo = await tipbotInfo(filteredTipList[i].userid);
           console.log('tipToUserInfo: ' + JSON.stringify(tipToUserInfo));
           tippedUserIDs.push(tipToUserInfo);
-
         }
         console.log('tippedUserIDs: ' + JSON.stringify(tippedUserIDs));
       }
