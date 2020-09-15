@@ -252,10 +252,17 @@ module.exports = {
         for(let i = 0, l = filteredTipList.length; i < l; i++) {
           // check for user in the tipbot database and grab addresses etc. for them.
           const tipToUserInfo = await tipbotInfo(filteredTipList[i].userid);
-          console.log('tipToUserInfo: ' + JSON.stringify(tipToUserInfo));
-          tippedUserIDs.push(tipToUserInfo);
+          console.log('tipToUserFound: ' + JSON.stringify(tipToUserInfo[0].user_found));
+          console.log('tipToUserOptOut: ' + JSON.stringify(tipToUserInfo[0].opt_out));
+          console.log('tipToUserAgree: ' + JSON.stringify(tipToUserInfo[0].user_agree));
+
+          console.log('tipToUserUserName: ' + JSON.stringify(tipToUserInfo[0].user_name));
+          console.log('tipToUserUserId: ' + JSON.stringify(tipToUserInfo[0].user_id));
+          console.log('tipToUserUserWalletPub: ' + JSON.stringify(tipToUserInfo[0].wallet_pub));
+          tippedUserInfo.push(tipToUserInfo);
         }
-        console.log('tippedUserIDs: ' + JSON.stringify(tippedUserIDs));
+        console.log('tippedUserIDs: ' + JSON.stringify(tippedUserInfo));
+
       }
       // get all tippedToUser info from the database
       userInfo();
