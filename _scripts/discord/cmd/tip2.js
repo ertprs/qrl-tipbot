@@ -264,11 +264,9 @@ module.exports = {
           // console.log('tipToUserOptOut: ' + tipToUserOptOut);
 
           if (tipToUserFound) {
-            // console.log('tipToUserFound: ' + tipToUserFound);
-            if (!tipToUserOptOut) {
+            if (tipToUserOptOut) {
               // user found and opted out. Don't send tip and give warning?
               // console.log('user found opted out');
-              console.log('tipToUserOptOut continue');
               continue;
             }
             else {
@@ -281,7 +279,6 @@ module.exports = {
               tippedUserWallets.push(tipToUserUserWalletPub);
               tippedUserInfo.push(tipToUserInfo);
               tippedUserTipAmt.push(givenTip);
-              console.log('else continue');
               continue;
             }
           }
