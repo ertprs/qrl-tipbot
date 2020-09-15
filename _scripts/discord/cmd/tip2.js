@@ -272,7 +272,7 @@ module.exports = {
             continue;
           }
 
-          if (tipToUserFound && !tipToUserOptOut) {
+          if (tipToUserFound && tipToUserOptOut) {
             // user found and opted out. Don't send tip and give warning?
             console.log('user found opted out');
             continue;
