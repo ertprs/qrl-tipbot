@@ -258,30 +258,30 @@ module.exports = {
           // check for user in the tipbot database and grab addresses etc. for them.
           const tipToUserInfo = await tipbotInfo(filteredTipList[i].userid);
           const tipToUserFound = tipToUserInfo[0].user_found;
-          console.log('tipToUserFound: ' + tipToUserFound);
+          // console.log('tipToUserFound: ' + tipToUserFound);
 
           const tipToUserOptOut = tipToUserInfo[0].opt_out;
-          console.log('tipToUserOptOut: ' + tipToUserOptOut);
+          // console.log('tipToUserOptOut: ' + tipToUserOptOut);
 
           if (tipToUserFound) {
-            console.log('tipToUserFound: ' + tipToUserFound);
+            // console.log('tipToUserFound: ' + tipToUserFound);
             if (tipToUserOptOut) {
               // user found and opted out. Don't send tip and give warning?
-              console.log('user found opted out');
-              console.log('continue');
+              // console.log('user found opted out');
+              console.log('tipToUserOptOut continue');
               continue;
             }
             else {
               // user found and not opted out, add to array and move on
               const tipToUserUserId = tipToUserInfo[0].user_id;
-              console.log('tipToUserUserId: ' + tipToUserUserId);
+              // console.log('tipToUserUserId: ' + tipToUserUserId);
               tippedUserIDs.push(tipToUserUserId);
               const tipToUserUserWalletPub = tipToUserInfo[0].wallet_pub;
-              console.log('tipToUserUserWalletPub: ' + tipToUserUserWalletPub);
+              // console.log('tipToUserUserWalletPub: ' + tipToUserUserWalletPub);
               tippedUserWallets.push(tipToUserUserWalletPub);
               tippedUserInfo.push(tipToUserInfo);
               tippedUserTipAmt.push(givenTip);
-              console.log('continue');
+              console.log('else continue');
               continue;
             }
           }
@@ -291,7 +291,7 @@ module.exports = {
             tippedUserWallets.push(config.wallet.hold_address);
             tippedUserTipAmt.push(givenTip);
             // add to database...
-            
+
           }
         }
 
