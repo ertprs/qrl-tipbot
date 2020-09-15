@@ -65,6 +65,48 @@ module.exports = {
       });
     }
 
+    // send the users data to future_tips for when they signup
+    async function futureTipsDBWrite(futureTipInfo) {
+      return new Promise(resolve => {
+        const usernNotFoundInfo = { service: 'discord', user_id: futureTipInfo.serviceid, user_name: futureTipInfo.serviceUserName, tip_from: futureTipInfo.userID, tip_amount: toQuanta(futureTipInfo.tipAmount) };
+        console.log('usernNotFoundInfo: ' + usernNotFoundInfo);
+        const usernNotFoundInfoWrite = dbHelper.addFutureTip(usernNotFoundInfo);
+        resolve(usernNotFoundInfoWrite);
+      });
+    }
+
+    async function tipDBWrite(tipInfo) {
+      // send the users data to future_tips for when they signup
+      return new Promise(resolve => {
+        const addToTipsDBinfo = { from_user_id: tipInfo.userID, to_users_id: tipInfo.stringUserIDs, tip_amount: toQuanta(tipInfo.tipAmount), from_service: 'discord', time_stamp: new Date() };
+        console.log('addToTipsDBinfo: ' + addToTipsDBinfo);
+        const addToTipsDBinfoWrite = dbHelper.addTip(addToTipsDBinfo);
+        resolve(addToTipsDBinfoWrite);
+      });
+    }
+
+
+    async function tipToDBWrite(tipToInfo) {
+      // send the users data to future_tips for when they signup
+      return new Promise(resolve => {
+        const addToTipsDBinfo = { from_user_id: tipToInfo.userID, to_users_id: tipToInfo.stringUserIDs, tip_amount: tipToInfo.tipAmountQuanta, from_service: 'discord', time_stamp: new Date() };
+        console.log('addToTipsDBinfo: ' + addToTipsDBinfo);
+        const addToTipsDBinfoWrite = dbHelper.addTipTo(addToTipsDBinfo);
+        resolve(addToTipsDBinfoWrite);
+      });
+    }
+
+
+    async function transactionDBWrite(transactionInfo) {
+      // send the transaction data once the tip is sent
+      return new Promise(resolve => {
+        const transInfo = { from_user_id: transactionInfo.userID, to_users_id: transactionInfo.stringUserIDs, tip_amount: toQuanta(transactionInfo.tipAmount), from_service: 'discord', time_stamp: new Date() };
+        console.log('transInfo: ' + transInfo);
+        const transInfoWrite = dbHelper.addTransaction(transInfo);
+        resolve(transInfoWrite);
+      });
+    }
+
 
     function tipAmount() {
       for (const arg of args) {
@@ -248,6 +290,8 @@ module.exports = {
       }
 
       async function userInfo() {
+        const futureTippedUserInfo = [];
+        const futureTippedUserIDs = [];
         const tippedUserInfo = [];
         const tippedUserWallets = [];
         const tippedUserTipAmt = [];
@@ -258,14 +302,15 @@ module.exports = {
           // check for user in the tipbot database and grab addresses etc. for them.
           const tipToUserInfo = await tipbotInfo(filteredTipList[i].userid);
           const tipToUserFound = tipToUserInfo[0].user_found;
-          // console.log('tipToUserFound: ' + tipToUserFound);
-
           const tipToUserOptOut = tipToUserInfo[0].opt_out;
-          // console.log('tipToUserOptOut: ' + tipToUserOptOut);
-
           if (tipToUserFound) {
             if (tipToUserOptOut) {
-              // user found and opted out. Don't send tip and give warning?
+              // user found and opted out. Add to the future_tips table and set the wallet address to the hold address...
+              futureTippedUserInfo.push(tipToUserInfo);
+              const futureTippedUserId = tipToUserInfo[0].user_id;
+              futureTippedUserIDs.push(futureTippedUserId);
+              tippedUserWallets.push(config.wallet.hold_address);
+              tippedUserTipAmt.push(givenTip);
               // console.log('user found opted out');
               continue;
             }
@@ -273,9 +318,12 @@ module.exports = {
               // user found and not opted out, add to array and move on
               const tipToUserUserId = tipToUserInfo[0].user_id;
               // console.log('tipToUserUserId: ' + tipToUserUserId);
-              tippedUserIDs.push(tipToUserUserId);
               const tipToUserUserWalletPub = tipToUserInfo[0].wallet_pub;
               // console.log('tipToUserUserWalletPub: ' + tipToUserUserWalletPub);
+              // add user to tip_to database
+
+              // push user data to arrays for tipping
+              tippedUserIDs.push(tipToUserUserId);
               tippedUserWallets.push(tipToUserUserWalletPub);
               tippedUserInfo.push(tipToUserInfo);
               tippedUserTipAmt.push(givenTip);
@@ -284,21 +332,66 @@ module.exports = {
           }
           else {
             // the user is not in the database yet, add to the future_tips table and set the wallet address to the hold address
-            tippedUserInfo.push(tipToUserInfo);
+            futureTippedUserInfo.push(tipToUserInfo);
             tippedUserWallets.push(config.wallet.hold_address);
             tippedUserTipAmt.push(givenTip);
             // add to database...
 
           }
         }
-
-
         // arrays are full, now send the transactions and set database.
 
         console.log('tippedUserInfo: ' + JSON.stringify(tippedUserInfo));
         console.log('tippedUserWallets: ' + JSON.stringify(tippedUserWallets));
         console.log('tippedUserTipAmt: ' + JSON.stringify(tippedUserTipAmt));
         console.log('tippedUserIDs: ' + JSON.stringify(tippedUserIDs));
+
+        // const tippedUserIDs = tippedUserInfo.map(function(id) {
+        //  return id.id;
+        // });
+        // const futureTippedUserIDs = tippedUserInfo.map(function(id) {
+        //  return id.id;
+        // });
+
+        // add users to the tips db and create a tip_id to track this tip through
+        const stringAllTippedUserIDs = filteredTipList.toString();
+        const addTipInfo = { from_user_id: userID, to_users_id: stringAllTippedUserIDs, tip_amount: givenTip };
+        const addTipResults = await tipDBWrite(addTipInfo);
+        console.log('addTipResults: ' + addTipResults);
+        const tip_id = addTipResults[0].tip_id;
+        // check for tx_id to be created... hack...
+        const check_tip_id = function() {
+          if(tip_id == undefined) {
+            // check again in a second
+            setTimeout(check_tip_id, 1000);
+          }
+        };
+        check_tip_id();
+        // add to the tips_to db
+
+
+        for(let i = 0, l = tippedUserInfo.length; i < l; i++) {
+          const addTipToInfo = { tip_id: tip_id, tip_amt: givenTip, user_id: tippedUserInfo[i].user_id };
+          const addTipToCall = await tipToDBWrite(addTipToInfo);
+          console.log('addTipToCall' + addTipToCall);
+        }
+
+
+        for(let i = 0, l = futureTippedUserInfo.length; i < l; i++) {
+          const addFutureTipToInfo = { user_id: futureTippedUserInfo[i].Service_ID, user_name: futureTippedUserInfo[i].service_user_name, tip_from: userID, tip_amount: givenTip };
+          const addFutureTipToCall = await futureTipsDBWrite(addFutureTipToInfo);
+          const future_tip_id = addFutureTipToCall[0].tip_id;
+          const addTipToInfo = { tip_id: tip_id, tip_amt: givenTip, user_id: tippedUserInfo[i].user_id, future_tip_id: future_tip_id };
+          const addTipToCall = await tipToDBWrite(addTipToInfo);
+          console.log('addFutureTipToCall' + addFutureTipToCall);
+          console.log('addTipToCall' + addTipToCall);
+        }
+
+        if(message.guild != null) {
+          message.delete();
+        }
+        message.channel.stopTyping(true);
+        ReplyMessage('Tipped ' + tippedUserIDs.concat(futureTippedUserIDs) + ' `' + toQuanta(givenTip) + '` QRL.\n*All tips are on-chain, and will take some time to process.*');
 
       }
       // get all tippedToUser info from the database
