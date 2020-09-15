@@ -248,7 +248,7 @@ module.exports = {
       }
 
       async function userInfo() {
-        const tippedUserIDs = [];
+        const tippedUserInfo = [];
         for(let i = 0, l = filteredTipList.length; i < l; i++) {
           // check for user in the tipbot database and grab addresses etc. for them.
           const tipToUserInfo = await tipbotInfo(filteredTipList[i].userid);
