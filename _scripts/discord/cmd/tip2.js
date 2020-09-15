@@ -265,7 +265,7 @@ module.exports = {
 
           if (tipToUserFound) {
             // console.log('tipToUserFound: ' + tipToUserFound);
-            if (tipToUserOptOut) {
+            if (!tipToUserOptOut) {
               // user found and opted out. Don't send tip and give warning?
               // console.log('user found opted out');
               console.log('tipToUserOptOut continue');
