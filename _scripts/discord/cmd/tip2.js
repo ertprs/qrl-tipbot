@@ -249,19 +249,55 @@ module.exports = {
 
       async function userInfo() {
         const tippedUserInfo = [];
+        const tippedUserWallets = [];
+        const tippedUserTipAmt = [];
+        const tippedUserIDs = [];
+
         for(let i = 0, l = filteredTipList.length; i < l; i++) {
           // check for user in the tipbot database and grab addresses etc. for them.
           const tipToUserInfo = await tipbotInfo(filteredTipList[i].userid);
-          console.log('tipToUserFound: ' + JSON.stringify(tipToUserInfo[0].user_found));
-          console.log('tipToUserOptOut: ' + JSON.stringify(tipToUserInfo[0].opt_out));
-          console.log('tipToUserAgree: ' + JSON.stringify(tipToUserInfo[0].user_agree));
+          const tipToUserFound = tipToUserInfo[0].user_found;
+          console.log('tipToUserFound: ' + tipToUserFound);
 
-          console.log('tipToUserUserName: ' + JSON.stringify(tipToUserInfo[0].user_name));
-          console.log('tipToUserUserId: ' + JSON.stringify(tipToUserInfo[0].user_id));
-          console.log('tipToUserUserWalletPub: ' + JSON.stringify(tipToUserInfo[0].wallet_pub));
+          const tipToUserOptOut = tipToUserInfo[0].opt_out;
+          console.log('tipToUserOptOut: ' + tipToUserOptOut);
+
+          if (!tipToUserFound) {
+            // the user is not in the database yet, add to the future_tips table and set the wallet address to the hold address
+            console.log('tipToUserFound: ' + tipToUserFound);
+            // push the users info to the tippeduserinfo array, even if not found
+            tippedUserInfo.push(tipToUserInfo);
+            tippedUserWallets.push(config.wallet.hold_address);
+            tippedUserTipAmt.push(givenTip);
+            continue;
+          }
+
+          if (tipToUserFound && !tipToUserOptOut) {
+            // user found and opted out. Don't send tip and give warning?
+            console.log('user found opted out');
+            continue;
+          }
+
+          const tipToUserUserId = tipToUserInfo[0].user_id;
+          console.log('tipToUserUserId: ' + tipToUserUserId);
+          tippedUserIDs.push(tipToUserUserId);
+
+          const tipToUserUserWalletPub = tipToUserInfo[0].wallet_pub;
+          console.log('tipToUserUserWalletPub: ' + tipToUserUserWalletPub);
+          tippedUserWallets.push(tipToUserUserWalletPub);
+
           tippedUserInfo.push(tipToUserInfo);
+          tippedUserTipAmt.push(givenTip);
+
         }
-        console.log('tippedUserIDs: ' + JSON.stringify(tippedUserInfo));
+
+
+        // arrays are full, now send the transactions and set database.
+
+        console.log('tippedUserInfo: ' + JSON.stringify(tippedUserInfo));
+        console.log('tippedUserWallets: ' + JSON.stringify(tippedUserWallets));
+        console.log('tippedUserTipAmt: ' + JSON.stringify(tippedUserTipAmt));
+        console.log('tippedUserIDs: ' + JSON.stringify(tippedUserIDs));
 
       }
       // get all tippedToUser info from the database
