@@ -262,7 +262,7 @@ module.exports = {
           const tipToUserOptOut = tipToUserInfo[0].opt_out;
           console.log('tipToUserOptOut: ' + tipToUserOptOut);
 
-          if (!tipToUserFound) {
+          if (tipToUserFound) {
             // the user is not in the database yet, add to the future_tips table and set the wallet address to the hold address
             console.log('tipToUserFound: ' + tipToUserFound);
             // push the users info to the tippeduserinfo array, even if not found
