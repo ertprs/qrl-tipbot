@@ -254,6 +254,7 @@ module.exports = {
         const tippedUserIDs = [];
 
         for(let i = 0, l = filteredTipList.length; i < l; i++) {
+          console.log('for');
           // check for user in the tipbot database and grab addresses etc. for them.
           const tipToUserInfo = await tipbotInfo(filteredTipList[i].userid);
           const tipToUserFound = tipToUserInfo[0].user_found;
@@ -263,30 +264,35 @@ module.exports = {
           console.log('tipToUserOptOut: ' + tipToUserOptOut);
 
           if (tipToUserFound) {
-            // the user is not in the database yet, add to the future_tips table and set the wallet address to the hold address
             console.log('tipToUserFound: ' + tipToUserFound);
-            // push the users info to the tippeduserinfo array, even if not found
+            if (tipToUserOptOut) {
+              // user found and opted out. Don't send tip and give warning?
+              console.log('user found opted out');
+              console.log('continue');
+              continue;
+            }
+            else {
+              // user found and not opted out, add to array and move on
+              const tipToUserUserId = tipToUserInfo[0].user_id;
+              console.log('tipToUserUserId: ' + tipToUserUserId);
+              tippedUserIDs.push(tipToUserUserId);
+              const tipToUserUserWalletPub = tipToUserInfo[0].wallet_pub;
+              console.log('tipToUserUserWalletPub: ' + tipToUserUserWalletPub);
+              tippedUserWallets.push(tipToUserUserWalletPub);
+              tippedUserInfo.push(tipToUserInfo);
+              tippedUserTipAmt.push(givenTip);
+              console.log('continue');
+              continue;
+            }
+          }
+          else {
+            // the user is not in the database yet, add to the future_tips table and set the wallet address to the hold address
             tippedUserInfo.push(tipToUserInfo);
             tippedUserWallets.push(config.wallet.hold_address);
             tippedUserTipAmt.push(givenTip);
-            continue;
+            // add to database...
+            
           }
-          if (tipToUserFound && tipToUserOptOut) {
-            // user found and opted out. Don't send tip and give warning?
-            console.log('user found opted out');
-            continue;
-          }
-          const tipToUserUserId = tipToUserInfo[0].user_id;
-          console.log('tipToUserUserId: ' + tipToUserUserId);
-          tippedUserIDs.push(tipToUserUserId);
-
-          const tipToUserUserWalletPub = tipToUserInfo[0].wallet_pub;
-          console.log('tipToUserUserWalletPub: ' + tipToUserUserWalletPub);
-          tippedUserWallets.push(tipToUserUserWalletPub);
-
-          tippedUserInfo.push(tipToUserInfo);
-          tippedUserTipAmt.push(givenTip);
-
         }
 
 
