@@ -269,15 +269,13 @@ module.exports = {
             tippedUserInfo.push(tipToUserInfo);
             tippedUserWallets.push(config.wallet.hold_address);
             tippedUserTipAmt.push(givenTip);
-            return;
+            continue;
           }
-
           if (tipToUserFound && tipToUserOptOut) {
             // user found and opted out. Don't send tip and give warning?
             console.log('user found opted out');
             continue;
           }
-
           const tipToUserUserId = tipToUserInfo[0].user_id;
           console.log('tipToUserUserId: ' + tipToUserUserId);
           tippedUserIDs.push(tipToUserUserId);
