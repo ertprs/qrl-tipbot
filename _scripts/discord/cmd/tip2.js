@@ -68,20 +68,22 @@ module.exports = {
     // send the users data to future_tips for when they signup
     async function futureTipsDBWrite(futureTipInfo) {
       return new Promise(resolve => {
-        const usernNotFoundInfo = { service: 'discord', user_id: futureTipInfo.serviceid, user_name: futureTipInfo.serviceUserName, tip_from: futureTipInfo.userID, tip_amount: toQuanta(futureTipInfo.tipAmount) };
-        console.log('usernNotFoundInfo: ' + usernNotFoundInfo);
-        const usernNotFoundInfoWrite = dbHelper.addFutureTip(usernNotFoundInfo);
-        resolve(usernNotFoundInfoWrite);
+        console.log('futureTipInfo' + JSON.stringify(futureTipInfo));
+        const infoToSubmit = { service: 'discord', user_id: futureTipInfo.serviceid, user_name: futureTipInfo.serviceUserName, tip_from: futureTipInfo.userID, tip_amount: toQuanta(futureTipInfo.tipAmount) };
+        console.log('infoToSubmit: ' + infoToSubmit);
+        // const usernNotFoundInfoWrite = dbHelper.addFutureTip(usernNotFoundInfo);
+        // resolve(usernNotFoundInfoWrite);
       });
     }
 
     async function tipDBWrite(tipInfo) {
       // send the users data to future_tips for when they signup
       return new Promise(resolve => {
+        console.log('tipInfo' + JSON.stringify(tipInfo));
         const addToTipsDBinfo = { from_user_id: tipInfo.userID, to_users_id: tipInfo.stringUserIDs, tip_amount: toQuanta(tipInfo.tipAmount), from_service: 'discord', time_stamp: new Date() };
-        console.log('addToTipsDBinfo: ' + addToTipsDBinfo);
-        const addToTipsDBinfoWrite = dbHelper.addTip(addToTipsDBinfo);
-        resolve(addToTipsDBinfoWrite);
+        console.log('addToTipsDBinfo: ' + JSON.stringify(addToTipsDBinfo));
+        // const addToTipsDBinfoWrite = dbHelper.addTip(addToTipsDBinfo);
+        // resolve(addToTipsDBinfoWrite);
       });
     }
 
@@ -89,10 +91,11 @@ module.exports = {
     async function tipToDBWrite(tipToInfo) {
       // send the users data to future_tips for when they signup
       return new Promise(resolve => {
-        const addToTipsDBinfo = { from_user_id: tipToInfo.userID, to_users_id: tipToInfo.stringUserIDs, tip_amount: tipToInfo.tipAmountQuanta, from_service: 'discord', time_stamp: new Date() };
-        console.log('addToTipsDBinfo: ' + addToTipsDBinfo);
-        const addToTipsDBinfoWrite = dbHelper.addTipTo(addToTipsDBinfo);
-        resolve(addToTipsDBinfoWrite);
+        console.log('tipToInfo' + JSON.stringify(tipToInfo));
+        const addToTipsToDBinfo = { from_user_id: tipToInfo.userID, to_users_id: tipToInfo.stringUserIDs, tip_amount: tipToInfo.tipAmountQuanta, from_service: 'discord', time_stamp: new Date() };
+        console.log('addToTipsDBinfo: ' + addToTipsToDBinfo);
+        // const addToTipsDBinfoWrite = dbHelper.addTipTo(addToTipsDBinfo);
+        // resolve(addToTipsDBinfoWrite);
       });
     }
 
@@ -100,10 +103,11 @@ module.exports = {
     async function transactionDBWrite(transactionInfo) {
       // send the transaction data once the tip is sent
       return new Promise(resolve => {
+        console.log('transactionInfo' + JSON.stringify(transactionInfo));
         const transInfo = { from_user_id: transactionInfo.userID, to_users_id: transactionInfo.stringUserIDs, tip_amount: toQuanta(transactionInfo.tipAmount), from_service: 'discord', time_stamp: new Date() };
         console.log('transInfo: ' + transInfo);
-        const transInfoWrite = dbHelper.addTransaction(transInfo);
-        resolve(transInfoWrite);
+        // const transInfoWrite = dbHelper.addTransaction(transInfo);
+        // resolve(transInfoWrite);
       });
     }
 
