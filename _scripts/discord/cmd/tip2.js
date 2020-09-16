@@ -230,7 +230,7 @@ module.exports = {
         if (bot) {
         // don't do anything for the bot.. silly bot
         // console.log('bot mentioned, doing nothing');
-          return;
+          //return;
         }
         if (userid === userID) {
         // user mentioned self, do not count and move on
@@ -344,21 +344,20 @@ module.exports = {
           }
         }
         // arrays are full, now send the transactions and set database.
-
+        console.log('futureTippedUserInfo: ' + JSON.stringify(futureTippedUserInfo));
+        console.log('futureTippedUserIDs: ' + JSON.stringify(futureTippedUserIDs));
         console.log('tippedUserInfo: ' + JSON.stringify(tippedUserInfo));
         console.log('tippedUserWallets: ' + JSON.stringify(tippedUserWallets));
         console.log('tippedUserTipAmt: ' + JSON.stringify(tippedUserTipAmt));
         console.log('tippedUserIDs: ' + JSON.stringify(tippedUserIDs));
 
-        // const tippedUserIDs = tippedUserInfo.map(function(id) {
-        //  return id.id;
-        // });
-        // const futureTippedUserIDs = tippedUserInfo.map(function(id) {
-        //  return id.id;
-        // });
+        const tipToUsers = tippedUserIDs.join(futureTippedUserIDs);
+        console.log('tipToUsers: ' + JSON.stringify(tipToUsers));
 
         // add users to the tips db and create a tip_id to track this tip through
         const stringAllTippedUserIDs = filteredTipList.toString();
+
+
         const addTipInfo = { from_user_id: userID, to_users_id: stringAllTippedUserIDs, tip_amount: givenTip };
         const addTipResults = await tipDBWrite(addTipInfo);
         console.log('addTipResults: ' + addTipResults);
