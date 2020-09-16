@@ -80,7 +80,7 @@ module.exports = {
       // send the users data to future_tips for when they signup
       return new Promise(resolve => {
         console.log('tipInfo' + JSON.stringify(tipInfo));
-        const addToTipsDBinfo = { from_user_id: tipInfo.userID, to_users_id: tipInfo.stringUserIDs, tip_amount: toQuanta(tipInfo.tipAmount), from_service: 'discord', time_stamp: new Date() };
+        const addToTipsDBinfo = { from_user_id: tipInfo.from_user_id, to_users_id: tipInfo.to_users_id, tip_amount: toQuanta(tipInfo.tip_amount), from_service: 'discord', time_stamp: new Date() };
         console.log('addToTipsDBinfo: ' + JSON.stringify(addToTipsDBinfo));
         // const addToTipsDBinfoWrite = dbHelper.addTip(addToTipsDBinfo);
         // resolve(addToTipsDBinfoWrite);
@@ -306,7 +306,6 @@ module.exports = {
           console.log('for');
           // check for user in the tipbot database and grab addresses etc. for them.
           const tipToUserInfo = await tipbotInfo(filteredTipList[i].userid);
-          console.log('\n\nINFO: ' + JSON.stringify(tipToUserInfo));
           const tipToUserFound = tipToUserInfo[0].user_found;
           const tipToUserOptOut = tipToUserInfo[0].opt_out;
           if (tipToUserFound) {
@@ -328,8 +327,6 @@ module.exports = {
 
               const tipToUserUserWalletPub = tipToUserInfo[0].wallet_pub;
               // console.log('tipToUserUserWalletPub: ' + tipToUserUserWalletPub);
-              // add user to tip_to database
-
               // push user data to arrays for tipping
               tippedUserIDs.push(tipToUserUserId);
               tippedUserServiceIDs.push(tippedUserServiceID);
@@ -360,12 +357,10 @@ module.exports = {
         console.log('tippedUserServiceIDs: ' + JSON.stringify(tippedUserServiceIDs));
 
         const tipToUsers = tippedUserServiceIDs.concat(futureTippedUserIDs);
-        console.log('tipToUsers: ' + JSON.stringify(tipToUsers));
+        // console.log('tipToUsers: ' + JSON.stringify(tipToUsers));
 
         // add users to the tips db and create a tip_id to track this tip through
         const stringAllTippedUserIDs = tipToUsers.toString();
-
-
         const addTipInfo = { from_user_id: userID, to_users_id: stringAllTippedUserIDs, tip_amount: givenTip };
         const addTipResults = await tipDBWrite(addTipInfo);
         console.log('addTipResults: ' + addTipResults);
