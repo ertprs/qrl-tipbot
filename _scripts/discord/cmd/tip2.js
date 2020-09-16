@@ -358,7 +358,7 @@ module.exports = {
         console.log('tippedUserIDs: ' + JSON.stringify(tippedUserIDs));
         console.log('tippedUserServiceIDs: ' + JSON.stringify(tippedUserServiceIDs));
 
-        const tipToUsers = tippedUserServiceIDs.join(futureTippedUserIDs);
+        const tipToUsers = tippedUserServiceIDs.concat(futureTippedUserIDs);
         console.log('tipToUsers: ' + JSON.stringify(tipToUsers));
 
         // add users to the tips db and create a tip_id to track this tip through
