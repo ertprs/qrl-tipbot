@@ -363,7 +363,7 @@ module.exports = {
         console.log('tipToUsers: ' + JSON.stringify(tipToUsers));
 
         // add users to the tips db and create a tip_id to track this tip through
-        const stringAllTippedUserIDs = filteredTipList.toString();
+        const stringAllTippedUserIDs = tipToUsers.toString();
 
 
         const addTipInfo = { from_user_id: userID, to_users_id: stringAllTippedUserIDs, tip_amount: givenTip };
