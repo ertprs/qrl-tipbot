@@ -93,9 +93,9 @@ module.exports = {
       return new Promise(resolve => {
         console.log('tipToInfo' + JSON.stringify(tipToInfo));
         const addToTipsToDBinfo = { from_user_id: tipToInfo.from_user_id, to_users_id: tipToInfo.to_users_id, tip_amount: tipToInfo.tip_amount, from_service: 'discord', time_stamp: new Date() };
-        console.log('addToTipsDBinfo: ' + addToTipsToDBinfo);
-        // const addToTipsDBinfoWrite = dbHelper.addTipTo(addToTipsDBinfo);
-        // resolve(addToTipsDBinfoWrite);
+        console.log('addToTipsDBinfo: ' + JSON.stringify(addToTipsToDBinfo));
+        const addToTipsDBinfoWrite = dbHelper.addTipTo(addToTipsDBinfo);
+        resolve(addToTipsDBinfoWrite);
       });
     }
 
@@ -363,7 +363,7 @@ module.exports = {
         const stringAllTippedUserIDs = tipToUsers.toString();
         const addTipInfo = { from_user_id: userID, tip_amount: givenTip };
         const addTipResults = await tipDBWrite(addTipInfo);
-        console.log('addTipResults: ' + addTipResults);
+        console.log('addTipResults: ' + JSON.stringify(addTipResults));
         const tip_id = addTipResults[0].tip_id;
         // check for tx_id to be created... hack...
         const check_tip_id = function() {
