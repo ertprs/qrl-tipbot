@@ -313,7 +313,7 @@ module.exports = {
             if (tipToUserOptOut) {
               // user found and opted out. Add to the future_tips table and set the wallet address to the hold address...
               futureTippedUserInfo.push(tipToUserInfo);
-              const futureTippedUserId = tipToUserInfo[0].userid;
+              const futureTippedUserId = filteredTipList[i].userid;
               futureTippedUserIDs.push(futureTippedUserId);
               tippedUserWallets.push(config.wallet.hold_address);
               tippedUserTipAmt.push(givenTip);
@@ -324,7 +324,7 @@ module.exports = {
               // user found and not opted out, add to array and move on
               const tipToUserUserId = tipToUserInfo[0].user_id;
               // console.log('tipToUserUserId: ' + tipToUserUserId);
-              const tippedUserServiceID = tipToUserInfo[0].userid;
+              const tippedUserServiceID = filteredTipList[i].userid;
 
               const tipToUserUserWalletPub = tipToUserInfo[0].wallet_pub;
               // console.log('tipToUserUserWalletPub: ' + tipToUserUserWalletPub);
