@@ -80,10 +80,10 @@ module.exports = {
       // send the users data to future_tips for when they signup
       return new Promise(resolve => {
         console.log('tipInfo' + JSON.stringify(tipInfo));
-        const addToTipsDBinfo = { from_user_id: tipInfo.from_user_id, to_users_id: tipInfo.to_users_id, tip_amount: toQuanta(tipInfo.tip_amount), from_service: 'discord', time_stamp: new Date() };
+        const addToTipsDBinfo = { from_user_id: tipInfo.from_user_id, tip_amount: toQuanta(tipInfo.tip_amount), from_service: 'discord', time_stamp: new Date() };
         console.log('addToTipsDBinfo: ' + JSON.stringify(addToTipsDBinfo));
-        // const addToTipsDBinfoWrite = dbHelper.addTip(addToTipsDBinfo);
-        // resolve(addToTipsDBinfoWrite);
+        const addToTipsDBinfoWrite = dbHelper.addTip(addToTipsDBinfo);
+        resolve(addToTipsDBinfoWrite);
       });
     }
 
@@ -361,7 +361,7 @@ module.exports = {
 
         // add users to the tips db and create a tip_id to track this tip through
         const stringAllTippedUserIDs = tipToUsers.toString();
-        const addTipInfo = { from_user_id: userID, to_users_id: stringAllTippedUserIDs, tip_amount: givenTip };
+        const addTipInfo = { from_user_id: userID, tip_amount: givenTip };
         const addTipResults = await tipDBWrite(addTipInfo);
         console.log('addTipResults: ' + addTipResults);
         const tip_id = addTipResults[0].tip_id;

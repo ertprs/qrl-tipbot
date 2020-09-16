@@ -61,7 +61,6 @@ Store details from the tip transaction
 - **id** *primary_key* is created at entry time 
 - **tans_id** from `transactions.id` table.field to tip and transaction
 - **from_user_id** the `users.id` that initiated the tip
-- **to_users_id** list of users to tip
 - **tip_amount** ammount to tip
 - **from_service** the service that was used to tip from
 - **time_stamp** is created at entry time `NOW()`  
