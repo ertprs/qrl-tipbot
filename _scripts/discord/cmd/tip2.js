@@ -306,8 +306,9 @@ module.exports = {
           // console.log('for');
           // check for user in the tipbot database and grab addresses etc. for them.
 console.log('i: ' + i)
+console.log('l: ' + l)
           const tipToUserInfo = await tipbotInfo(filteredTipList[i].userid);
-          console.log('tipToUserInfo: ' + JSON.stringify(tipToUserInfo))
+          console.log('for 311 - tipToUserInfo: ' + JSON.stringify(tipToUserInfo))
           const tipToUserFound = tipToUserInfo[i].user_found;
           const tipToUserOptOut = tipToUserInfo[i].opt_out;
           if (tipToUserFound) {
