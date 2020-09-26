@@ -92,7 +92,7 @@ module.exports = {
       // send the users data to future_tips for when they signup
       return new Promise(resolve => {
         console.log('tipToDBWrite tipToInfo' + JSON.stringify(tipToInfo));
-        const addToTipsToDBinfo = { from_user_id: userID, user_id: tipToInfo.user_id, tip_amt: tipToInfo.tip_amount, future_tip_id: tipToInfo.future_tip_id, time_stamp: new Date() };
+        const addToTipsToDBinfo = { from_user_id: userID, user_id: tipToInfo.user_id, tip_amt: tipToInfo.tip_amt, future_tip_id: tipToInfo.future_tip_id, time_stamp: new Date() };
         console.log('tipToDBWrite addToTipsToDBinfo: ' + JSON.stringify(addToTipsToDBinfo));
         const addToTipsToDBinfoWrite = dbHelper.addTipTo(addToTipsToDBinfo);
         resolve(addToTipsToDBinfoWrite);
