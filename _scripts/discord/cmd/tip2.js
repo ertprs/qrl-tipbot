@@ -70,7 +70,7 @@ module.exports = {
       return new Promise(resolve => {
         console.log('futureTipsDBWrite futureTipInfo' + JSON.stringify(futureTipInfo));
         const infoToSubmit = { service: 'discord', user_id: futureTipInfo.user_id, user_name: futureTipInfo.user_name, tip_from: futureTipInfo.tip_from, tip_amount: toQuanta(futureTipInfo.tip_amount) };
-        console.log('futureTipsDBWrite infoToSubmit: ' + infoToSubmit);
+        console.log('futureTipsDBWrite infoToSubmit: ' + JSON.stringify(infoToSubmit));
         // const usernNotFoundInfoWrite = dbHelper.addFutureTip(usernNotFoundInfo);
         // resolve(usernNotFoundInfoWrite);
       });
