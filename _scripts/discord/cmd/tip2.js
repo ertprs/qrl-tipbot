@@ -378,7 +378,7 @@ module.exports = {
 
         for(let i = 0, l = tippedUserInfo.length; i < l; i++) {
           const addTipToInfo = { tip_id: tip_id, tip_amt: givenTip, user_id: tippedUserInfo[i].user_id };
-          console.log('early addTipToInfo' + addTipToInfo);
+          console.log('early addTipToInfo' + JSON.stringify(addTipToInfo));
           const addTipToCall = await tipToDBWrite(addTipToInfo);
           console.log('addTipToCall' + addTipToCall);
         }
