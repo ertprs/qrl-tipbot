@@ -305,9 +305,10 @@ module.exports = {
         for(let i = 0, l = filteredTipList.length; i < l; i++) {
           // console.log('for');
           // check for user in the tipbot database and grab addresses etc. for them.
+
           const tipToUserInfo = await tipbotInfo(filteredTipList[i].userid);
-          const tipToUserFound = tipToUserInfo[0].user_found;
-          const tipToUserOptOut = tipToUserInfo[0].opt_out;
+          const tipToUserFound = tipToUserInfo[i].user_found;
+          const tipToUserOptOut = tipToUserInfo[i].opt_out;
           if (tipToUserFound) {
             if (tipToUserOptOut) {
               // user found and opted out. Add to the future_tips table and set the wallet address to the hold address...
@@ -321,11 +322,11 @@ module.exports = {
             }
             else {
               // user found and not opted out, add to array and move on
-              const tipToUserUserId = tipToUserInfo[0].user_id;
+              const tipToUserUserId = tipToUserInfo[i].user_id;
               // console.log('tipToUserUserId: ' + tipToUserUserId);
               const tippedUserServiceID = filteredTipList[i].userid;
 
-              const tipToUserUserWalletPub = tipToUserInfo[0].wallet_pub;
+              const tipToUserUserWalletPub = tipToUserInfo[i].wallet_pub;
               // console.log('tipToUserUserWalletPub: ' + tipToUserUserWalletPub);
               // push user data to arrays for tipping
               tippedUserIDs.push(tipToUserUserId);
@@ -339,7 +340,7 @@ module.exports = {
           else {
             // the user is not in the database yet, add to the future_tips table and set the wallet address to the hold address
             futureTippedUserInfo.push(tipToUserInfo);
-            const futureTippedUserId = tipToUserInfo[0].userid;
+            const futureTippedUserId = tipToUserInfo[i].userid;
             futureTippedUserIDs.push(futureTippedUserId);
             tippedUserWallets.push(config.wallet.hold_address);
             tippedUserTipAmt.push(givenTip);
