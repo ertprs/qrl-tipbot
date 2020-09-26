@@ -309,8 +309,8 @@ console.log('i: ' + i)
 console.log('l: ' + l)
           const tipToUserInfo = await tipbotInfo(filteredTipList[i].userid);
           console.log('for 311 - tipToUserInfo: ' + JSON.stringify(tipToUserInfo))
-          const tipToUserFound = tipToUserInfo[i].user_found;
-          const tipToUserOptOut = tipToUserInfo[i].opt_out;
+          const tipToUserFound = tipToUserInfo[0].user_found;
+          const tipToUserOptOut = tipToUserInfo[0].opt_out;
           if (tipToUserFound) {
             if (tipToUserOptOut) {
               // user found and opted out. Add to the future_tips table and set the wallet address to the hold address...
@@ -324,11 +324,11 @@ console.log('l: ' + l)
             }
             else {
               // user found and not opted out, add to array and move on
-              const tipToUserUserId = tipToUserInfo[i].user_id;
+              const tipToUserUserId = tipToUserInfo[0].user_id;
               // console.log('tipToUserUserId: ' + tipToUserUserId);
               const tippedUserServiceID = filteredTipList[i].userid;
 
-              const tipToUserUserWalletPub = tipToUserInfo[i].wallet_pub;
+              const tipToUserUserWalletPub = tipToUserInfo[0].wallet_pub;
               // console.log('tipToUserUserWalletPub: ' + tipToUserUserWalletPub);
               // push user data to arrays for tipping
               tippedUserIDs.push(tipToUserUserId);
@@ -342,7 +342,7 @@ console.log('l: ' + l)
           else {
             // the user is not in the database yet, add to the future_tips table and set the wallet address to the hold address
             futureTippedUserInfo.push(tipToUserInfo);
-            const futureTippedUserId = tipToUserInfo[i].userid;
+            const futureTippedUserId = tipToUserInfo[0].userid;
             futureTippedUserIDs.push(futureTippedUserId);
             tippedUserWallets.push(config.wallet.hold_address);
             tippedUserTipAmt.push(givenTip);
