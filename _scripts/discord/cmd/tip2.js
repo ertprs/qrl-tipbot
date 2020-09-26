@@ -388,6 +388,7 @@ module.exports = {
           const addFutureTipToCall = await futureTipsDBWrite(addFutureTipToInfo);
           const future_tip_id = addFutureTipToCall[0].tip_id;
           const addTipToInfo = { tip_id: tip_id, tip_amt: givenTip, user_id: futureTippedUserInfo[i].Service_ID, future_tip_id: future_tip_id };
+          console.log('Early addTipToInfo: ' + addTipToInfo);
           const addTipToCall = await tipToDBWrite(addTipToInfo);
           console.log('addFutureTipToCall' + addFutureTipToCall);
           console.log('addTipToCall' + addTipToCall);
