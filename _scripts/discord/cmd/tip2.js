@@ -312,7 +312,7 @@ module.exports = {
           const tipToUserFound = tipToUserInfo[0].user_found;
           const tipToUserOptOut = tipToUserInfo[0].opt_out;
           if (tipToUserFound) {
-            if (tipToUserOptOut) {
+            if (tipToUserOptOut == "true") {
               // user found and opted out. Add to the future_tips table and set the wallet address to the hold address...
               console.log('if tipToUserOptOut: ' + JSON.stringify(filteredTipList[i]));
               futureTippedUserInfo.push(tipToUserInfo);
@@ -389,7 +389,7 @@ module.exports = {
           const addTipToInfo = { tip_id: tip_id, tip_amt: givenTip, user_id: tippedUserInfo[0][i].user_id };
           console.log('early addTipToInfo: ' + JSON.stringify(addTipToInfo));
           const addTipToCall = await tipToDBWrite(addTipToInfo);
-          console.log('addTipToCall: ' + addTipToCall);
+          console.log('addTipToCall: ' + JSON.stringify(addTipToCall));
         }
 
 
