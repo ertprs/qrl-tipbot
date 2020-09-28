@@ -407,8 +407,12 @@ module.exports = {
           message.delete();
         }
         message.channel.stopTyping(true);
-
-        ReplyMessage('Tipped ' + tippedUserIDs + ', ' + futureTippedUserIDs + ' `' + toQuanta(givenTip) + '` QRL.\n*All tips are on-chain, and will take some time to process.*');
+        if (tipUserCount > 1) {
+          ReplyMessage('you tipped ' + tippedUserIDs + ',' + futureTippedUserIDs + ' `' + toQuanta(givenTip) + 'QRL` each.\n*All tips are on-chain, and will take some time to process.*');
+        }
+        else  {
+          ReplyMessage('you tipped ' + tippedUserIDs + ',' + futureTippedUserIDs + ' `' + toQuanta(givenTip) + 'QRL`.\n*All tips are on-chain, and will take some time to process.*');
+        }
         console.log('futureTippedUserIDs: ' + JSON.stringify(futureTippedUserIDs));
         console.log('tippedUserIDs: ' + JSON.stringify(tippedUserIDs));
         
