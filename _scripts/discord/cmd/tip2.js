@@ -238,7 +238,7 @@ module.exports = {
         if (bot) {
         // don't do anything for the bot.. silly bot
         // console.log('bot mentioned, doing nothing');
-          return;
+          //return;
         }
         if (userid === userID) {
         // user mentioned self, do not count and move on
@@ -404,14 +404,14 @@ module.exports = {
         message.channel.stopTyping(true);
 
         ReplyMessage('Tipped ' + tippedUserIDs + futureTippedUserIDs + ' `' + toQuanta(givenTip) + '` QRL.\n*All tips are on-chain, and will take some time to process.*');
-        console.log('FinalInfo: ' + JSON.stringify(FinalInfo));
+        console.log('\n\nFinalInfo: ' + JSON.stringify(FinalInfo));
         console.log('futureTippedUserInfo: ' + JSON.stringify(futureTippedUserInfo));
-        // console.log('futureTippedUserIDs: ' + JSON.stringify(futureTippedUserIDs));
+        console.log('futureTippedUserIDs: ' + JSON.stringify(futureTippedUserIDs));
         console.log('tippedUserInfo: ' + JSON.stringify(tippedUserInfo));
+        console.log('tippedUserIDs: ' + JSON.stringify(tippedUserIDs));
       });
       // console.log('tippedUserWallets: ' + JSON.stringify(tippedUserWallets));
       // console.log('tippedUserTipAmt: ' + JSON.stringify(tippedUserTipAmt));
-      // console.log('tippedUserIDs: ' + JSON.stringify(tippedUserIDs));
       // console.log('tippedUserServiceIDs: ' + JSON.stringify(tippedUserServiceIDs));
 
     // console.log('final tipListJSON: ' + JSON.stringify(tipListJSON));
