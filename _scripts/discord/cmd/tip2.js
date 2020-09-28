@@ -353,7 +353,7 @@ module.exports = {
             console.log('futureTippedUser: ' + JSON.stringify(filteredTipList[i]))
             console.log('tipToUserInfo: ' + JSON.stringify(tipToUserInfo))
 
-            futureTippedUserInfo.push(tipToUserInfo);
+            futureTippedUserInfo.push(tipToUserInfo, filteredTipList[i]);
             const futureTippedUserId = tipToUserInfo[0].userid;
             futureTippedUserIDs.push(futureTippedUserId);
             tippedUserWallets.push(config.wallet.hold_address);
