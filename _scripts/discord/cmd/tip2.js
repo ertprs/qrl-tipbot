@@ -313,7 +313,8 @@ module.exports = {
           console.log('tipToUserFound: ' + JSON.stringify(tipToUserFound))
           const tipToUserOptOut = tipToUserInfo[0].opt_out;
           console.log('tipToUserOptOut: ' + JSON.stringify(tipToUserOptOut))
-          if (tipToUserFound === "false") {
+          if (tipToUserFound) {
+
             if (tipToUserOptOut === "1") {
               // user found and opted out. Add to the future_tips table and set the wallet address to the hold address...
               console.log('if tipToUserOptOut: ' + JSON.stringify(filteredTipList[i]));
@@ -327,7 +328,7 @@ module.exports = {
             }
             else {
               // user found and not opted out, add to array and move on
-              console.log('else found: ' + JSON.stringify(filteredTipList[i]));
+              console.log('else found not opt out: ' + JSON.stringify(filteredTipList[i]));
               const tipToUserUserId = tipToUserInfo[0].user_id;
               // console.log('tipToUserUserId: ' + tipToUserUserId);
               const tippedUserServiceID = filteredTipList[i].userid;
@@ -345,7 +346,7 @@ module.exports = {
           }
           else {
             // the user is not in the database yet, add to the future_tips table and set the wallet address to the hold address
-            console.log('else filteredTipList[0]: ' + JSON.stringify(filteredTipList[i]));
+            console.log('else not found filteredTipList[0]: ' + JSON.stringify(filteredTipList[i]));
             futureTippedUserInfo.push(tipToUserInfo);
             const futureTippedUserId = tipToUserInfo[0].userid;
             futureTippedUserIDs.push(futureTippedUserId);
