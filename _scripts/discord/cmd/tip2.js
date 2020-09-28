@@ -188,9 +188,9 @@ module.exports = {
       const tippingUserUser_agree = JSON.stringify(tipingUserInfo[0].user_agree);
       const tippingUserOpt_Out = JSON.stringify(tipingUserInfo[0].opt_out);
       // log the output for debug
-      // console.log('tippingUserUser_Found: ' + tippingUserUser_Found);
-      // console.log('tippingUserUser_agree: ' + tippingUserUser_agree);
-      // console.log('tippingUserOpt_Out: ' + tippingUserOpt_Out);
+      console.log('tippingUserUser_Found: ' + tippingUserUser_Found);
+      console.log('tippingUserUser_agree: ' + tippingUserUser_agree);
+      console.log('tippingUserOpt_Out: ' + tippingUserOpt_Out);
       // check for tipping user in the system
       if (!tippingUserUser_Found) {
         console.log('User not found. Fail and warn');
@@ -214,8 +214,11 @@ module.exports = {
       const tippingUserWallet_Pub = JSON.stringify(tipingUserInfo[0].wallet_pub);
       console.log('tippingUserWallet_Pub: ' + tippingUserWallet_Pub);
       const tippingUserWallet_Bal = toShor(JSON.stringify(tipingUserInfo[0].wallet_bal));
+      console.log('tippingUserWallet_Bal: ' + tippingUserWallet_Bal);
       const tippingUserUser_Id = JSON.stringify(tipingUserInfo[0].user_id);
+      console.log('tippingUserUser_Id: ' + tippingUserUser_Id);
       const tippingUserUser_Name = JSON.stringify(tipingUserInfo[0].user_name);
+      console.log('tippingUserUser_Name: ' + tippingUserUser_Name);
 
       // check balance to tip amount
       if (tippingUserWallet_Bal <= 0) {
