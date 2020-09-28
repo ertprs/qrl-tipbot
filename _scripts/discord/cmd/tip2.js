@@ -238,7 +238,7 @@ module.exports = {
         if (bot) {
         // don't do anything for the bot.. silly bot
         // console.log('bot mentioned, doing nothing');
-          // return;
+          return;
         }
         if (userid === userID) {
         // user mentioned self, do not count and move on
@@ -251,11 +251,13 @@ module.exports = {
         const details = { userName: output, service_user_ID: service_user_ID, userid: userid, bot: bot, discriminator: discriminator, avatar: avatar, lastMessageID: lastMessageID, lastMessageChannelID: lastMessageChannelID, verified: verified, mfaEnabled: mfaEnabled };
         return details;
       });
-      // remove any null or empty array contents
+
+      // remove any null or empty contents
       const filteredTipList = tipList.filter(function(el) {
         return el != null;
       });
       console.log('filteredTipList: ' + JSON.stringify(filteredTipList));
+
       // get the bots into array
       const botList = message.mentions.users.map(user => {
         const userName = user.username;
