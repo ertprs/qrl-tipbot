@@ -426,7 +426,7 @@ module.exports = {
 //  const add_tip_to_info = { tip_id: tip_id, tip_amt: tipAmountQuanta, user_id: user_id, future_tip_id: future_tip_id };
 //  add_tip_to(add_tip_to_info);
 
-          const addTipToInfo = { tip_id: tip_id, tip_amt: givenTip, user_id: futureTippedUserInfo[i].service_user_ID, future_tip_id: future_tip_id };
+          const addTipToInfo = { tip_id: tip_id, tip_amt: givenTip, user_id: tippingUserUser_Id, future_tip_id: future_tip_id };
           console.log('Early addTipToInfo: ' + JSON.stringify(addTipToInfo));
           const addTipToCall = await tipToDBWrite(addTipToInfo);
           console.log('\naddFutureTipToCall' + addFutureTipToCall);
