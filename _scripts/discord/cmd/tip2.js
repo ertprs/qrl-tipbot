@@ -183,7 +183,7 @@ module.exports = {
 
     // Get user info into scope from database
     tipbotInfo(userID).then(function(tipingUserInfo) {
-      // console.log('Tipping user INFO: ' + JSON.stringify(tipingUserInfo));
+      console.log('Tipping user INFO: ' + JSON.stringify(tipingUserInfo));
       const tippingUserUser_Found = JSON.stringify(tipingUserInfo[0].user_found);
       const tippingUserUser_agree = JSON.stringify(tipingUserInfo[0].user_agree);
       const tippingUserOpt_Out = JSON.stringify(tipingUserInfo[0].opt_out);
