@@ -7,6 +7,14 @@ module.exports = {
   aliases: ['!$'],
   usage: '\n<tip amount> <user1> <user2> <user3> <etc.> \nEXAMPLE: `+tip2 1 @CoolUser`',
   execute(message, args) {
+
+    const futureTippedUserInfo = [];
+    const futureTippedUserIDs = [];
+    const tippedUserInfo = [];
+    const tippedUserWallets = [];
+    const tippedUserTipAmt = [];
+    const tippedUserIDs = [];
+    const tippedUserServiceIDs = [];
     message.channel.startTyping();
     const dbHelper = require('../../db/dbHelper');
     const config = require('../../../_config/config.json');
@@ -106,8 +114,8 @@ module.exports = {
         console.log('transactionDBWrite transactionInfo' + JSON.stringify(transactionInfo));
         const transInfo = { from_user_id: transactionInfo.from_user_id, to_users_id: transactionInfo.to_users_id, tip_amount: toQuanta(transactionInfo.tip_amount), from_service: 'discord', time_stamp: new Date() };
         console.log('transInfo: ' + transInfo);
-        // const transInfoWrite = dbHelper.addTransaction(transInfo);
-        // resolve(transInfoWrite);
+        const transInfoWrite = dbHelper.addTransaction(transInfo);
+        resolve(transInfoWrite);
       });
     }
 
@@ -230,7 +238,7 @@ module.exports = {
         if (bot) {
         // don't do anything for the bot.. silly bot
         // console.log('bot mentioned, doing nothing');
-          //return;
+          // return;
         }
         if (userid === userID) {
         // user mentioned self, do not count and move on
@@ -256,7 +264,6 @@ module.exports = {
         const bot = user.bot;
         if (!bot) {
           // if not a bot don't do anything
-          // console.log('bot not mentioned, doing nothing');
           return;
         }
         const botListOutput = JSON.parse(JSON.stringify({ userName: output, userid: userid, bot: bot }));
@@ -294,51 +301,31 @@ module.exports = {
       }
 
       async function userInfo() {
-        const futureTippedUserInfo = [];
-        const futureTippedUserIDs = [];
-        const tippedUserInfo = [];
-        const tippedUserWallets = [];
-        const tippedUserTipAmt = [];
-        const tippedUserIDs = [];
-        const tippedUserServiceIDs = [];
+
 
         for(let i = 0, l = filteredTipList.length; i < l; i++) {
-          // console.log('for');
           // check for user in the tipbot database and grab addresses etc. for them.
-//console.log('i: ' + i)
-//console.log('l: ' + l)
           const tipToUserInfo = await tipbotInfo(filteredTipList[i].userid);
           const tipToUserFound = tipToUserInfo[0].user_found;
           const tipToUserOptOut = tipToUserInfo[0].opt_out;
-          // console.log('filteredTipList User: ' + JSON.stringify(filteredTipList[i]))
-          // console.log('tipToUserInfo: ' + JSON.stringify(tipToUserInfo))
-          // console.log('tipToUserFound: ' + JSON.stringify(tipToUserFound))
-          // console.log('tipToUserOptOut: ' + JSON.stringify(tipToUserOptOut))
-          if (tipToUserFound === "true") {
-
-            if (tipToUserOptOut === "1") {
+          // If tipped user is found then...
+          if (tipToUserFound === 'true') {
+            // If tipped user Opt-Out true...
+            if (tipToUserOptOut === '1') {
               // user found and opted out. Add to the future_tips table and set the wallet address to the hold address...
-              // console.log('tipToUserOptOut: true');
-              // console.log('tipToUserOptOutInfo: ' + JSON.stringify(filteredTipList[i]))
               futureTippedUserInfo.push(filteredTipList[i]);
-
               const futureTippedUserId = filteredTipList[i].userid;
               futureTippedUserIDs.push(futureTippedUserId);
-
+              // assign the config.hold.address here for future tips payout
               tippedUserWallets.push(config.wallet.hold_address);
               tippedUserTipAmt.push(givenTip);
-              // console.log('user found opted out');
               continue;
             }
             else {
               // user found and not opted out, add to array and move on
-              // console.log('tipToUserFound: true');
-              // console.log('tipToUserInfo: ' + JSON.stringify(tipToUserInfo))
               const tipToUserUserId = tipToUserInfo[0].user_id;
               const tippedUserServiceID = filteredTipList[i].userid;
-
               const tipToUserUserWalletPub = tipToUserInfo[0].wallet_pub;
-              // console.log('tipToUserUserWalletPub: ' + tipToUserUserWalletPub);
               // push user data to arrays for tipping
               tippedUserIDs.push(tipToUserUserId);
               tippedUserServiceIDs.push(tippedUserServiceID);
@@ -350,37 +337,23 @@ module.exports = {
           }
           else {
             // the user is not in the database yet, add to the future_tips table and set the wallet address to the hold address
-            // console.log('tipToUserFound: false');
-            // console.log('futureTippedUser Info: ' + JSON.stringify(filteredTipList[i]))
             futureTippedUserInfo.push(filteredTipList[i]);
-
-            // const futureTippedUserId = tipToUserInfo[0].userid;
-            // futureTippedUserIDs.push(futureTippedUserId);
-            
+            // assign the config.hold.address here for future tips payout
             tippedUserWallets.push(config.wallet.hold_address);
             tippedUserTipAmt.push(givenTip);
-            // add to database...
-
           }
         }
         // arrays are full, now send the transactions and set database.
-        console.log('futureTippedUserInfo: ' + JSON.stringify(futureTippedUserInfo));
-        // console.log('futureTippedUserIDs: ' + JSON.stringify(futureTippedUserIDs));
-        console.log('tippedUserInfo: ' + JSON.stringify(tippedUserInfo));
-        console.log('tippedUserWallets: ' + JSON.stringify(tippedUserWallets));
-        console.log('tippedUserTipAmt: ' + JSON.stringify(tippedUserTipAmt));
-        console.log('tippedUserIDs: ' + JSON.stringify(tippedUserIDs));
-        console.log('tippedUserServiceIDs: ' + JSON.stringify(tippedUserServiceIDs));
 
         const tipToUsers = tippedUserServiceIDs.concat(futureTippedUserIDs);
-        // console.log('tipToUsers: ' + JSON.stringify(tipToUsers));
+        const stringAllTippedUserIDs = tipToUsers.toString();
+
 
         // add users to the tips db and create a tip_id to track this tip through
-        const stringAllTippedUserIDs = tipToUsers.toString();
         const addTipInfo = { from_user_id: userID, tip_amount: givenTip };
         const addTipResults = await tipDBWrite(addTipInfo);
         const tip_id = addTipResults[0].tip_id;
-        // check for tx_id to be created... hack...
+        // check for tx_id to be created...
         const check_tip_id = function() {
           if(tip_id == undefined) {
             // check again in a second
@@ -389,48 +362,30 @@ module.exports = {
         };
         check_tip_id();
         console.log('tip_id: ' + tip_id);
-        // add to the tips_to db
 
+        // ///////// Found Tipped Users Database Entry ///////// //
+        // looks through all users in the tippedUserInfo array assigned above.
+        // For each user found, adds their info to the tips_to database. One entry each user
+        // /////////////////////////////////////////////// //
 
         for(let i = 0, l = tippedUserInfo.length; i < l; i++) {
-          console.log('tippedUserInfo i: ' + i + ' l: ' + l);
-          console.log('for - tippedUserInfo: ' + JSON.stringify(tippedUserInfo[i]));
-          // console.log('tippedUserInfo: ' + JSON.stringify(tippedUserInfo));
           const addTipToInfo = { tip_id: tip_id, tip_amt: givenTip, user_id: tippedUserInfo[0][i].user_id };
-          console.log('early addTipToInfo: ' + JSON.stringify(addTipToInfo));
           const addTipToCall = await tipToDBWrite(addTipToInfo);
           console.log('addTipToCall: ' + JSON.stringify(addTipToCall));
         }
 
-
-
-
-
-
+        // ///////// Future Users Database Entry ///////// //
+        // looks through all users in the futureTippedUserInfo array assigned above.
+        // For each user found, adds their info to the future_tips_to database. One entry each user to be paid out in the future
+        // /////////////////////////////////////////////// //
 
         for(let i = 0, l = futureTippedUserInfo.length; i < l; i++) {
-          console.log('future i: ' + i + ' l: ' + l);
-          console.log('for - futureTippedUserInfo: ' + JSON.stringify(futureTippedUserInfo[i]));
-          
-          //console.log('for - futureTippedUserInfo: ' + JSON.stringify(futureTippedUserInfo));
-          console.log('for - filteredTipList: ' + JSON.stringify(filteredTipList));
-          // console.log('for - futureTippedUserIDs: ' + JSON.stringify(futureTippedUserIDs));
-
           const addFutureTipToInfo = { user_id: futureTippedUserInfo[i].service_user_ID, user_name: futureTippedUserInfo[i].userName, tip_from: userID, tip_amount: givenTip };
-          
           const addFutureTipToCall = await futureTipsDBWrite(addFutureTipToInfo);
-          
           const future_tip_id = addFutureTipToCall[0].tip_id;
-
-
-//  const add_tip_to_info = { tip_id: tip_id, tip_amt: tipAmountQuanta, user_id: user_id, future_tip_id: future_tip_id };
-//  add_tip_to(add_tip_to_info);
-
           const addTipToInfo = { tip_id: tip_id, tip_amt: givenTip, user_id: tippingUserUser_Id, future_tip_id: future_tip_id };
-          console.log('Early addTipToInfo: ' + JSON.stringify(addTipToInfo));
           const addTipToCall = await tipToDBWrite(addTipToInfo);
-          console.log('\naddFutureTipToCall' + JSON.stringify(addFutureTipToCall));
-          console.log('\naddTipToCall' + JSON.stringify(addTipToCall));
+          console.log('addTipToCall' + JSON.stringify(addTipToCall));
         }
 
         if(message.guild != null) {
@@ -442,6 +397,13 @@ module.exports = {
       }
       // get all tippedToUser info from the database
       userInfo();
+      console.log('futureTippedUserInfo: ' + JSON.stringify(futureTippedUserInfo));
+      // console.log('futureTippedUserIDs: ' + JSON.stringify(futureTippedUserIDs));
+      console.log('tippedUserInfo: ' + JSON.stringify(tippedUserInfo));
+      // console.log('tippedUserWallets: ' + JSON.stringify(tippedUserWallets));
+      // console.log('tippedUserTipAmt: ' + JSON.stringify(tippedUserTipAmt));
+      // console.log('tippedUserIDs: ' + JSON.stringify(tippedUserIDs));
+      // console.log('tippedUserServiceIDs: ' + JSON.stringify(tippedUserServiceIDs));
 
     // console.log('final tipListJSON: ' + JSON.stringify(tipListJSON));
     });
