@@ -400,7 +400,7 @@ module.exports = {
         }
         message.channel.stopTyping(true);
 
-        ReplyMessage('Tipped ' + stringAllTippedUserIDs + ' `' + toQuanta(givenTip) + '` QRL.\n*All tips are on-chain, and will take some time to process.*');
+        ReplyMessage('Tipped ' + tippedUserIDs.join(futureTippedUserIDs) + ' `' + toQuanta(givenTip) + '` QRL.\n*All tips are on-chain, and will take some time to process.*');
         console.log('FinalInfo: ' + JSON.stringify(FinalInfo));
         console.log('futureTippedUserInfo: ' + JSON.stringify(futureTippedUserInfo));
         // console.log('futureTippedUserIDs: ' + JSON.stringify(futureTippedUserIDs));
