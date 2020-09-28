@@ -396,10 +396,13 @@ module.exports = {
 
       }
       // get all tippedToUser info from the database
-      userInfo();
+      userInfo().then(function(FinalInfo) {
+        
+      console.log('FinalInfo: ' + JSON.stringify(FinalInfo));
       console.log('futureTippedUserInfo: ' + JSON.stringify(futureTippedUserInfo));
       // console.log('futureTippedUserIDs: ' + JSON.stringify(futureTippedUserIDs));
       console.log('tippedUserInfo: ' + JSON.stringify(tippedUserInfo));
+      });
       // console.log('tippedUserWallets: ' + JSON.stringify(tippedUserWallets));
       // console.log('tippedUserTipAmt: ' + JSON.stringify(tippedUserTipAmt));
       // console.log('tippedUserIDs: ' + JSON.stringify(tippedUserIDs));
