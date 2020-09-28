@@ -310,6 +310,7 @@ module.exports = {
                 //
                 // console.log('addToTipsArgsArray not found: ' + JSON.stringify(addToTipsArgsArray));
                 const user_id = userInfo[0].user_id;
+                console.log('\n\n\nuser_id: ' + user_id + '\n\n\n')
                 const tip_id = addToTipsArgsArray[0].tip_id;
                 // check that tip_id is ther, else wait for it...
                 const check_tip_id = function() {
