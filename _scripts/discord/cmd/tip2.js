@@ -391,9 +391,11 @@ console.log('l: ' + l)
         for(let i = 0, l = futureTippedUserInfo.length; i < l; i++) {
           console.log('for - futureTippedUserInfo: ' + JSON.stringify(futureTippedUserInfo));
           console.log('for - filteredTipList: ' + JSON.stringify(filteredTipList));
-          console.log('for - futureTippedUserIDs: ' + JSON.stringify(futureTippedUserIDs));
-          const addFutureTipToInfo = { user_id: futureTippedUserInfo[i].Service_ID, user_name: futureTippedUserInfo[i].service_user_name, tip_from: userID, tip_amount: givenTip };
+          // console.log('for - futureTippedUserIDs: ' + JSON.stringify(futureTippedUserIDs));
+
+          const addFutureTipToInfo = { user_id: filteredTipList[i].service_user_ID, user_name: filteredTipList[i].userName, tip_from: userID, tip_amount: givenTip };
           const addFutureTipToCall = await futureTipsDBWrite(addFutureTipToInfo);
+          
           const future_tip_id = addFutureTipToCall[0].tip_id;
           const addTipToInfo = { tip_id: tip_id, tip_amt: givenTip, user_id: futureTippedUserInfo[i].Service_ID, future_tip_id: future_tip_id };
           console.log('Early addTipToInfo: ' + addTipToInfo);
