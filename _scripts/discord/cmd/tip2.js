@@ -416,15 +416,17 @@ module.exports = {
           console.log('for - filteredTipList: ' + JSON.stringify(filteredTipList));
           // console.log('for - futureTippedUserIDs: ' + JSON.stringify(futureTippedUserIDs));
 
-          const addFutureTipToInfo = { user_id: filteredTipList[0].service_user_ID, user_name: filteredTipList[i].userName, tip_from: userID, tip_amount: givenTip };
+          const addFutureTipToInfo = { user_id: filteredTipList[0].userid, user_name: filteredTipList[i].userName, tip_from: userID, tip_amount: givenTip };
+          
           const addFutureTipToCall = await futureTipsDBWrite(addFutureTipToInfo);
           
           const future_tip_id = addFutureTipToCall[0].tip_id;
-          const addTipToInfo = { tip_id: tip_id, tip_amt: givenTip, user_id: futureTippedUserInfo[i].Service_ID, future_tip_id: future_tip_id };
-          console.log('Early addTipToInfo: ' + addTipToInfo);
+
+          const addTipToInfo = { tip_id: tip_id, tip_amt: givenTip, user_id: futureTippedUserInfo[i].userid, future_tip_id: future_tip_id };
+          console.log('Early addTipToInfo: ' + JSON.stringify(addTipToInfo));
           const addTipToCall = await tipToDBWrite(addTipToInfo);
-          console.log('addFutureTipToCall' + addFutureTipToCall);
-          console.log('addTipToCall' + addTipToCall);
+          console.log('\naddFutureTipToCall' + addFutureTipToCall);
+          console.log('\naddTipToCall' + addTipToCall);
         }
 
         if(message.guild != null) {
