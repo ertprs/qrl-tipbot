@@ -52,8 +52,8 @@ module.exports = {
           test = true;
         }
       }
-      console.log('str' + str);
-      console.log('isQRLValue: ' + test);
+      // console.log('str' + str);
+      // console.log('isQRLValue: ' + test);
       return test;
     }
 
@@ -152,7 +152,7 @@ module.exports = {
     // iterates through the list of args given and looks for a number, first found wins.
     // This also checks the number to validate its a qrl amount isQRLValue()
     const givenTip = tipAmount();
-    console.log('tip contents ' + givenTip);
+    // console.log('tip contents ' + givenTip);
 
     // check if amount is NaN
     if (isNaN(givenTip)) {
@@ -173,14 +173,14 @@ module.exports = {
 
     // Get user info into scope from database
     tipbotInfo(userID).then(function(tipingUserInfo) {
-      console.log('Tipping user INFO: ' + JSON.stringify(tipingUserInfo));
+      // console.log('Tipping user INFO: ' + JSON.stringify(tipingUserInfo));
       const tippingUserUser_Found = JSON.stringify(tipingUserInfo[0].user_found);
       const tippingUserUser_agree = JSON.stringify(tipingUserInfo[0].user_agree);
       const tippingUserOpt_Out = JSON.stringify(tipingUserInfo[0].opt_out);
       // log the output for debug
-      console.log('tippingUserUser_Found: ' + tippingUserUser_Found);
-      console.log('tippingUserUser_agree: ' + tippingUserUser_agree);
-      console.log('tippingUserOpt_Out: ' + tippingUserOpt_Out);
+      // console.log('tippingUserUser_Found: ' + tippingUserUser_Found);
+      // console.log('tippingUserUser_agree: ' + tippingUserUser_agree);
+      // console.log('tippingUserOpt_Out: ' + tippingUserOpt_Out);
       // check for tipping user in the system
       if (!tippingUserUser_Found) {
         console.log('User not found. Fail and warn');
