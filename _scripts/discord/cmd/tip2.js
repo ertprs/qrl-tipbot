@@ -429,8 +429,8 @@ module.exports = {
           const addTipToInfo = { tip_id: tip_id, tip_amt: givenTip, user_id: tippingUserUser_Id, future_tip_id: future_tip_id };
           console.log('Early addTipToInfo: ' + JSON.stringify(addTipToInfo));
           const addTipToCall = await tipToDBWrite(addTipToInfo);
-          console.log('\naddFutureTipToCall' + addFutureTipToCall);
-          console.log('\naddTipToCall' + addTipToCall);
+          console.log('\naddFutureTipToCall' + JSON.stringify(addFutureTipToCall));
+          console.log('\naddTipToCall' + JSON.stringify(addTipToCall));
         }
 
         if(message.guild != null) {
