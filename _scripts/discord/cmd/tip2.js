@@ -341,6 +341,7 @@ module.exports = {
           }
           else {
             // the user is not in the database yet, add to the future_tips table and set the wallet address to the hold address
+            console.log('else filteredTipList[0]: ' + filteredTipList[0]);
             futureTippedUserInfo.push(tipToUserInfo);
             const futureTippedUserId = tipToUserInfo[0].userid;
             futureTippedUserIDs.push(futureTippedUserId);
@@ -390,6 +391,11 @@ module.exports = {
         }
 
 
+
+
+
+
+
         for(let i = 0, l = futureTippedUserInfo.length; i < l; i++) {
           console.log('future i: ' + i + ' l: ' + l);
           console.log('for - futureTippedUserInfo: ' + JSON.stringify(futureTippedUserInfo[i]));
@@ -398,7 +404,7 @@ module.exports = {
           console.log('for - filteredTipList: ' + JSON.stringify(filteredTipList));
           // console.log('for - futureTippedUserIDs: ' + JSON.stringify(futureTippedUserIDs));
 
-          const addFutureTipToInfo = { user_id: filteredTipList[i].service_user_ID, user_name: filteredTipList[i].userName, tip_from: userID, tip_amount: givenTip };
+          const addFutureTipToInfo = { user_id: filteredTipList[0].service_user_ID, user_name: filteredTipList[i].userName, tip_from: userID, tip_amount: givenTip };
           const addFutureTipToCall = await futureTipsDBWrite(addFutureTipToInfo);
           
           const future_tip_id = addFutureTipToCall[0].tip_id;
