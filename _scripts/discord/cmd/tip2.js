@@ -8,6 +8,9 @@ module.exports = {
   usage: '\n<tip amount> <user1> <user2> <user3> <etc.> \nEXAMPLE: `+tip2 1 @CoolUser`',
   execute(message, args) {
 
+    const dbHelper = require('../../db/dbHelper');
+    const config = require('../../../_config/config.json');
+    const wallet = require('../../qrl/walletTools');
     const futureTippedUserInfo = [];
     const futureTippedUserIDs = [];
     const tippedUserInfo = [];
@@ -17,13 +20,11 @@ module.exports = {
     const tippedUserServiceIDs = [];
     const fee = toShor(config.wallet.tx_fee);
 
-    message.channel.startTyping();
-    const dbHelper = require('../../db/dbHelper');
-    const config = require('../../../_config/config.json');
-    const wallet = require('../../qrl/walletTools');
     const username = `${message.author}`;
     const userID = username.slice(1, -1);
 
+    message.channel.startTyping();
+    
     function ReplyMessage(content) {
       setTimeout(function() {
         message.reply(content);
