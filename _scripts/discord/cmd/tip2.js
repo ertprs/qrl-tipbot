@@ -305,8 +305,8 @@ module.exports = {
         for(let i = 0, l = filteredTipList.length; i < l; i++) {
           // console.log('for');
           // check for user in the tipbot database and grab addresses etc. for them.
-console.log('i: ' + i)
-console.log('l: ' + l)
+//console.log('i: ' + i)
+//console.log('l: ' + l)
           const tipToUserInfo = await tipbotInfo(filteredTipList[i].userid);
           console.log('for 311 - tipToUserInfo: ' + JSON.stringify(tipToUserInfo))
           const tipToUserFound = tipToUserInfo[0].user_found;
@@ -380,7 +380,9 @@ console.log('l: ' + l)
 
 
         for(let i = 0, l = tippedUserInfo.length; i < l; i++) {
-          console.log('tippedUserInfo: ' + JSON.stringify(tippedUserInfo));
+          console.log('tippedUserInfo i: ' + i + ' l: ' + l);
+          console.log('for - tippedUserInfo: ' + JSON.stringify(tippedUserInfo[i]));
+          // console.log('tippedUserInfo: ' + JSON.stringify(tippedUserInfo));
           const addTipToInfo = { tip_id: tip_id, tip_amt: givenTip, user_id: tippedUserInfo[0][i].user_id };
           console.log('early addTipToInfo: ' + JSON.stringify(addTipToInfo));
           const addTipToCall = await tipToDBWrite(addTipToInfo);
@@ -389,7 +391,10 @@ console.log('l: ' + l)
 
 
         for(let i = 0, l = futureTippedUserInfo.length; i < l; i++) {
-          console.log('for - futureTippedUserInfo: ' + JSON.stringify(futureTippedUserInfo));
+          console.log('future i: ' + i + ' l: ' + l);
+          console.log('for - futureTippedUserInfo: ' + JSON.stringify(futureTippedUserInfo[i]));
+          
+          //console.log('for - futureTippedUserInfo: ' + JSON.stringify(futureTippedUserInfo));
           console.log('for - filteredTipList: ' + JSON.stringify(filteredTipList));
           // console.log('for - futureTippedUserIDs: ' + JSON.stringify(futureTippedUserIDs));
 
