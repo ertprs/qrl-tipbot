@@ -306,6 +306,7 @@ module.exports = {
         for(let i = 0, l = filteredTipList.length; i < l; i++) {
           // check for user in the tipbot database and grab addresses etc. for them.
           const tipToUserInfo = await tipbotInfo(filteredTipList[i].userid);
+          console.log('tipToUserInfo: ' + JSON.stringify(tipToUserInfo))
           const tipToUserFound = tipToUserInfo[0].user_found;
           const tipToUserOptOut = tipToUserInfo[0].opt_out;
           // If tipped user is found then...
@@ -323,7 +324,7 @@ module.exports = {
             }
             else {
               // user found and not opted out, add to array and move on
-              const tipToUserUserId = tipToUserInfo[0].service_user_ID;
+              const tipToUserUserId = tipToUserInfo[0].user_id;
               const tippedUserServiceID = filteredTipList[i].userid;
               const tipToUserUserWalletPub = tipToUserInfo[0].wallet_pub;
               // push user data to arrays for tipping
