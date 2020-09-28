@@ -24,7 +24,7 @@ module.exports = {
     const userID = username.slice(1, -1);
 
     message.channel.startTyping();
-    
+
     function ReplyMessage(content) {
       setTimeout(function() {
         message.reply(content);
@@ -409,6 +409,7 @@ module.exports = {
 
         // ///////// Send the transaction ///////// //
         const tipToInfo = { amount: tippedUserTipAmt, fee: fee, address_from: tippingUserWallet_Pub, address_to: tippedUserWallets };
+        console.log('tipToInfo: ' + JSON.stringify(tipToInfo));
         wallet.sendQuanta(tipToInfo).then(function(TransferOutPut) {
           console.log('TransferOutPut: ' + JSON.stringify(TransferOutPut));
           // ///////// Add to database and write the tx_id to the tip record ///////// //
