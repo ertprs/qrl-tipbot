@@ -416,7 +416,7 @@ module.exports = {
           console.log('for - filteredTipList: ' + JSON.stringify(filteredTipList));
           // console.log('for - futureTippedUserIDs: ' + JSON.stringify(futureTippedUserIDs));
 
-          const addFutureTipToInfo = { user_id: filteredTipList[0].service_user_ID, user_name: filteredTipList[i].userName, tip_from: userID, tip_amount: givenTip };
+          const addFutureTipToInfo = { user_id: futureTippedUserInfo[i].service_user_ID, user_name: futureTippedUserInfo[i].userName, tip_from: userID, tip_amount: givenTip };
           
           const addFutureTipToCall = await futureTipsDBWrite(addFutureTipToInfo);
           
