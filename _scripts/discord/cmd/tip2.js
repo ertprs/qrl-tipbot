@@ -324,7 +324,7 @@ module.exports = {
             }
             else {
               // user found and not opted out, add to array and move on
-              const tipToUserUserId = tipToUserInfo[0].user_id;
+              const tipToUserUserId = filteredTipList[i].userid;
               const tippedUserServiceID = filteredTipList[i].userid;
               const tipToUserUserWalletPub = tipToUserInfo[0].wallet_pub;
               // push user data to arrays for tipping
