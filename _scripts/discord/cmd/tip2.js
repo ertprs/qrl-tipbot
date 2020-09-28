@@ -387,21 +387,20 @@ module.exports = {
           const addTipToCall = await tipToDBWrite(addTipToInfo);
           console.log('addTipToCall' + JSON.stringify(addTipToCall));
         }
+        return [tippedUserInfo, futureTippedUserInfo, stringAllTippedUserIDs, tippedUserWallets, tippedUserTipAmt]
 
+      }
+      // get all tippedToUser info from the database
+      userInfo().then(function(FinalInfo) {
         if(message.guild != null) {
           message.delete();
         }
         message.channel.stopTyping(true);
         ReplyMessage('Tipped ' + tippedUserIDs.concat(futureTippedUserIDs) + ' `' + toQuanta(givenTip) + '` QRL.\n*All tips are on-chain, and will take some time to process.*');
-
-      }
-      // get all tippedToUser info from the database
-      userInfo().then(function(FinalInfo) {
-        
-      console.log('FinalInfo: ' + JSON.stringify(FinalInfo));
-      console.log('futureTippedUserInfo: ' + JSON.stringify(futureTippedUserInfo));
-      // console.log('futureTippedUserIDs: ' + JSON.stringify(futureTippedUserIDs));
-      console.log('tippedUserInfo: ' + JSON.stringify(tippedUserInfo));
+        console.log('FinalInfo: ' + JSON.stringify(FinalInfo));
+        console.log('futureTippedUserInfo: ' + JSON.stringify(futureTippedUserInfo));
+        // console.log('futureTippedUserIDs: ' + JSON.stringify(futureTippedUserIDs));
+        console.log('tippedUserInfo: ' + JSON.stringify(tippedUserInfo));
       });
       // console.log('tippedUserWallets: ' + JSON.stringify(tippedUserWallets));
       // console.log('tippedUserTipAmt: ' + JSON.stringify(tippedUserTipAmt));
