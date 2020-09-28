@@ -341,6 +341,8 @@ module.exports = {
           else {
             // the user is not in the database yet, add to the future_tips table and set the wallet address to the hold address
             futureTippedUserInfo.push(filteredTipList[i]);
+            const futureTippedUserId = ' <!' + filteredTipList[i].userid + '>';
+            futureTippedUserIDs.push(futureTippedUserId);
             // assign the config.hold.address here for future tips payout
             tippedUserWallets.push(config.wallet.hold_address);
             tippedUserTipAmt.push(givenTip);
