@@ -308,7 +308,7 @@ module.exports = {
         for(let i = 0, l = filteredTipList.length; i < l; i++) {
           // check for user in the tipbot database and grab addresses etc. for them.
           const tipToUserInfo = await tipbotInfo(filteredTipList[i].userid);
-          console.log('tipToUserInfo: ' + JSON.stringify(tipToUserInfo))
+          console.log('tipToUserInfo: ' + JSON.stringify(tipToUserInfo));
           const tipToUserFound = tipToUserInfo[0].user_found;
           const tipToUserOptOut = tipToUserInfo[0].opt_out;
           // If tipped user is found then...
@@ -317,7 +317,7 @@ module.exports = {
             if (tipToUserOptOut === '1') {
               // user found and opted out. Add to the future_tips table and set the wallet address to the hold address...
               futureTippedUserInfo.push(filteredTipList[i]);
-              const futureTippedUserId = filteredTipList[i].userid;
+              const futureTippedUserId = ' <!' + filteredTipList[i].userid + '>';
               futureTippedUserIDs.push(futureTippedUserId);
               // assign the config.hold.address here for future tips payout
               tippedUserWallets.push(config.wallet.hold_address);
@@ -327,7 +327,7 @@ module.exports = {
             else {
               // user found and not opted out, add to array and move on
               const tipToUserUserId = filteredTipList[i].service_user_ID;
-              const tippedUserServiceID = filteredTipList[i].userid;
+              const tippedUserServiceID = ' <!' + filteredTipList[i].userid + '>';
               const tipToUserUserWalletPub = tipToUserInfo[0].wallet_pub;
               // push user data to arrays for tipping
               tippedUserIDs.push(tipToUserUserId);
@@ -390,7 +390,7 @@ module.exports = {
           const addTipToCall = await tipToDBWrite(addTipToInfo);
           console.log('addTipToCall' + JSON.stringify(addTipToCall));
         }
-        return [filteredTipList, tippedUserWallets, tippedUserTipAmt, tip_id]
+        return [filteredTipList, tippedUserWallets, tippedUserTipAmt, tip_id];
 
       }
       // get all tippedToUser info from the database
