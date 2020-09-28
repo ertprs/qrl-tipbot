@@ -422,10 +422,10 @@ module.exports = {
         }
         message.channel.stopTyping(true);
         if (tipUserCount > 1) {
-          ReplyMessage('you tipped ' + tippedUserIDs + ',' + futureTippedUserIDs + ' `' +  BigInt(toQuanta(givenTip)) + ' quanta` each.\n*All tips are on-chain, and will take some time to process.*');
+          ReplyMessage('you tipped ' + tippedUserIDs + ',' + futureTippedUserIDs + ' `' + toQuanta(givenTip) + ' quanta` each.\n*All tips are on-chain, and will take some time to process.*');
         }
         else {
-          ReplyMessage('you tipped ' + tippedUserIDs + ',' + futureTippedUserIDs + ' `' + BigInt(toQuanta(givenTip)) + ' quanta`.\n*All tips are on-chain, and will take some time to process.*');
+          ReplyMessage('you tipped ' + tippedUserIDs + ',' + futureTippedUserIDs + ' `' + toQuanta(givenTip) + ' quanta`.\n*All tips are on-chain, and will take some time to process.*');
         }
         console.log('futureTippedUserIDs: ' + JSON.stringify(futureTippedUserIDs));
         console.log('tippedUserIDs: ' + JSON.stringify(tippedUserIDs));
