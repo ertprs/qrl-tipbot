@@ -310,9 +310,11 @@ module.exports = {
           const tipToUserInfo = await tipbotInfo(filteredTipList[i].userid);
           console.log('for 311 - tipToUserInfo: ' + JSON.stringify(tipToUserInfo))
           const tipToUserFound = tipToUserInfo[0].user_found;
+          console.log('tipToUserFound: ' + JSON.stringify(tipToUserFound))
           const tipToUserOptOut = tipToUserInfo[0].opt_out;
+          console.log('tipToUserOptOut: ' + JSON.stringify(tipToUserOptOut))
           if (tipToUserFound) {
-            if (tipToUserOptOut == "true") {
+            if (tipToUserOptOut === true) {
               // user found and opted out. Add to the future_tips table and set the wallet address to the hold address...
               console.log('if tipToUserOptOut: ' + JSON.stringify(filteredTipList[i]));
               futureTippedUserInfo.push(tipToUserInfo);
