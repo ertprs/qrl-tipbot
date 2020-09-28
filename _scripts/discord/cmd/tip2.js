@@ -392,11 +392,15 @@ module.exports = {
       }
       // get all tippedToUser info from the database
       userInfo().then(function(FinalInfo) {
+        // using detials above enter the transactions into the node and respond to users.
+
+
         if(message.guild != null) {
           message.delete();
         }
         message.channel.stopTyping(true);
-        ReplyMessage('Tipped ' + tippedUserIDs.concat(futureTippedUserIDs) + ' `' + toQuanta(givenTip) + '` QRL.\n*All tips are on-chain, and will take some time to process.*');
+
+        ReplyMessage('Tipped ' + stringAllTippedUserIDs + ' `' + toQuanta(givenTip) + '` QRL.\n*All tips are on-chain, and will take some time to process.*');
         console.log('FinalInfo: ' + JSON.stringify(FinalInfo));
         console.log('futureTippedUserInfo: ' + JSON.stringify(futureTippedUserInfo));
         // console.log('futureTippedUserIDs: ' + JSON.stringify(futureTippedUserIDs));
