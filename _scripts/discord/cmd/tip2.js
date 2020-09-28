@@ -387,7 +387,7 @@ module.exports = {
           const addTipToCall = await tipToDBWrite(addTipToInfo);
           console.log('addTipToCall' + JSON.stringify(addTipToCall));
         }
-        return [tippedUserInfo, futureTippedUserInfo, stringAllTippedUserIDs, tippedUserWallets, tippedUserTipAmt]
+        return [tippedUserInfo, futureTippedUserInfo, tippedUserWallets, tippedUserTipAmt, tip_id]
 
       }
       // get all tippedToUser info from the database
