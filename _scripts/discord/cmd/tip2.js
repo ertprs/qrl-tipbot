@@ -15,10 +15,12 @@ module.exports = {
     const tippedUserTipAmt = [];
     const tippedUserIDs = [];
     const tippedUserServiceIDs = [];
+    const fee = toShor(config.wallet.tx_fee);
+
     message.channel.startTyping();
     const dbHelper = require('../../db/dbHelper');
     const config = require('../../../_config/config.json');
-    // const wallet = require('../../qrl/walletTools');
+    const wallet = require('../../qrl/walletTools');
     const username = `${message.author}`;
     const userID = username.slice(1, -1);
 
@@ -170,7 +172,6 @@ module.exports = {
       return ;
     }
     // Check that tip amount is above fee
-    const fee = toShor(config.wallet.tx_fee);
     console.log('fee: ' + fee + '\namount: ' + givenTip);
     if (givenTip < fee) {
       message.channel.stopTyping(true);
@@ -397,10 +398,21 @@ module.exports = {
       }
       // get all tippedToUser info from the database
       userInfo().then(function(FinalInfo) {
-        // using detials above enter the transactions into the node and respond to users.
+        // using details above enter the transactions into the node and respond to users.
         console.log('\n\nFinalInfo: ' + JSON.stringify(FinalInfo));
         console.log('futureTippedUserInfo: ' + JSON.stringify(futureTippedUserInfo));
         console.log('tippedUserInfo: ' + JSON.stringify(tippedUserInfo));
+
+        // const send_to_addresses = tippedUserWallets;
+        // const send_to_amount = tippedUserTipAmt;
+
+        // ///////// Send the transaction ///////// //
+        const tipToInfo = { amount: tippedUserTipAmt, fee: fee, address_from: tippingUserWallet_Pub, address_to: tippedUserWallets };
+        wallet.sendQuanta(tipToInfo).then(function(TransferOutPut) {
+          console.log('TransferOutPut: ' + JSON.stringify(TransferOutPut));
+          // ///////// Add to database and write the tx_id to the tip record ///////// //
+
+        });
 
 
         if(message.guild != null) {
@@ -408,20 +420,18 @@ module.exports = {
         }
         message.channel.stopTyping(true);
         if (tipUserCount > 1) {
-          ReplyMessage('you tipped ' + tippedUserIDs + ',' + futureTippedUserIDs + ' `' + toQuanta(givenTip) + 'QRL` each.\n*All tips are on-chain, and will take some time to process.*');
+          ReplyMessage('you tipped ' + tippedUserIDs + ',' + futureTippedUserIDs + ' `' + toQuanta(givenTip) + ' quanta` each.\n*All tips are on-chain, and will take some time to process.*');
         }
-        else  {
-          ReplyMessage('you tipped ' + tippedUserIDs + ',' + futureTippedUserIDs + ' `' + toQuanta(givenTip) + 'QRL`.\n*All tips are on-chain, and will take some time to process.*');
+        else {
+          ReplyMessage('you tipped ' + tippedUserIDs + ',' + futureTippedUserIDs + ' `' + toQuanta(givenTip) + ' quanta`.\n*All tips are on-chain, and will take some time to process.*');
         }
         console.log('futureTippedUserIDs: ' + JSON.stringify(futureTippedUserIDs));
         console.log('tippedUserIDs: ' + JSON.stringify(tippedUserIDs));
-        
       });
       // console.log('tippedUserWallets: ' + JSON.stringify(tippedUserWallets));
       // console.log('tippedUserTipAmt: ' + JSON.stringify(tippedUserTipAmt));
       // console.log('tippedUserServiceIDs: ' + JSON.stringify(tippedUserServiceIDs));
-
-    // console.log('final tipListJSON: ' + JSON.stringify(tipListJSON));
+      // console.log('final tipListJSON: ' + JSON.stringify(tipListJSON));
     });
   },
 };
