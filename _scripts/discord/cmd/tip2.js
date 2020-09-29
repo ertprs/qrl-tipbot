@@ -433,7 +433,6 @@ module.exports = {
             .setTitle('Tip Sent!')
             .setDescription('Your tip was posted on the network. It may take a few minuets to confirm, see the transaction info in the [QRL Block Explorer](' + config.bot_details.explorer_url + '/tx/' + tx_hash + ')')
             .addField('Total Transfer', '**' + toQuanta(tipTotal).toFixed(9) + '** QRL')
-            .addField('Transfer fee', '**' + config.wallet.tx_fee + '** QRL')
             .addField('New Wallet Balance', '**' + newWal_bal + '**')
             .addField('Sent total of `' + toQuanta(givenTip * tipUserCount) + '` QRL, or `' + toQuanta(givenTip) + '` QRL To: ', tippedUserIDs + ' ' + futureTippedUserIDs)
             .setFooter('The TX Fee is paid by the tip sender. \nThe current fee is set to ' + config.wallet.tx_fee + ' QRL');
@@ -451,7 +450,7 @@ module.exports = {
           }
           message.channel.stopTyping(true);
           if (tipUserCount > 1) {
-            ReplyMessage('you tipped ' + tippedUserIDs + ',' + futureTippedUserIDs + ' `' + toQuanta(givenTip) + '` QRL each.\n*All tips are on-chain, and will take some time to process.*');
+            ReplyMessage('you tipped ' + tippedUserIDs + ',' + futureTippedUserIDs + ' `' +  BigInt(toQuanta(givenTip)) + '` QRL each.\n*All tips are on-chain, and will take some time to process.*');
           }
           else {
             ReplyMessage('you tipped ' + tippedUserIDs + ',' + futureTippedUserIDs + ' `' + toQuanta(givenTip) + '` QRL.\n*All tips are on-chain, and will take some time to process.*');
