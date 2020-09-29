@@ -46,7 +46,7 @@ module.exports = {
       }, 1000);
     }
 
-    function errorMessage(content, footer = '.: Tipbot provided by The QRL Contributors :.') {
+    function errorMessage(content, footer = '[.: Tipbot provided by The QRL Contributors :.](https://github.com/theqrl-community)') {
       setTimeout(function() {
         const embed = new Discord.MessageEmbed()
           .setColor(0x000000)
