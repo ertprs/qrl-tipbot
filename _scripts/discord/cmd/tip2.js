@@ -46,12 +46,13 @@ module.exports = {
       }, 1000);
     }
 
-    function errorMessage(content) {
+    function errorMessage(content, footer = '.: Tipbot provided by The QRL Contributors :.') {
       setTimeout(function() {
         const embed = new Discord.MessageEmbed()
           .setColor(0x000000)
           .setTitle('ERROR: ' + content.error)
-          .setDescription(content.description);
+          .setDescription(content.description)
+          .setFooter(footer);
         message.reply({ embed });
         message.channel.stopTyping(true);
       }, 1000);
