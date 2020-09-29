@@ -1,4 +1,4 @@
-cmodule.exports = {
+module.exports = {
   name: 'tip2',
   description: 'Tips!',
   args: true,
