@@ -51,7 +51,7 @@ module.exports = {
         const embed = new Discord.MessageEmbed()
           .setColor(0x000000)
           .setTitle('ERROR: ' + content.error)
-          .setDescription(content.description)
+          .setDescription(':warning: ' + content.description)
           .setFooter(footer);
         message.reply({ embed });
         message.channel.stopTyping(true);
