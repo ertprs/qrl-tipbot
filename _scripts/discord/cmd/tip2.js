@@ -426,7 +426,7 @@ module.exports = {
           // get address balance after tx
           console.log('tipTotal: ' + tipTotal);
 
-          const newWal_bal = (tippingUserWallet_Bal - toQuanta(tipTotal));
+          const newWal_bal = (toQuanta(tippingUserWallet_Bal) - toQuanta(tipTotal));
 
           const embed = new Discord.MessageEmbed()
             .setColor(0x000000)
