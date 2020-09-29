@@ -416,7 +416,7 @@ module.exports = {
         console.log('tipToInfo: ' + JSON.stringify(tipToInfo));
         wallet.sendQuanta(tipToInfo).then(function(sendData) {
           const transferOutPut = JSON.parse(sendData);
-          console.log('transferOutPut: ' + transferOutPut);
+          console.log('transferOutPut: ' + JSON.stringify(transferOutPut));
           const tx_hash = transferOutPut.tx.transaction_hash;
 
           // ///////// Add to database and write the tx_id to the tip record ///////// //
