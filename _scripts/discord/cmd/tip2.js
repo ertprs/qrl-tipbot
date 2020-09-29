@@ -7,7 +7,7 @@ module.exports = {
   aliases: ['!$'],
   usage: '\n<tip amount> <user1> <user2> <user3> <etc.> \nEXAMPLE: `+tip2 1 @CoolUser`',
   execute(message, args) {
-
+    const Discord = require('discord.js');
     const dbHelper = require('../../db/dbHelper');
     const config = require('../../../_config/config.json');
     const wallet = require('../../qrl/walletTools');
@@ -414,25 +414,48 @@ module.exports = {
         // ///////// Send the transaction ///////// //
         const tipToInfo = { amount: tippedUserTipAmt, fee: fee, address_from: JSON.parse(tippingUserWallet_Pub), address_to: tippedUserWallets };
         console.log('tipToInfo: ' + JSON.stringify(tipToInfo));
-        wallet.sendQuanta(tipToInfo).then(function(TransferOutPut) {
-          console.log('TransferOutPut: ' + TransferOutPut);
+        wallet.sendQuanta(tipToInfo).then(function(transferOutPut) {
+          // console.log('transferOutPut: ' + transferOutPut);
+          const tx_hash = transferOutPut.tx.transaction_hash;
+
           // ///////// Add to database and write the tx_id to the tip record ///////// //
 
+          // ///////// DM User tip details and address balance after the TX ///////// //
+
+          // get address balance after tx
+          const newWal_bal = (tippingUserWallet_Bal - tipTotal);
+
+          const embed = new Discord.MessageEmbed()
+            .setColor(0x000000)
+            .setTitle('Tip Sent!')
+            .setDescription('Your tip was posted on the network. It may take a few minuets to confirm, see the transaction info in the [QRL Block Explorer](' + config.bot_details.explorer_url + '/tx/' + tx_hash + ')')
+            .addField('Total Transfer', '**' + (tipTotal / 1000000000).toFixed(9) + '**')
+            .addField('Transfer fee', '**' + config.wallet.tx_fee + '**')
+            .addField('New Wallet Balance', '**' + newWal_bal + '**')
+            .addField('Sent total of**' + (givenTip * tipUserCount) + ' QRL**, ' + givenTip + ' To ', '** ' + tippedUserIDs + ',' + futureTippedUserIDs + '**')
+            .setFooter('The TX Fee is paid by the tip sender. \nThe current fee is set to ' + config.wallet.tx_fee + ' QRL');
+          message.author.send({ embed })
+            .then(() => {
+              if (message.channel.type !== 'dm') return;
+            })
+            .catch(error => {
+              message.channel.stopTyping(true);
+              console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+            });
+
+          if(message.guild != null) {
+            message.delete();
+          }
+          message.channel.stopTyping(true);
+          if (tipUserCount > 1) {
+            ReplyMessage('you tipped ' + tippedUserIDs + ',' + futureTippedUserIDs + ' `' + toQuanta(givenTip) + '` QRL each.\n*All tips are on-chain, and will take some time to process.*');
+          }
+          else {
+            ReplyMessage('you tipped ' + tippedUserIDs + ',' + futureTippedUserIDs + ' `' + toQuanta(givenTip) + '` QRL.\n*All tips are on-chain, and will take some time to process.*');
+          }
+          console.log('futureTippedUserIDs: ' + JSON.stringify(futureTippedUserIDs));
+          console.log('tippedUserIDs: ' + JSON.stringify(tippedUserIDs));
         });
-
-
-        if(message.guild != null) {
-          message.delete();
-        }
-        message.channel.stopTyping(true);
-        if (tipUserCount > 1) {
-          ReplyMessage('you tipped ' + tippedUserIDs + ',' + futureTippedUserIDs + ' `' + toQuanta(givenTip) + ' quanta` each.\n*All tips are on-chain, and will take some time to process.*');
-        }
-        else {
-          ReplyMessage('you tipped ' + tippedUserIDs + ',' + futureTippedUserIDs + ' `' + toQuanta(givenTip) + ' quanta`.\n*All tips are on-chain, and will take some time to process.*');
-        }
-        console.log('futureTippedUserIDs: ' + JSON.stringify(futureTippedUserIDs));
-        console.log('tippedUserIDs: ' + JSON.stringify(tippedUserIDs));
       });
       // console.log('tippedUserWallets: ' + JSON.stringify(tippedUserWallets));
       // console.log('tippedUserTipAmt: ' + JSON.stringify(tippedUserTipAmt));
