@@ -424,7 +424,7 @@ cmodule.exports = {
           // ///////// DM User tip details and address balance after the TX ///////// //
 
           // get address balance after tx
-          console.log('tipTotal: ' + tipTotal)
+          console.log('tipTotal: ' + tipTotal);
 
           const newWal_bal = (tippingUserWallet_Bal - toQuanta(tipTotal));
 
