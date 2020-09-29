@@ -1,4 +1,4 @@
-module.exports = {
+cmodule.exports = {
   name: 'tip2',
   description: 'Tips!',
   args: true,
@@ -424,16 +424,18 @@ module.exports = {
           // ///////// DM User tip details and address balance after the TX ///////// //
 
           // get address balance after tx
-          const newWal_bal = (tippingUserWallet_Bal - tipTotal);
+          console.log('tipTotal: ' + tipTotal)
+
+          const newWal_bal = (tippingUserWallet_Bal - toQuanta(tipTotal));
 
           const embed = new Discord.MessageEmbed()
             .setColor(0x000000)
             .setTitle('Tip Sent!')
             .setDescription('Your tip was posted on the network. It may take a few minuets to confirm, see the transaction info in the [QRL Block Explorer](' + config.bot_details.explorer_url + '/tx/' + tx_hash + ')')
-            .addField('Total Transfer', '**' + (tipTotal / 1000000000).toFixed(9) + '**')
-            .addField('Transfer fee', '**' + config.wallet.tx_fee + '**')
+            .addField('Total Transfer', '**' + toQuanta(tipTotal).toFixed(9) + '** QRL')
+            .addField('Transfer fee', '**' + config.wallet.tx_fee + '** QRL')
             .addField('New Wallet Balance', '**' + newWal_bal + '**')
-            .addField('Sent total of**' + (givenTip * tipUserCount) + ' QRL**, ' + givenTip + ' To ', '** ' + tippedUserIDs + ',' + futureTippedUserIDs + '**')
+            .addField('Sent total of **`' + toQuanta(givenTip * tipUserCount) + '` QRL**, or `' + toQuanta(givenTip) + '` QRL To ', '** ' + tippedUserIDs + ' ' + futureTippedUserIDs + '**')
             .setFooter('The TX Fee is paid by the tip sender. \nThe current fee is set to ' + config.wallet.tx_fee + ' QRL');
           message.author.send({ embed })
             .then(() => {
