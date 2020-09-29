@@ -26,10 +26,20 @@ module.exports = {
     message.channel.startTyping();
 
     function ReplyMessage(content) {
+
       setTimeout(function() {
         message.reply(content);
         message.channel.stopTyping(true);
       }, 1000);
+    }
+
+    function errorMessage(content) {
+      message.channel.stopTyping(true);
+      const embed = new Discord.MessageEmbed()
+        .setColor(0x000000)
+        .setTitle('ERROR: ' + content.error)
+        .setDescription(content.description);
+      message.reply({ embed });
     }
 
     function deleteMessage() {
@@ -50,7 +60,7 @@ module.exports = {
       return number / shor;
     }
     function isQRLValue(str) {
-      // recieve amnount in shor, do accordingly
+      // receive amount in shor, do accordingly
       // Fail immediately.
       let test = false;
       // Check if it's only numeric and periods (no spaces, etc)
@@ -76,10 +86,10 @@ module.exports = {
       });
     }
 
-    // send the users data to future_tips for when they signup
+    // send the users data to future_tips for when they sign up
     async function futureTipsDBWrite(futureTipInfo) {
       return new Promise(resolve => {
-        console.log('futureTipsDBWrite futureTipInfo' + JSON.stringify(futureTipInfo));
+        // console.log('futureTipsDBWrite futureTipInfo' + JSON.stringify(futureTipInfo));
         const infoToSubmit = { service: 'discord', user_id: futureTipInfo.user_id, user_name: futureTipInfo.user_name, tip_id: futureTipInfo.tip_id, tip_from: futureTipInfo.tip_from, tip_amount: toQuanta(futureTipInfo.tip_amount), time_stamp: new Date() };
         console.log('futureTipsDBWrite infoToSubmit: ' + JSON.stringify(infoToSubmit));
         const addToFutureTipsDBinfoWrite = dbHelper.addFutureTip(infoToSubmit);
@@ -88,9 +98,9 @@ module.exports = {
     }
 
     async function tipDBWrite(tipInfo) {
-      // send the users data to future_tips for when they signup
+      // send the users data to future_tips for when they sign up
       return new Promise(resolve => {
-        console.log('tipDBWrite tipInfo' + JSON.stringify(tipInfo));
+        // console.log('tipDBWrite tipInfo' + JSON.stringify(tipInfo));
         const addToTipsDBinfo = { from_user_id: tipInfo.from_user_id, tip_amount: toQuanta(tipInfo.tip_amount), from_service: 'discord', time_stamp: new Date() };
         console.log('tipDBWrite addToTipsDBinfo: ' + JSON.stringify(addToTipsDBinfo));
         const addToTipsDBinfoWrite = dbHelper.addTip(addToTipsDBinfo);
@@ -100,9 +110,9 @@ module.exports = {
 
 
     async function tipToDBWrite(tipToInfo) {
-      // send the users data to future_tips for when they signup
+      // send the users data to future_tips for when they sign up
       return new Promise(resolve => {
-        console.log('tipToDBWrite tipToInfo' + JSON.stringify(tipToInfo));
+        // console.log('tipToDBWrite tipToInfo' + JSON.stringify(tipToInfo));
         const addToTipsToDBinfo = { tip_id: tipToInfo.tip_id, from_user_id: userID, user_id: tipToInfo.user_id, tip_amt: toQuanta(tipToInfo.tip_amt), future_tip_id: tipToInfo.future_tip_id, time_stamp: new Date() };
         console.log('tipToDBWrite addToTipsToDBinfo: ' + JSON.stringify(addToTipsToDBinfo));
         const addToTipsToDBinfoWrite = dbHelper.addTipTo(addToTipsToDBinfo);
@@ -111,16 +121,18 @@ module.exports = {
     }
 
 
+    /*
     async function transactionDBWrite(transactionInfo) {
       // send the transaction data once the tip is sent
       return new Promise(resolve => {
-        console.log('transactionDBWrite transactionInfo' + JSON.stringify(transactionInfo));
+        // console.log('transactionDBWrite transactionInfo' + JSON.stringify(transactionInfo));
         const transInfo = { from_user_id: transactionInfo.from_user_id, to_users_id: transactionInfo.to_users_id, tip_amount: toQuanta(transactionInfo.tip_amount), from_service: 'discord', time_stamp: new Date() };
         console.log('transInfo: ' + transInfo);
         const transInfoWrite = dbHelper.addTransaction(transInfo);
         resolve(transInfoWrite);
       });
     }
+    */
 
 
     function tipAmount() {
@@ -149,8 +161,9 @@ module.exports = {
     }
     // check if user mentioned another user to tip
     if (!message.mentions.users.size) {
-      console.log('No Users mentioned.');
+      // console.log('No Users mentioned.');
       ReplyMessage('No Users mentioned. `+help tip` for help');
+      errorMessage({ error: 'No User(s) Mentioned...', description: 'Who are you tipping? enter `+help tip` for instructions' });
       return ;
     }
     // check if mentioned group and fail if so
@@ -356,10 +369,6 @@ module.exports = {
         }
         // arrays are full, now send the transactions and set database.
 
-        const tipToUsers = tippedUserServiceIDs.concat(futureTippedUserIDs);
-        const stringAllTippedUserIDs = tipToUsers.toString();
-
-
         // add users to the tips db and create a tip_id to track this tip through
         const addTipInfo = { from_user_id: userID, tip_amount: givenTip };
         const addTipResults = await tipDBWrite(addTipInfo);
@@ -450,7 +459,7 @@ module.exports = {
               });
 
             if(message.guild != null) {
-              message.delete();
+              deleteMessage();
             }
             message.channel.stopTyping(true);
             if (tipUserCount > 1) {
