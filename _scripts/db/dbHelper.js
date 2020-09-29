@@ -532,6 +532,7 @@ async function addFutureTip(args) {
     const service = input.service;
     const user_id = input.user_id;
     const user_name = input.user_name;
+    const tip_id = input.tip_id;
     const tip_from = input.tip_from;
     const tip_amount = input.tip_amount;
     const time_stamp = new Date();
