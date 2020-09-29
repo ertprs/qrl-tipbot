@@ -33,13 +33,28 @@ module.exports = {
       }, 1000);
     }
 
+    function replyMessage(header, description, content, footer = '.: Tipbot provided by The QRL Contributors :.') {
+      setTimeout(function() {
+        const embed = new Discord.MessageEmbed()
+          .setColor(0x000000)
+          .setTitle('ERROR: ' + header)
+          .setDescription(description)
+          .addField(content)
+          .setFooter(footer);
+        message.reply({ embed });
+        message.channel.stopTyping(true);
+      }, 1000);
+    }
+
     function errorMessage(content) {
-      message.channel.stopTyping(true);
-      const embed = new Discord.MessageEmbed()
-        .setColor(0x000000)
-        .setTitle('ERROR: ' + content.error)
-        .setDescription(content.description);
-      message.reply({ embed });
+      setTimeout(function() {
+        const embed = new Discord.MessageEmbed()
+          .setColor(0x000000)
+          .setTitle('ERROR: ' + content.error)
+          .setDescription(content.description);
+        message.reply({ embed });
+        message.channel.stopTyping(true);
+      }, 1000);
     }
 
     function deleteMessage() {
@@ -162,14 +177,15 @@ module.exports = {
     // check if user mentioned another user to tip
     if (!message.mentions.users.size) {
       // console.log('No Users mentioned.');
-      ReplyMessage('No Users mentioned. `+help tip` for help');
+      // ReplyMessage('No Users mentioned. `+help tip` for help');
       errorMessage({ error: 'No User(s) Mentioned...', description: 'Who are you tipping? enter `+help tip` for instructions' });
       return ;
     }
     // check if mentioned group and fail if so
     if (args.includes('@here') || args.includes('@everyone') || args.includes('@developer') || args.includes('@founder')) {
       console.log('Can\'t send to a group');
-      ReplyMessage('Can\'t send to a group. Please send to individual user(s), up to 100 in a tip.');
+      // ReplyMessage('Can\'t send to a group. Please send to individual user(s), up to 100 in a tip.');
+      errorMessage({ error: 'Can\'t Tip Groups...', description: 'Please send to individual user(s), up to 100 users in a tip.' });
       return;
     }
     // set tip amount here. Pulls the args and checks until it finds a good tip amount
@@ -182,7 +198,8 @@ module.exports = {
     if (isNaN(givenTip)) {
       console.log('isNaN');
       console.log('enter a valid amount to tip');
-      ReplyMessage('Please enter a valid amount to tip! +tip {AMOUNT} @USER(\'s)');
+      // ReplyMessage('Please enter a valid amount to tip! +tip {AMOUNT} @USER(\'s)');
+      errorMessage({ error: 'Invalid Amount Given...', description: 'Please enter a valid amount to tip! `+tip {AMOUNT} @USER(\'s)`' });
       return ;
     }
     // Check that tip amount is above fee
@@ -190,7 +207,8 @@ module.exports = {
     if (givenTip < fee) {
       message.channel.stopTyping(true);
       console.log('tipAmount < tx_fee - fee:\nFee: ' + fee + ' - Tip: ' + givenTip);
-      ReplyMessage('Please enter a valid amount to tip! Must be more than the fee `{' + config.wallet.tx_fee + '}` +tip {AMOUNT} @USER(\'s)');
+      // ReplyMessage('Please enter a valid amount to tip! Must be more than the fee `{' + config.wallet.tx_fee + '}` +tip {AMOUNT} @USER(\'s)');
+      errorMessage({ error: 'Invalid Amount Given...', description: 'Tip must be more than TX Fee: `{' + config.wallet.tx_fee + '}`' });
       return ;
     }
 
@@ -207,19 +225,22 @@ module.exports = {
       // check for tipping user in the system
       if (!tippingUserUser_Found) {
         console.log('User not found. Fail and warn');
-        ReplyMessage('User not found. Add your user to the bot. `+add`');
+        errorMessage({ error: 'User Not Found...', description: 'Please sign up to the tipbot. Enter `+add` to create a wallet then `+agree` to use the bot' });
+        // ReplyMessage('User not found. Add your user to the bot. `+add`');
         return;
       }
       // check for tipping user opt-out
       if (tippingUserOpt_Out == 1) {
         const tippingUserOptOut_Date = JSON.stringify(tipingUserInfo[0].optout_date);
-        ReplyMessage('User opt\'ed out of the bot on ' + tippingUserOptOut_Date + '. Please opt back in to use the bot. `+opt-in`');
+        errorMessage({ error: 'User Has `Opt-Out` Status...', description: 'You opted out on ' + tippingUserOptOut_Date + '. Please opt back in to use the bot. `+opt-in`' });
+        // ReplyMessage('User opt\'ed out of the bot on ' + tippingUserOptOut_Date + '. Please opt back in to use the bot. `+opt-in`');
         return;
       }
       // check for tipping user agree
       if (!tippingUserUser_agree) {
         console.log('User has not agreed. Fail and warn');
-        ReplyMessage('User needs to agree to the terms. `+agree`');
+        errorMessage({ error: 'User Has Agreed to Terms...', description: 'Please agree to the terms to start using the bot. Enter `+terms` to read or `+agree`' });
+        // ReplyMessage('User needs to agree to the terms. `+agree`');
         return;
       }
 
@@ -236,7 +257,8 @@ module.exports = {
       // check balance to tip amount
       if (tippingUserWallet_Bal <= 0) {
         console.log('User has 0 balance. Fail and warn');
-        ReplyMessage('You have no funds to tip. `+bal`');
+        errorMessage({ error: 'User Wallet Empty...', description: 'No funds to tip. Transfer funds with `+deposit` or pull from the faucet if full with `+drip`' });
+        // ReplyMessage('You have no funds to tip. `+bal`');
         return;
       }
 
@@ -257,12 +279,13 @@ module.exports = {
         if (bot) {
         // don't do anything for the bot.. silly bot
         // console.log('bot mentioned, doing nothing');
-          //return;
+          return;
         }
         if (userid === userID) {
         // user mentioned self, do not count and move on
           console.log('User mentioned self');
-          ReplyMessage('You can\'t tip yourself! Removing you from the tip...');
+          errorMessage({ error: 'User Tipped Self...', description: 'You can\'t tip yourself! Removing you from the tip and proceeding' });
+          // ReplyMessage('You can\'t tip yourself! Removing you from the tip...');
           return;
         }
         // check for user in the tipbot database and grab addresses etc. for them.
@@ -305,7 +328,8 @@ module.exports = {
         for(let i = 0, l = filteredBotList.length; i < l; i++) {
           bots.push(' ' + filteredBotList[i].userid);
         }
-        ReplyMessage('No bot tipping allowed! Removing the robots and sending to the rest...\rBots mentioned ' + bots);
+        errorMessage({ error: 'Bots Mentioned In Tip...', description: 'You can\'t tip robots! Removing ' + bots + ' from the tip and proceeding.' });
+        // ReplyMessage('No bot tipping allowed! Removing the robots and sending to the rest...\rBots mentioned ' + bots);
       }
       const tipListJSON = JSON.parse(JSON.stringify(filteredTipList));
       const tipUserCount = Count(tipListJSON);
@@ -317,7 +341,8 @@ module.exports = {
       const tipTotal = ((givenTip * tipUserCount) + fee);
       if (tippingUserWallet_Bal < tipTotal) {
         console.log('More than user bal. fail and error with balance');
-        ReplyMessage('Trying to send more than you have... Please try again. \nYou tried sending `' + toQuanta(tipTotal)) + 'qrl` which is `' + (tipTotal - tippingUserWallet_Bal) + 'qrl` more than you have.';
+        errorMessage({ error: 'Tipping more than you have...', description: 'Tip Amount: `' + toQuanta(tipTotal) + ' qrl`, ' + (tipTotal - tippingUserWallet_Bal) + 'qrl` more than you have.' });
+        // ReplyMessage('Trying to send more than you have... Please try again. \nYou tried sending `' + toQuanta(tipTotal)) + 'qrl` which is `' + (tipTotal - tippingUserWallet_Bal) + 'qrl` more than you have.';
         return;
       }
 
