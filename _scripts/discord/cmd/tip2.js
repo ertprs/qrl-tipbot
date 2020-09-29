@@ -103,7 +103,7 @@ module.exports = {
       // send the users data to future_tips for when they signup
       return new Promise(resolve => {
         console.log('tipToDBWrite tipToInfo' + JSON.stringify(tipToInfo));
-        const addToTipsToDBinfo = { from_user_id: userID, user_id: tipToInfo.user_id, tip_amt: tipToInfo.tip_amt, future_tip_id: tipToInfo.future_tip_id, time_stamp: new Date() };
+        const addToTipsToDBinfo = { from_user_id: userID, user_id: tipToInfo.user_id, tip_amt: toQuanta(tipToInfo.tip_amt), future_tip_id: tipToInfo.future_tip_id, time_stamp: new Date() };
         console.log('tipToDBWrite addToTipsToDBinfo: ' + JSON.stringify(addToTipsToDBinfo));
         const addToTipsToDBinfoWrite = dbHelper.addTipTo(addToTipsToDBinfo);
         resolve(addToTipsToDBinfoWrite);
@@ -391,7 +391,7 @@ module.exports = {
         // /////////////////////////////////////////////// //
 
         for(let i = 0, l = futureTippedUserInfo.length; i < l; i++) {
-          const addFutureTipToInfo = { user_id: futureTippedUserInfo[i].service_user_ID, user_name: futureTippedUserInfo[i].userName, tip_from: userID, tip_amount: givenTip };
+          const addFutureTipToInfo = { user_id: futureTippedUserInfo[i].service_user_ID, user_name: futureTippedUserInfo[i].userName, tip_id: tip_id, tip_from: userID, tip_amount: givenTip };
           const addFutureTipToCall = await futureTipsDBWrite(addFutureTipToInfo);
           const future_tip_id = addFutureTipToCall[0].tip_id;
           const addTipToInfo = { tip_id: tip_id, tip_amt: givenTip, user_id: tippingUserUser_Id, future_tip_id: future_tip_id };
@@ -418,45 +418,50 @@ module.exports = {
           const transferOutPut = JSON.parse(sendData);
           console.log('transferOutPut: ' + JSON.stringify(transferOutPut));
           const tx_hash = transferOutPut.tx.transaction_hash;
+          const txInfo = { tip_id: FinalInfo[3], tx_type: 'tip', tx_hash: tx_hash };
+          dbHelper.addTransaction(txInfo).then(function(transactionDBresp) {
+            console.log('transactionDBresp: ' + JSON.stringify(transactionDBresp));
 
-          // ///////// Add to database and write the tx_id to the tip record ///////// //
+            // ///////// Add to database and write the tx_id to the tip record ///////// //
 
-          // ///////// DM User tip details and address balance after the TX ///////// //
+            // ///////// DM User tip details and address balance after the TX ///////// //
 
-          // get address balance after tx
-          console.log('tipTotal: ' + tipTotal);
+            // get address balance after tx
+            console.log('tipTotal: ' + tipTotal);
 
-          const newWal_bal = (toQuanta(tippingUserWallet_Bal) - toQuanta(tipTotal));
+            const newWal_bal = (toQuanta(tippingUserWallet_Bal) - toQuanta(tipTotal));
 
-          const embed = new Discord.MessageEmbed()
-            .setColor(0x000000)
-            .setTitle('Tip Sent!')
-            .setDescription('Your tip was posted on the network. It may take a few minuets to confirm, see the transaction info in the [QRL Block Explorer](' + config.bot_details.explorer_url + '/tx/' + tx_hash + ')')
-            .addField('Total Transfer', '**' + toQuanta(tipTotal).toFixed(9) + '** QRL')
-            .addField('New Wallet Balance', '**' + newWal_bal + '**')
-            .addField('Sent total of `' + toQuanta(givenTip * tipUserCount) + '` QRL, or `' + toQuanta(givenTip) + '` QRL To: ', tippedUserIDs + ' ' + futureTippedUserIDs)
-            .setFooter('The TX Fee is paid by the tip sender. \nThe current fee is set to ' + config.wallet.tx_fee + ' QRL');
-          message.author.send({ embed })
-            .then(() => {
-              if (message.channel.type !== 'dm') return;
-            })
-            .catch(error => {
-              message.channel.stopTyping(true);
-              console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-            });
+            const embed = new Discord.MessageEmbed()
+              .setColor(0x000000)
+              .setTitle('Tip Sent!')
+              .setDescription('Your tip was posted on the network. It may take a few minuets to confirm, see the transaction info in the [QRL Block Explorer](' + config.bot_details.explorer_url + '/tx/' + tx_hash + ')')
+              .addField('Total Transfer', '**' + toQuanta(tipTotal).toFixed(9) + '** QRL')
+              .addField('New Wallet Balance', '**' + newWal_bal + '**')
+              .addField('Sent total of `' + toQuanta(givenTip * tipUserCount) + '` QRL, or `' + toQuanta(givenTip) + '` QRL To: ', tippedUserIDs + ' ' + futureTippedUserIDs)
+              .setFooter('The TX Fee is paid by the tip sender. \nThe current fee is set to ' + config.wallet.tx_fee + ' QRL');
+            message.author.send({ embed })
+              .then(() => {
+                if (message.channel.type !== 'dm') return;
+              })
+              .catch(error => {
+                message.channel.stopTyping(true);
+                console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+              });
 
-          if(message.guild != null) {
-            message.delete();
-          }
-          message.channel.stopTyping(true);
-          if (tipUserCount > 1) {
-            ReplyMessage('you tipped ' + tippedUserIDs + ',' + futureTippedUserIDs + ' `' + toQuanta(givenTip) + '` QRL each.\n*All tips are on-chain, and will take some time to process.*');
-          }
-          else {
-            ReplyMessage('you tipped ' + tippedUserIDs + ',' + futureTippedUserIDs + ' `' + toQuanta(givenTip) + '` QRL.\n*All tips are on-chain, and will take some time to process.*');
-          }
-          console.log('futureTippedUserIDs: ' + JSON.stringify(futureTippedUserIDs));
-          console.log('tippedUserIDs: ' + JSON.stringify(tippedUserIDs));
+            if(message.guild != null) {
+              message.delete();
+            }
+            message.channel.stopTyping(true);
+            if (tipUserCount > 1) {
+              ReplyMessage('you tipped ' + tippedUserIDs + ',' + futureTippedUserIDs + ' `' + toQuanta(givenTip) + '` QRL each.\n*All tips are on-chain, and will take some time to process.*');
+            }
+            else {
+              ReplyMessage('you tipped ' + tippedUserIDs + ',' + futureTippedUserIDs + ' `' + toQuanta(givenTip) + '` QRL.\n*All tips are on-chain, and will take some time to process.*');
+            }
+            console.log('futureTippedUserIDs: ' + JSON.stringify(futureTippedUserIDs));
+            console.log('tippedUserIDs: ' + JSON.stringify(tippedUserIDs));
+          });
+
         });
       });
       // console.log('tippedUserWallets: ' + JSON.stringify(tippedUserWallets));
