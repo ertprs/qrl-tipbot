@@ -435,7 +435,7 @@ module.exports = {
             .addField('Total Transfer', '**' + toQuanta(tipTotal).toFixed(9) + '** QRL')
             .addField('Transfer fee', '**' + config.wallet.tx_fee + '** QRL')
             .addField('New Wallet Balance', '**' + newWal_bal + '**')
-            .addField('Sent total of **`' + toQuanta(givenTip * tipUserCount) + '` QRL**, or `' + toQuanta(givenTip) + '` QRL To ', '** ' + tippedUserIDs + ' ' + futureTippedUserIDs + '**')
+            .addField('Sent total of `' + toQuanta(givenTip * tipUserCount) + '` QRL, or `' + toQuanta(givenTip) + '` QRL To: ', tippedUserIDs + ' ' + futureTippedUserIDs)
             .setFooter('The TX Fee is paid by the tip sender. \nThe current fee is set to ' + config.wallet.tx_fee + ' QRL');
           message.author.send({ embed })
             .then(() => {
