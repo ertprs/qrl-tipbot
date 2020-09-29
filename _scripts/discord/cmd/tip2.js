@@ -450,7 +450,7 @@ module.exports = {
           }
           message.channel.stopTyping(true);
           if (tipUserCount > 1) {
-            ReplyMessage('you tipped ' + tippedUserIDs + ',' + futureTippedUserIDs + ' `' +  BigInt(toQuanta(givenTip)) + '` QRL each.\n*All tips are on-chain, and will take some time to process.*');
+            ReplyMessage('you tipped ' + tippedUserIDs + ',' + futureTippedUserIDs + ' `' + toQuanta(givenTip) + '` QRL each.\n*All tips are on-chain, and will take some time to process.*');
           }
           else {
             ReplyMessage('you tipped ' + tippedUserIDs + ',' + futureTippedUserIDs + ' `' + toQuanta(givenTip) + '` QRL.\n*All tips are on-chain, and will take some time to process.*');
