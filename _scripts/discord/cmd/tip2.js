@@ -342,7 +342,7 @@ module.exports = {
       const tipTotal = ((givenTip * tipUserCount) + fee);
       if (tippingUserWallet_Bal < tipTotal) {
         console.log('More than user bal. fail and error with balance');
-        errorMessage({ error: 'Tipping more than you have...', description: 'Tip Amount: `' + toQuanta(tipTotal) + ' qrl`, ' + (tipTotal - tippingUserWallet_Bal) + 'qrl` more than you have.' });
+        errorMessage({ error: 'Tipping more than you have...', description: 'Enter `+bal` to get your current balance.' });
         // ReplyMessage('Trying to send more than you have... Please try again. \nYou tried sending `' + toQuanta(tipTotal)) + 'qrl` which is `' + (tipTotal - tippingUserWallet_Bal) + 'qrl` more than you have.';
         return;
       }
