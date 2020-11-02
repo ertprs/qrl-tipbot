@@ -471,7 +471,7 @@ module.exports = {
               .setTitle('Tip Sent!')
               .setDescription('Your tip was posted on the network! It may take a few minuets to confirm, see the transaction info in the [QRL Block Explorer](' + config.bot_details.explorer_url + '/tx/' + tx_hash + ')')
               
-              .addField('Sent a total of', '`' + toQuanta(givenTip * tipUserCount).toFixed(9) + ' QRL`')
+              .addField('Sent a total of `' + toQuanta((givenTip * tipUserCount) + fee).toFixed(9) + ' QRL` distributed between,', tippedUserIDs + ' ' + futureTippedUserIDs )
               .addField('`' + toQuanta(givenTip).toFixed(9) + ' QRL`', tippedUserIDs + ' ' + futureTippedUserIDs + ' each received')
 
               .addField('Network Fee', '**' + toQuanta(fee).toFixed(9) + ' QRL**', true)
