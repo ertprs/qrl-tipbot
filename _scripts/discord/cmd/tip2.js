@@ -107,7 +107,7 @@ module.exports = {
       return new Promise(resolve => {
         // console.log('futureTipsDBWrite futureTipInfo' + JSON.stringify(futureTipInfo));
         const infoToSubmit = { service: 'discord', user_id: futureTipInfo.user_id, user_name: futureTipInfo.user_name, tip_id: futureTipInfo.tip_id, tip_from: futureTipInfo.tip_from, tip_amount: toQuanta(futureTipInfo.tip_amount), time_stamp: new Date() };
-      //  console.log('futureTipsDBWrite infoToSubmit: ' + JSON.stringify(infoToSubmit));
+        //  console.log('futureTipsDBWrite infoToSubmit: ' + JSON.stringify(infoToSubmit));
         const addToFutureTipsDBinfoWrite = dbHelper.addFutureTip(infoToSubmit);
         resolve(addToFutureTipsDBinfoWrite);
       });
@@ -118,7 +118,7 @@ module.exports = {
       return new Promise(resolve => {
         // console.log('tipDBWrite tipInfo' + JSON.stringify(tipInfo));
         const addToTipsDBinfo = { from_user_id: tipInfo.from_user_id, tip_amount: toQuanta(tipInfo.tip_amount), from_service: 'discord', time_stamp: new Date() };
-      //  console.log('tipDBWrite addToTipsDBinfo: ' + JSON.stringify(addToTipsDBinfo));
+        //  console.log('tipDBWrite addToTipsDBinfo: ' + JSON.stringify(addToTipsDBinfo));
         const addToTipsDBinfoWrite = dbHelper.addTip(addToTipsDBinfo);
         resolve(addToTipsDBinfoWrite);
       });
@@ -130,7 +130,7 @@ module.exports = {
       return new Promise(resolve => {
         // console.log('tipToDBWrite tipToInfo' + JSON.stringify(tipToInfo));
         const addToTipsToDBinfo = { tip_id: tipToInfo.tip_id, from_user_id: userID, user_id: tipToInfo.user_id, tip_amt: toQuanta(tipToInfo.tip_amt), future_tip_id: tipToInfo.future_tip_id, time_stamp: new Date() };
-      //  console.log('tipToDBWrite addToTipsToDBinfo: ' + JSON.stringify(addToTipsToDBinfo));
+        //  console.log('tipToDBWrite addToTipsToDBinfo: ' + JSON.stringify(addToTipsToDBinfo));
         const addToTipsToDBinfoWrite = dbHelper.addTipTo(addToTipsToDBinfo);
         resolve(addToTipsToDBinfoWrite);
       });
@@ -204,10 +204,10 @@ module.exports = {
       return ;
     }
     // Check that tip amount is above fee
-  //  console.log('fee: ' + fee + '\namount: ' + givenTip);
+    //  console.log('fee: ' + fee + '\namount: ' + givenTip);
     if (givenTip < fee) {
       message.channel.stopTyping(true);
-    //  console.log('tipAmount < tx_fee - fee:\nFee: ' + fee + ' - Tip: ' + givenTip);
+      //  console.log('tipAmount < tx_fee - fee:\nFee: ' + fee + ' - Tip: ' + givenTip);
       // ReplyMessage('Please enter a valid amount to tip! Must be more than the fee `{' + config.wallet.tx_fee + '}` +tip {AMOUNT} @USER(\'s)');
       errorMessage({ error: 'Invalid Amount Given...', description: 'Tip must be more than TX Fee: `{' + config.wallet.tx_fee + '}`' });
       return ;
@@ -220,9 +220,9 @@ module.exports = {
       const tippingUserUser_agree = JSON.stringify(tipingUserInfo[0].user_agree);
       const tippingUserOpt_Out = JSON.stringify(tipingUserInfo[0].opt_out);
       // log the output for debug
-    //  console.log('tippingUserUser_Found: ' + tippingUserUser_Found);
-    //  console.log('tippingUserUser_agree: ' + tippingUserUser_agree);
-    //  console.log('tippingUserOpt_Out: ' + tippingUserOpt_Out);
+      //  console.log('tippingUserUser_Found: ' + tippingUserUser_Found);
+      //  console.log('tippingUserUser_agree: ' + tippingUserUser_agree);
+      //  console.log('tippingUserOpt_Out: ' + tippingUserOpt_Out);
       // check for tipping user in the system
       if (tippingUserUser_Found == 'false') {
       //  console.log('User not found. Fail and warn');
@@ -249,13 +249,13 @@ module.exports = {
       const tippingUserWallet_Pub = JSON.stringify(tipingUserInfo[0].wallet_pub);
       const tippingUserWalPub = tipingUserInfo[0].wallet_pub;
 
-    //  console.log('tippingUserWallet_Pub: ' + tippingUserWallet_Pub);
+      //  console.log('tippingUserWallet_Pub: ' + tippingUserWallet_Pub);
       const tippingUserWallet_Bal = toShor(JSON.stringify(tipingUserInfo[0].wallet_bal));
-    //  console.log('tippingUserWallet_Bal: ' + tippingUserWallet_Bal);
+      //  console.log('tippingUserWallet_Bal: ' + tippingUserWallet_Bal);
       const tippingUserUser_Id = JSON.stringify(tipingUserInfo[0].user_id);
-    //  console.log('tippingUserUser_Id: ' + tippingUserUser_Id);
+      //  console.log('tippingUserUser_Id: ' + tippingUserUser_Id);
       const tippingUserUser_Name = JSON.stringify(tipingUserInfo[0].user_name);
-    //  console.log('tippingUserUser_Name: ' + tippingUserUser_Name);
+      //  console.log('tippingUserUser_Name: ' + tippingUserUser_Name);
 
       // check balance to tip amount
       if (tippingUserWallet_Bal <= 0) {
@@ -301,7 +301,7 @@ module.exports = {
       const filteredTipList = tipList.filter(function(el) {
         return el != null;
       });
-    //  console.log('filteredTipList: ' + JSON.stringify(filteredTipList));
+      //  console.log('filteredTipList: ' + JSON.stringify(filteredTipList));
 
       // get the bots into array
       const botList = message.mentions.users.map(user => {
@@ -319,11 +319,11 @@ module.exports = {
       const filteredBotList = botList.filter(function(el) {
         return el != null;
       });
-    //  console.log('filteredBotList: \n' + JSON.stringify(filteredBotList));
+      //  console.log('filteredBotList: \n' + JSON.stringify(filteredBotList));
       const botListJSON = JSON.parse(JSON.stringify(filteredBotList));
       const bots = [];
       const botUserCount = Count(botListJSON);
-    //  console.log('botUserCount: ' + botUserCount);
+      //  console.log('botUserCount: ' + botUserCount);
       // if bot count is positive warn user and continue
       if (botUserCount > 0) {
       //  console.log('Bots are tipped, send warning and continue..');
@@ -336,11 +336,11 @@ module.exports = {
       }
       const tipListJSON = JSON.parse(JSON.stringify(filteredTipList));
       const tipUserCount = Count(tipListJSON);
-    //  console.log('tipUserCount: ' + tipUserCount);
+      //  console.log('tipUserCount: ' + tipUserCount);
 
       // check the balance of tipping user to total tip amount
-    //  console.log('user Balance: ' + tippingUserWallet_Bal);
-    //  console.log('Tip Amount: ' + (givenTip * tipUserCount));
+      //  console.log('user Balance: ' + tippingUserWallet_Bal);
+      //  console.log('Tip Amount: ' + (givenTip * tipUserCount));
       const tipTotal = ((givenTip * tipUserCount) + fee);
       if (tippingUserWallet_Bal < tipTotal) {
       //  console.log('More than user bal. fail and error with balance');
@@ -354,7 +354,7 @@ module.exports = {
         for(let i = 0, l = filteredTipList.length; i < l; i++) {
           // check for user in the tipbot database and grab addresses etc. for them.
           const tipToUserInfo = await tipbotInfo(filteredTipList[i].userid);
-        //  console.log('tipToUserInfo: ' + JSON.stringify(tipToUserInfo));
+          //  console.log('tipToUserInfo: ' + JSON.stringify(tipToUserInfo));
           const tipToUserFound = tipToUserInfo[0].user_found;
           const tipToUserOptOut = tipToUserInfo[0].opt_out;
           // If tipped user is found then...
@@ -408,7 +408,7 @@ module.exports = {
           }
         };
         check_tip_id();
-      //  console.log('tip_id: ' + tip_id);
+        //  console.log('tip_id: ' + tip_id);
 
         // ///////// Found Tipped Users Database Entry ///////// //
         // looks through all users in the tippedUserInfo array assigned above.
@@ -417,7 +417,7 @@ module.exports = {
 
         for(let i = 0, l = tippedUserInfo.length; i < l; i++) {
           const addTipToInfo = { tip_id: tip_id, tip_amt: givenTip, user_id: tippingUserUser_Id };
-        //  console.log('addTipToInfo: ' + JSON.stringify(addTipToInfo));
+          //  console.log('addTipToInfo: ' + JSON.stringify(addTipToInfo));
           const addTipToCall = await tipToDBWrite(addTipToInfo);
         //  console.log('addTipToCall: ' + JSON.stringify(addTipToCall));
         }
@@ -450,10 +450,10 @@ module.exports = {
 
         // ///////// Send the transaction ///////// //
         const tipToInfo = { amount: tippedUserTipAmt, fee: fee, address_from: JSON.parse(tippingUserWallet_Pub), address_to: tippedUserWallets };
-      //  console.log('tipToInfo: ' + JSON.stringify(tipToInfo));
+        //  console.log('tipToInfo: ' + JSON.stringify(tipToInfo));
         wallet.sendQuanta(tipToInfo).then(function(sendData) {
           const transferOutPut = JSON.parse(sendData);
-        //  console.log('transferOutPut: ' + JSON.stringify(transferOutPut));
+          //  console.log('transferOutPut: ' + JSON.stringify(transferOutPut));
           const tx_hash = transferOutPut.tx.transaction_hash;
           const txInfo = { tip_id: FinalInfo[3], tx_type: 'tip', tx_hash: tx_hash };
           dbHelper.addTransaction(txInfo).then(function(transactionDBresp) {
@@ -464,7 +464,7 @@ module.exports = {
             // ///////// DM User tip details and address balance after the TX ///////// //
 
             // get address balance after tx
-          //  console.log('tipTotal: ' + tipTotal);
+            //  console.log('tipTotal: ' + tipTotal);
 
             const newWal_bal = (toQuanta(tippingUserWallet_Bal) - toQuanta(tipTotal));
 
@@ -474,17 +474,14 @@ module.exports = {
               .setDescription('Your tip was posted on the network! It may take a few minuets to confirm\nSee the transaction info in the [QRL Block Explorer](' + config.bot_details.explorer_url + '/tx/' + tx_hash + ')')
               // .addField('\u200B', '\u200B')
               // .setImage('https://github.com/theQRL/assets/blob/master/logo/inverse/QRL_logo_inverse@1x.png?raw=true')
-              .addField('Tip Amount', '**' + toQuanta(givenTip).toFixed(9) + ' QRL**', true )
+              .addField('Tip Amount', '**' + toQuanta(givenTip).toFixed(9) + ' QRL**', true)
               .addField('Tip To Count', '**' + tipUserCount + ' User(s)**', true)
               .addField('Network Fee', '**' + toQuanta(fee).toFixed(9) + ' QRL**', true)
-              .addField('You Tipped', tippedUserIDs + ' ' + futureTippedUserIDs )
-              
-              .addField('Total Transfer', '**' + toQuanta(tipTotal).toFixed(9) + ' QRL**', true )
-              .addField('New Wallet Balance', '[**' + newWal_bal + ' QRL**]('+ config.bot_details.explorer_url + '/a/' + tippingUserWalPub + ')', true)
+              .addField('You Tipped', tippedUserIDs + ' ' + futureTippedUserIDs)
+              .addField('Total Transfer', '**' + toQuanta(tipTotal).toFixed(9) + ' QRL**', true)
+              .addField('New Wallet Balance', '[**' + newWal_bal + ' QRL**](' + config.bot_details.explorer_url + '/a/' + tippingUserWalPub + ')', true)
+              .setFooter('Transaction Hash ' + tx_hash + '\n.: The QRL Contributors :.');
 
-
-              .setFooter('Transaction Hash ' + tx_hash);
-            
             message.author.send({ embed })
               .then(() => {
                 if (message.channel.type !== 'dm') return;
