@@ -479,7 +479,7 @@ module.exports = {
               .addField('You Tipped', tippedUserIDs + ' ' + futureTippedUserIDs )
               
               .addField('Total Transfer', '**' + toQuanta(tipTotal).toFixed(9) + ' QRL**', true )
-              .addField('New Wallet Balance', '**' + newWal_bal + ' QRL**', true)
+              .addField('New Wallet Balance', '[**' + newWal_bal + ' QRL**]('+ config.bot_details.explorer_url + '/a/' + tippingUserWallet_Pub + ')', true)
 
 
               .setFooter('Transaction Hash ' + tx_hash);
