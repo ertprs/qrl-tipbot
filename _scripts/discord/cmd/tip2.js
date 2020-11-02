@@ -471,7 +471,7 @@ module.exports = {
               .setTitle('Tip Sent!')
               .setDescription('Your tip was posted on the network! It may take a few minuets to confirm\nSee the transaction info in the [QRL Block Explorer](' + config.bot_details.explorer_url + '/tx/' + tx_hash + ')')
               // .addField('\u200B', '\u200B')
-              .setImage('https://github.com/theQRL/assets/blob/master/logo/inverse/QRL_logo_inverse@3x.png?raw=true')
+              .setImage('https://github.com/theQRL/assets/blob/master/logo/inverse/QRL_logo_inverse@1x.png?raw=true')
    
               .addField('Tip Amount', '**' + givenTip.toFixed(9) + ' QRL**', true )
               .addField('Tip To Count', '**' + tipUserCount + ' User(s)**', true)
