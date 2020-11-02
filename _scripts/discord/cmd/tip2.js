@@ -469,17 +469,18 @@ module.exports = {
             const embed = new Discord.MessageEmbed()
               .setColor(0x000000)
               .setTitle('Tip Sent!')
-              .setDescription('Your tip was posted on the network! It may take a few minuets to confirm, see the transaction info in the [QRL Block Explorer](' + config.bot_details.explorer_url + '/tx/' + tx_hash + ')')
+              .setDescription('Your tip was posted on the network! It may take a few minuets to confirm, \nSee the transaction info in the [QRL Block Explorer](' + config.bot_details.explorer_url + '/tx/' + tx_hash + ')')
    
-              .addField('Tip Amount', '**' + toQuanta(tipTotal).toFixed(9) + ' QRL** X ', true )
-              .addField('Number Tipped', '**' + tipUserCount + ' Users** +', true)
+              .addField('Tip Amount', '**' + toQuanta(tipTotal).toFixed(9) + ' QRL**', true )
+              .addField('Tip To Count', '**' + tipUserCount + ' User(s)**', true)
               .addField('Network Fee', '**' + toQuanta(fee).toFixed(9) + ' QRL**', true)
+              .addField('\u200B', '\u200B')
+              
+              .addField('Total Transfer', '**' + toQuanta(tipTotal).toFixed(9) + ' QRL**', true )
+              .addField('New Wallet Balance', '**' + newWal_bal + ' QRL**')
 
               .addField('You have sent a total of `' + toQuanta((givenTip * tipUserCount) + fee).toFixed(9) + ' QRL` distributed between,', tippedUserIDs + ' ' + futureTippedUserIDs )
 
-              .addField('Network Fee', '**' + toQuanta(fee).toFixed(9) + ' QRL**', true)
-              .addField('Total Transfer', '**' + toQuanta(tipTotal).toFixed(9) + ' QRL**', true )
-              .addField('New Wallet Balance', '**' + newWal_bal + ' QRL**', true)
 
               .addField('Transaction Hash `', tx_hash + '`')
               .setFooter('The TX Fee is paid by the tip sender. \nThe current fee is set to ' + config.wallet.tx_fee + ' QRL');
