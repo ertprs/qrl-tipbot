@@ -224,7 +224,7 @@ module.exports = {
       console.log('tippingUserUser_agree: ' + tippingUserUser_agree);
       console.log('tippingUserOpt_Out: ' + tippingUserOpt_Out);
       // check for tipping user in the system
-      if (!tippingUserUser_Found) {
+      if (tippingUserUser_Found == 'false') {
         console.log('User not found. Fail and warn');
         errorMessage({ error: 'User Not Found...', description: 'Please sign up to the tipbot. Enter `+add` to create a wallet then `+agree` to use the bot' });
         // ReplyMessage('User not found. Add your user to the bot. `+add`');
@@ -348,7 +348,6 @@ module.exports = {
       }
 
       async function userInfo() {
-
 
         for(let i = 0, l = filteredTipList.length; i < l; i++) {
           // check for user in the tipbot database and grab addresses etc. for them.
@@ -474,6 +473,7 @@ module.exports = {
               .addField('Total Transfer', '**' + toQuanta(tipTotal).toFixed(9) + '** QRL')
               .addField('New Wallet Balance', '**' + newWal_bal + '**')
               .addField('Sent total of `' + toQuanta(givenTip * tipUserCount) + '` QRL, or `' + toQuanta(givenTip) + '` QRL To: ', tippedUserIDs + ' ' + futureTippedUserIDs)
+              .addField('Transaction Hash `' + tx_hash + '`')
               .setFooter('The TX Fee is paid by the tip sender. \nThe current fee is set to ' + config.wallet.tx_fee + ' QRL');
             message.author.send({ embed })
               .then(() => {
