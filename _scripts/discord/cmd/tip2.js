@@ -480,8 +480,9 @@ module.exports = {
               .addField('Total Transfer', '**' + toQuanta(tipTotal).toFixed(9) + ' QRL**', true )
               .addField('New Wallet Balance', '**' + newWal_bal + ' QRL**')
 
+              .setImage('https://github.com/theQRL/assets/blob/master/logo/inverse/QRL_logo_inverse@10x.png?raw=true')
 
-              .setFooter('The TX Fee is paid by the tip sender. \nTransaction Hash ' + tx_hash, 'https://github.com/theQRL/assets/blob/master/logo/inverse/QRL_logo_inverse@10x.png?raw=true');
+              .setFooter('The TX Fee is paid by the tip sender. \nTransaction Hash ' + tx_hash);
             
             message.author.send({ embed })
               .then(() => {
