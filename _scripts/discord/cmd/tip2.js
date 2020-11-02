@@ -481,7 +481,7 @@ module.exports = {
               .addField('New Wallet Balance', '**' + newWal_bal + ' QRL**')
 
 
-              .setFooter('The TX Fee is paid by the tip sender. \nTransaction Hash ' + tx_hash, 'https://testnet-explorer.theqrl.org/img/qrl-full-logo.svg');
+              .setFooter('The TX Fee is paid by the tip sender. \nTransaction Hash ' + tx_hash, 'https://github.com/theQRL/assets/blob/master/logo/inverse/QRL_logo_inverse@10x.png?raw=true');
             
             message.author.send({ embed })
               .then(() => {
