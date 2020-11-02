@@ -470,9 +470,12 @@ module.exports = {
               .setColor(0x000000)
               .setTitle('Tip Sent!')
               .setDescription('Your tip was posted on the network. It may take a few minuets to confirm, see the transaction info in the [QRL Block Explorer](' + config.bot_details.explorer_url + '/tx/' + tx_hash + ')')
-              .addField('Total Transfer', '**' + toQuanta(tipTotal).toFixed(9) + '** QRL')
-              .addField('New Wallet Balance', '**' + newWal_bal + '**')
-              .addField('Sent total of `' + toQuanta(givenTip * tipUserCount) + '` QRL, or `' + toQuanta(givenTip) + '` QRL To: ', tippedUserIDs + ' ' + futureTippedUserIDs)
+              
+              .addField('Total Transfer', '**' + toQuanta(tipTotal).toFixed(9) + '** QRL', true )
+              .addField('New Wallet Balance', '**' + newWal_bal + '**', true)
+              
+              .addField('Sent total of `' + toQuanta(givenTip * tipUserCount).toFixed(9) + '` QRL')
+              .addField('or `' + toQuanta(givenTip).toFixed(9) + '` QRL To: ', tippedUserIDs + ' ' + futureTippedUserIDs)
               .addField('Transaction Hash `' + tx_hash + '`')
               .setFooter('The TX Fee is paid by the tip sender. \nThe current fee is set to ' + config.wallet.tx_fee + ' QRL');
             message.author.send({ embed })
