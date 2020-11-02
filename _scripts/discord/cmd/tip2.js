@@ -470,7 +470,8 @@ module.exports = {
               .setColor(0x000000)
               .setTitle('Tip Sent!')
               .setDescription('Your tip was posted on the network! It may take a few minuets to confirm\nSee the transaction info in the [QRL Block Explorer](' + config.bot_details.explorer_url + '/tx/' + tx_hash + ')')
-              .addField('\u200B', '\u200B')
+              // .addField('\u200B', '\u200B')
+              .setImage('https://github.com/theQRL/assets/blob/master/logo/inverse/QRL_logo_inverse@3x.png?raw=true')
    
               .addField('Tip Amount', '**' + givenTip.toFixed(9) + ' QRL**', true )
               .addField('Tip To Count', '**' + tipUserCount + ' User(s)**', true)
@@ -478,11 +479,10 @@ module.exports = {
               .addField('You Tipped', tippedUserIDs + ' ' + futureTippedUserIDs )
               
               .addField('Total Transfer', '**' + toQuanta(tipTotal).toFixed(9) + ' QRL**', true )
-              .addField('New Wallet Balance', '**' + newWal_bal + ' QRL**')
+              .addField('New Wallet Balance', '**' + newWal_bal + ' QRL**', true)
 
-              .setImage('https://github.com/theQRL/assets/blob/master/logo/inverse/QRL_logo_inverse@3x.png?raw=true')
 
-              .setFooter('The TX Fee is paid by the tip sender. \nTransaction Hash ' + tx_hash);
+              .setFooter('Transaction Hash ' + tx_hash);
             
             message.author.send({ embed })
               .then(() => {
