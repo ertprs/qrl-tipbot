@@ -481,7 +481,7 @@ module.exports = {
               .addField('New Wallet Balance', '**' + newWal_bal + ' QRL**')
 
 
-              .setFooter('The TX Fee is paid by the tip sender. \nTransaction Hash', '`' + tx_hash + '`');
+              .setFooter('The TX Fee is paid by the tip sender. \nTransaction Hash `' + tx_hash + '`');
             
             message.author.send({ embed })
               .then(() => {
