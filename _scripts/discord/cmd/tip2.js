@@ -247,6 +247,8 @@ module.exports = {
 
       // user found in database and passes initial checks.
       const tippingUserWallet_Pub = JSON.stringify(tipingUserInfo[0].wallet_pub);
+      const tippingUserWalPub = JSON.stringify(tipingUserInfo[0].wallet_pub);
+
       console.log('tippingUserWallet_Pub: ' + tippingUserWallet_Pub);
       const tippingUserWallet_Bal = toShor(JSON.stringify(tipingUserInfo[0].wallet_bal));
       console.log('tippingUserWallet_Bal: ' + tippingUserWallet_Bal);
@@ -479,7 +481,7 @@ module.exports = {
               .addField('You Tipped', tippedUserIDs + ' ' + futureTippedUserIDs )
               
               .addField('Total Transfer', '**' + toQuanta(tipTotal).toFixed(9) + ' QRL**', true )
-              .addField('New Wallet Balance', '[**' + newWal_bal + ' QRL**]('+ config.bot_details.explorer_url + '/a/' + tippingUserWallet_Pub + ')', true)
+              .addField('New Wallet Balance', '[**' + newWal_bal + ' QRL**]('+ config.bot_details.explorer_url + '/a/' + tippingUserWalPub + ')', true)
 
 
               .setFooter('Transaction Hash ' + tx_hash);
