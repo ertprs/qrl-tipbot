@@ -497,10 +497,12 @@ module.exports = {
             }
             message.channel.stopTyping(true);
             if (tipUserCount > 1) {
-              ReplyMessage('you tipped ' + tippedUserIDs + ',' + futureTippedUserIDs + ' `' + toQuanta(givenTip) + '` QRL each.\n*All tips are on-chain, and will take some time to process.*');
+              replyMessage({ header: 'Tip Sent!', description: 'you tipped ' + tippedUserIDs + ',' + futureTippedUserIDs + ' `' + toQuanta(givenTip) + '` QRL each.', content: '*All tips are on-chain, and will take some time to process.*' });
+              // ReplyMessage('you tipped ' + tippedUserIDs + ',' + futureTippedUserIDs + ' `' + toQuanta(givenTip) + '` QRL each.\n*All tips are on-chain, and will take some time to process.*');
             }
             else {
-              ReplyMessage('you tipped ' + tippedUserIDs + ',' + futureTippedUserIDs + ' `' + toQuanta(givenTip) + '` QRL.\n*All tips are on-chain, and will take some time to process.*');
+              replyMessage({ header: 'Tip Sent!', description: 'you tipped ' + tippedUserIDs + ',' + futureTippedUserIDs + ' `' + toQuanta(givenTip) + '` QRL.', content: '*All tips are on-chain, and will take some time to process.*' });
+              // ReplyMessage('you tipped ' + tippedUserIDs + ',' + futureTippedUserIDs + ' `' + toQuanta(givenTip) + '` QRL.\n*All tips are on-chain, and will take some time to process.*');
             }
           //  console.log('futureTippedUserIDs: ' + JSON.stringify(futureTippedUserIDs));
           //  console.log('tippedUserIDs: ' + JSON.stringify(tippedUserIDs));
