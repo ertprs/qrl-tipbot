@@ -484,10 +484,10 @@ module.exports = {
             }
             message.channel.stopTyping(true);
             if (tipUserCount > 1) {
-              ReplyMessage(' `' + toQuanta(givenTip) + 'QRL` tip sent to ' + tippedUserIDs + ',' + futureTippedUserIDs + ' each. Thanks for using the tipbot!\n*All tips are on-chain, and will take some time to process.*');
+              ReplyMessage('A `' + toQuanta(givenTip) + ' QRL` tip was sent to ' + tippedUserIDs + ',' + futureTippedUserIDs + ' each. Thanks for using the tipbot!\n*All tips are on-chain, and will take some time to process.*');
             }
             else {
-              ReplyMessage(' `' + toQuanta(givenTip) + 'QRL` tip sent to ' + tippedUserIDs + ',' + futureTippedUserIDs + ' Thanks for using the tipbot!\n*All tips are on-chain, and will take some time to process.*');
+              ReplyMessage('A `' + toQuanta(givenTip) + ' QRL` tip was sent to ' + tippedUserIDs + ',' + futureTippedUserIDs + ' Thanks for using the tipbot!\n*All tips are on-chain, and will take some time to process.*');
             }
           //  console.log('futureTippedUserIDs: ' + JSON.stringify(futureTippedUserIDs));
           //  console.log('tippedUserIDs: ' + JSON.stringify(tippedUserIDs));
