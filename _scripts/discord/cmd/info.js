@@ -188,7 +188,7 @@ module.exports = {
           { name: 'Circulating / Total Supply', value: '`' + thousandths(circulatingSupply.toFixed(0)) + ' / ' + thousandths(totalSupply) + '`' },
         )
         .setTimestamp()
-        .setFooter('.: The QRL Contributors :. Market data provided by Coin Gecko');
+        .setFooter('.: The QRL TipBot - https://QRL.tips :. Market data provided by Coin Gecko');
       message.reply({ embed })
         .then(() => {
           message.channel.stopTyping(true);
@@ -211,7 +211,7 @@ module.exports = {
           { name: 'Faucet Wallet Address', value: '[' + FaucetWalletPub + '](' + config.bot_details.explorer_url + '/a/' + FaucetWalletPub + ')' },
         )
         .setTimestamp()
-        .setFooter('Use the address above if you would like to contribute to the faucet .: The QRL Contributors :.');
+        .setFooter('Use the address above if you would like to contribute to the faucet .: The QRL TipBot - https://QRL.tips :.');
       message.reply({ embed })
         .then(() => {
           message.channel.stopTyping(true);
@@ -244,7 +244,7 @@ module.exports = {
           { name: 'Bid / Ask Spread:', value: '` ' + bittrexBidAsk + ' %`', inline: true },
           )
           .setTimestamp()
-          .setFooter('Market Data provided by Coin Gecko - .: The QRL Contributors :. ');
+          .setFooter('Market Data provided by Coin Gecko - .: The QRL TipBot - https://QRL.tips :. ');
         message.reply({ embed })
           .then(() => {
             message.channel.stopTyping(true);
@@ -273,7 +273,7 @@ module.exports = {
           { name: 'Bid / Ask Spread:', value: '` ' + upbitBidAsk + ' %`', inline: true },
           )
           .setTimestamp()
-          .setFooter('Market Data provided by Coin Gecko - .: The QRL Contributors :. ');
+          .setFooter('Market Data provided by Coin Gecko - .: The QRL TipBot - https://QRL.tips :. ');
         message.reply({ embed })
           .then(() => {
             message.channel.stopTyping(true);
@@ -302,7 +302,7 @@ module.exports = {
           { name: 'Bid / Ask Spread:', value: '` ' + upbitIndonesiaBidAsk + ' %`', inline: true },
           )
           .setTimestamp()
-          .setFooter('Market Data provided by Coin Gecko - .: The QRL Contributors :. ');
+          .setFooter('Market Data provided by Coin Gecko - .: The QRL TipBot - https://QRL.tips :. ');
         message.reply({ embed })
           .then(() => {
             message.channel.stopTyping(true);
@@ -331,7 +331,7 @@ module.exports = {
           { name: 'Bid / Ask Spread:', value: '` ' + vccBidAsk + ' %`', inline: true },
           )
           .setTimestamp()
-          .setFooter('Market Data provided by Coin Gecko - .: The QRL Contributors :. ');
+          .setFooter('Market Data provided by Coin Gecko - .: The QRL TipBot - https://QRL.tips :. ');
         message.reply({ embed })
           .then(() => {
             message.channel.stopTyping(true);
@@ -359,7 +359,7 @@ module.exports = {
           .addFields(
           )
           .setTimestamp()
-          .setFooter('.: The QRL Contributors :.');
+          .setFooter('.: The QRL TipBot - https://QRL.tips :.');
         message.reply({ embed })
           .then(() => {
             message.channel.stopTyping(true);
@@ -390,7 +390,7 @@ module.exports = {
           .addFields(
           )
           .setTimestamp()
-          .setFooter('.: The QRL Contributors :.');
+          .setFooter('.: The QRL TipBot - https://QRL.tips :.');
         message.reply({ embed })
           .then(() => {
             message.channel.stopTyping(true);
@@ -422,7 +422,7 @@ module.exports = {
           // { name: 'Bot Transaction Fees:', value: '`\u0024 ' + botFee + '`', inline: true },
         )
         .setTimestamp()
-        .setFooter('.: The QRL Contributors :.');
+        .setFooter('.: The QRL TipBot - https://QRL.tips :.');
       message.reply({ embed })
         .then(() => {
           message.channel.stopTyping(true);
@@ -478,7 +478,7 @@ module.exports = {
           )
           .addField('QRL / USD', '`1 QRL = \u0024 ' + thousandths(usdValue) + '`', true)
           .setTimestamp()
-          .setFooter('.: The QRL Contributors :. Market data provided by Coin Gecko');
+          .setFooter('.: The QRL TipBot - https://QRL.tips :. Market data provided by Coin Gecko');
         message.author.send({ embed })
           .then(() => {
             message.channel.stopTyping(true);

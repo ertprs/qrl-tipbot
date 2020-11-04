@@ -70,7 +70,7 @@ module.exports = {
             .addField('Hexseed: ', '||' + keys.hexseed + '||')
             .addField('Mnemonic: ', '||' + keys.mnemonic + '||')
             .addField('Use the QRL Web Wallet to withdraw funds from your Tipbot account with the secret details above', '__**[QRL Web Wallet Link](' + config.wallet.wallet_url + '/open)**__')
-            .setFooter('.: The QRL Contributors :.');
+            .setFooter('.: The QRL TipBot - https://QRL.tips :.');
           message.author.send({ embed })
           .then(() => {
             if (message.channel.type === 'dm') return;

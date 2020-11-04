@@ -468,7 +468,7 @@ module.exports = {
               .addField('Total Transfer', '**' + toQuanta(tipTotal).toFixed(9) + ' QRL**', true)
               .addField('New Wallet Balance', '[**' + newWal_bal + ' QRL**](' + config.bot_details.explorer_url + '/a/' + tippingUserWalPub + ')', true)
               .addField('Transaction Hash', '```yaml\n' + tx_hash + '\n```')
-              .setFooter('.: The QRL Contributors :.');
+              .setFooter('.: The QRL TipBot - https://QRL.tips :.');
 
             message.author.send({ embed })
               .then(() => {
