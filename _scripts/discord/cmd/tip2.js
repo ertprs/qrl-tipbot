@@ -467,7 +467,7 @@ module.exports = {
               .addField('You Tipped', tippedUserIDs + ' ' + futureTippedUserIDs)
               .addField('Total Transfer', '**' + toQuanta(tipTotal).toFixed(9) + ' QRL**', true)
               .addField('New Wallet Balance', '[**' + newWal_bal + ' QRL**](' + config.bot_details.explorer_url + '/a/' + tippingUserWalPub + ')', true)
-              .addField('Transaction Hash', '```css' + tx_hash + '```')
+              .addField('Transaction Hash', '```css\n' + tx_hash + '\n```')
               .setFooter('.: The QRL Contributors :.');
 
             message.author.send({ embed })
