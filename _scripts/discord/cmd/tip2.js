@@ -33,19 +33,6 @@ module.exports = {
       }, 1000);
     }
 
-    function replyMessage(header, description, content, footer = '.: Tipbot provided by The QRL Contributors :.') {
-      setTimeout(function() {
-        const embed = new Discord.MessageEmbed()
-          .setColor(0x000000)
-          .setTitle('ERROR: ' + header)
-          .setDescription(description)
-          .addField(content)
-          .setFooter(footer);
-        message.reply({ embed });
-        message.channel.stopTyping(true);
-      }, 1000);
-    }
-
     function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
       setTimeout(function() {
         const embed = new Discord.MessageEmbed()
@@ -497,12 +484,10 @@ module.exports = {
             }
             message.channel.stopTyping(true);
             if (tipUserCount > 1) {
-              replyMessage({ header: "'Tip Sent!'", description: "'you tipped ' + tippedUserIDs + ',' + futureTippedUserIDs + ' `' + toQuanta(givenTip) + '` QRL each.'", content: '*All tips are on-chain, and will take some time to process.*' });
-              // ReplyMessage('you tipped ' + tippedUserIDs + ',' + futureTippedUserIDs + ' `' + toQuanta(givenTip) + '` QRL each.\n*All tips are on-chain, and will take some time to process.*');
+              ReplyMessage(' `' + toQuanta(givenTip) + 'QRL` tip sent to ' + tippedUserIDs + ',' + futureTippedUserIDs + ' each. Thanks for using the tipbot!\n*All tips are on-chain, and will take some time to process.*');
             }
             else {
-              replyMessage({ header: "'Tip Sent!'", description: "'you tipped ' + tippedUserIDs + ',' + futureTippedUserIDs + ' `' + toQuanta(givenTip) + '` QRL.'", content: '*All tips are on-chain, and will take some time to process.*' });
-              // ReplyMessage('you tipped ' + tippedUserIDs + ',' + futureTippedUserIDs + ' `' + toQuanta(givenTip) + '` QRL.\n*All tips are on-chain, and will take some time to process.*');
+              ReplyMessage(' `' + toQuanta(givenTip) + 'QRL` tip sent to ' + tippedUserIDs + ',' + futureTippedUserIDs + ' Thanks for using the tipbot!\n*All tips are on-chain, and will take some time to process.*');
             }
           //  console.log('futureTippedUserIDs: ' + JSON.stringify(futureTippedUserIDs));
           //  console.log('tippedUserIDs: ' + JSON.stringify(tippedUserIDs));
