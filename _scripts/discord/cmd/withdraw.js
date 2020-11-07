@@ -53,12 +53,12 @@ module.exports = {
 
     if ((args[0] == undefined) || (args [1] == undefined)) {
       message.channel.startTyping();
-        // if not in private message delete the message
-        if(message.guild != null) {
-          message.delete();
-        }
+      // if not in private message delete the message
+      if(message.guild != null) {
+        message.delete();
+      }
       setTimeout(function() {
-        message.reply('Incorrect info given, please check your DM\'s')
+        message.reply('Incorrect info given, please check your DM\'s');
         message.channel.stopTyping(true);
       }, 1000);
 
@@ -143,8 +143,9 @@ module.exports = {
           }, 1000);
           return;
         }
+        const trans_amt = args[0];
         // check for balance in wallet
-        if (shor_bal <= 0) {
+        if (shor_bal <= 0 || shor_bal < trans_amt) {
           // wallet is empty, give error and return
           message.channel.startTyping();
           // if not in private message delete the message
@@ -153,18 +154,19 @@ module.exports = {
           }
           message.channel.startTyping();
           setTimeout(function() {
-            message.reply('No funds in your account.');
+            message.reply('Not enough funds in your account.');
             message.channel.stopTyping(true);
           }, 1000);
           return;
         }
+
         // transfer all funds called.
         if (args[0] == 'all') {
           // transfer all the funds
           // if not in private message delete the message
           if(message.guild != null) {
             message.delete();
-          }      
+          }
           setTimeout(function() {
             message.reply('Sending your transaction to the blockchain, I\'ll be right back...');
             message.channel.stopTyping(true);
@@ -180,7 +182,7 @@ module.exports = {
             // console.log('transferQrl: ' + JSON.stringify(transferQrl));
             const transferOutput = JSON.parse(transferQrl);
             const tx_hash = transferOutput.tx.transaction_hash;
-            message.channel.send('Funds have been sent! ' + message.author.toString() + '  details are in your DM\'s.\n*It may take a bit for the transaction to confirm.*' )
+            message.channel.send('Funds have been sent! ' + message.author.toString() + '  details are in your DM\'s.\n*It may take a bit for the transaction to confirm.*');
             const embed = new Discord.MessageEmbed()
               .setColor(0x000000)
               .setTitle('Funds Transfered')
@@ -208,14 +210,13 @@ module.exports = {
         else {
           // transfer amount given, do some checks and send
           // check that amount is correct value
-          const trans_amt = args[0];
           const testQRLValue = isQRLValue(trans_amt);
           if (!testQRLValue) {
             message.channel.startTyping();
             // if not in private message delete the message
             if(message.guild != null) {
               message.delete();
-            } 
+            }
             setTimeout(function() {
               message.reply('Invalid amount. Please try again.');
               message.channel.stopTyping(true);
@@ -232,60 +233,60 @@ module.exports = {
             // if not in private message delete the message
             if(message.guild != null) {
               message.delete();
-            } 
+            }
             setTimeout(function() {
               message.reply('You\'re trying to transfer more QRL than you have!');
-              message.author.send('You are trying to send more QRL than you have. Your current balance is: **' + wallet_bal + '**')
+              message.author.send('You are trying to send more QRL than you have. Your current balance is: **' + wallet_bal + '**');
               message.channel.stopTyping(true);
             }, 1000);
             return;
           }
-         // user has given good info and not 'all' selected to transfer. Send the amount given to user defined address
+          // user has given good info and not 'all' selected to transfer. Send the amount given to user defined address
           // if not in private message delete the message
-            if(message.guild != null) {
-              message.delete();
-            }      
+          if(message.guild != null) {
+            message.delete();
+          }
+          message.reply('Sending your transaction to the blockchain, I\'ll be right back...');
+          const totalTransArray = [];
+          const addressToArray = [];
+          totalTransArray.push(total_transfer);
+          addressToArray.push(transfer_to);
+          const transferInfo = { address_to: addressToArray, amount: totalTransArray, fee: fee, address_from: wallet_pub };
+          // console.log('transferInfo ' + JSON.stringify(transferInfo));
+          transfer(transferInfo).then(function(transferQrl) {
+            const transferOutput = JSON.parse(transferQrl);
+            // console.log(chalk.cyan('transferQRL output: ') + chalk.bgGreen.black(JSON.stringify(transferQrl)));
+            const tx_hash = transferOutput.tx.transaction_hash;
+            const total_transferQuanta = total_transfer / toShor;
+            const wdDBInfo = { service: 'discord', user_id: user_id, tx_hash: tx_hash, to_address: transfer_to, amt: total_transferQuanta };
+            wdDB(wdDBInfo);
             setTimeout(function() {
-              message.reply('Sending your transaction to the blockchain, I\'ll be right back...');
               message.channel.stopTyping(true);
-            }, 1000);
-            const totalTransArray = [];
-            const addressToArray = [];
-            totalTransArray.push(total_transfer);
-            addressToArray.push(transfer_to);
-            const transferInfo = { address_to: addressToArray, amount: totalTransArray, fee: fee, address_from: wallet_pub };
-              // console.log('transferInfo ' + JSON.stringify(transferInfo));
-              transfer(transferInfo).then(function(transferQrl) {
-                const transferOutput = JSON.parse(transferQrl);
-                // console.log(chalk.cyan('transferQRL output: ') + chalk.bgGreen.black(JSON.stringify(transferQrl)));
-                const tx_hash = transferOutput.tx.transaction_hash;
-                const total_transferQuanta = total_transfer / toShor;
-                const wdDBInfo = { service: 'discord', user_id: user_id, tx_hash: tx_hash, to_address: transfer_to, amt: total_transferQuanta };
-                wdDB(wdDBInfo);
-                message.channel.send('Funds have been sent! ' + message.author.toString() + ' details are in your DM\'s.\n*It may take a bit for the transaction to confirm.*' )
-                const embed = new Discord.MessageEmbed()
-                  .setColor(0x000000)
-                  .setTitle('Funds Transfered')
-                  .setDescription('Your transaction has posted on the network. It may take a few minuets to confirm, see the transaction info in the [QRL Block Explorer](' + config.bot_details.explorer_url + '/tx/' + tx_hash + ')')
-                  .addField('Transfer amount', '**' + total_transferQuanta + '**')
-                  .addField('Transfer fee', '**' + config.wallet.tx_fee + '**')
-                  .addField('Transfer To Address', '** ' + transfer_to + '**')
-                  .setFooter('The TX Fee is taken from the transfer amount and set by the bot owner. Current fee is set to ' + config.wallet.tx_fee);
-                message.author.send({ embed })
-                  .then(() => {
-                    message.channel.stopTyping(true);
-                    if (message.channel.type !== 'dm') return;
-                  })
-                  .catch(error => {
-                    console.error(chalk.red(`Could not send help DM to ${message.author.tag}.\n`), error);
-                    message.channel.startTyping();
-                    setTimeout(function() {
-                      message.reply('It seems like I can\'t DM you! Do you have DMs disabled?');
-                      message.channel.stopTyping(true);
-                    }, 1000);
-                  });
+              message.channel.send('Funds have been sent! ' + message.author.toString() + ' details are in your DM\'s.\n*It may take a bit for the transaction to confirm.*');
+            }, 2000);
+            const embed = new Discord.MessageEmbed()
+              .setColor(0x000000)
+              .setTitle('Funds Transfered')
+              .setDescription('Your transaction has posted on the network. It may take a few minuets to confirm, see the transaction info in the [QRL Block Explorer](' + config.bot_details.explorer_url + '/tx/' + tx_hash + ')')
+              .addField('Transfer amount', '**' + total_transferQuanta + '**')
+              .addField('Transfer fee', '**' + config.wallet.tx_fee + '**')
+              .addField('Transfer To Address', '** ' + transfer_to + '**')
+              .setFooter('The TX Fee is taken from the transfer amount and set by the bot owner. Current fee is set to ' + config.wallet.tx_fee);
+            message.author.send({ embed })
+              .then(() => {
+                message.channel.stopTyping(true);
+                if (message.channel.type !== 'dm') return;
+              })
+              .catch(error => {
+                console.error(chalk.red(`Could not send help DM to ${message.author.tag}.\n`), error);
+                message.channel.startTyping();
+                setTimeout(function() {
+                  message.reply('It seems like I can\'t DM you! Do you have DMs disabled?');
+                  message.channel.stopTyping(true);
+                }, 1000);
               });
-            return;
+          });
+          return;
         }
       }
     });
