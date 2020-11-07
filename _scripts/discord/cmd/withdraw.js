@@ -248,7 +248,6 @@ module.exports = {
           }
           message.reply('Sending your transaction to the blockchain, I\'ll be right back...');
           message.channel.startTyping();
-
           const totalTransArray = [];
           const addressToArray = [];
           totalTransArray.push(total_transfer);
@@ -263,9 +262,9 @@ module.exports = {
             const wdDBInfo = { service: 'discord', user_id: user_id, tx_hash: tx_hash, to_address: transfer_to, amt: total_transferQuanta };
             wdDB(wdDBInfo);
             setTimeout(function() {
-              message.channel.stopTyping(true);
               message.channel.send('Funds have been sent! ' + message.author.toString() + ' details are in your DM\'s.\n*It may take a bit for the transaction to confirm.*');
             }, 2000);
+            message.channel.stopTyping(true);
             const embed = new Discord.MessageEmbed()
               .setColor(0x000000)
               .setTitle('Funds Transfered')
