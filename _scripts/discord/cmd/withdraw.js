@@ -247,6 +247,8 @@ module.exports = {
             message.delete();
           }
           message.reply('Sending your transaction to the blockchain, I\'ll be right back...');
+          message.channel.startTyping();
+
           const totalTransArray = [];
           const addressToArray = [];
           totalTransArray.push(total_transfer);
