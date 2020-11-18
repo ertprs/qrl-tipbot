@@ -116,7 +116,7 @@ module.exports = {
       const priceChange24hPercent = cgData.market_data.price_change_percentage_24h;
       const circulatingSupply = cgData.market_data.circulating_supply;
       const totalSupply = cgData.market_data.total_supply;
-      console.log(cgData.tickers);
+      // console.log(cgData.tickers);
       // bittrex info from coinGecko
       const bittrexVolumeRaw = cgData.tickers[0].volume;
       // const bittrexVolume = thousandths(bittrexVolumeRaw.toFixed(2));
