@@ -9,7 +9,7 @@ Look for the [#database] section there and add your details.
 
 ## DB Install
 
-Wwe have chosen MySQL for this project.
+We have chosen MySQL for this project.
 
 ```bash
 ## Install the database
