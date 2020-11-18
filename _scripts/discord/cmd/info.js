@@ -112,8 +112,7 @@ module.exports = {
     const explorerURL = config.bot_details.explorer_url;
     // get updated bot wallet balance and faucet wallet balance
     const cgData = JSON.parse(await getCgData());
-    console.log(cgData);
-    
+
     const priceChange24hPercent = cgData.market_data.price_change_percentage_24h;
     const circulatingSupply = cgData.market_data.circulating_supply;
     const totalSupply = cgData.market_data.total_supply;
@@ -123,6 +122,7 @@ module.exports = {
     const vccIdentifier = cgData.tickers[0].market.name;
     const vccURL = cgData.tickers[0].trade_url;
 
+    console.log(cgData.tickers);
     // bittrex info from coinGecko
     const bittrexVolumeRaw = cgData.tickers[1].volume;
     const bittrexVolume = thousandths(bittrexVolumeRaw.toFixed(2));
