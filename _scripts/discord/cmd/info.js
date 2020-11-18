@@ -116,31 +116,35 @@ module.exports = {
     const priceChange24hPercent = cgData.market_data.price_change_percentage_24h;
     const circulatingSupply = cgData.market_data.circulating_supply;
     const totalSupply = cgData.market_data.total_supply;
-    // vcc info
+    console.log(cgData.tickers);
+    // bittrex info from coinGecko
+    const bittrexVolumeRaw = cgData.tickers[0].volume;
+    const bittrexVolume = thousandths(bittrexVolumeRaw.toFixed(2));
+    const bittrexIdentifier = cgData.tickers[0].market.name;
+    const bittrexURL = cgData.tickers[0].trade_url;
+
+
+/*    // vcc info
     const vccVolumeRaw = cgData.tickers[0].volume;
     const vccVolume = thousandths(vccVolumeRaw.toFixed(2));
     const vccIdentifier = cgData.tickers[0].market.name;
     const vccURL = cgData.tickers[0].trade_url;
-
-    console.log(cgData.tickers);
-    // bittrex info from coinGecko
-    const bittrexVolumeRaw = cgData.tickers[1].volume;
-    const bittrexVolume = thousandths(bittrexVolumeRaw.toFixed(2));
-    const bittrexIdentifier = cgData.tickers[1].market.name;
-    const bittrexURL = cgData.tickers[1].trade_url;
+*/
+/*
 
     // upbit info
     const upbitVolumeRaw = cgData.tickers[2].volume;
     const upbitVolume = thousandths(upbitVolumeRaw.toFixed(2));
     const upbitIdentifier = cgData.tickers[2].market.name;
     const upbitURL = cgData.tickers[2].trade_url;
-
+*/
+/*
     // upbit Indonesia info
     const upbitIndonesiaVolumeRaw = cgData.tickers[3].volume;
     const upbitIndonesiaVolume = thousandths(upbitIndonesiaVolumeRaw.toFixed(2));
     const upbitIndonesiaIdentifier = cgData.tickers[3].market.name;
     const upbitIndonesiaURL = cgData.tickers[3].trade_url;
-
+*/
      // USD Market data
     const usdValue = cgData.market_data.current_price.usd;
     const usdATH = cgData.market_data.ath.usd;
@@ -227,11 +231,11 @@ module.exports = {
       // Bittrex
       // #####################
       if (args[1] == 'bittrex') {
-        const bittrexLastBTC = cgData.tickers[1].last;
-        const bittrexBidAsk = cgData.tickers[1].bid_ask_spread_percentage;
-        const bittrexConvertedVolumeBtc = cgData.tickers[1].converted_volume.btc;
-        const bittrexConvertedVolumeEth = cgData.tickers[1].converted_volume.eth;
-        const bittrexConvertedVolumeUsd = cgData.tickers[1].converted_volume.usd;
+        const bittrexLastBTC = cgData.tickers[0].last;
+        const bittrexBidAsk = cgData.tickers[0].bid_ask_spread_percentage;
+        const bittrexConvertedVolumeBtc = cgData.tickers[0].converted_volume.btc;
+        const bittrexConvertedVolumeEth = cgData.tickers[0].converted_volume.eth;
+        const bittrexConvertedVolumeUsd = cgData.tickers[0].converted_volume.usd;
         const embed = new Discord.MessageEmbed()
           .setColor('GREEN')
           .setTitle('**QRL Bittrex Information**')
@@ -252,6 +256,7 @@ module.exports = {
             message.channel.stopTyping(true);
         });
       }
+/*
       // #####################
       // Upbit
       // #####################
@@ -281,6 +286,8 @@ module.exports = {
             message.channel.stopTyping(true);
         });
       }
+*/
+/*
       // #####################
       // Upbit Indonesia
       // #####################
@@ -310,9 +317,12 @@ module.exports = {
             message.channel.stopTyping(true);
         });
       }
+ */     
+/*
       // #####################
       // VCC Exchange
       // #####################
+      
       else if (args[1] == 'vcc') {
         const vccLastBTC = cgData.tickers[0].last;
         const vccBidAsk = cgData.tickers[0].bid_ask_spread_percentage;
@@ -339,6 +349,8 @@ module.exports = {
             message.channel.stopTyping(true);
         });
       }
+*/
+
       // if none with API endpoints then give this message.
       // FIX-ME: Need to integrate withadditional services or direct from exchange
       else if (args[1] == 'biteeu' || args[1] == 'bitvoicex' || args[1] == 'cointiger' || args[1] == 'simpleswap' || args[1] == 'swapzone' || args[1] == 'stealthex') {

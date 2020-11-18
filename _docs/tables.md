@@ -29,7 +29,7 @@ The `discord_users` table will store all discord user information at account sig
 
 ### `discord_link` Table
 
-The `discord_link` table will store all discord user information at account signup time.
+The `discord_link` table will store all discord user linking additional services.
 
 - **id** *primary_key* is created at entry time  
 - **user_id** Initiator's User ID
@@ -39,8 +39,8 @@ The `discord_link` table will store all discord user information at account sign
 - **validated** Alt service validated? boolean
 - **expired** Is it expired? true if new key is written or if time expired
 - **link_time_stamp** is created at entry time `NOW()`  
-- **valid_time_stamp** is created at validation from alt service `NOW()`  
-- **expired_time_stamp** is created only if key expires `NOW()`  
+- **valid_time_stamp** is created at validation from alt service   
+- **expired_time_stamp** is created only if key expires 
 
 
 ```sql
