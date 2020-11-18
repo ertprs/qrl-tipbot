@@ -386,8 +386,7 @@ module.exports = {
           .setTitle('**QRL Exchange Info**')
           .setURL('https://theqrl.org/markets/')
           .setDescription(`Exchange information where you can trade $QRL
-
-          [:small_blue_diamond: ${bittrexIdentifier}](${bittrexURL})\tvolume: \`\u0024${bittrexVolume}\`
+          [:small_blue_diamond: ${bittrexIdentifier}](${bittrexURL})
           [:small_blue_diamond: BITEEU](https://trade.biteeu.com/search)
           [:small_blue_diamond: Bitvoicex](https://bitvoicex.net/markets/qrl_btc)
           [:small_blue_diamond: CoinTiger](https://www.cointiger.com/en-us/#/trade_center?coin=qrl_btc)
