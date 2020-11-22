@@ -7,7 +7,7 @@ module.exports = {
   usage: '\n## **agree** - Agree to the terms and conditions of the tipbot.  ',
   // execute(message, args) {
   execute(message) {
-    // const Discord = require('discord.js');
+    const Discord = require('discord.js');
     const dbHelper = require('../../db/dbHelper');
     // const config = require('../../../_config/config.json');
     const username = `${message.author}`;
