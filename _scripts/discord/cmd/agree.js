@@ -77,10 +77,25 @@ module.exports = {
     async function main() {
       const userInfo = await getUserInfo({ service: 'discord', service_id: userID });
       console.log('userInfo: ' + JSON.stringify(userInfo));
-
+      return userInfo;
     }
 
-    main();
+    main().then(function(infoReturned) {
+      const userFound = infoReturned[0].user_found;
+      if (userFound) {
+        console.log('UserFound!');
+        const userAgreeStatus = infoReturned[0].user_agree;
+        if (userAgreeStatus) {
+          console.log('user already agreed');
+        }
+        else {
+          console.log('Not yet agreed, add to DB and reply');
+        }
+      }
+      else {
+        console.log('userNotFound');
+      }
+    });
 
     // delete the message after user sends agree request if not in a DM
     if(message.guild != null) {
