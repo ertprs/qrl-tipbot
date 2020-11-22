@@ -30,12 +30,12 @@ module.exports = {
       setTimeout(function() {
         const embed = new Discord.MessageEmbed()
           .setColor(0x008A11)
-          .setTitle('::white_check_mark:: ' + content.title)
+          .setTitle(':white_check_mark: ' + content.title)
           .setDescription(content.description)
-          .addField(content.term1)
-          .addField(content.term2)
-          .addField(content.term3)
-          .addField(content.term4)
+          .addField(content.term_1)
+          .addField(content.term_2)
+          .addField(content.term_3)
+          .addField(content.term_4)
           .setFooter(content.footer || footer);
         message.reply({ embed });
         message.channel.stopTyping(true);
