@@ -472,7 +472,7 @@ module.exports = {
           )
           .setTimestamp()
           .setFooter('.: The QRL TipBot :. ');
-        message.reply({ embed })
+        message.author.send({ embed })
           .then(() => {
             message.channel.stopTyping(true);
           });
