@@ -473,14 +473,8 @@ module.exports = {
           .setFooter('.: The QRL TipBot :. ');
         message.author.send({ embed })
           .then(() => {
-            const embed1 = new Discord.MessageEmbed()
-              .setColor('GREEN')
-              .setTitle('**QRL Tipbot Info**')
-              .setURL(botUrl)
-              .setDescription('The tipbot enables sending QRL tips to other discord users. The bot will create an individual address for each bot user with the `+add` command. \n\n:small_blue_diamond: All tips are on chain and can be seen in the [QRL Block Explorer](' + explorerURL + '). \n:small_blue_diamond: `+transfer` your earned tips out of the tipbot.\n:small_blue_diamond: Use the [QRL Web Wallet](' + config.wallet.wallet_url + ') if you need a new address\n\n**More details in your DM**')
-              .setTimestamp()
-              .setFooter('.: The QRL TipBot :. ');
-            message.reply({ embed1 });
+
+            message.reply('The tipbot enables sending QRL tips to other discord users. The bot will create an individual address for each bot user with the `+add` command. \n\n:small_blue_diamond: All tips are on chain and can be seen in the [QRL Block Explorer](' + explorerURL + '). \n:small_blue_diamond: `+transfer` your earned tips out of the tipbot.\n:small_blue_diamond: Use the [QRL Web Wallet](' + config.wallet.wallet_url + ') if you need a new address\n\n**More details in your DM**');
             message.channel.stopTyping(true);
           });
       }
