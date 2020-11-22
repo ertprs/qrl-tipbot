@@ -9,9 +9,7 @@ module.exports = {
   execute(message) {
     message.reply(' Check your DM\'s')
     message.author.send(`
-
-            __**TipBot Terms and Conditions**__
-
+__**TipBot Terms and Conditions**__
 :small_orange_diamond: Use of this TipBot and any function it may provide to you, as the user, is at your risk.
 :small_orange_diamond: By using this service you agree to not hold liable, for any reasons, the owner, operators, or any affiliates of the QRL TipBot or anyone associated with this service.
 :small_orange_diamond: By using this service, you agree to not abuse or misuse the service and will follow the rules listed below. 
@@ -25,13 +23,9 @@ module.exports = {
 :small_orange_diamond: Users will not store large amounts of funds in any tipbot wallet
 
 __**You assume all risk by using this service**__
-
----
-
                     `);
-                    message.author.send(`
-           :exclamation: __**RULES**__ :exclamation:
-
+    message.author.send(`
+:exclamation: __**RULES**__ :exclamation:
 :diamond_shape_with_a_dot_inside:  *All tips are final once sent.* 
 :diamond_shape_with_a_dot_inside: *Tips will never be refunded or returned to a user, for any reason.*
 :diamond_shape_with_a_dot_inside: *This service is for tipping or giving small amounts of QRL to other users.*

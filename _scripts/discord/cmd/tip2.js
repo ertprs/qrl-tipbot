@@ -62,6 +62,7 @@ module.exports = {
       const shor = 1000000000;
       return number / shor;
     }
+
     function isQRLValue(str) {
       // receive amount in shor, do accordingly
       // Fail immediately.
@@ -162,6 +163,7 @@ module.exports = {
       const arrayCount = list.length;
       return arrayCount;
     }
+    
     // check if user mentioned another user to tip
     if (!message.mentions.users.size) {
       // console.log('No Users mentioned.');
