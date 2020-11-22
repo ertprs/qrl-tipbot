@@ -87,7 +87,7 @@ module.exports = {
           const botUserId = infoReturned[0].user_id;
           userAgreeAdd(botUserId).then(function() {
             // console.log('agreeReturn: ' + JSON.stringify(agreeReturn));
-            ReplyMessage('You\'ve agreed :white_check_mark: You can now use the tipbot!');
+            ReplyMessage('You\'ve agreed! You can now use the tipbot :white_check_mark:');
           });
         }
       }
