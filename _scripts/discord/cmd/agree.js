@@ -17,14 +17,6 @@ module.exports = {
     message.channel.startTyping();
 
     // default reply message format
-    // ReplyMessage('**You\'ve sent a `' + toQuanta(givenTip) + ' QRL` tip to ' + tippedUserIDs + ',' + futureTippedUserIDs + ' each**. Thanks for using the tipbot!\n*All tips are on-chain, and will take some time to process.*');
-    function ReplyMessage(content) {
-      setTimeout(function() {
-        message.reply(content);
-        message.channel.stopTyping(true);
-      }, 1000);
-    }
-
     // successReplyMessage({ title: 'You\ve Agreed!!', description: , term_1: , term_2: , term_3: , term_4: , footer: 'You can now use the Bot!' });
     function successReplyMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
       setTimeout(function() {
@@ -105,7 +97,6 @@ module.exports = {
           const botUserId = infoReturned[0].user_id;
           userAgreeAdd(botUserId).then(function() {
             // console.log('agreeReturn: ' + JSON.stringify(agreeReturn));
-            ReplyMessage('You\'ve agreed! You can now use the tipbot :white_check_mark:');
             successReplyMessage({ title: 'You\ve Agreed!!', description: 'Here are the terms you agreed to:', term_1: 'Use at your own risk', term_1_description: 'You will not hold the tipbot accountable', term_2: 'You won\'t misuse the bot', term_2_description: 'be nice to the bot and others', term_3: 'You agree to share information with tipbot', term_3_description: '(usernames, tx details, wallet address)', term_4: 'You will not store a lot of QRL on the tipbot.', term_4_description: 'Transfer all excess funds to a wallet only you own!', footer: 'Thanks, You can now use the Bot!' });
           });
         }
