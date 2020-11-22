@@ -97,7 +97,7 @@ module.exports = {
           const botUserId = infoReturned[0].user_id;
           userAgreeAdd(botUserId).then(function() {
             // console.log('agreeReturn: ' + JSON.stringify(agreeReturn));
-            successReplyMessage({ title: 'You\'ve Agreed!!', description: 'Here are the terms you agreed to:', term_1: 'Use at your own risk', term_1_description: 'You will not hold the tipbot accountable', term_2: 'You won\'t misuse the bot', term_2_description: 'be nice to the bot and others', term_3: 'You agree to share information with tipbot', term_3_description: '(usernames, tx details, wallet address)', term_4: 'You will not store a lot of QRL on the tipbot.', term_4_description: 'Transfer all excess funds to a wallet only you own!', footer: 'Thanks, You can now use the Bot!' });
+            successReplyMessage({ title: 'You\'ve Agreed!!', description: 'Here are the terms you agreed to:', term_1: 'Use at your own risk', term_1_description: 'You will not hold the tipbot accountable', term_2: 'You won\'t misuse the bot', term_2_description: 'be nice to the bot and others', term_3: 'You agree to share information with tipbot', term_3_description: 'usernames, tx details, wallet address etc.', term_4: 'You will not store QRL on the tipbot.', term_4_description: 'Transfer all excess funds to a wallet only you own!', footer: 'Enter +terms for full agreement. You can now use the Bot!' });
           });
         }
       }
