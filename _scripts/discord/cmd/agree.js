@@ -3,7 +3,7 @@ module.exports = {
   description: 'Agree to the terms of the bot',
   args: false,
   guildOnly: false,
-  cooldown: 0,
+  // cooldown: 0,
   usage: '\n## **agree** - Agree to the terms and conditions of the tipbot.  ',
   // execute(message, args) {
   execute(message) {
@@ -85,10 +85,10 @@ module.exports = {
     // check for user then if found check for already agreed, if not then set
     main().then(function(infoReturned) {
       const userFound = infoReturned[0].user_found;
-      if (userFound) {
+      if (userFound === 'true') {
         // console.log('UserFound!');
         const userAgreeStatus = infoReturned[0].user_agree;
-        if (userAgreeStatus == 'true') {
+        if (userAgreeStatus === 'true') {
           // console.log('User already agreed');
           errorMessage({ error: 'You\'ve already agreed!', description: 'No need to agree again.', footer: 'Enter +help for bot instructions' });
         }

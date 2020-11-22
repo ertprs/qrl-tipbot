@@ -21,6 +21,41 @@ module.exports = {
       }, 1000);
     }
 
+    // default reply message format
+    // successReplyMessage({ title: 'You\ve Agreed!!', description: , term_1: , term_2: , term_3: , term_4: , footer: 'You can now use the Bot!' });
+    function successReplyMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
+      setTimeout(function() {
+        const embed = new Discord.MessageEmbed()
+          .setColor(0x008A11)
+          .setTitle(':white_check_mark: ' + content.title)
+          .setDescription(content.description)
+          .addField(content.term_1, content.term_1_description)
+          .addField(content.term_2, content.term_2_description)
+          .addField(content.term_3, content.term_3_description)
+          .addField(content.term_4, content.term_4_description)
+          .setFooter(content.footer || footer);
+        message.reply({ embed });
+        message.channel.stopTyping(true);
+      }, 1000);
+    }
+
+
+    // default error message format
+    // errorMessage({ error: 'No User(s) Mentioned...', description: 'Who are you tipping? enter `+help tip` for instructions' });
+    function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
+      setTimeout(function() {
+        const embed = new Discord.MessageEmbed()
+          .setColor(0x000000)
+          .setTitle(':warning: ' + content.error)
+          .setDescription(content.description)
+          .setFooter(content.footer || footer);
+        message.reply({ embed });
+        message.channel.stopTyping(true);
+      }, 1000);
+    }
+
+
+
     function deleteMessage() {
       // Delete the previous message
       if(message.guild != null) {
@@ -438,13 +473,15 @@ module.exports = {
             message.channel.stopTyping(true);
           });
       }
+
       else if (args[0] == 'user' || args[0] == 'me' || args[0] == 'account' || args[0] == 'balance' || args[0] == 'bal') {
       // run through checks and fail if, else serve User info to the user
       // is user found?
         if (found === 'false') {
           console.log('!found');
           // not found, give main message and end
-          ReplyMessage('Your not found in the System. Try `+add` or `+help`');
+          errorMessage({ error: 'Not Found In System...', description: 'You are not found in the System. Enter `+help add` for instructions' });
+          // ReplyMessage('Your not found in the System. Try `+add` or `+help`');
           return;
         }
         // check for opt_out status
