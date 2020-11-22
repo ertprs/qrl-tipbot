@@ -88,7 +88,7 @@ module.exports = {
           console.log('Not yet agreed, add to DB and reply');
           const botUserId = infoReturned[0].user_id;
           userAgreeAdd(botUserId).then(function(agreeReturn) {
-            console.log('agreeReturn: ' + agreeReturn);
+            console.log('agreeReturn: ' + JSON.stringify(agreeReturn));
             ReplyMessage('You\'ve agreed to the bots terms. \n**You can now use the tipbot!**.');
           });
         }
