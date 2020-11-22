@@ -80,7 +80,7 @@ module.exports = {
       if (userFound) {
         console.log('UserFound!');
         const userAgreeStatus = infoReturned[0].user_agree;
-        if (userAgreeStatus) {
+        if (userAgreeStatus == 'true') {
           console.log('User already agreed');
           errorMessage({ error: 'You\'ve already agreed to the terms!', description: 'No need to agree again. enter `+help` for bot instructions' });
         }
