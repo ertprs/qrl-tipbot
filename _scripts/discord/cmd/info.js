@@ -455,7 +455,7 @@ module.exports = {
           .setColor('GREEN')
           .setTitle('**QRL Tipbot Info**')
           .setURL(botUrl)
-          .setDescription('The tipbot enables sending QRL tips to other discord users. The bot will create an individual address for each bot user with the `+add` command. \n\n:small_blue_diamond: All tips are on chain and can be seen in the [QRL Block Explorer](' + explorerURL + '). \n:small_blue_diamond: You will need to create a new address and `+transfer` your earned tips out of the tipbot.\nUse the [QRL Web Wallet](' + config.wallet.wallet_url + ')\n')
+          .setDescription('The tipbot enables sending QRL tips to other discord users. The bot will create an individual address for each bot user with the `+add` command. \n\n:small_blue_diamond: All tips are on chain and can be seen in the [QRL Block Explorer](' + explorerURL + '). \n:small_blue_diamond: `+transfer` your earned tips out of the tipbot.\n:small_blue_diamond: Use the [QRL Web Wallet](' + config.wallet.wallet_url + ') if you need a new address\n')
           .addFields(
             { name: 'Block Height: ', value: '`' + nodeBlockHeight.height + '`', inline: true },
             { name: 'Network Hashrate:', value: '`' + hashrate + '`', inline: true },
