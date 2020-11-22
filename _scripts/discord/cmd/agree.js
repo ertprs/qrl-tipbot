@@ -106,7 +106,7 @@ module.exports = {
           userAgreeAdd(botUserId).then(function() {
             // console.log('agreeReturn: ' + JSON.stringify(agreeReturn));
             ReplyMessage('You\'ve agreed! You can now use the tipbot :white_check_mark:');
-            // successReplyMessage({ title: 'You\ve Agreed!!', description: , term_1: , term_2: , term_3: , term_4: , footer: 'You can now use the Bot!' });
+            successReplyMessage({ title: 'You\ve Agreed!!', description: , term_1: , term_2: , term_3: , term_4: , footer: 'You can now use the Bot!' });
           });
         }
       }
