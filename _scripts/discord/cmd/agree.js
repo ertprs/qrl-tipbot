@@ -86,7 +86,7 @@ module.exports = {
         const userAgreeStatus = infoReturned[0].user_agree;
         if (userAgreeStatus) {
           console.log('User already agreed');
-          errorMessage({ error: 'You have already agreed to the terms!', description: 'No need to agre agian. enter `+help` for bot instructions' });
+          errorMessage({ error: 'You\'ve already agreed to the terms!', description: 'No need to agre agian. enter `+help` for bot instructions' });
 
         }
         else {
