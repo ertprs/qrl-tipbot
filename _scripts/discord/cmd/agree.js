@@ -25,6 +25,24 @@ module.exports = {
       }, 1000);
     }
 
+    // successReplyMessage({ title: 'You\ve Agreed!!', description: , term_1: , term_2: , term_3: , term_4: , footer: 'You can now use the Bot!' });
+    function successReplyMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
+      setTimeout(function() {
+        const embed = new Discord.MessageEmbed()
+          .setColor(0x008A11)
+          .setTitle('::white_check_mark:: ' + content.title)
+          .setDescription(content.description)
+          .addField(content.term1)
+          .addField(content.term2)
+          .addField(content.term3)
+          .addField(content.term4)
+          .setFooter(content.footer || footer);
+        message.reply({ embed });
+        message.channel.stopTyping(true);
+      }, 1000);
+    }
+
+
     // default error message format
     // errorMessage({ error: 'No User(s) Mentioned...', description: 'Who are you tipping? enter `+help tip` for instructions' });
     function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
@@ -88,6 +106,7 @@ module.exports = {
           userAgreeAdd(botUserId).then(function() {
             // console.log('agreeReturn: ' + JSON.stringify(agreeReturn));
             ReplyMessage('You\'ve agreed! You can now use the tipbot :white_check_mark:');
+            // successReplyMessage({ title: 'You\ve Agreed!!', description: , term_1: , term_2: , term_3: , term_4: , footer: 'You can now use the Bot!' });
           });
         }
       }
