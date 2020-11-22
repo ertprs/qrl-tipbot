@@ -106,7 +106,7 @@ module.exports = {
           userAgreeAdd(botUserId).then(function() {
             // console.log('agreeReturn: ' + JSON.stringify(agreeReturn));
             ReplyMessage('You\'ve agreed! You can now use the tipbot :white_check_mark:');
-            successReplyMessage({ title: 'You\ve Agreed!!', description: , term_1: , term_2: , term_3: , term_4: , footer: 'You can now use the Bot!' });
+            successReplyMessage({ title: 'You\ve Agreed!!', description: 'terms agreed to below:', term_1: 'Use at your own risk', term_2: 'You won\'t misuse the bot', term_3: 'You agree to share social media account information (usernames, tx details, wallet address)', term_4: 'You will not store large amounts on the tipbot.', footer: 'Thanks, You can now use the Bot!' });
           });
         }
       }
