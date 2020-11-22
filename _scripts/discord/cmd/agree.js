@@ -16,7 +16,6 @@ module.exports = {
     // start the bot typing
     message.channel.startTyping();
 
-/*
     // default reply message format
     // ReplyMessage('**You\'ve sent a `' + toQuanta(givenTip) + ' QRL` tip to ' + tippedUserIDs + ',' + futureTippedUserIDs + ' each**. Thanks for using the tipbot!\n*All tips are on-chain, and will take some time to process.*');
     function ReplyMessage(content) {
@@ -39,7 +38,7 @@ module.exports = {
         message.channel.stopTyping(true);
       }, 1000);
     }
-*/
+
     // Get user info. Function expects { service: service, service_id: service_id } as usrInfo
     async function getUserInfo(usrInfo) {
       return new Promise(resolve => {
@@ -86,14 +85,19 @@ module.exports = {
         console.log('UserFound!');
         const userAgreeStatus = infoReturned[0].user_agree;
         if (userAgreeStatus) {
-          console.log('user already agreed');
+          console.log('User already agreed');
+          errorMessage({ error: 'You have already agreed to the terms!', description: 'No need to agre agian. enter `+help` for bot instructions' });
+
         }
         else {
           console.log('Not yet agreed, add to DB and reply');
+          ReplyMessage('**You have agreed to the bots terms, you can now use the tipbot**. Thanks for using the tipbot!*');
         }
       }
       else {
         console.log('userNotFound');
+        errorMessage({ error: 'No Account Found!', description: 'You must signup to use the tipbot. enter `+help` for bot instructions' });
+
       }
     });
 
