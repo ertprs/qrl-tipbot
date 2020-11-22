@@ -494,7 +494,8 @@ module.exports = {
         if (agree === 'false') {
           console.log('!agree');
           // not Agreed, give main message and end
-          ReplyMessage('You need to agree, please see the `+terms`');
+          errorMessage({ error: 'User Has Not Agreed...', description: 'You have not agreed to the tipbot terms. Enter `+help agree` for instructions' });
+          // ReplyMessage('You need to agree, please see the `+terms`');
           return;
         }
         else {
