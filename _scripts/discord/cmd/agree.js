@@ -32,10 +32,10 @@ module.exports = {
           .setColor(0x008A11)
           .setTitle(':white_check_mark: ' + content.title)
           .setDescription(content.description)
-          .addField(content.term_1)
-          .addField(content.term_2)
-          .addField(content.term_3)
-          .addField(content.term_4)
+          .addField(content.term_1, content.term_1_description)
+          .addField(content.term_2, content.term_2_description)
+          .addField(content.term_3, content.term_3_description)
+          .addField(content.term_4, content.term_4_description)
           .setFooter(content.footer || footer);
         message.reply({ embed });
         message.channel.stopTyping(true);
