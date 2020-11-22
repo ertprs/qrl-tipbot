@@ -75,7 +75,7 @@ module.exports = {
     // check if user exists
 
     async function main() {
-      const userInfo = await getUserInfo(userID);
+      const userInfo = await getUserInfo({ service: 'discord', service_id: userID });
       console.log('userInfo: ' + userInfo);
 
     }
