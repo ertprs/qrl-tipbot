@@ -76,7 +76,7 @@ module.exports = {
 
     async function main() {
       const userInfo = await getUserInfo({ service: 'discord', service_id: userID });
-      console.log('userInfo: ' + userInfo);
+      console.log('userInfo: ' + JSON.stringify(userInfo));
 
     }
 
