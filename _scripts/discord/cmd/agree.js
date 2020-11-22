@@ -27,13 +27,13 @@ module.exports = {
 
     // default error message format
     // errorMessage({ error: 'No User(s) Mentioned...', description: 'Who are you tipping? enter `+help tip` for instructions' });
-    function errorMessage(content, footer) {
+    function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
       setTimeout(function() {
         const embed = new Discord.MessageEmbed()
           .setColor(0x000000)
           .setTitle(':warning: ' + content.error)
           .setDescription(content.description)
-          .setFooter(footer);
+          .setFooter(content.footer || footer);
         message.reply({ embed });
         message.channel.stopTyping(true);
       }, 1000);
@@ -80,7 +80,7 @@ module.exports = {
         const userAgreeStatus = infoReturned[0].user_agree;
         if (userAgreeStatus == 'true') {
           // console.log('User already agreed');
-          errorMessage({ error: 'You\'ve already agreed to the terms!', description: 'No need to agree again.', footer:'Enter +help for bot instructions' });
+          errorMessage({ error: 'You\'ve already agreed to the terms!', description: 'No need to agree again.', footer: 'Enter `+help` for bot instructions' });
         }
         else {
           // console.log('Not yet agreed, add to DB and reply');
