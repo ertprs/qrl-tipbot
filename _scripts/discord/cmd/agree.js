@@ -27,7 +27,7 @@ module.exports = {
 
     // default error message format
     // errorMessage({ error: 'No User(s) Mentioned...', description: 'Who are you tipping? enter `+help tip` for instructions' });
-    function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
+    function errorMessage(content, footer) {
       setTimeout(function() {
         const embed = new Discord.MessageEmbed()
           .setColor(0x000000)
