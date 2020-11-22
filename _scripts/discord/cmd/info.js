@@ -452,7 +452,7 @@ module.exports = {
           .setColor('GREEN')
           .setTitle('**QRL Tipbot Info**')
           .setURL(botUrl)
-          .setDescription('The tipbot enables sending QRL tips to other discord users. The bot will create an individual address for each bot user with the `+add` command. \n\n:small_blue_diamond: All tips are on chain and can be seen in the [QRL Block Explorer](' + explorerURL + '). \n:small_blue_diamond: `+transfer` your earned tips out of the tipbot.\n:small_blue_diamond: Use the [QRL Web Wallet](' + config.wallet.wallet_url + ') if you need a new address\n')
+          .setDescription('List of all tipbot commands. Enter `+help COMMAND` for more info on each command below.\n')
           .addFields(
             { name: 'add: ', value: 'Add user to tipbot, creating a wallet and account, `+help add`', inline: false },
             { name: 'agree: ', value: 'Agree to the terms and conditions, `+help agree`', inline: false },
@@ -474,7 +474,7 @@ module.exports = {
         message.author.send({ embed })
           .then(() => {
 
-            message.reply('The tipbot enables sending QRL tips to other discord users. The bot will create an individual address for each bot user with the `+add` command. \n\n:small_blue_diamond: All tips are on chain and can be seen in the [QRL Block Explorer](' + explorerURL + '). \n:small_blue_diamond: `+transfer` your earned tips out of the tipbot.\n:small_blue_diamond: Use the [QRL Web Wallet](' + config.wallet.wallet_url + ') if you need a new address\n\n**More details in your DM**');
+            message.reply('The tipbot enables sending QRL tips to other discord users. The bot will create an individual address for each bot user with the `+add` command. \n\n:small_blue_diamond: All tips are on chain and can be seen in the QRL Block Explorer - ' + explorerURL + '. \n:small_blue_diamond: `+transfer` your earned tips out of the tipbot.\n:small_blue_diamond: Use the QRL Web Wallet ' + config.wallet.wallet_url + ' if you need a new address\n\n**More details in your DM**');
             message.channel.stopTyping(true);
           });
       }
