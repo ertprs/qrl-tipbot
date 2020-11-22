@@ -56,8 +56,8 @@ module.exports = {
 
         const addToAgreeDBinfo = { service: 'discord', user_id: botUserId };
         //  console.log('tipDBWrite addToTipsDBinfo: ' + JSON.stringify(addToTipsDBinfo));
-        const addToTipsDBinfoWrite = dbHelper.addTip(addToAgreeDBinfo);
-        resolve(addToTipsDBinfoWrite);
+        const addToAgreeDBinfoWrite = dbHelper.agree(addToAgreeDBinfo);
+        resolve(addToAgreeDBinfoWrite);
       });
     }
 
