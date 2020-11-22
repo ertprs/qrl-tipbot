@@ -42,7 +42,7 @@ module.exports = {
     // Get user info. Function expects { service: service, service_id: service_id } as usrInfo
     async function getUserInfo(usrInfo) {
       return new Promise(resolve => {
-        console.log('getUserInfo(usrInfo) ' + JSON.stringify(usrInfo));
+        // console.log('getUserInfo(usrInfo) ' + JSON.stringify(usrInfo));
         const data = dbHelper.GetAllUserInfo(usrInfo);
         resolve(data);
       });
@@ -51,7 +51,7 @@ module.exports = {
     // add user to agree db. Function expects { service: , user_id: } as usrAgree
     async function agreeDBWrite(botUserId) {
       return new Promise(resolve => {
-        console.log('agreeDBWrite(usrAgree) ' + JSON.stringify(botUserId));
+      //  console.log('agreeDBWrite(usrAgree) ' + JSON.stringify(botUserId));
 
         const addToAgreeDBinfo = { service: 'discord', user_id: botUserId };
         //  console.log('tipDBWrite addToTipsDBinfo: ' + JSON.stringify(addToTipsDBinfo));
@@ -63,7 +63,7 @@ module.exports = {
     // check if user exists
     async function main() {
       const userInfo = await getUserInfo({ service: 'discord', service_id: userID });
-      console.log('userInfo: ' + JSON.stringify(userInfo));
+      // console.log('userInfo: ' + JSON.stringify(userInfo));
       return userInfo;
     }
     // Add agree flag to users_agree database
@@ -76,23 +76,23 @@ module.exports = {
     main().then(function(infoReturned) {
       const userFound = infoReturned[0].user_found;
       if (userFound) {
-        console.log('UserFound!');
+        // console.log('UserFound!');
         const userAgreeStatus = infoReturned[0].user_agree;
         if (userAgreeStatus == 'true') {
-          console.log('User already agreed');
+          // console.log('User already agreed');
           errorMessage({ error: 'You\'ve already agreed to the terms!', description: 'No need to agree again. enter `+help` for bot instructions' });
         }
         else {
-          console.log('Not yet agreed, add to DB and reply');
+          // console.log('Not yet agreed, add to DB and reply');
           const botUserId = infoReturned[0].user_id;
-          userAgreeAdd(botUserId).then(function(agreeReturn) {
-            console.log('agreeReturn: ' + JSON.stringify(agreeReturn));
+          userAgreeAdd(botUserId).then(function() {
+            // console.log('agreeReturn: ' + JSON.stringify(agreeReturn));
             ReplyMessage('You\'ve agreed :white_check_mark: You can now use the tipbot!');
           });
         }
       }
       else {
-        console.log('userNotFound');
+        // console.log('userNotFound');
         errorMessage({ error: 'No Account Found!', description: 'You must signup to use the tipbot. enter `+help` for bot instructions' });
       }
     });
