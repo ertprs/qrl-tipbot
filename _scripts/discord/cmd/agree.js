@@ -31,7 +31,7 @@ module.exports = {
       setTimeout(function() {
         const embed = new Discord.MessageEmbed()
           .setColor(0x000000)
-          .setTitle(':warning:  ERROR: ' + content.error)
+          .setTitle(':warning: ' + content.error)
           .setDescription(content.description)
           .setFooter(footer);
         message.reply({ embed });
