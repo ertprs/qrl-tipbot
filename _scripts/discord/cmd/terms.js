@@ -13,25 +13,15 @@ module.exports = {
             __**TipBot Terms and Conditions**__
 
 :small_orange_diamond: Use of this TipBot and any function it may provide to you, as the user, is at your risk.
-
 :small_orange_diamond: By using this service you agree to not hold liable, for any reasons, the owner, operators, or any affiliates of the QRL TipBot or anyone associated with this service.
-
 :small_orange_diamond: By using this service, you agree to not abuse or misuse the service and will follow the rules listed below. 
-
 :small_orange_diamond: Abuse of this service may result in a ban from the service and if warranted legal action may be taken. 
-
 :small_orange_diamond: By using this service you agree to share information about your social media account used for signup to the TipBot service including but not limited to, service user name(s), service user ID(s), all interactions and messages with the bot, and any other public information available through the social media API services.
-
 :small_orange_diamond: At no point will this information be sold or used for any purpose other than this TipBot service, and is only stored for the purpose of managing your accounts.
-
 :small_orange_diamond: The Tip Bot will never share any Private Keys with the user. 
-
 :small_orange_diamond: All funds must be withdrawn to a user controlled account. 
-
 :small_orange_diamond: Any funds left on the bot may be lost at any time, and the user agrees that this is an acceptable loss. 
-
 :small_orange_diamond: Funds shall be withdrawn from the bot regularly into user controlled wallets.
-
 :small_orange_diamond: Users will not store large amounts of funds in any tipbot wallet
 
 __**You assume all risk by using this service**__
