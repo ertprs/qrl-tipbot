@@ -48,35 +48,31 @@ module.exports = {
       });
     }
 
-/*
-    async function tipbotInfo(ID) {
-      // FIX ME HERE!!!
-      return new Promise(resolve => {
-        const userInfo = getUserInfo({ service: 'discord', service_id: ID });
-        resolve(userInfo);
-      });
-    }
-*/
 
-/*
     // add user to agree db. Function expects { service: , user_id: } as usrAgree
-    async function agreeDBWrite(usrAgree) {
+    async function agreeDBWrite(botUserId) {
       return new Promise(resolve => {
-        console.log('agreeDBWrite(usrInfo) ' + JSON.stringify(tipInfo));
-        const addToTipsDBinfo = { from_user_id: tipInfo.from_user_id, tip_amount: toQuanta(tipInfo.tip_amount), from_service: 'discord', time_stamp: new Date() };
+        console.log('agreeDBWrite(usrAgree) ' + JSON.stringify(botUserId));
+
+        const addToAgreeDBinfo = { service: 'discord', user_id: botUserId };
         //  console.log('tipDBWrite addToTipsDBinfo: ' + JSON.stringify(addToTipsDBinfo));
-        const addToTipsDBinfoWrite = dbHelper.addTip(addToTipsDBinfo);
+        const addToTipsDBinfoWrite = dbHelper.addTip(addToAgreeDBinfo);
         resolve(addToTipsDBinfoWrite);
       });
     }
 
-*/
+
     // check if user exists
 
     async function main() {
       const userInfo = await getUserInfo({ service: 'discord', service_id: userID });
       console.log('userInfo: ' + JSON.stringify(userInfo));
       return userInfo;
+    }
+
+    async function userAgreeAdd(info) {
+      const agreeAdd = await agreeDBWrite(info);
+      return agreeAdd;
     }
 
     main().then(function(infoReturned) {
@@ -86,12 +82,15 @@ module.exports = {
         const userAgreeStatus = infoReturned[0].user_agree;
         if (userAgreeStatus) {
           console.log('User already agreed');
-          errorMessage({ error: 'You\'ve already agreed to the terms!', description: 'No need to agre agian. enter `+help` for bot instructions' });
-
+          errorMessage({ error: 'You\'ve already agreed to the terms!', description: 'No need to agree again. enter `+help` for bot instructions' });
         }
         else {
           console.log('Not yet agreed, add to DB and reply');
-          ReplyMessage('**You have agreed to the bots terms, you can now use the tipbot**. Thanks for using the tipbot!*');
+          const botUserId = infoReturned[0].user_id;
+          userAgreeAdd(botUserId).then(function(agreeReturn) {
+            console.log('agreeReturn: ' + agreeReturn);
+            ReplyMessage('**You have agreed to the bots terms, you can now use the tipbot**. Thanks for using the tipbot!*');
+          });
         }
       }
       else {
