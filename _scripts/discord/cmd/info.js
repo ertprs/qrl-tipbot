@@ -445,7 +445,7 @@ module.exports = {
       // ///////////////////////////////
       // Bot Request                  //
       // ///////////////////////////////
-      else if (args[0] == 'bot' || args[0] == 'tipbot' || args[0] == 'fee') {
+      else if (args[0] == 'bot' || args[0] == 'tipbot' || args[0] == 'info') {
         // get pool data from a pool
         const poolData = JSON.parse(await getPoolInfo());
         const hashrate = getHashRate(poolData.network.difficulty / poolData.config.coinDifficultyTarget) + '/sec';
@@ -455,11 +455,10 @@ module.exports = {
           .setColor('GREEN')
           .setTitle('**QRL Tipbot Info**')
           .setURL(botUrl)
-          .setDescription('The tipbot enables sending QRL tips to other discord users. The bot will create an individual address for each bot user with the `+add` command. \n\n:small_blue_diamond: All tips are on chain and can be seen in the [QRL Block Explorer](' + explorerURL + '). \n:small_blue_diamond: You will need to create a new address and `+transfer` your earned tips to an address you control. Use the [QRL Web Wallet](' + config.wallet.wallet_url + ')\n:small_blue_diamond: You can send tips to users that have not signed up and the bot will save them for the user. Once they sign up these tips will be waiting for them.\n')
+          .setDescription('The tipbot enables sending QRL tips to other discord users. The bot will create an individual address for each bot user with the `+add` command. \n\n:small_blue_diamond: All tips are on chain and can be seen in the [QRL Block Explorer](' + explorerURL + '). \n:small_blue_diamond: You will need to create a new address and `+transfer` your earned tips out of the tipbot.\nUse the [QRL Web Wallet](' + config.wallet.wallet_url + ')\n')
           .addFields(
             { name: 'Block Height: ', value: '`' + nodeBlockHeight.height + '`', inline: true },
             { name: 'Network Hashrate:', value: '`' + hashrate + '`', inline: true },
-            { name: 'Mining Difficulty:', value: '`' + hashrate + '`', inline: true },
             // FIX-ME:
             //    add more information about the bot here
             //    including how many accounts signed up, total tips sent, servers and other bot stats.
@@ -488,7 +487,8 @@ module.exports = {
         if (optOut === 1) {
           console.log('opt-out');
           // Opt Out, give main message and end
-          ReplyMessage('You have opted out of the tipbot. Please send `+opt-in` to opt back in!');
+          errorMessage({ error: 'User Has Opted Out...', description: 'You have opted out of the tipbot. Enter `+help opt-in` for instructions' });
+          // ReplyMessage('You have opted out of the tipbot. Please send `+opt-in` to opt back in!');
           return;
         }
         if (agree === 'false') {
