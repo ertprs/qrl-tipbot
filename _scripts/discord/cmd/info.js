@@ -445,6 +445,39 @@ module.exports = {
       // ///////////////////////////////
       // Bot Request                  //
       // ///////////////////////////////
+
+            else if (args[0] == 'help' || args[0] == 'info' || args[0] == 'use') {
+        // serve the bot info here
+        const nodeBlockHeight = JSON.parse(await getHeight());
+        const embed = new Discord.MessageEmbed()
+          .setColor('GREEN')
+          .setTitle('**QRL Tipbot Info**')
+          .setURL(botUrl)
+          .setDescription('The tipbot enables sending QRL tips to other discord users. The bot will create an individual address for each bot user with the `+add` command. \n\n:small_blue_diamond: All tips are on chain and can be seen in the [QRL Block Explorer](' + explorerURL + '). \n:small_blue_diamond: `+transfer` your earned tips out of the tipbot.\n:small_blue_diamond: Use the [QRL Web Wallet](' + config.wallet.wallet_url + ') if you need a new address\n')
+          .addFields(
+            { name: 'add: ', value: 'Add user to tipbot, creating a wallet and account, `+help add`', inline: false },
+            { name: 'agree: ', value: 'Agree to the terms and conditions, `+help agree`', inline: false },
+            { name: 'balance: ', value: 'Print user QRL balance or QRL address balance to DM, `+help balance`', inline: false },
+            { name: 'deposit: ', value: 'Deposit information to send funds to your tipbot address, `+help deposit`', inline: false },
+            { name: 'drip: ', value: 'Receive a payout from the tipbot faucet, `+help drip`', inline: false },
+            { name: 'getKeys: ', value: 'Prints the users private keys to a DM, **CAUTION** `+help getKeys`', inline: false },
+            { name: 'help: ', value: 'Print help information for the tipbot commands, `+help`', inline: false },
+            { name: 'info: ', value: 'This command, giving information on various topics, `+help info`', inline: false },
+            { name: 'optin: ', value: 'Opt into the tipbot {default signup condition} after user has opt\'ed out, `+help optin`', inline: false },
+            { name: 'optout: ', value: 'Opt out of the tipbot and all tipping functions including the faucet. `+help optout`', inline: false },
+            { name: 'terms: ', value: 'Print the terms and conditions for using the bot, `+help terms`', inline: false },
+            { name: 'tip: ', value: 'Tip another user QRL from your tipbot address, `+help tip`', inline: false },
+            { name: 'withdraw: ', value: 'Send your tipbot funds to another address, `+help withdraw`', inline: false },
+
+          )
+          .setTimestamp()
+          .setFooter('.: The QRL TipBot :. ');
+        message.reply({ embed })
+          .then(() => {
+            message.channel.stopTyping(true);
+          });
+      }
+
       else if (args[0] == 'bot' || args[0] == 'tipbot' || args[0] == 'info') {
         // get pool data from a pool
         const poolData = JSON.parse(await getPoolInfo());
@@ -455,7 +488,7 @@ module.exports = {
           .setColor('GREEN')
           .setTitle('**QRL Tipbot Info**')
           .setURL(botUrl)
-          .setDescription('The tipbot enables sending QRL tips to other discord users. The bot will create an individual address for each bot user with the `+add` command. \n\n:small_blue_diamond: All tips are on chain and can be seen in the [QRL Block Explorer](' + explorerURL + '). \n:small_blue_diamond: `+transfer` your earned tips out of the tipbot.\n:small_blue_diamond: Use the [QRL Web Wallet](' + config.wallet.wallet_url + ') if you need a new address\n')
+          .setDescription('Tipbot general information.')
           .addFields(
             { name: 'Block Height: ', value: '`' + nodeBlockHeight.height + '`', inline: true },
             { name: 'Network Hashrate:', value: '`' + hashrate + '`', inline: true },
