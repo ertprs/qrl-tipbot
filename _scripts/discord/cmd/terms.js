@@ -26,28 +26,21 @@ module.exports = {
 
 __**You assume all risk by using this service**__
 
+---
+
                     `);
                     message.author.send(`
            :exclamation: __**RULES**__ :exclamation:
 
 :diamond_shape_with_a_dot_inside:  *All tips are final once sent.* 
-
 :diamond_shape_with_a_dot_inside: *Tips will never be refunded or returned to a user, for any reason.*
-
 :diamond_shape_with_a_dot_inside: *This service is for tipping or giving small amounts of QRL to other users.*
-
 :diamond_shape_with_a_dot_inside: *You agree to not store or trade currency or for any other reason than tipping users.*
-
 :diamond_shape_with_a_dot_inside: *You will not store large amounts of QRL in this address at any time.*
-
 :diamond_shape_with_a_dot_inside: *You take full responsibility for transferring funds out of the Tipbot, using the \`+transfer\` function into wallets you control.*
-
 :diamond_shape_with_a_dot_inside: *You will not use this bot if it will in any way break any law, in any jurisdiction. \`+opt-out\` to disable your account.*
-
 :diamond_shape_with_a_dot_inside: *You will not use this bot in any way that is not intended or identified in these rules.*
-
 :diamond_shape_with_a_dot_inside: *Any tips sent to a user that has not signed up will be saved by the bot for that user. Failure of the user to collect tips in this time may result in a loss of funds for that user and they will not be returned to the sender. These lost tips will fund the faucet and cover any operational costs that may incur.*
-
 :diamond_shape_with_a_dot_inside: *Any abuse of the service will result in a ban, and if warranted legal action may be taken accordingly. Funds will not be returned to banned users.*
 
 **You must \`+agree\` with these terms to use the bot!**
