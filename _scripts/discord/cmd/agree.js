@@ -74,8 +74,13 @@ module.exports = {
 */
     // check if user exists
 
-    const userInfo = getUserInfo(userID);
-    console.log('userInfo: ' + userInfo);
+    async function main() {
+      const userInfo = await getUserInfo(userID);
+      console.log('userInfo: ' + userInfo);
+
+    }
+
+    main();
 
     // delete the message after user sends agree request if not in a DM
     if(message.guild != null) {
