@@ -1,38 +1,46 @@
 module.exports = {
-  name: 'tip',
+  name: 'tip2',
   description: 'Tips!',
   args: true,
   guildOnly: false,
-  cooldown: 10,
-  aliases: ['send', 'gift', 'give', 'pay'],
-  usage: '\n<tip amount> <user1> <user2> <user3> <etc.> \nEXAMPLE: `+tip 1 @CoolUser`',
+  cooldown: 1,
+  aliases: ['!$'],
+  usage: '\n<tip amount> <user1> <user2> <user3> <etc.> \nEXAMPLE: `+tip2 1 @CoolUser`',
   execute(message, args) {
-    message.channel.startTyping();
     const Discord = require('discord.js');
-    // const chalk = require('chalk');
     const dbHelper = require('../../db/dbHelper');
     const config = require('../../../_config/config.json');
     const wallet = require('../../qrl/walletTools');
-    const tipAmount = args[0] * 1000000000;
-    const tipAmountQuanta = args[0];
-    const fee = config.wallet.tx_fee * 1000000000;
-    const GetAllUserInfo = dbHelper.GetAllUserInfo;
-    const addFutureTips = dbHelper.addFutureTip;
-    const addTransaction = dbHelper.addTransaction;
-    const add_tip_to = dbHelper.addTipTo;
-    const addToTips = dbHelper.addTip;
+    const futureTippedUserInfo = [];
+    const futureTippedUserIDs = [];
+    const tippedUserInfo = [];
+    const tippedUserWallets = [];
+    const tippedUserTipAmt = [];
+    const tippedUserIDs = [];
+    const tippedUserServiceIDs = [];
+    const fee = toShor(config.wallet.tx_fee);
+
     const username = `${message.author}`;
     const userID = username.slice(1, -1);
-    const addToTipsArgsArray = [];
-    const GetAllUserInfoPromise = GetAllUserInfo({ service: 'discord', service_id: userID });
-    const not_found_addressTo = [];
-    const found_addressTo = [];
-    const not_found_tipAmount = [];
-    const found_tipAmount = [];
+
+    message.channel.startTyping();
 
     function ReplyMessage(content) {
+
       setTimeout(function() {
         message.reply(content);
+        message.channel.stopTyping(true);
+      }, 1000);
+    }
+
+    function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
+      setTimeout(function() {
+        const embed = new Discord.MessageEmbed()
+          .setColor(0x000000)
+          .setTitle(':warning:  ERROR: ' + content.error)
+          .setDescription(content.description)
+          .setFooter(footer);
+        message.reply({ embed });
         message.channel.stopTyping(true);
       }, 1000);
     }
@@ -43,362 +51,456 @@ module.exports = {
         message.channel.stopTyping(true);
         message.delete();
       }
-     }
-
-    if (args.includes('@here') || args.includes('@everyone') || args.includes('@developer') || args.includes('@founder')) {
-      // console.log(chalk.red('cant send tip to these users. Call them by name'));
-      ReplyMessage('Can\'t send to a group. Please send to individual user(s).');
-      return;
-    }
-    // check if user mentioned another user to tip
-    if (!message.mentions.users.size) {
-      ReplyMessage('No Users mentioned. `+help tip` for help');
-      return ;
     }
 
-    // We have users mentioned, get the tipList into map
-    const tipList = message.mentions.users.map(user => {
-      const userName = user.username;
-      const output = JSON.parse(JSON.stringify(userName));
-      return `@${output}`;
-    });
-    const userList = message.mentions.users.map(user => {
-      const service_user_ID = user.id;
-      const userid = '<@!' + user.id + '>';
-
-
-      if ((userid === config.discord.bot_id) && (!args.includes(config.discord.bot_id))) {
-
-        // console.log(chalk.red('bot mentioned, don\'t count it, again'));
-      }
-      else {
-        const output = JSON.parse(JSON.stringify(service_user_ID));
-        return `<@${output}>`;
-      }
-    });
-    // get the tip-to userID into map
-    const UserIDList = message.mentions.users.map(user => {
-      const user_ID = '@' + user.id;
-      const userName = user.username;
-      const output = JSON.parse(JSON.stringify({ Service_ID: user_ID, service_user_name: userName }));
-      return output;
-    });
-    const tipListJSON = JSON.parse(JSON.stringify(tipList));
-
-    function TipUserCount() {
-      // console.log('tipList: ' + JSON.stringify(tipList));
-
-      if (tipList.includes('@' + config.bot_details.bot_name && (!args.includes(config.discord.bot_id)))) {
-        const tipUserCount = (tipListJSON.length - 1);
-        // console.log(chalk.green('tipUserCount: ' + tipUserCount));
-        return tipUserCount;
-      }
-      else {
-        const tipUserCount = tipListJSON.length;
-        // console.log(chalk.green('tipUserCount: ' + tipUserCount));
-        return tipUserCount;
-      }
+    function toShor(number) {
+      const shor = 1000000000;
+      return number * shor;
     }
-    const tipUserCount = TipUserCount();
-    //  check for tip amount, fail if not found...
-    if (isNaN(tipAmount)) {
-      ReplyMessage('Please enter a valid amount to tip! +tip {AMOUNT} @USER(\'s)');
-      return ;
+
+    function toQuanta(number) {
+      const shor = 1000000000;
+      return number / shor;
     }
-    // fail if not number within range
+
     function isQRLValue(str) {
+      // receive amount in shor, do accordingly
       // Fail immediately.
       let test = false;
       // Check if it's only numeric and periods (no spaces, etc)
       if(/^[0-9]{0,8}[.]?[0-9]{0,9}$/.test(str)) {
         // And check for a value between 0.000000001 and 105000000
-        if(str >= 0.000000001 && str <= 105000000) {
+        const min = toShor(0.000000001);
+        const max = toShor(105000000);
+
+        if(str >= min && str <= max) {
           test = true;
         }
       }
+      // console.log('str' + str);
+      // console.log('isQRLValue: ' + test);
       return test;
     }
-    const test = isQRLValue(tipAmountQuanta);
-    if (!test) {
-      message.channel.stopTyping(true);
-      ReplyMessage('Invalid amount. Please try again.');
-      return;
+
+    // Get user info.
+    async function getUserInfo(usrInfo) {
+      return new Promise(resolve => {
+        const data = dbHelper.GetAllUserInfo(usrInfo);
+        resolve(data);
+      });
     }
-    // fail if amount is 0 or less.
-    if (tipAmount < 0) {
-      message.channel.stopTyping(true);
-      ReplyMessage('Please enter a valid amount to tip! +tip {AMOUNT} @USER(\'s)');
+
+    // send the users data to future_tips for when they sign up
+    async function futureTipsDBWrite(futureTipInfo) {
+      return new Promise(resolve => {
+        // console.log('futureTipsDBWrite futureTipInfo' + JSON.stringify(futureTipInfo));
+        const infoToSubmit = { service: 'discord', user_id: futureTipInfo.user_id, user_name: futureTipInfo.user_name, tip_id: futureTipInfo.tip_id, tip_from: futureTipInfo.tip_from, tip_amount: toQuanta(futureTipInfo.tip_amount), time_stamp: new Date() };
+        //  console.log('futureTipsDBWrite infoToSubmit: ' + JSON.stringify(infoToSubmit));
+        const addToFutureTipsDBinfoWrite = dbHelper.addFutureTip(infoToSubmit);
+        resolve(addToFutureTipsDBinfoWrite);
+      });
+    }
+
+    async function tipDBWrite(tipInfo) {
+      // send the users data to future_tips for when they sign up
+      return new Promise(resolve => {
+        // console.log('tipDBWrite tipInfo' + JSON.stringify(tipInfo));
+        const addToTipsDBinfo = { from_user_id: tipInfo.from_user_id, tip_amount: toQuanta(tipInfo.tip_amount), from_service: 'discord', time_stamp: new Date() };
+        //  console.log('tipDBWrite addToTipsDBinfo: ' + JSON.stringify(addToTipsDBinfo));
+        const addToTipsDBinfoWrite = dbHelper.addTip(addToTipsDBinfo);
+        resolve(addToTipsDBinfoWrite);
+      });
+    }
+
+
+    async function tipToDBWrite(tipToInfo) {
+      // send the users data to future_tips for when they sign up
+      return new Promise(resolve => {
+        // console.log('tipToDBWrite tipToInfo' + JSON.stringify(tipToInfo));
+        const addToTipsToDBinfo = { tip_id: tipToInfo.tip_id, from_user_id: userID, user_id: tipToInfo.user_id, tip_amt: toQuanta(tipToInfo.tip_amt), future_tip_id: tipToInfo.future_tip_id, time_stamp: new Date() };
+        //  console.log('tipToDBWrite addToTipsToDBinfo: ' + JSON.stringify(addToTipsToDBinfo));
+        const addToTipsToDBinfoWrite = dbHelper.addTipTo(addToTipsToDBinfo);
+        resolve(addToTipsToDBinfoWrite);
+      });
+    }
+
+
+    /*
+    async function transactionDBWrite(transactionInfo) {
+      // send the transaction data once the tip is sent
+      return new Promise(resolve => {
+        // console.log('transactionDBWrite transactionInfo' + JSON.stringify(transactionInfo));
+        const transInfo = { from_user_id: transactionInfo.from_user_id, to_users_id: transactionInfo.to_users_id, tip_amount: toQuanta(transactionInfo.tip_amount), from_service: 'discord', time_stamp: new Date() };
+      //  console.log('transInfo: ' + transInfo);
+        const transInfoWrite = dbHelper.addTransaction(transInfo);
+        resolve(transInfoWrite);
+      });
+    }
+    */
+
+
+    function tipAmount() {
+      for (const arg of args) {
+        const checkValue = isQRLValue(toShor(arg));
+        // console.log('isQRLValue/CheckValue: ' + checkValue);
+        if(checkValue) {
+          return toShor(arg);
+        }
+      }
+    }
+
+    async function tipbotInfo(ID) {
+      // FIX ME HERE!!!
+      return new Promise(resolve => {
+        const userInfo = getUserInfo({ service: 'discord', service_id: ID });
+        resolve(userInfo);
+      });
+    }
+
+
+    function Count(list) {
+      // console.log('tipList: ' + JSON.stringify(tipList));
+      const arrayCount = list.length;
+      return arrayCount;
+    }
+    
+    // check if user mentioned another user to tip
+    if (!message.mentions.users.size) {
+      // console.log('No Users mentioned.');
+      // ReplyMessage('No Users mentioned. `+help tip` for help');
+      errorMessage({ error: 'No User(s) Mentioned...', description: 'Who are you tipping? enter `+help tip` for instructions' });
       return ;
     }
-    // check if tipping self and fail if found
-    if (message.mentions.users.first() == message.author) {
-      ReplyMessage('You can\'t tip yourself');
-      message.channel.stopTyping(true);
+    // check if mentioned group and fail if so
+    if (args.includes('@here') || args.includes('@everyone') || args.includes('@developer') || args.includes('@founder')) {
+    //  console.log('Can\'t send to a group');
+      // ReplyMessage('Can\'t send to a group. Please send to individual user(s), up to 100 in a tip.');
+      errorMessage({ error: 'Can\'t Tip Groups...', description: 'Please send to individual user(s), up to 100 users in a tip.' });
       return;
     }
-    // get  tip-from-user info values from database since correct input(args) were given
-    GetAllUserInfoPromise.then(function(userInfo) {
-      // console.log('GETALLUSRERINFO: ' + JSON.stringify(userInfo));
-      const found = userInfo[0].user_found;
-      if (found == 'false') {
-        message.channel.stopTyping(true);
-        const embed = new Discord.MessageEmbed()
-          .setTitle('ERROR')
-          .setDescription('user not found, please sign up with `+add`')
-          .setColor(0x000000)
-          .addField('User Found', found);
-        message.channel.send({ embed });
+    // set tip amount here. Pulls the args and checks until it finds a good tip amount
+    // iterates through the list of args given and looks for a number, first found wins.
+    // This also checks the number to validate its a qrl amount isQRLValue()
+    const givenTip = tipAmount();
+    // console.log('tip contents ' + givenTip);
+
+    // check if amount is NaN
+    if (isNaN(givenTip)) {
+    //  console.log('isNaN');
+    //  console.log('enter a valid amount to tip');
+      // ReplyMessage('Please enter a valid amount to tip! +tip {AMOUNT} @USER(\'s)');
+      errorMessage({ error: 'Invalid Amount Given...', description: 'Please enter a valid amount to tip! `+tip {AMOUNT} @USER(\'s)`' });
+      return ;
+    }
+    // Check that tip amount is above fee
+    //  console.log('fee: ' + fee + '\namount: ' + givenTip);
+    if (givenTip < fee) {
+      message.channel.stopTyping(true);
+      //  console.log('tipAmount < tx_fee - fee:\nFee: ' + fee + ' - Tip: ' + givenTip);
+      // ReplyMessage('Please enter a valid amount to tip! Must be more than the fee `{' + config.wallet.tx_fee + '}` +tip {AMOUNT} @USER(\'s)');
+      errorMessage({ error: 'Invalid Amount Given...', description: 'Tip must be more than TX Fee: `{' + config.wallet.tx_fee + '}`' });
+      return ;
+    }
+
+    // Get user info into scope from database
+    tipbotInfo(userID).then(function(tipingUserInfo) {
+    //  console.log('Tipping user INFO: ' + JSON.stringify(tipingUserInfo));
+      const tippingUserUser_Found = JSON.stringify(tipingUserInfo[0].user_found);
+      const tippingUserUser_agree = JSON.stringify(tipingUserInfo[0].user_agree);
+      const tippingUserOpt_Out = JSON.stringify(tipingUserInfo[0].opt_out);
+      // log the output for debug
+      //  console.log('tippingUserUser_Found: ' + tippingUserUser_Found);
+      //  console.log('tippingUserUser_agree: ' + tippingUserUser_agree);
+      //  console.log('tippingUserOpt_Out: ' + tippingUserOpt_Out);
+      // check for tipping user in the system
+      if (tippingUserUser_Found == 'false') {
+      //  console.log('User not found. Fail and warn');
+        errorMessage({ error: 'User Not Found...', description: 'Please sign up to the tipbot. Enter `+add` to create a wallet then `+agree` to use the bot' });
+        // ReplyMessage('User not found. Add your user to the bot. `+add`');
         return;
       }
-      // check for opt out
-      if (userInfo[0].opt_out == '1') {
-        message.channel.stopTyping(true);
-        const embed = new Discord.MessageEmbed()
-          .setTitle('ERROR')
-          .setDescription('You have Opted Out of the TipBot. To tip you must opt back in.')
-          .setColor(0x000000)
-          .addField('Opt-Out', userInfo[0].opt_out)
-          .addField('Opt-Out Date', userInfo[0].optout_date)
-          .addField('To opt back in', '`+opt-in`');
-        message.author.send({ embed })
-          .then(() => {
-            ReplyMessage('There was an error, see your DM');
-          })
-          .catch(error => {
-            message.channel.stopTyping(true);
-            console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-            return;
-          });
+      // check for tipping user opt-out
+      if (tippingUserOpt_Out == 1) {
+        const tippingUserOptOut_Date = JSON.stringify(tipingUserInfo[0].optout_date);
+        errorMessage({ error: 'User Has `Opt-Out` Status...', description: 'You opted out on ' + tippingUserOptOut_Date + '. Please opt back in to use the bot. `+opt-in`' });
+        // ReplyMessage('User opt\'ed out of the bot on ' + tippingUserOptOut_Date + '. Please opt back in to use the bot. `+opt-in`');
         return;
       }
-      // we have results from user lookup, asign values for tip from user
-      const wallet_pub = userInfo[0].wallet_pub;
-      const wallet_bal = userInfo[0].wallet_bal;
-      const total_tip = (tipUserCount * tipAmount) + fee;
-      // check that the users balance is enough to tip the request
-      const wallet_bal_shor = wallet_bal * 1000000000;
-
-      // console.log('check wallet balance ' + wallet_bal_shor + ' and total tip ' + total_tip + ' is more than 0');
-      const walletCalc = (wallet_bal_shor - total_tip);
-      // console.log('walletCalc: ' + walletCalc);
-      if (walletCalc <= 0) {
-        console.log('less than zero');
-        const walletBALANCEislessthan = true;
-        // not enough funds...
-        message.channel.stopTyping(true);
-        const embed = new Discord.MessageEmbed()
-          .setTitle('ERROR - Not enough funds in user wallet!')
-          .setDescription('make sure you can cover the fee! Fee set to *' + config.wallet.tx_fee + '*\n[Check your address on the explorer](' + config.bot_details.explorer_url + '/a/' + wallet_pub + ')')
-          .setColor(0x000000)
-          .addField('Wallet Balance:', wallet_bal.toFixed(9) + ' QRL')
-          .addField('Amount attempted to tip:', total_tip / 1000000000 + ' QRL');
-        message.author.send({ embed })
-          .then(() => {
-            if (message.channel.type === 'dm') return;
-            ReplyMessage('your trying to send more than you have!\n:moneybag: You need more funds! :moneybag:');
-          })
-          .catch(error => {
-            message.channel.stopTyping(true);
-            console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-            return;
-          });
-        return walletBALANCEislessthan;
-      }
-
-/*
-      if ((wallet_bal_shor - total_tip) < 0) {
-        // not enough funds...
-        message.channel.stopTyping(true);
-        const embed = new Discord.MessageEmbed()
-          .setTitle('ERROR - Not enough funds in user wallet!')
-          .setDescription('make sure you can cover the fee! Fee set to *' + config.wallet.tx_fee + '*\n[Check your address on the explorer](' + config.bot_details.explorer_url + '/a/' + wallet_pub + ')')
-          .setColor(0x000000)
-          .addField('Wallet Balance:', wallet_bal.toFixed(9) + ' QRL')
-          .addField('Amount attempted to tip:', total_tip / 1000000000 + ' QRL');
-        message.author.send({ embed })
-          .then(() => {
-            if (message.channel.type === 'dm') return;
-            ReplyMessage('your trying to send more than you have!\n:moneybag: You need more funds! :moneybag:');
-          })
-          .catch(error => {
-            message.channel.stopTyping(true);
-            console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-            return;
-          });
+      // check for tipping user agree
+      if (!tippingUserUser_agree) {
+      //  console.log('User has not agreed. Fail and warn');
+        errorMessage({ error: 'User Has Agreed to Terms...', description: 'Please agree to the terms to start using the bot. Enter `+terms` to read or `+agree`' });
+        // ReplyMessage('User needs to agree to the terms. `+agree`');
         return;
       }
-      */
 
-      // tipping user has funds, and is not opted out.
-      const allServiceIDs = message.mentions.users.map(function(id) {
-        return id.id;
+      // user found in database and passes initial checks.
+      const tippingUserWallet_Pub = JSON.stringify(tipingUserInfo[0].wallet_pub);
+      const tippingUserWalPub = tipingUserInfo[0].wallet_pub;
+
+      //  console.log('tippingUserWallet_Pub: ' + tippingUserWallet_Pub);
+      const tippingUserWallet_Bal = toShor(JSON.stringify(tipingUserInfo[0].wallet_bal));
+      //  console.log('tippingUserWallet_Bal: ' + tippingUserWallet_Bal);
+      const tippingUserUser_Id = JSON.stringify(tipingUserInfo[0].user_id);
+      //  console.log('tippingUserUser_Id: ' + tippingUserUser_Id);
+      const tippingUserUser_Name = JSON.stringify(tipingUserInfo[0].user_name);
+      //  console.log('tippingUserUser_Name: ' + tippingUserUser_Name);
+
+      // check balance to tip amount
+      if (tippingUserWallet_Bal <= 0) {
+      //  console.log('User has 0 balance. Fail and warn');
+        errorMessage({ error: 'User Wallet Empty...', description: 'No funds to tip. Transfer funds with `+deposit` or pull from the faucet if full with `+drip`' });
+        // ReplyMessage('You have no funds to tip. `+bal`');
+        return;
+      }
+
+      // Get the tipList (send tip to) without bots in the array
+      const tipList = message.mentions.users.map(user => {
+        const userName = user.username;
+        const output = '@' + JSON.parse(JSON.stringify(userName));
+        const service_user_ID = user.id;
+        const userid = '@' + user.id;
+        const bot = user.bot;
+        const discriminator = user.discriminator;
+        const lastMessageID = user.lastMessageID;
+        const lastMessageChannelID = user.lastMessageChannelID;
+        const avatar = user.avatar;
+        const verified = user.verified;
+        const mfaEnabled = user.mfaEnabled;
+        // check if mentioned user is a bot
+        if (bot) {
+        // don't do anything for the bot.. silly bot
+        // console.log('bot mentioned, doing nothing');
+          return;
+        }
+        if (userid === userID) {
+        // user mentioned self, do not count and move on
+        //  console.log('User mentioned self');
+          errorMessage({ error: 'User Tipped Self...', description: 'You can\'t tip yourself! Removing you from the tip and proceeding' });
+          // ReplyMessage('You can\'t tip yourself! Removing you from the tip...');
+          return;
+        }
+        // check for user in the tipbot database and grab addresses etc. for them.
+        // Not a bot, return details
+        const details = { userName: output, service_user_ID: service_user_ID, userid: userid, bot: bot, discriminator: discriminator, avatar: avatar, lastMessageID: lastMessageID, lastMessageChannelID: lastMessageChannelID, verified: verified, mfaEnabled: mfaEnabled };
+        return details;
       });
-      const stringUserIDs = allServiceIDs.join();
-      console.log('stringUserIDs' + stringUserIDs);
-      // add users to the tips db and create a tip_id to track this tip through
-      // we need to send { trans_id, from_user_id, to_users_id, tip_amount, from_service, time_stamp}
-      const addToTipsDBinfo = { from_user_id: userID, to_users_id: stringUserIDs, tip_amount: tipAmountQuanta, from_service: 'discord', time_stamp: new Date() };
-      const AddToTipsDBinfoPromise = addToTips(addToTipsDBinfo);
-      // add this tip to the db and begin the tipping proecss
-      AddToTipsDBinfoPromise.then(function(AddToTipsArgs) {
-        // we expect back { tip_id: (tip ID from db insert) }
-        const tip_id = AddToTipsArgs[0].tip_id;
-        // push the tip_id to an array for later use
-        addToTipsArgsArray.push({ tip_id: tip_id });
-        return addToTipsArgsArray;
+
+      // remove any null or empty contents
+      const filteredTipList = tipList.filter(function(el) {
+        return el != null;
       });
-      let found_count = 0;
-      let not_found_count = 0;
+      //  console.log('filteredTipList: ' + JSON.stringify(filteredTipList));
 
-      // tip_id created, sort the users found and not-found
-      async function tip() {
-        const iterator = UserIDList.entries();
-        for (const Service_ID of message.mentions.users) {
-          const Value = iterator.next().value;
-          // console.log('VALUE: ' + JSON.stringify(Value));
-          // set the users values to variables from the iterator.next().value we got from above
-          const serviceid = Value[1].Service_ID;
-          const serviceUserName = Value[1].service_user_name;
-          const GetAllTipedUserInfoPromise = GetAllUserInfo({ service: 'discord', service_id: serviceid });
-          // search for the tipto user here in the database with info from above
-          await GetAllTipedUserInfoPromise.then(function(tippedUserInfo) {
-            // console.log('tippedUserInfo ' + JSON.stringify(tippedUserInfo));
-            const tippedUserFound = tippedUserInfo.user_found;
-            if (tippedUserFound == 'true') {
-              const tippedUsedOptOut = tippedUserInfo[4].opt_out;
-              if (tippedUsedOptOut !== 1) {
-              // check if tipping self and fail if found
-                const message_auth = '@' + message.author.id;
-                if (serviceid == message_auth) {
-                  message.author.send('You can\'t tip yourself');
-                  message.channel.stopTyping(true);
-                }
-                else{
-                  ++found_count;
-                  // user is found, add their wallet_pub to addressTo array and return.
-                  const tipTo_user_wallet = tippedUserInfo[0].wallet_pub;
-                  found_addressTo.push(tipTo_user_wallet);
-                  found_tipAmount.push(tipAmount);
-                  // add user to tip_to here?
-                  // add_tip_to
-                  const user_id = userInfo[0].user_id;
-                  const tip_id = addToTipsArgsArray[0].tip_id;
-                  // check that tip_id is there, else wait for it...
+      // get the bots into array
+      const botList = message.mentions.users.map(user => {
+        const userName = user.username;
+        const output = '@' + JSON.parse(JSON.stringify(userName));
+        const userid = '<@!' + user.id + '>';
+        const bot = user.bot;
+        if (!bot) {
+          // if not a bot don't do anything
+          return;
+        }
+        const botListOutput = JSON.parse(JSON.stringify({ userName: output, userid: userid, bot: bot }));
+        return botListOutput;
+      });
+      const filteredBotList = botList.filter(function(el) {
+        return el != null;
+      });
+      //  console.log('filteredBotList: \n' + JSON.stringify(filteredBotList));
+      const botListJSON = JSON.parse(JSON.stringify(filteredBotList));
+      const bots = [];
+      const botUserCount = Count(botListJSON);
+      //  console.log('botUserCount: ' + botUserCount);
+      // if bot count is positive warn user and continue
+      if (botUserCount > 0) {
+      //  console.log('Bots are tipped, send warning and continue..');
+        // getting bot userid into array to respond to user with. userid is the correct format to notify user in
+        for(let i = 0, l = filteredBotList.length; i < l; i++) {
+          bots.push(' ' + filteredBotList[i].userid);
+        }
+        errorMessage({ error: 'Bots Mentioned In Tip...', description: 'You can\'t tip robots! Removing ' + bots + ' from the tip and proceeding.' });
+        // ReplyMessage('No bot tipping allowed! Removing the robots and sending to the rest...\rBots mentioned ' + bots);
+      }
+      const tipListJSON = JSON.parse(JSON.stringify(filteredTipList));
+      const tipUserCount = Count(tipListJSON);
+      //  console.log('tipUserCount: ' + tipUserCount);
 
-                  const check_tip_id = function() {
-                    if(tip_id == undefined) {
-                      // check again in a second
-                      setTimeout(check_tip_id, 1000);
-                    }
-                  };
-                  check_tip_id();
+      // check the balance of tipping user to total tip amount
+      //  console.log('user Balance: ' + tippingUserWallet_Bal);
+      //  console.log('Tip Amount: ' + (givenTip * tipUserCount));
+      const tipTotal = ((givenTip * tipUserCount) + fee);
+      if (tippingUserWallet_Bal < tipTotal) {
+      //  console.log('More than user bal. fail and error with balance');
+        errorMessage({ error: 'Tipping more than you have...', description: 'Enter `+bal` to get your current balance.' });
+        // ReplyMessage('Trying to send more than you have... Please try again. \nYou tried sending `' + toQuanta(tipTotal)) + 'qrl` which is `' + (tipTotal - tippingUserWallet_Bal) + 'qrl` more than you have.';
+        return;
+      }
 
-                  const add_tip_to_info = { tip_id: tip_id, tip_amt: tipAmountQuanta, user_id: user_id };
-                  add_tip_to(add_tip_to_info);
-                }
-              }
+      async function userInfo() {
+
+        for(let i = 0, l = filteredTipList.length; i < l; i++) {
+          // check for user in the tipbot database and grab addresses etc. for them.
+          const tipToUserInfo = await tipbotInfo(filteredTipList[i].userid);
+          //  console.log('tipToUserInfo: ' + JSON.stringify(tipToUserInfo));
+          const tipToUserFound = tipToUserInfo[0].user_found;
+          const tipToUserOptOut = tipToUserInfo[0].opt_out;
+          // If tipped user is found then...
+          if (tipToUserFound === 'true') {
+            // If tipped user Opt-Out true...
+            if (tipToUserOptOut === '1') {
+              // user found and opted out. Add to the future_tips table and set the wallet address to the hold address...
+              futureTippedUserInfo.push(filteredTipList[i]);
+              const futureTippedUserId = ' <@!' + filteredTipList[i].service_user_ID + '>';
+              futureTippedUserIDs.push(futureTippedUserId);
+              // assign the config.hold.address here for future tips payout
+              tippedUserWallets.push(config.wallet.hold_address);
+              tippedUserTipAmt.push(givenTip);
+              continue;
             }
             else {
-              ++not_found_count;
-              // user is not found, add them to the future_tips DB.
-              // We need to send { service: SERVICE, user_id: SERVICE_ID, user_name: SERVICE_user_name, tip_from: tipFrom_user_id, tip_amount: tip_to_user_amount, time_stamp: date_tip_was_made }
-              const usernNotFoundInfo = { service: 'discord', user_id: serviceid, user_name: serviceUserName, tip_from: userID, tip_amount: tipAmountQuanta };
-              const addTo_Future_tipsPromise = addFutureTips(usernNotFoundInfo);
-              addTo_Future_tipsPromise.then(function(futureTipsID) {
-                // console.log('f' + JSON.stringify(futureTipsID));
-                // add to tips_to database and mark as a future tip with the tipID
-                //
-                // console.log('addToTipsArgsArray not found: ' + JSON.stringify(addToTipsArgsArray));
-                const user_id = userInfo[0].user_id;
-                console.log('\n\n\nuser_id: ' + user_id + '\n\n\n')
-                const tip_id = addToTipsArgsArray[0].tip_id;
-                // check that tip_id is ther, else wait for it...
-                const check_tip_id = function() {
-                 if(tip_id == undefined) {
-                    // check again in a second
-                    setTimeout(check_tip_id, 1000);
-                  }
-                };
-                check_tip_id();
-
-
-                const future_tip_id = futureTipsID[0].tip_id;
-                const add_tip_to_info = { tip_id: tip_id, tip_amt: tipAmountQuanta, user_id: user_id, future_tip_id: future_tip_id };
-                add_tip_to(add_tip_to_info);
-              });
+              // user found and not opted out, add to array and move on
+              const tipToUserUserId = ' <@!' + filteredTipList[i].service_user_ID + '>';
+              const tippedUserServiceID = filteredTipList[i].userid;
+              const tipToUserUserWalletPub = tipToUserInfo[0].wallet_pub;
+              // push user data to arrays for tipping
+              tippedUserIDs.push(tipToUserUserId);
+              tippedUserServiceIDs.push(tippedUserServiceID);
+              tippedUserWallets.push(tipToUserUserWalletPub);
+              tippedUserInfo.push(tipToUserInfo);
+              tippedUserTipAmt.push(givenTip);
+              continue;
             }
-          });
-        }
-      }
-
-      async function tipAwait() {
-        const tipUser = await tip();
-        tipUser;
-        if (not_found_count > 0) {
-          const tip_to_hold = tipAmount * not_found_count;
-          not_found_addressTo.push(config.wallet.hold_address);
-          not_found_tipAmount.push(tip_to_hold);
-        }
-        if (not_found_count == 0 && found_count == 0) {
-          // if in a chat, delete their tip message and reply with the list of tipped users
-          if(message.guild != null) {
-            message.delete();
           }
-          message.channel.stopTyping(true);
-          ReplyMessage('sorry, no users found or they have opted out. No tip sent...');
-          return;
+          else {
+            // the user is not in the database yet, add to the future_tips table and set the wallet address to the hold address
+            futureTippedUserInfo.push(filteredTipList[i]);
+            const futureTippedUserId = ' <@!' + filteredTipList[i].service_user_ID + '>';
+            futureTippedUserIDs.push(futureTippedUserId);
+            // assign the config.hold.address here for future tips payout
+            tippedUserWallets.push(config.wallet.hold_address);
+            tippedUserTipAmt.push(givenTip);
+          }
         }
-        // if in a chat, delete their tip message and reply with the list of tipped users
-        if(message.guild != null) {
-          message.delete();
-        }
-        message.channel.stopTyping(true);
-        ReplyMessage('Tipped ' + userList + ' `' + tipAmountQuanta + '` QRL.\n*All tips are on-chain, and will take some time to process.*');
-        const send_to_addresses = found_addressTo.concat(not_found_addressTo);
-        const send_to_amount = found_tipAmount.concat(not_found_tipAmount);
-        const tipToInfo = { amount: send_to_amount, fee: fee, address_from: wallet_pub, address_to: send_to_addresses };
-        // transfer the funds here
-        const transfer = wallet.sendQuanta;
-        transfer(tipToInfo).then(function(transferQrl) {
-          // console.log('transferQrl' + transferQrl);
-          const transferOutput = JSON.parse(transferQrl);
-          const tx_hash = transferOutput.tx.transaction_hash;
-          // write to transactions db
-          const tip_id = addToTipsArgsArray[0].tip_id;
-          const txInfo = { tip_id: tip_id, tx_type: 'tip', tx_hash: tx_hash };
-          const addTransactionPromise = addTransaction(txInfo);
-          addTransactionPromise.then(function(txRes) {
-            // console.log('txRes' + JSON.stringify(txRes));
+        // arrays are full, now send the transactions and set database.
 
-            return txRes;
-          });
-          message.channel.stopTyping(true);
-          const embed = new Discord.MessageEmbed()
-            .setColor(0x000000)
-            .setTitle('Tip Sent!')
-            .setDescription('Your tip was posted on the network. It may take a few minuets to confirm, see the transaction info in the [QRL Block Explorer](' + config.bot_details.explorer_url + '/tx/' + tx_hash + ')')
-            .addField('Total Transfer', '**' + (total_tip / 1000000000).toFixed(9) + '**')
-            .addField('Transfer fee', '**' + config.wallet.tx_fee + '**')
-            .addField('Sent **' + tipAmountQuanta + ' QRL** To ', '** ' + userList + '**')
-            .setFooter('The TX Fee is paid by the tip sender. \nThe current fee is set to ' + config.wallet.tx_fee + ' QRL');
-          message.author.send({ embed })
-            .then(() => {
-              if (message.channel.type !== 'dm') return;
-            })
-            .catch(error => {
-              message.channel.stopTyping(true);
-              console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-            });
-          message.channel.stopTyping(true);
-          return;
-        });
+        // add users to the tips db and create a tip_id to track this tip through
+        const addTipInfo = { from_user_id: userID, tip_amount: givenTip };
+        const addTipResults = await tipDBWrite(addTipInfo);
+        const tip_id = addTipResults[0].tip_id;
+        // check for tx_id to be created...
+        const check_tip_id = function() {
+          if(tip_id == undefined) {
+            // check again in a second
+            setTimeout(check_tip_id, 1000);
+          }
+        };
+        check_tip_id();
+        //  console.log('tip_id: ' + tip_id);
+
+        // ///////// Found Tipped Users Database Entry ///////// //
+        // looks through all users in the tippedUserInfo array assigned above.
+        // For each user found, adds their info to the tips_to database. One entry each user
+        // /////////////////////////////////////////////// //
+
+        for(let i = 0, l = tippedUserInfo.length; i < l; i++) {
+          const addTipToInfo = { tip_id: tip_id, tip_amt: givenTip, user_id: tippingUserUser_Id };
+          //  console.log('addTipToInfo: ' + JSON.stringify(addTipToInfo));
+          const addTipToCall = await tipToDBWrite(addTipToInfo);
+        //  console.log('addTipToCall: ' + JSON.stringify(addTipToCall));
+        }
+
+        // ///////// Future Users Database Entry ///////// //
+        // looks through all users in the futureTippedUserInfo array assigned above.
+        // For each user found, adds their info to the future_tips_to database. One entry each user to be paid out in the future
+        // /////////////////////////////////////////////// //
+
+        for(let i = 0, l = futureTippedUserInfo.length; i < l; i++) {
+          const addFutureTipToInfo = { user_id: futureTippedUserInfo[i].service_user_ID, user_name: futureTippedUserInfo[i].userName, tip_id: tip_id, tip_from: userID, tip_amount: givenTip };
+          const addFutureTipToCall = await futureTipsDBWrite(addFutureTipToInfo);
+          const future_tip_id = addFutureTipToCall[0].tip_id;
+          const addTipToInfo = { tip_id: tip_id, tip_amt: givenTip, user_id: tippingUserUser_Id, future_tip_id: future_tip_id };
+          const addTipToCall = await tipToDBWrite(addTipToInfo);
+        //  console.log('addTipToCall' + JSON.stringify(addTipToCall));
+        }
+        return [filteredTipList, tippedUserWallets, tippedUserTipAmt, tip_id];
+
       }
-      // send the tip here
-      tipAwait();
-      return JSON.stringify(userInfo);
-    });
-    message.channel.stopTyping(true);
+      // get all tippedToUser info from the database
+      userInfo().then(function(FinalInfo) {
+        // using details above enter the transactions into the node and respond to users.
+      //  console.log('\n\nFinalInfo: ' + JSON.stringify(FinalInfo));
+      //  console.log('futureTippedUserInfo: ' + JSON.stringify(futureTippedUserInfo));
+      //  console.log('tippedUserInfo: ' + JSON.stringify(tippedUserInfo));
 
+        // const send_to_addresses = tippedUserWallets;
+        // const send_to_amount = tippedUserTipAmt;
+
+        // ///////// Send the transaction ///////// //
+        const tipToInfo = { amount: tippedUserTipAmt, fee: fee, address_from: JSON.parse(tippingUserWallet_Pub), address_to: tippedUserWallets };
+        //  console.log('tipToInfo: ' + JSON.stringify(tipToInfo));
+        wallet.sendQuanta(tipToInfo).then(function(sendData) {
+          const transferOutPut = JSON.parse(sendData);
+          //  console.log('transferOutPut: ' + JSON.stringify(transferOutPut));
+          const tx_hash = transferOutPut.tx.transaction_hash;
+          const txInfo = { tip_id: FinalInfo[3], tx_type: 'tip', tx_hash: tx_hash };
+          dbHelper.addTransaction(txInfo).then(function(transactionDBresp) {
+          //  console.log('transactionDBresp: ' + JSON.stringify(transactionDBresp));
+
+            // ///////// Add to database and write the tx_id to the tip record ///////// //
+
+            // ///////// DM User tip details and address balance after the TX ///////// //
+
+            // get address balance after tx
+            //  console.log('tipTotal: ' + tipTotal);
+
+            const newWal_bal = (toQuanta(tippingUserWallet_Bal) - toQuanta(tipTotal));
+
+            const embed = new Discord.MessageEmbed()
+              .setColor(0x000000)
+              .setTitle('QRL Tip Sent!')
+              .setDescription('Your tip was posted on the network! It may take a few minuets to confirm\nSee the transaction info in the [QRL Block Explorer](' + config.bot_details.explorer_url + '/tx/' + tx_hash + ')')
+              // .addField('\u200B', '\u200B')
+              // .setImage('https://github.com/theQRL/assets/blob/master/logo/inverse/QRL_logo_inverse@1x.png?raw=true')
+              .addField('Tip Amount', '**' + toQuanta(givenTip).toFixed(9) + ' QRL**', true)
+              .addField('Tip To Count', '**' + tipUserCount + ' User(s)**', true)
+              .addField('Network Fee', '**' + toQuanta(fee).toFixed(9) + ' QRL**', true)
+              .addField('You Tipped', tippedUserIDs + ' ' + futureTippedUserIDs)
+              .addField('Total Transfer', '**' + toQuanta(tipTotal).toFixed(9) + ' QRL**', true)
+              .addField('New Wallet Balance', '[**' + newWal_bal + ' QRL**](' + config.bot_details.explorer_url + '/a/' + tippingUserWalPub + ')', true)
+              .addField('Transaction Hash', '```yaml\n' + tx_hash + '\n```')
+              .setFooter('.: The QRL TipBot :. ');
+
+            message.author.send({ embed })
+              .then(() => {
+                if (message.channel.type !== 'dm') return;
+              })
+              .catch(error => {
+                message.channel.stopTyping(true);
+                console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+              });
+
+            if(message.guild != null) {
+              deleteMessage();
+            }
+            message.channel.stopTyping(true);
+            if (tipUserCount > 1) {
+              ReplyMessage('**You\'ve sent a `' + toQuanta(givenTip) + ' QRL` tip to ' + tippedUserIDs + ',' + futureTippedUserIDs + ' each**. Thanks for using the tipbot!\n*All tips are on-chain, and will take some time to process.*');
+            }
+            else {
+              ReplyMessage('**You\'ve sent a `' + toQuanta(givenTip) + ' QRL` tip to ' + tippedUserIDs + ',' + futureTippedUserIDs + '** Thanks for using the tipbot!\n*All tips are on-chain, and will take some time to process.*');
+            }
+          //  console.log('futureTippedUserIDs: ' + JSON.stringify(futureTippedUserIDs));
+          //  console.log('tippedUserIDs: ' + JSON.stringify(tippedUserIDs));
+          });
+
+        });
+      });
+      // console.log('tippedUserWallets: ' + JSON.stringify(tippedUserWallets));
+      // console.log('tippedUserTipAmt: ' + JSON.stringify(tippedUserTipAmt));
+      // console.log('tippedUserServiceIDs: ' + JSON.stringify(tippedUserServiceIDs));
+      // console.log('final tipListJSON: ' + JSON.stringify(tipListJSON));
+    });
   },
 };
-
