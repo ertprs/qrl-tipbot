@@ -4,7 +4,7 @@ General and overall workflows for the project.
 
 ## Add new user
 
-![Add user workflow](./assets/adduser.png?raw=true)
+![Add user workflow](https://github.com/fr1t2/qrl-tipbot/blob/dev/_docs/assets/addUser.png)
 
 
 ## Send Tip
