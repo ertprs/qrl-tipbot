@@ -446,7 +446,7 @@ module.exports = {
       // Bot Request                  //
       // ///////////////////////////////
 
-      else if (args[0] == 'help' || args[0] == 'info' || args[0] == 'use') {
+      else if (args[0] == 'help' || args[0] == 'info' || args[0] == 'use' || args[0] == 'what') {
         // serve the bot info here
         const embed = new Discord.MessageEmbed()
           .setColor('GREEN')
@@ -479,7 +479,7 @@ module.exports = {
           });
       }
 
-      else if (args[0] == 'bot' || args[0] == 'tipbot' || args[0] == 'info') {
+      else if (args[0] == 'bot' || args[0] == 'tipbot' || args[0] == 'details') {
         // get pool data from a pool
         const poolData = JSON.parse(await getPoolInfo());
         const hashrate = getHashRate(poolData.network.difficulty / poolData.config.coinDifficultyTarget) + '/sec';
