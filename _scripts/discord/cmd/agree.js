@@ -29,7 +29,17 @@ module.exports = {
           .addField(content.term_3, content.term_3_description)
           .addField(content.term_4, content.term_4_description)
           .setFooter(content.footer || footer);
-        message.reply({ embed });
+        message.author.send({ embed })
+          .then(() => {
+            if (message.channel.type === 'dm') return;
+            message.channel.stopTyping(true);
+            message.reply('Thanks for agreeing to the terms. :thumbsup:\nTry `+help` for a list of my commands.');
+          })
+          .catch(error => {
+            console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+            message.channel.stopTyping(true);
+            message.reply('It seems like I can\'t DM you! Do you have DMs disabled?');
+          });
         message.channel.stopTyping(true);
       }, 1000);
     }

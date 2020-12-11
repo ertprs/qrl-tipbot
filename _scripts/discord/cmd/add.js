@@ -38,12 +38,12 @@ module.exports = {
     async function faucetBalance() {
       return new Promise(function(resolve) {
       // using the faucet address check for a balance
-      const walletAddress = config.faucet.faucet_wallet_pub;
-      getBalance(walletAddress).then(function(balance) {
-      // getBalance('Q000300636e629ad3f50791cb2bfb9ed28010f0b072ba1f860763ef634d51225e4e1782f686547e').then(function(balance) {
+        const walletAddress = config.faucet.faucet_wallet_pub;
+        getBalance(walletAddress).then(function(balance) {
+        // getBalance('Q000300636e629ad3f50791cb2bfb9ed28010f0b072ba1f860763ef634d51225e4e1782f686547e').then(function(balance) {
           resolve(balance);
+        });
       });
-    });
     }
 
     // used for the new user signup. Add the new users address to the faucet and drip them some funds
@@ -52,8 +52,8 @@ module.exports = {
       const maxAmt = max * 1000000000;
       // console.log('min: ' + minAmt + ' max: ' + maxAmt);
       const randomNumber = Math.floor(
-        Math.random() * (maxAmt - minAmt) + minAmt
-        );
+        Math.random() * (maxAmt - minAmt) + minAmt,
+      );
       const num = randomNumber / 1000000000;
       // console.log('Random number ' + num);
       return num;
@@ -126,57 +126,62 @@ module.exports = {
                 let dripamt = 0;
                 return dripamt;
               }
-            const userInfo = { service: 'discord', service_id: discord_id, user_name: MessageAuthorUsername, wallet_pub: wallet_pub, wallet_bal: 0, user_key: salt, user_auto_created: false, auto_create_date: new Date(), opt_out: false, optout_date: new Date(), drip_amt: dripamt };
-            // console.log('userInfo:' + JSON.stringify(userInfo));
-            message.channel.stopTyping();
-            return userInfo;
-          }).then(function(userInfo) {
+              const userInfo = { service: 'discord', service_id: discord_id, user_name: MessageAuthorUsername, wallet_pub: wallet_pub, wallet_bal: 0, user_key: salt, user_auto_created: false, auto_create_date: new Date(), opt_out: false, optout_date: new Date(), drip_amt: dripamt };
+              // console.log('userInfo:' + JSON.stringify(userInfo));
+              message.channel.stopTyping();
+              return userInfo;
+            }).then(function(userInfo) {
             // add user to the database and create an account
-            const AddUserPromise = addUser(userInfo);
-            AddUserPromise.then(function(addUserResp) {
-              const response = JSON.stringify(addUserResp);
-              message.channel.startTyping();
-              if (addUserResp[3].future_tip_amount > 0) {
-                const future_tip_amount = addUserResp[3].future_tip_amount;
-                const tipToArray = [];
-                // const tipToAddress = [];
-                tipToArray.push(userInfo.wallet_pub);
-                const fee = config.wallet.tx_fee * 1000000000;
-                const future_tip = { amount: future_tip_amount, fee: fee, address_from: config.wallet.hold_address, address_to: tipToArray };
-                const send_future_tip = wallet.sendQuanta;
-                send_future_tip(future_tip).then(function(futureTip) {
-                  const futureTipOut = JSON.parse(futureTip);
-                  const tx_hash = futureTipOut.tx.transaction_hash;
-                  // write to transactions db
-                  const tip_id = 1337;
-                  const txInfo = { tip_id: tip_id, tx_hash: tx_hash };
-                  const addTransactionPromise = addTransaction(txInfo);
-                  addTransactionPromise.then(function(txRes) {
-                    return txRes;
+              const AddUserPromise = addUser(userInfo);
+              AddUserPromise.then(function(addUserResp) {
+                const response = JSON.stringify(addUserResp);
+                message.channel.startTyping();
+                if (addUserResp[3].future_tip_amount > 0) {
+                  const future_tip_amount = addUserResp[3].future_tip_amount;
+                  const tipToArray = [];
+                  // const tipToAddress = [];
+                  tipToArray.push(userInfo.wallet_pub);
+                  const fee = config.wallet.tx_fee * 1000000000;
+                  const future_tip = { amount: future_tip_amount, fee: fee, address_from: config.wallet.hold_address, address_to: tipToArray };
+                  const send_future_tip = wallet.sendQuanta;
+                  send_future_tip(future_tip).then(function(futureTip) {
+                    const futureTipOut = JSON.parse(futureTip);
+                    const tx_hash = futureTipOut.tx.transaction_hash;
+                    // write to transactions db
+                    const tip_id = 1337;
+                    const txInfo = { tip_id: tip_id, tx_hash: tx_hash };
+                    const addTransactionPromise = addTransaction(txInfo);
+                    addTransactionPromise.then(function(txRes) {
+                      return txRes;
+                    });
+                    const futureClear = { user_id: userInfo.service_id };
+                    const clearFutureTips = dbHelper.clearFutureTips;
+                    clearFutureTips(futureClear).then(function(clearRes) {
+                      return clearRes;
+                    });
                   });
-                  const futureClear = { user_id: userInfo.service_id };
-                  const clearFutureTips = dbHelper.clearFutureTips;
-                  clearFutureTips(futureClear).then(function(clearRes) {
-                    return clearRes;
-                  });
-                });
-              }
-              return response;
-            }).then(function(userresponse) {
-              const userAddress = userInfo.wallet_pub;
-              const embed = new Discord.MessageEmbed()
-                .setColor(0x000000)
-                .setTitle('**TipBot Account Info**')
-                .setDescription('Here is your TipBot account information.')
-                .setFooter(`TipBot Donation Address: ${config.bot_details.bot_donationAddress}`)
-                .addField('Your QRL Wallet Public Address::', '[' + userAddress + '](' + config.bot_details.explorer_url + '/a/' + userAddress + ')')
-                .addField('Your QRL Wallet Balance:\t', '0')
-                .setImage(userInfo.wallet_qr)
+                }
+                return response;
+              }).then(function(userresponse) {
+                const userAddress = userInfo.wallet_pub;
+                const embed = new Discord.MessageEmbed()
+                  .setColor(0x000000)
+                  .setTitle('**TipBot Account Info**')
+                  .setDescription('Here is your TipBot account information.')
+                  .setFooter(`TipBot Donation Address: ${config.bot_details.bot_donationAddress}`)
+                  .addField('Your QRL Wallet Public Address::', '[' + userAddress + '](' + config.bot_details.explorer_url + '/a/' + userAddress + ')')
+                  .addField('Your QRL Wallet Balance:\t', '0')
+                  .setImage(userInfo.wallet_qr)
                   .addField('**Bonus!** You\'ll receive some Quanta from the faucet when funds are available! Come back for more faucet funds once a day. *Faucet payments can take up to 10 min to reflect in a users wallet and funds must be available at the time of signup*')
-                .addField('For all of my commands:\t', '`+help`');
-              message.author.send({ embed })
-                .then(() => {
-                  if (message.channel.type === 'dm') return;
+                  .addField('For all of my commands:\t', '`+help`');
+                message.author.send({ embed })
+                  .catch(error => {
+                    console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+                    message.channel.stopTyping(true);
+                    ReplyMessage('it seems like I can\'t DM you! Enable DM and try `+add` again...');
+                    // react to the users message for fun
+                  }).then(() => {
+                    if (message.channel.type === 'dm') return;
                     message.author.send(` 
             __**TipBot Terms and Conditions**__
 
@@ -212,23 +217,23 @@ If you **AGREE** to these terms, please type: \`+agree\`
 If you **DO NOT AGREE** to these terms, please type: \`+opt-out\`
                     `);
                     message.channel.stopTyping(true);
-                    ReplyMessage(':white_check_mark: Your signed up! For a list of my commands type `+help` or get started by depositing funds to your tipbot address, `+deposit`');
-                })
-                .catch(error => {
-                  console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-                  message.channel.stopTyping(true);
-                  ReplyMessage('it seems like I can\'t DM you! Enable DM and try `+add` again...');
+                    ReplyMessage(':white_check_mark: Your signed up! Please `+agree` to my terms to begin using the bot. For a list of my commands type `+help`');
+                  })
+                  .catch(error => {
+                    console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+                    message.channel.stopTyping(true);
+                    ReplyMessage('it seems like I can\'t DM you! Enable DM and try `+add` again...');
                   // react to the users message for fun
-                });
-              message.react('🇶')
-                .then(() => message.react('🇷'))
-                .then(() => message.react('🇱'))
-                .catch(() => console.error('One of the emojis failed to react.'));
-              message.channel.stopTyping(true);
-              return userresponse;
+                  });
+                message.react('🇶')
+                  .then(() => message.react('🇷'))
+                  .then(() => message.react('🇱'))
+                  .catch(() => console.error('One of the emojis failed to react.'));
+                message.channel.stopTyping(true);
+                return userresponse;
+              });
             });
           });
-      });
         }
       });
     }
