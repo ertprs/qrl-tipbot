@@ -26,6 +26,12 @@ module.exports = {
     // const info = JSON.parse(JSON.stringify({ service: 'discord', service_id: UUID }));
     // const found = GetAllUserInfo(info);
 
+
+    // check if this is a DM and if so, block forcing user into the chatroom
+    if (message.channel.type === 'dm') {
+      return;
+    }
+
     // check for a balance in the faucet wallet first
      async function faucetBalance() {
       return new Promise(function(resolve) {
