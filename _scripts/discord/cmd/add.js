@@ -172,7 +172,9 @@ module.exports = {
                 .addField('Your QRL Wallet Public Address::', '[' + userAddress + '](' + config.bot_details.explorer_url + '/a/' + userAddress + ')')
                 .addField('Your QRL Wallet Balance:\t', '0')
                 .setImage(userInfo.wallet_qr)
-                .addField('**Bonus!** You\'ll receive some Quanta from the faucet when funds are available! Come back for more faucet funds once a day. *Faucet payments can take up to 10 min to reflect in a users wallet and funds must be available at the time of signup*')
+                if (faucBal > 0) {
+                  .addField('**Bonus!** You\'ll receive some Quanta from the faucet when funds are available! Come back for more faucet funds once a day. *Faucet payments can take up to 10 min to reflect in a users wallet and funds must be available at the time of signup*')
+                }
                 .addField('For all of my commands:\t', '`+help`');
               message.author.send({ embed })
                 .then(() => {

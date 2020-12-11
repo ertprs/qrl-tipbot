@@ -1,5 +1,5 @@
 module.exports = {
-  name: 'tip2',
+  name: 'tip',
   description: 'Tips!',
   args: true,
   guildOnly: false,
@@ -19,14 +19,12 @@ module.exports = {
     const tippedUserIDs = [];
     const tippedUserServiceIDs = [];
     const fee = toShor(config.wallet.tx_fee);
-
     const username = `${message.author}`;
     const userID = username.slice(1, -1);
 
     message.channel.startTyping();
 
     function ReplyMessage(content) {
-
       setTimeout(function() {
         message.reply(content);
         message.channel.stopTyping(true);
@@ -124,21 +122,6 @@ module.exports = {
       });
     }
 
-
-    /*
-    async function transactionDBWrite(transactionInfo) {
-      // send the transaction data once the tip is sent
-      return new Promise(resolve => {
-        // console.log('transactionDBWrite transactionInfo' + JSON.stringify(transactionInfo));
-        const transInfo = { from_user_id: transactionInfo.from_user_id, to_users_id: transactionInfo.to_users_id, tip_amount: toQuanta(transactionInfo.tip_amount), from_service: 'discord', time_stamp: new Date() };
-      //  console.log('transInfo: ' + transInfo);
-        const transInfoWrite = dbHelper.addTransaction(transInfo);
-        resolve(transInfoWrite);
-      });
-    }
-    */
-
-
     function tipAmount() {
       for (const arg of args) {
         const checkValue = isQRLValue(toShor(arg));
@@ -163,7 +146,7 @@ module.exports = {
       const arrayCount = list.length;
       return arrayCount;
     }
-    
+
     // check if user mentioned another user to tip
     if (!message.mentions.users.size) {
       // console.log('No Users mentioned.');
@@ -243,7 +226,7 @@ module.exports = {
       //  console.log('tippingUserWallet_Bal: ' + tippingUserWallet_Bal);
       const tippingUserUser_Id = JSON.stringify(tipingUserInfo[0].user_id);
       //  console.log('tippingUserUser_Id: ' + tippingUserUser_Id);
-      const tippingUserUser_Name = JSON.stringify(tipingUserInfo[0].user_name);
+      // const tippingUserUser_Name = JSON.stringify(tipingUserInfo[0].user_name);
       //  console.log('tippingUserUser_Name: ' + tippingUserUser_Name);
 
       // check balance to tip amount
@@ -407,6 +390,8 @@ module.exports = {
         for(let i = 0, l = tippedUserInfo.length; i < l; i++) {
           const addTipToInfo = { tip_id: tip_id, tip_amt: givenTip, user_id: tippingUserUser_Id };
           //  console.log('addTipToInfo: ' + JSON.stringify(addTipToInfo));
+
+          // eslint-disable-next-line
           const addTipToCall = await tipToDBWrite(addTipToInfo);
         //  console.log('addTipToCall: ' + JSON.stringify(addTipToCall));
         }
@@ -421,6 +406,7 @@ module.exports = {
           const addFutureTipToCall = await futureTipsDBWrite(addFutureTipToInfo);
           const future_tip_id = addFutureTipToCall[0].tip_id;
           const addTipToInfo = { tip_id: tip_id, tip_amt: givenTip, user_id: tippingUserUser_Id, future_tip_id: future_tip_id };
+          // eslint-disable-next-line
           const addTipToCall = await tipToDBWrite(addTipToInfo);
         //  console.log('addTipToCall' + JSON.stringify(addTipToCall));
         }
@@ -434,9 +420,6 @@ module.exports = {
       //  console.log('futureTippedUserInfo: ' + JSON.stringify(futureTippedUserInfo));
       //  console.log('tippedUserInfo: ' + JSON.stringify(tippedUserInfo));
 
-        // const send_to_addresses = tippedUserWallets;
-        // const send_to_amount = tippedUserTipAmt;
-
         // ///////// Send the transaction ///////// //
         const tipToInfo = { amount: tippedUserTipAmt, fee: fee, address_from: JSON.parse(tippingUserWallet_Pub), address_to: tippedUserWallets };
         //  console.log('tipToInfo: ' + JSON.stringify(tipToInfo));
@@ -445,11 +428,10 @@ module.exports = {
           //  console.log('transferOutPut: ' + JSON.stringify(transferOutPut));
           const tx_hash = transferOutPut.tx.transaction_hash;
           const txInfo = { tip_id: FinalInfo[3], tx_type: 'tip', tx_hash: tx_hash };
-          dbHelper.addTransaction(txInfo).then(function(transactionDBresp) {
+          dbHelper.addTransaction(txInfo).then(function() {
           //  console.log('transactionDBresp: ' + JSON.stringify(transactionDBresp));
 
             // ///////// Add to database and write the tx_id to the tip record ///////// //
-
             // ///////// DM User tip details and address balance after the TX ///////// //
 
             // get address balance after tx
