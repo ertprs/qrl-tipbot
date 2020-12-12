@@ -7,6 +7,32 @@ module.exports = {
   cooldown: 0,
   usage: '\n## **opt-in**  __**oi**__ - Opt in to the tipbot.  ',
   execute(message) {
+    // use to send a reply to user with delay and stop typing
+    const Discord = require('discord.js');
+
+    // ReplyMessage(' Check your DM\'s');
+
+    function ReplyMessage(content) {
+      message.channel.startTyping();
+      setTimeout(function() {
+        message.reply(content);
+        message.channel.stopTyping(true);
+      }, 1000);
+    }
+    // errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
+    function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
+      message.channel.startTyping();
+      setTimeout(function() {
+        const embed = new Discord.MessageEmbed()
+          .setColor(0x000000)
+          .setTitle(':warning:  ERROR: ' + content.error)
+          .setDescription(content.description)
+          .setFooter(footer);
+        message.reply({ embed });
+        message.channel.stopTyping(true);
+      }, 1000);
+    }
+
     const dbHelper = require('../../db/dbHelper');
     const uuid = `${message.author}`;
     const UUID = uuid.slice(1, -1);
@@ -28,10 +54,8 @@ module.exports = {
       const user_found = foundRes.user_found;
       if (user_found !== 'true') {
         // if the user is not found...
-        message.channel.startTyping();
         setTimeout(function() {
-          message.reply('\nYou\'re now opted out. If you change your mind, `+opt-in`\n:wave: ');
-          message.channel.stopTyping(true);
+          ReplyMessage('\nYou\'re now opted out. If you change your mind, `+opt-in`\n:wave: ');
         }, 1000);
         return foundRes;
       }
@@ -48,18 +72,14 @@ module.exports = {
             opt_in({ user_id: user_id }).then(function(args) {
               return args;
             });
-            message.channel.startTyping();
             setTimeout(function() {
-              message.reply('You\'ve opted back in! :thumbsup:');
-              message.channel.stopTyping(true);
+              ReplyMessage('You\'ve opted back in! :thumbsup:');
             }, 1000);
           }
           else {
             // user is found and not opted out, do nothing and return to user.
-            message.channel.startTyping();
             setTimeout(function() {
-              message.reply(':thumbsup: Still Opted In.\n`+help` for a list of my commands.');
-              message.channel.stopTyping(true);
+              errorMessage({ error: 'User Still Opted In...', description: '`+help` for a list of my commands.' });
             }, 1000);
           }
         });
