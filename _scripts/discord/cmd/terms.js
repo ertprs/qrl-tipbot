@@ -65,7 +65,10 @@ __**You assume all risk by using this service**__
 **You must \`+agree\` with these terms to use the bot!**
                     `).then(function() {
           ReplyMessage(' Check your DM\'s');
-        });
+        }).catch((e) => {
+            console.log('Failed!', e);
+            // Do something else instead...
+          });
       })
       .catch(error => {
        console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
