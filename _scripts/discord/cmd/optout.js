@@ -27,16 +27,18 @@ module.exports = {
     const info = JSON.parse(JSON.stringify({ service: 'discord', user_id: UUID }));
     const found = checkuser(info);
 
+    // use to send a reply to user with delay and stop typing
+    // ReplyMessage(' Check your DM\'s');
     function ReplyMessage(content) {
+      message.channel.startTyping();
       setTimeout(function() {
         message.reply(content);
         message.channel.stopTyping(true);
       }, 1000);
     }
-
-    // errorMessage({ error: 'No User(s) Mentioned...', description: 'Who are you tipping? enter `+help tip` for instructions' });
-
+    // errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
     function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
+      message.channel.startTyping();
       setTimeout(function() {
         const embed = new Discord.MessageEmbed()
           .setColor(0x000000)
@@ -121,7 +123,8 @@ module.exports = {
                 message.author.send('You have a balance of `' + wallet_bal_quanta + ' qrl` in your tip wallet. Please `+withdraw` the funds before you opt-out.\n\nTo donate your funds to the TipBot faucet `+withdraw all ' + config.faucet.faucet_wallet_pub + '`')
                   .catch(error => {
                     // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-                    ReplyMessage('You have a balance and it seems like I can\'t DM you! Enable DM and try again...');
+                    errorMessage({ error: 'Direct Message Disabled', description: 'You have a balance and it seems like I can\'t DM you! Enable DM and try again...' });
+                    // ReplyMessage('You have a balance and it seems like I can\'t DM you! Enable DM and try again...');
                     // deleteMessage();
                   });
                 return;
@@ -133,7 +136,7 @@ module.exports = {
                   // message user of status
                   errorMessage({ error: 'Cant Send DM...', description: 'You have a balance and it seems like I can\'t DM you! Enable DM and try again...' });
                   // ReplyMessage('You have a balance and it seems like I can\'t DM you! Enable DM and try again...');
-                  message.reply('\nYou\'re now opted out.\n:wave: ');
+                  ReplyMessage('You\'re now opted out.\n:wave: ');
                   return results;
                 });
               }
