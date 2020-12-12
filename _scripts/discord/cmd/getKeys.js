@@ -78,7 +78,7 @@ module.exports = {
             deleteMessage();
           })
           .catch(error => {
-            console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+            // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
             ReplyMessage('it seems like I can\'t DM you! Enable DM and try again...');
             deleteMessage();
           });
