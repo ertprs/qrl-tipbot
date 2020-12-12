@@ -143,8 +143,6 @@ module.exports = {
                 const OptOut = dbHelper.OptOut({ user_id: user_id });
                 OptOut.then(function(results) {
                   // message user of status
-                  errorMessage({ error: 'Cant Send DM...', description: 'You have a balance and it seems like I can\'t DM you! Enable DM and try again...' });
-                  // ReplyMessage('You have a balance and it seems like I can\'t DM you! Enable DM and try again...');
                   ReplyMessage('You\'re now opted out.\n:wave: ');
                   return results;
                 });
