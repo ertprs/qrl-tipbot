@@ -105,7 +105,7 @@ module.exports = {
         }).then(function(ooargs) {
           if (ooargs.opt_out == 'true') {
             // error, already opted out...
-            errorMessage({ error: 'Already opted out...', description: 'f you\'ve changed your mind `+opt-in` to use the bot' });
+            errorMessage({ error: 'Already opted out...', description: 'If you\'ve changed your mind `+opt-in` to use the bot' });
             // ReplyMessage(':thumbsup: Already opted out.\nIf you\'ve changed your mind `+opt-in`');
             // message.reply(':thumbsup: Already opted out.\nIf you\'ve changed your mind `+opt-in`');
             message.channel.stopTyping(true);
@@ -131,7 +131,8 @@ module.exports = {
                 const OptOut = dbHelper.OptOut({ user_id: user_id });
                 OptOut.then(function(results) {
                   // message user of status
-                  ReplyMessage('You have a balance and it seems like I can\'t DM you! Enable DM and try again...');
+                  errorMessage({ error: 'Cant Send DM...', description: 'You have a balance and it seems like I can\'t DM you! Enable DM and try again...' });
+                  // ReplyMessage('You have a balance and it seems like I can\'t DM you! Enable DM and try again...');
                   message.reply('\nYou\'re now opted out.\n:wave: ');
                   return results;
                 });
