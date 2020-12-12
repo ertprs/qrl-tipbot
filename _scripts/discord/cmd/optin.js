@@ -79,7 +79,7 @@ module.exports = {
           else {
             // user is found and not opted out, do nothing and return to user.
             setTimeout(function() {
-              errorMessage({ error: 'User Still Opted In...', description: '`+help` for a list of my commands.' });
+              errorMessage({ error: 'User Still Opted In...', description: 'You have not opted out, `+help` for a list of my functions.' });
             }, 1000);
           }
         });
