@@ -88,7 +88,7 @@ module.exports = {
             .setDescription('Details from the balance query.')
             .addField('QRL Address Balance:', `\`${res}\``, true)
             .addField('QRL Address:', '[' + givenAddress + '](' + config.bot_details.explorer_url + '/a/' + givenAddress + ')')
-            .setFooter('Tip the bot!\n+tip 1 @' + config.bot_details.bot_name + '\n\nOr send a donation to:\n' + config.bot_details.bot_donationAddress);
+            .setFooter('  .: Tipbot provided by The QRL Contributors :.');
           message.author.send({ embed })
             .then(() => {
               if (message.channel.type === 'dm') return;
@@ -145,10 +145,9 @@ module.exports = {
             .setColor(0x000000)
             .setTitle('Tipbot Balance - ' + res + ' QRL')
             .addField('Balance:', `\`${res} QRL\``, true)
-            // .addField('Explorer:', '[explorer.theqrl.org](' + config.bot_details.explorer_url + '/a/' + UserAddress + ')', true)
             .addField('QRL Address:', '[' + UserAddress + '](' + config.bot_details.explorer_url + '/a/' + UserAddress + ')')
-            // .addField('Transactions may take a some time to post. Please be patient')
-            .setFooter('Transactions may take a some time to post. Please be patient\n\nTip the bot!\n+tip 1 @' + config.bot_details.bot_name + '\n\nOr send a donation to:\n' + config.bot_details.bot_donationAddress);
+            .addField('Transactions may take a some time to post. Please be patient')
+            .setFooter('  .: Tipbot provided by The QRL Contributors :.');
           message.author.send({ embed })
             .then(() => {
               if (message.channel.type === 'dm') return;
