@@ -119,7 +119,7 @@ module.exports = {
                 const embed = new Discord.MessageEmbed()
                   .setColor('BLACK')
                   .setTitle('**Error Opting Out**')
-                  .setDescription('You need to transfer or send all funds prior to opting out. Use the `+withdraw` function to transfer out of the tipbot.\nIf you need a new wallet, create one in the [Web Wallet](https://wallet.theqrl.org)')
+                  .setDescription('You need to transfer or send all funds prior to opting out. Use the `+withdraw` function to transfer out of the tipbot.\nIf you need a new wallet, create one in the [Web Wallet](' + config.wallet.wallet_url + ')')
                   .addFields(
                     { name: 'Current Wallet Balance:', value: '`' + wallet_bal_quanta + '`', inline: true },
                     { name: 'To donate your funds to the TipBot faucet:', value: '`+withdraw all ' + config.faucet.faucet_wallet_pub + '`', inline: false },
