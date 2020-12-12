@@ -56,13 +56,11 @@ module.exports = {
       const user_found = foundRes.user_found;
       if (user_found !== 'true') {
         // no user found
-        message.channel.startTyping();
         // Create the user wallet
         const WalletPromise = wallet.CreateQRLWallet(config.wallet.height, config.wallet.num_slaves, config.wallet.hash_function);
         WalletPromise.then(function(address) {
           return JSON.parse(address);
         }).then(function(address) {
-          message.channel.startTyping();
           // define user info
           const discord_id = '@' + MessageAuthorID;
           const wallet_pub = address.address;
@@ -95,7 +93,6 @@ module.exports = {
       }
       // user found!
       else if (user_found == 'true') {
-        message.channel.startTyping();
         // User is found, check if already opted out
         const user_id = foundRes.user_id;
         // get the users opt_out status
@@ -113,7 +110,6 @@ module.exports = {
             message.channel.stopTyping(true);
           }
           else {
-            message.channel.startTyping();
             // check  users balance
             const walletBal = dbHelper.GetUserWalletBal;
             walletBal({ user_id: user_id }).then(function(result) {
@@ -121,7 +117,9 @@ module.exports = {
               if (wallet_bal > 0) {
                 const wallet_bal_quanta = wallet_bal / 1000000000;
                 message.author.send('You have a balance of `' + wallet_bal_quanta + ' qrl` in your tip wallet. Please `+withdraw` the funds before you opt-out.\n\nTo donate your funds to the TipBot faucet `+withdraw all ' + config.faucet.faucet_wallet_pub + '`')
-                  .catch(error => {
+                  .then(function() {
+                    ReplyMessage('Check Your DM\'s')
+                  }).catch(error => {
                     // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
                     errorMessage({ error: 'Direct Message Disabled', description: 'You have a balance and it seems like I can\'t DM you! Enable DM and try again...' });
                     // ReplyMessage('You have a balance and it seems like I can\'t DM you! Enable DM and try again...');
