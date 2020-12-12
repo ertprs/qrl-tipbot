@@ -305,24 +305,30 @@ module.exports = {
         // give default response with listing info
         const embed = new Discord.MessageEmbed()
           .setColor('GREEN')
-          .setTitle('**QRL Exchange Info**')
+          .setTitle('**QRL Project Info**')
           .setURL('https://theqrl.org/')
-          .setDescription(`QRL Project Info
-            :low_brightness: Initial public supply: 52,000,000 Quanta
-            :low_brightness: Initial reserved supply: 13,000,000 Quanta (of which 8,000,000 Quanta reserved for distribution as determined by QRL Foundation)
-            :low_brightness: Initial total supply: 65,000,000 Quanta
-            :low_brightness: Emission 40,000,000 Quanta distributed via exponential decay emission schedule over approximately 200 years
-            :low_brightness: Eventual total supply: 105,000,000 Quanta
-            :low_brightness: Mining: Proof-of-Work, RandomX (Proof-of-Stake development underway)
+
+          .addFields(
+            { name: 'Initial public supply: ', value: '`52,000,000 Quanta`', inline: false },
+            { name: 'Initial reserved supply: ', value: '`13,000,000 Quanta` of which 8,000,000 reserved for distribution by the QRL Foundation', inline: false },
+            { name: 'Emission: ', value: '`40,000,000 Quanta`', inline: false },
+            { name: 'Quanta distribution: ', value: 'Exponential decay emission schedule over approximately 200 years', inline: false },
+            { name: 'Eventual total supply: ', value: '`105,000,000 Quanta`', inline: false },
+            { name: 'Mining:: ', value: 'Proof-of-Work, RandomX (Proof-of-Stake development underway)', inline: false },
+            { name: 'Initial public supply: ', value: '`52,000,000 Quanta`', inline: false },
+          )
+
+          .setDescription(`QRL Project Information, official links and Coin Economics
             
             **Links**
             [:low_brightness: Main Site](https://theqrl.org)
-            [:low_brightness: Documentation Site](https://docs.theqrl.org)
             [:low_brightness: QRL Web Wallet](${config.wallet.wallet_url})
             [:low_brightness: QRL Block Explorer](${config.bot_details.explorer_url})
-            [:low_brightness: Richlist](https://quantascan.io/wallet-rich-list)
+            [:low_brightness: Documentation Site](https://docs.theqrl.org)
             [:low_brightness: Roadmap](https://www.theqrl.org/roadmap/)
             [:low_brightness: Whitepaper](https://github.com/theQRL/Whitepaper)
+            [:low_brightness: Github](https://github.com/theqrl)
+            [:low_brightness: Richlist](https://quantascan.io/wallet-rich-list)
               `)
           .addFields(
           )
