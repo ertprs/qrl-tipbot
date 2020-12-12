@@ -26,7 +26,7 @@ module.exports = {
     const checkUserpromise = checkUser(user_info);
     const getBalance = wallet.GetBalance;
 
-    // use to send a reply to user with delay and stop typing
+        // use to send a reply to user with delay and stop typing
     // ReplyMessage(' Check your DM\'s');
     function ReplyMessage(content) {
       message.channel.startTyping();
@@ -35,9 +35,9 @@ module.exports = {
         message.channel.stopTyping(true);
       }, 1000);
     }
-
     // errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
     function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
+      message.channel.startTyping();
       setTimeout(function() {
         const embed = new Discord.MessageEmbed()
           .setColor(0x000000)
@@ -48,6 +48,7 @@ module.exports = {
         message.channel.stopTyping(true);
       }, 1000);
     }
+
 
     async function faucetBalance() {
       return new Promise(function(resolve) {
@@ -114,9 +115,10 @@ module.exports = {
                   ReplyMessage('\nYou\'re signed up already. :thumbsup:\nTry `+help`');
                 })
                 .catch(error => {
-                  console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-                  message.channel.stopTyping(true);
-                  message.reply('it seems like I can\'t DM you! Do you have DMs disabled?');
+                  errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
+                  //console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+                  //message.channel.stopTyping(true);
+                  //message.reply('it seems like I can\'t DM you! Do you have DMs disabled?');
                 });
             });
           });

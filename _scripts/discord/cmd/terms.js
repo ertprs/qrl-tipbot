@@ -8,9 +8,11 @@ module.exports = {
   cooldown: 0,
   execute(message) {
     const Discord = require('discord.js');
-
-
+    
+    // use to send a reply to user with delay and stop typing
+    // ReplyMessage(' Check your DM\'s');
     function ReplyMessage(content) {
+      message.channel.startTyping();
       setTimeout(function() {
         message.reply(content);
         message.channel.stopTyping(true);
@@ -18,6 +20,7 @@ module.exports = {
     }
     // errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
     function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
+      message.channel.startTyping();
       setTimeout(function() {
         const embed = new Discord.MessageEmbed()
           .setColor(0x000000)
