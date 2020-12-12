@@ -3,7 +3,7 @@ module.exports = {
   description: 'Information about this bot and the QRL Network.',
   aliases: [ '??', 'stats', 'status', 'state'],
   args: false,
-  usage: '\n`{alias: ?? |  stats | status | state}`\n`{args: market | exchange | faucet | bot | user }`\nGives details about the network, QRL Market, tipbot etc. Will also print your current tipbot details to DM',
+  usage: '\n`{args: market | exchange | faucet | bot | user }`\nGives details about the network, QRL Market, tipbot etc. Will also print your current tipbot details to DM',
   cooldown: 1,
   execute(message, args) {
 
@@ -14,47 +14,29 @@ module.exports = {
     const explorer = require('../../qrl/explorerTools');
     const cgTools = require('../../coinGecko/cgTools');
 
+    // use to send a reply to user with delay and stop typing
+    // ReplyMessage(' Check your DM\'s');
     function ReplyMessage(content) {
+      message.channel.startTyping();
       setTimeout(function() {
         message.reply(content);
         message.channel.stopTyping(true);
       }, 1000);
     }
 
-    // default reply message format
-    // successReplyMessage({ title: 'You\ve Agreed!!', description: , term_1: , term_2: , term_3: , term_4: , footer: 'You can now use the Bot!' });
-    function successReplyMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
-      setTimeout(function() {
-        const embed = new Discord.MessageEmbed()
-          .setColor(0x008A11)
-          .setTitle(':white_check_mark: ' + content.title)
-          .setDescription(content.description)
-          .addField(content.term_1, content.term_1_description)
-          .addField(content.term_2, content.term_2_description)
-          .addField(content.term_3, content.term_3_description)
-          .addField(content.term_4, content.term_4_description)
-          .setFooter(content.footer || footer);
-        message.reply({ embed });
-        message.channel.stopTyping(true);
-      }, 1000);
-    }
-
-
-    // default error message format
-    // errorMessage({ error: 'No User(s) Mentioned...', description: 'Who are you tipping? enter `+help tip` for instructions' });
+    // errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
     function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
+      message.channel.startTyping();
       setTimeout(function() {
         const embed = new Discord.MessageEmbed()
           .setColor(0x000000)
-          .setTitle(':warning: ' + content.error)
+          .setTitle(':warning:  ERROR: ' + content.error)
           .setDescription(content.description)
-          .setFooter(content.footer || footer);
+          .setFooter(footer);
         message.reply({ embed });
         message.channel.stopTyping(true);
       }, 1000);
     }
-
-
 
     function deleteMessage() {
       // Delete the previous message
@@ -158,29 +140,6 @@ module.exports = {
       const bittrexIdentifier = cgData.tickers[0].market.name;
       const bittrexURL = cgData.tickers[0].trade_url;
 
-
-/*    // vcc info
-    const vccVolumeRaw = cgData.tickers[0].volume;
-    const vccVolume = thousandths(vccVolumeRaw.toFixed(2));
-    const vccIdentifier = cgData.tickers[0].market.name;
-    const vccURL = cgData.tickers[0].trade_url;
-*/
-/*
-
-    // upbit info
-    const upbitVolumeRaw = cgData.tickers[2].volume;
-    const upbitVolume = thousandths(upbitVolumeRaw.toFixed(2));
-    const upbitIdentifier = cgData.tickers[2].market.name;
-    const upbitURL = cgData.tickers[2].trade_url;
-*/
-/*
-    // upbit Indonesia info
-    const upbitIndonesiaVolumeRaw = cgData.tickers[3].volume;
-    const upbitIndonesiaVolume = thousandths(upbitIndonesiaVolumeRaw.toFixed(2));
-    const upbitIndonesiaIdentifier = cgData.tickers[3].market.name;
-    const upbitIndonesiaURL = cgData.tickers[3].trade_url;
-*/
-       // USD Market data
       const usdValue = cgData.market_data.current_price.usd;
       const usdATH = cgData.market_data.ath.usd;
       const usdATHChange = cgData.market_data.ath_change_percentage.usd;
@@ -261,7 +220,7 @@ module.exports = {
       // ///////////////////////////////
       // Exchange Request             //
       // ///////////////////////////////
-      else if (args[0] == 'exchange' || args[0] == 'trade' || args[0] == 'buy' || args[0] == 'sell') {
+      else if (args[0] == 'exchange' || args[0] == 'trade') {
         // #####################
         // Bittrex
         // #####################
@@ -283,7 +242,7 @@ module.exports = {
               { name: 'Converted Volume ETH:', value: '`\u039E ' + bittrexConvertedVolumeEth + ' eth`', inline: true },
               { name: 'Last Trade: ', value: '\u20BF ` ' + bittrexLastBTC + '`', inline: true },
               { name: 'Bid / Ask Spread:', value: '` ' + bittrexBidAsk + ' %`', inline: true },
-              )
+            )
             .setTimestamp()
             .setFooter('Market Data provided by Coin Gecko - .: The QRL TipBot :.  ');
           message.reply({ embed })
@@ -291,101 +250,6 @@ module.exports = {
               message.channel.stopTyping(true);
             });
         }
-    /*
-        // #####################
-        // Upbit
-        // #####################
-        else if (args[1] == 'upbit') {
-          const upbitLastBTC = cgData.tickers[2].last;
-          const upbitBidAsk = cgData.tickers[2].bid_ask_spread_percentage;
-          const upbitConvertedVolumeBtc = cgData.tickers[2].converted_volume.btc;
-          const upbitConvertedVolumeEth = cgData.tickers[2].converted_volume.eth;
-          const upbitConvertedVolumeUsd = cgData.tickers[2].converted_volume.usd;
-          const embed = new Discord.MessageEmbed()
-            .setColor('GREEN')
-          .setTitle('**QRL upbit Information**')
-          .setURL(upbitURL)
-          .setDescription(`QRL trading information for the [Upbit](${upbitURL}) exchange.`)
-          .addFields(
-          { name: 'Volume:', value: '`' + upbitVolumeRaw + ' QRL`' },
-          { name: 'Converted Volume Usd:', value: '`\u0024 ' + upbitConvertedVolumeUsd + ' usd`', inline: true },
-          { name: 'Converted Volume BTC:', value: '`\u20BF ' + upbitConvertedVolumeBtc + ' btc`', inline: true },
-          { name: 'Converted Volume ETH:', value: '`\u039E ' + upbitConvertedVolumeEth + ' eth`', inline: true },
-          { name: 'Last Trade: ', value: '\u20BF ` ' + upbitLastBTC + '`', inline: true },
-          { name: 'Bid / Ask Spread:', value: '` ' + upbitBidAsk + ' %`', inline: true },
-          )
-          .setTimestamp()
-          .setFooter('Market Data provided by Coin Gecko - .: The QRL TipBot :.  ');
-        message.reply({ embed })
-          .then(() => {
-            message.channel.stopTyping(true);
-        });
-      }
-*/
-/*
-      // #####################
-      // Upbit Indonesia
-      // #####################
-      else if (args[1] == 'upbitIndonesia') {
-        const upbitIndonesiaLastBTC = cgData.tickers[3].last;
-        const upbitIndonesiaBidAsk = cgData.tickers[3].bid_ask_spread_percentage;
-        const upbitIndonesiaConvertedVolumeBtc = cgData.tickers[3].converted_volume.btc;
-        const upbitIndonesiaConvertedVolumeEth = cgData.tickers[3].converted_volume.eth;
-        const upbitIndonesiaConvertedVolumeUsd = cgData.tickers[3].converted_volume.usd;
-        const embed = new Discord.MessageEmbed()
-          .setColor('GREEN')
-          .setTitle('**QRL Upbit Indonesia Information**')
-          .setURL(upbitURL)
-          .setDescription(`QRL trading information for the [Upbit Indonesia](${upbitIndonesiaURL}) exchange.`)
-          .addFields(
-          { name: 'Volume:', value: '`' + upbitIndonesiaVolumeRaw + ' QRL`' },
-          { name: 'Converted Volume Usd:', value: '`\u0024 ' + upbitIndonesiaConvertedVolumeUsd + ' usd`', inline: true },
-          { name: 'Converted Volume BTC:', value: '`\u20BF ' + upbitIndonesiaConvertedVolumeBtc + ' btc`', inline: true },
-          { name: 'Converted Volume ETH:', value: '`\u039E ' + upbitIndonesiaConvertedVolumeEth + ' eth`', inline: true },
-          { name: 'Last Trade: ', value: '\u20BF ` ' + upbitIndonesiaLastBTC + '`', inline: true },
-          { name: 'Bid / Ask Spread:', value: '` ' + upbitIndonesiaBidAsk + ' %`', inline: true },
-          )
-          .setTimestamp()
-          .setFooter('Market Data provided by Coin Gecko - .: The QRL TipBot :.  ');
-        message.reply({ embed })
-          .then(() => {
-            message.channel.stopTyping(true);
-        });
-      }
- */
-/*
-      // #####################
-      // VCC Exchange
-      // #####################
-
-      else if (args[1] == 'vcc') {
-        const vccLastBTC = cgData.tickers[0].last;
-        const vccBidAsk = cgData.tickers[0].bid_ask_spread_percentage;
-        const vccConvertedVolumeBtc = cgData.tickers[0].converted_volume.btc;
-        const vccConvertedVolumeEth = cgData.tickers[0].converted_volume.eth;
-        const vccConvertedVolumeUsd = cgData.tickers[0].converted_volume.usd;
-        const embed = new Discord.MessageEmbed()
-          .setColor('GREEN')
-          .setTitle('**QRL VCC Information**')
-          .setURL(upbitURL)
-          .setDescription(`QRL trading information for the [VCC](${upbitIndonesiaURL}) exchange.`)
-          .addFields(
-          { name: 'Volume:', value: '`' + vccVolumeRaw + ' QRL`' },
-          { name: 'Converted Volume Usd:', value: '`\u0024 ' + vccConvertedVolumeUsd + ' usd`', inline: true },
-          { name: 'Converted Volume BTC:', value: '`\u20BF ' + vccConvertedVolumeBtc + ' btc`', inline: true },
-          { name: 'Converted Volume ETH:', value: '`\u039E ' + vccConvertedVolumeEth + ' eth`', inline: true },
-          { name: 'Last Trade: ', value: '\u20BF ` ' + vccLastBTC + '`', inline: true },
-          { name: 'Bid / Ask Spread:', value: '` ' + vccBidAsk + ' %`', inline: true },
-          )
-          .setTimestamp()
-          .setFooter('Market Data provided by Coin Gecko - .: The QRL TipBot :.  ');
-        message.reply({ embed })
-          .then(() => {
-            message.channel.stopTyping(true);
-        });
-      }
-*/
-
         // if none with API endpoints then give this message.
         // FIX-ME: Need to integrate withadditional services or direct from exchange
         else if (args[1] == 'biteeu' || args[1] == 'bitvoicex' || args[1] == 'cointiger' || args[1] == 'simpleswap' || args[1] == 'swapzone' || args[1] == 'stealthex') {
@@ -403,7 +267,6 @@ module.exports = {
   
             For listing inquires email: __info@theqrl.org__
             *Volume data provided by [Coin Gecko](https://www.coingecko.com/en/coins/quantum-resistant-ledger)*
-            *Bot Development Needed, Ask how you can help!*
             `)
             .addFields(
             )
@@ -474,7 +337,7 @@ module.exports = {
         message.author.send({ embed })
           .then(() => {
 
-            message.reply('The tipbot enables sending QRL tips to other discord users. The bot will create an individual address for each bot user with the `+add` command. \n\n:small_blue_diamond: All tips are on chain and can be seen in the QRL Block Explorer - ' + explorerURL + '. \n:small_blue_diamond: `+transfer` your earned tips out of the tipbot.\n:small_blue_diamond: Use the QRL Web Wallet ' + config.wallet.wallet_url + ' if you need a new address\n\n**More details in your DM**');
+            ReplyMessage('The tipbot enables sending QRL tips to other discord users. The bot will create an individual address for each bot user with the `+add` command. \n\n:small_blue_diamond: All tips are on chain and can be seen in the QRL Block Explorer - ' + explorerURL + '. \n:small_blue_diamond: `+transfer` your earned tips out of the tipbot.\n:small_blue_diamond: Use the QRL Web Wallet ' + config.wallet.wallet_url + ' if you need a new address\n\n**More details in your DM**');
             message.channel.stopTyping(true);
           });
       }
@@ -507,7 +370,7 @@ module.exports = {
           });
       }
 
-      else if (args[0] == 'user' || args[0] == 'me' || args[0] == 'account' || args[0] == 'balance' || args[0] == 'bal') {
+      else if (args[0] == 'user' || args[0] == 'me' || args[0] == 'account' || args[0] == 'balance' || args[0] == 'bal' || args[0] == 'address') {
       // run through checks and fail if, else serve User info to the user
       // is user found?
         if (found === 'false') {
@@ -567,9 +430,8 @@ module.exports = {
               if (message.channel.type === 'dm') return;
             })
             .catch(error => {
-              console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-              message.channel.stopTyping(true);
-              ReplyMessage('it seems like I can\'t DM you! Do you have DMs disabled?');
+              // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+              errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
               return;
             });
         }
