@@ -137,7 +137,7 @@ module.exports = {
       // bittrex info from coinGecko
       const bittrexVolumeRaw = cgData.tickers[0].volume;
       // const bittrexVolume = thousandths(bittrexVolumeRaw.toFixed(2));
-      const bittrexIdentifier = cgData.tickers[0].market.name;
+      // const bittrexIdentifier = cgData.tickers[0].market.name;
       const bittrexURL = cgData.tickers[0].trade_url;
 
       const usdValue = cgData.market_data.current_price.usd;
@@ -252,7 +252,7 @@ module.exports = {
         }
         // if none with API endpoints then give this message.
         // FIX-ME: Need to integrate withadditional services or direct from exchange
-        else if (args[1] == 'biteeu' || args[1] == 'bitvoicex' || args[1] == 'cointiger' || args[1] == 'simpleswap' || args[1] == 'swapzone' || args[1] == 'stealthex') {
+        /* else if (args[1] == 'biteeu' || args[1] == 'bitvoicex' || args[1] == 'cointiger' || args[1] == 'simpleswap' || args[1] == 'swapzone' || args[1] == 'stealthex') {
           const embed = new Discord.MessageEmbed()
             .setColor('GREEN')
             .setTitle('**QRL Exchange Info**')
@@ -264,7 +264,6 @@ module.exports = {
             [:small_blue_diamond: SimpleSwap](https://simpleswap.io/coins/quantum-resistant-ledger)
             [:small_blue_diamond: SwapZone](https://swapzone.io/?to=qrl)
             [:small_blue_diamond: StealthEX](https://stealthex.io/coin/qrl)
-  
             For listing inquires email: __info@theqrl.org__
             *Volume data provided by [Coin Gecko](https://www.coingecko.com/en/coins/quantum-resistant-ledger)*
             `)
@@ -276,24 +275,16 @@ module.exports = {
             .then(() => {
               message.channel.stopTyping(true);
             });
-        }
+        } */
         else {
           // give default response with listing info
           const embed = new Discord.MessageEmbed()
             .setColor('GREEN')
             .setTitle('**QRL Exchange Info**')
             .setURL('https://theqrl.org/markets/')
-            .setDescription(`Exchange information where you can trade $QRL
-            [:small_blue_diamond: ${bittrexIdentifier}](${bittrexURL})
-            [:small_blue_diamond: BITEEU](https://trade.biteeu.com/search)
-            [:small_blue_diamond: Bitvoicex](https://bitvoicex.net/markets/qrl_btc)
-            [:small_blue_diamond: CoinTiger](https://www.cointiger.com/en-us/#/trade_center?coin=qrl_btc)
-            [:small_blue_diamond: SimpleSwap](https://simpleswap.io/coins/quantum-resistant-ledger)
-            [:small_blue_diamond: SwapZone](https://swapzone.io/?to=qrl)
-            [:small_blue_diamond: StealthEX](https://stealthex.io/coin/qrl)
+            .setDescription(`Exchange information where you can trade $QRL can be found at the kink above.
   
             For listing inquires email: __info@theqrl.org__
-            *Volume data provided by [Coin Gecko](https://www.coingecko.com/en/coins/quantum-resistant-ledger)*
             `)
             .addFields(
             )
@@ -305,6 +296,44 @@ module.exports = {
             });
         }
       }
+
+      // /////////////////////////////
+      //  QRL Info
+      // /////////////////////////////
+      // list all information related to QRL
+      else if (args[0] == 'QRL' || args[0] == 'qrl' || args[0] == 'project' || args[0] == 'economics' || args[0] == 'about' || args[0] == 'wallet') {
+        // give default response with listing info
+        const embed = new Discord.MessageEmbed()
+          .setColor('GREEN')
+          .setTitle('**QRL Exchange Info**')
+          .setURL('https://theqrl.org/')
+          .setDescription(`QRL Project Info
+            :low_brightness: Initial public supply: 52,000,000 Quanta
+            :low_brightness: Initial reserved supply: 13,000,000 Quanta (of which 8,000,000 Quanta reserved for distribution as determined by QRL Foundation)
+            :low_brightness: Initial total supply: 65,000,000 Quanta
+            :low_brightness: Emission 40,000,000 Quanta distributed via exponential decay emission schedule over approximately 200 years
+            :low_brightness: Eventual total supply: 105,000,000 Quanta
+            :low_brightness: Mining: Proof-of-Work, RandomX (Proof-of-Stake development underway)
+            
+            **Links**
+            [:low_brightness: Main Site](https://theqrl.org)
+            [:low_brightness: Documentation Site](https://docs.theqrl.org)
+            [:low_brightness: QRL Web Wallet](${config.wallet.wallet_url})
+            [:low_brightness: QRL Block Explorer](${config.bot_details.explorer_url})
+            [:low_brightness: Richlist](https://quantascan.io/wallet-rich-list)
+            [:low_brightness: Roadmap](https://www.theqrl.org/roadmap/)
+            [:low_brightness: Whitepaper](https://github.com/theQRL/Whitepaper)
+              `)
+          .addFields(
+          )
+          .setTimestamp()
+          .setFooter('.: The QRL TipBot :. ');
+        message.reply({ embed })
+          .then(() => {
+            message.channel.stopTyping(true);
+          });
+      }
+
       // ///////////////////////////////
       // Bot Request                  //
       // ///////////////////////////////
