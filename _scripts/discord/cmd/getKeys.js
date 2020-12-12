@@ -17,9 +17,25 @@ module.exports = {
     const user_info = { service: 'discord', service_id: userName };
     const GetUserInfoPromise = dbHelper.GetAllUserInfo(user_info);
 
+    // use to send a reply to user with delay and stop typing
+    // ReplyMessage(' Check your DM\'s');
     function ReplyMessage(content) {
+      message.channel.startTyping();
       setTimeout(function() {
         message.reply(content);
+        message.channel.stopTyping(true);
+      }, 1000);
+    }
+    // errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
+    function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
+      message.channel.startTyping();
+      setTimeout(function() {
+        const embed = new Discord.MessageEmbed()
+          .setColor(0x000000)
+          .setTitle(':warning:  ERROR: ' + content.error)
+          .setDescription(content.description)
+          .setFooter(footer);
+        message.reply({ embed });
         message.channel.stopTyping(true);
       }, 1000);
     }
@@ -39,19 +55,22 @@ module.exports = {
       const agree = userInfo[0].user_agree;
       // is user found?
       if (!found) {
-        ReplyMessage('Your not found in the System. Try `+add` or `+help`');
+        errorMessage({ error: 'User Not Found...', description: 'Your not found in the System. Try `+add` or `+help`' });
+        // ReplyMessage('Your not found in the System. Try `+add` or `+help`');
         deleteMessage();
         return;
       }
       // check for opt_out status
       if (optOut) {
-        ReplyMessage('You have opted out of the tipbot. Please send `+opt-in` to opt back in!');
+        errorMessage({ error: 'User Opted Out...', description: 'You have opted out of the tipbot. Please send `+opt-in` to opt back in!' });
+        // ReplyMessage('You have opted out of the tipbot. Please send `+opt-in` to opt back in!');
         deleteMessage();
         return;
       }
       // Check user_agree
       if (!agree) {
-        ReplyMessage('You need to agree, please see the `+terms`');
+        errorMessage({ error: 'User Has Not Agreed...', description: 'You need to `+agree`, please see the `+terms`' });
+        // ReplyMessage('You need to agree, please see the `+terms`');
         deleteMessage();
         return;
       }
@@ -70,18 +89,19 @@ module.exports = {
             .addField('Hexseed: ', '||' + keys.hexseed + '||')
             .addField('Mnemonic: ', '||' + keys.mnemonic + '||')
             .addField('Use the QRL Web Wallet to withdraw funds from your Tipbot account with the secret details above', '__**[QRL Web Wallet Link](' + config.wallet.wallet_url + '/open)**__')
-            .setFooter('.: The QRL TipBot :. ');
+            .setFooter('.: Tipbot provided by The QRL Contributors :.');
           message.author.send({ embed })
-          .then(() => {
-            if (message.channel.type === 'dm') return;
-            ReplyMessage('Details in your DM');
-            deleteMessage();
-          })
-          .catch(error => {
+            .then(() => {
+              if (message.channel.type === 'dm') return;
+              ReplyMessage('Details in your DM');
+              deleteMessage();
+            })
+            .catch(error => {
             // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-            ReplyMessage('it seems like I can\'t DM you! Enable DM and try again...');
-            deleteMessage();
-          });
+              errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
+              // ReplyMessage('it seems like I can\'t DM you! Enable DM and try again...');
+              deleteMessage();
+            });
           return;
         });
       }
