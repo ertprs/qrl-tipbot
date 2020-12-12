@@ -45,12 +45,11 @@ __**TipBot Terms and Conditions**__
 __**You assume all risk by using this service**__
                     `)
       .catch(error => {
-      // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+       console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
         errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
       // deleteMessage();
       }).then(function() {
-        
-    message.author.send(`
+        message.author.send(`
 :exclamation: __**RULES**__ :exclamation:
 :diamond_shape_with_a_dot_inside: *All tips are final once sent.* 
 :diamond_shape_with_a_dot_inside: *Tips will never be refunded or returned to a user, for any reason.*
@@ -65,12 +64,11 @@ __**You assume all risk by using this service**__
 
 **You must \`+agree\` with these terms to use the bot!**
                     `).then(function() {
-      ReplyMessage(' Check your DM\'s');
-
-    });
+          ReplyMessage(' Check your DM\'s');
+        });
       })
       .catch(error => {
-      // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+       console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
         // ReplyMessage('It seems like I can\'t DM you! Enable DM and try again...');
         errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
 
