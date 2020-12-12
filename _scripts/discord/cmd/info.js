@@ -169,12 +169,12 @@ module.exports = {
       // ///////////////////////////////
       // Market Request               //
       // ///////////////////////////////
-      if (args[0] == 'market' || args[0] == 'markets' || args[0] == 'price' || args[0] == 'value'  || args[0] == 'volume' || args[0] == '$$') {
+      if (args[0] == 'market' || args[0] == 'markets' || args[0] == 'price' || args[0] == 'value' || args[0] == 'volume' || args[0] == '$$') {
         const embed = new Discord.MessageEmbed()
           .setColor('GREEN')
           .setTitle('**QRL Market Info**')
           .setURL('https://www.coingecko.com/en/coins/quantum-resistant-ledger')
-          .setDescription('Market information from Coin Gecko for QRL. For general information only)
+          .setDescription('Market information from Coin Gecko for QRL. For general information only')
           .addFields(
             { name: 'QRL USD Value:', value: '`\u0024' + thousandths(usdValue) + '`', inline: true },
             { name: 'Volume USD / BTC', value: '`\u0024' + thousandths(usdTotalVolume) + ' / \u20BF' + thousandths(btcTotalVolume) + '`', inline: true },
