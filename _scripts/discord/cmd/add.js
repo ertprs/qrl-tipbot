@@ -199,7 +199,12 @@ Use of this TipBot and any function it may provide to you, as the user, is at yo
 
 **You assume all risk by using this service**
 
-                    `);
+                    `)
+                      .catch(error => {
+                        // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+                        ReplyMessage('It seems like I can\'t DM you! Enable DM and try again...');
+                        // deleteMessage();
+                      });
                     message.author.send(`
            :exclamation: __**RULES**__ :exclamation:
 
@@ -215,7 +220,12 @@ Use of this TipBot and any function it may provide to you, as the user, is at yo
 
 If you **AGREE** to these terms, please type: \`+agree\`
 If you **DO NOT AGREE** to these terms, please type: \`+opt-out\`
-                    `);
+                    `)
+                      .catch(error => {
+                        // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+                        ReplyMessage('It seems like I can\'t DM you! Enable DM and try again...');
+                        // deleteMessage();
+                      });
                     message.channel.stopTyping(true);
                     ReplyMessage(':white_check_mark: Your signed up! Please `+agree` to my terms to begin using the bot. For a list of my commands type `+help`');
                   })

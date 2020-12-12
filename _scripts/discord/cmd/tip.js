@@ -460,7 +460,8 @@ module.exports = {
               })
               .catch(error => {
                 message.channel.stopTyping(true);
-                console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+                
+                
               });
 
             if(message.guild != null) {

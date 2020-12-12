@@ -7,7 +7,28 @@ module.exports = {
   usage: ' \n## Add your user to the QRL TipBot, creates an address and allows tipping.',
   cooldown: 0,
   execute(message) {
-    message.reply(' Check your DM\'s')
+    const Discord = require('discord.js');
+
+
+    function ReplyMessage(content) {
+      setTimeout(function() {
+        message.reply(content);
+        message.channel.stopTyping(true);
+      }, 1000);
+    }
+    // errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
+    function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
+      setTimeout(function() {
+        const embed = new Discord.MessageEmbed()
+          .setColor(0x000000)
+          .setTitle(':warning:  ERROR: ' + content.error)
+          .setDescription(content.description)
+          .setFooter(footer);
+        message.reply({ embed });
+        message.channel.stopTyping(true);
+      }, 1000);
+    }
+
     message.author.send(`
 __**TipBot Terms and Conditions**__
 :small_orange_diamond: Use of this TipBot and any function it may provide to you, as the user, is at your risk.
@@ -22,7 +43,12 @@ __**TipBot Terms and Conditions**__
 :small_orange_diamond: Users will not store large amounts of funds in any tipbot wallet
 
 __**You assume all risk by using this service**__
-                    `);
+                    `)
+      .catch(error => {
+      // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+        errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
+      // deleteMessage();
+      });
     message.author.send(`
 :exclamation: __**RULES**__ :exclamation:
 :diamond_shape_with_a_dot_inside: *All tips are final once sent.* 
@@ -37,7 +63,17 @@ __**You assume all risk by using this service**__
 :diamond_shape_with_a_dot_inside: *Any abuse of the service will result in a ban, and if warranted legal action may be taken accordingly. Funds will not be returned to banned users.*
 
 **You must \`+agree\` with these terms to use the bot!**
-                    `);
+                    `).then(function() {
+      ReplyMessage(' Check your DM\'s');
+
+    })
+      .catch(error => {
+      // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+        // ReplyMessage('It seems like I can\'t DM you! Enable DM and try again...');
+        errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
+
+      // deleteMessage();
+      });
     if(message.guild != null) {
       message.delete();
     }
