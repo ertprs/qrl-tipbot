@@ -25,7 +25,19 @@ module.exports = {
     // const checkAgree = dbHelper.CheckAgree;
     // const info = JSON.parse(JSON.stringify({ service: 'discord', service_id: UUID }));
     // const found = GetAllUserInfo(info);
+
+    // use to send a reply to user with delay and stop typing
+    // ReplyMessage(' Check your DM\'s');
+    function ReplyMessage(content) {
+      message.channel.startTyping();
+      setTimeout(function() {
+        message.reply(content);
+        message.channel.stopTyping(true);
+      }, 1000);
+    }
+    // errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
     function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
+      message.channel.startTyping();
       setTimeout(function() {
         const embed = new Discord.MessageEmbed()
           .setColor(0x000000)
@@ -60,7 +72,8 @@ module.exports = {
       // console.log(chalk.cyan('faucetBalance: ') + chalk.green(JSON.stringify(balanceRes)));
         if (balanceRes.balance <= '0') {
           console.log(chalk.red('!!! ') + chalk.bgRed(' The Faucet is flat... ') + chalk.red('Add funds to: ') + chalk.bgRed(config.faucet.faucet_wallet_pub));
-          message.reply('**the faucet is dry**...\nUntil a deposit is made to the faucet address, no more withdraws allowed. **Faucet Donation Address:** `' + config.faucet.faucet_wallet_pub + '`');
+          errorMessage({ error: 'faucet is dry...', description: 'Until a deposit is made to the faucet address, no more donations possible. **Faucet Donation Address:** `' + config.faucet.faucet_wallet_pub + '`' });
+          // message.reply('**the faucet is dry**...\nUntil a deposit is made to the faucet address, no more withdraws allowed. **Faucet Donation Address:** `' + config.faucet.faucet_wallet_pub + '`');
           return;
         }
 
@@ -100,13 +113,7 @@ module.exports = {
                 // console.log('user is not found');
                 userInfoArray.push({ checkUserPassed: false, checkUserPassedError: 'not_found' });
                 // message.reply('Are you signed up?');
-                message.channel.stopTyping(true);
-                const embed = new Discord.MessageEmbed()
-                  .setColor(0x000000)
-                  .setTitle('ERROR: You\'re not signed up...')
-                  .setDescription('`+add` to sign-up, `+agree` to start using the faucet');
-                message.reply({ embed });
-
+                errorMessage({ error: 'User Not Found...', description: 'Please enter `+add` to sign-up then `+agree` to start using the bot' });
                 return;
               }
               // check if agreed
@@ -122,12 +129,7 @@ module.exports = {
                 // console.log('need to agree to terms');
                 userInfoArray.push({ checkUserPassed: false, checkUserPassedError: 'not_agreed' });
                 // message.reply('You will need to agree to my `+terms` to use the bot. `+agree`');
-                message.channel.stopTyping(true);
-                const embed = new Discord.MessageEmbed()
-                  .setColor(0x000000)
-                  .setTitle('ERROR: You must agree to the terms')
-                  .setDescription('`+terms` to read the terms and conditions, `+agree` to start using the faucet');
-                message.reply({ embed });
+                errorMessage({ error: 'User Has Not Agreed to Terms...', description: 'You must agree to the terms, enter `+terms` to read the terms and conditions, `+agree` to start using the bot.' });
                 return;
               }
               // check if opt out
@@ -138,7 +140,8 @@ module.exports = {
               // user has opted out
               // console.log('User Opted out');
                 userInfoArray.push({ checkUserPassed: false, checkUserPassedError: 'opted_out' });
-                message.reply('I see you have opted out. Please `+opt-in` to receive faucet funds');
+                errorMessage({ error: 'User Has Opted Out...', description: 'Please `+opt-in` to use the bot.' });
+                // message.reply('I see you have opted out. Please `+opt-in` to receive faucet funds');
                 return;
               }
               resolve(userInfoArray);
@@ -191,14 +194,15 @@ module.exports = {
               message.reply('Sorry, looks like there is an error. error is `User ' + userCheckError + '`');
               break;
             default:
-              // console.log('Default called in error block. SOmething is wrong');
+              // console.log('Default called in error block. Something is wrong');
             }
           }
           checkFaucet(service_id).then(function(faucetCheck) {
             // console.log('faucetCheck results' + JSON.stringify(faucetCheck));
             if (faucetCheck[0].drip_found == true) {
               // console.log('user has been found recently, no drips');
-              message.reply(':no_entry_sign: You have pulled from the faucet recently :no_entry_sign:\n*Faucet will pay out once every  **' + config.faucet.payout_interval + ' minutes***.');
+              errorMessage({ error: 'User is already Wet...', description: ':no_entry_sign: You have pulled from the faucet recently :no_entry_sign:\n*Faucet will pay out once every  **' + config.faucet.payout_interval + ' minutes***.' });
+              // message.reply(':no_entry_sign: You have pulled from the faucet recently :no_entry_sign:\n*Faucet will pay out once every  **' + config.faucet.payout_interval + ' minutes***.');
               return;
             }
             else if (faucetCheck[0].drip_found == false) {
@@ -212,7 +216,7 @@ module.exports = {
                 // console.log('all done, dripped and returned values\n' + JSON.stringify(ResDrip));
               });
               message.channel.stopTyping(true);
-              message.reply(':droplet: ' + Drip + ' Quanta sent! :droplet:\n*Funds take up to 5 min to deposit.*');
+              ReplyMessage(':droplet: ' + Drip + ' Quanta sent! :droplet:\n*Funds take up to 5 min to deposit.*');
             }
           });
         });
