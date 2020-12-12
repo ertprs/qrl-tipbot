@@ -8,7 +8,7 @@ module.exports = {
   cooldown: 0,
   execute(message) {
     const Discord = require('discord.js');
-    
+
     // use to send a reply to user with delay and stop typing
     // ReplyMessage(' Check your DM\'s');
     function ReplyMessage(content) {

@@ -16,12 +16,30 @@ module.exports = {
     const username = `${message.author}`;
     const userName = username.slice(1, -1);
 
+
+    // use to send a reply to user with delay and stop typing
+    // ReplyMessage(' Check your DM\'s');
     function ReplyMessage(content) {
+      message.channel.startTyping();
       setTimeout(function() {
         message.reply(content);
         message.channel.stopTyping(true);
       }, 1000);
     }
+    // errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
+    function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
+      message.channel.startTyping();
+      setTimeout(function() {
+        const embed = new Discord.MessageEmbed()
+          .setColor(0x000000)
+          .setTitle(':warning:  ERROR: ' + content.error)
+          .setDescription(content.description)
+          .setFooter(footer);
+        message.reply({ embed });
+        message.channel.stopTyping(true);
+      }, 1000);
+    }
+
     // test the address to the regex pattern
     function isQRLAddress(addy) {
       let test = false;
@@ -34,7 +52,6 @@ module.exports = {
     function deleteMessage() {
       // Delete the previous message
       if(message.guild != null) {
-        message.channel.stopTyping(true);
         message.delete();
       }
     }
@@ -44,16 +61,17 @@ module.exports = {
       // FEATURE ADD -
       // Could serve up the users balance if config.bot.admin requested
       if (message.mentions.users.size > 0) {
-        ReplyMessage('Invalid entry given...\nEnter an address to query, or simply `+bal` to get your balance.');
+        errorMessage({ error: 'Invalid entry given...', description: 'Enter an address to query, or simply `+bal` to get your balance.' });
+        // ReplyMessage('Invalid entry given...\nEnter an address to query, or simply `+bal` to get your balance.');
         deleteMessage();
-        message.channel.stopTyping(true);
         return;
       }
       // wallet address given, look up the given address
       const givenAddress = args[0];
       const checkAddress = isQRLAddress(givenAddress);
       if(!checkAddress) {
-        ReplyMessage('invalid! Must be a valid QRL address.');
+        errorMessage({ error: 'Invalid entry given...', description: 'Enter an address to query, or simply `+bal` to get your balance.' });
+        // ReplyMessage('invalid! Must be a valid QRL address.');
         deleteMessage();
         return;
       }
@@ -79,9 +97,9 @@ module.exports = {
               ReplyMessage('\n:moneybag: Balance is in your DM :moneybag:');
             })
             .catch(error => {
-              console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-              message.channel.stopTyping(true);
-              ReplyMessage('it seems like I can\'t DM you! Do you have DMs disabled?');
+              // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+              errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
+              // ReplyMessage('it seems like I can\'t DM you! Do you have DMs disabled?');
               return;
             });
           message.channel.stopTyping(true);
@@ -97,20 +115,22 @@ module.exports = {
         // console.log(result);
         const found = output[0].user_found;
         if (found !== 'true') {
-          message.channel.stopTyping(true);
-          ReplyMessage('Your not found in the System. Try `+add` or `+help`');
+          errorMessage({ error: 'User Not Found...', description: 'Your not found in the System. Try `+add` or `+help`' });
+          // ReplyMessage('Your not found in the System. Try `+add` or `+help`');
           return;
         }
         const opt_out = output[0].opt_out;
         if (opt_out == 'true') {
           message.channel.stopTyping(true);
-          ReplyMessage('You\'ve previously opted out of the tipbot. Please send `+opt-in` to opt back in!');
+          errorMessage({ error: 'User Opted Out...', description: 'You\'ve previously opted out of the tipbot. Please send `+opt-in` to opt back in!' });
+          // ReplyMessage('You\'ve previously opted out of the tipbot. Please send `+opt-in` to opt back in!');
           return;
         }
         const user_agree = result[0].user_agree;
         if (user_agree !== 'true') {
           message.channel.stopTyping(true);
-          ReplyMessage('You must agree to the tipbot terms, type `+terms` to read them and then `+agree`');
+          errorMessage({ error: 'User Has Not Agreed...', description: 'You must agree to the tipbot terms, type `+terms` to read them and then `+agree`' });
+          // ReplyMessage('You must agree to the tipbot terms, type `+terms` to read them and then `+agree`');
           return;
         }
         const UserAddress = result[0].wallet_pub;
@@ -136,9 +156,9 @@ module.exports = {
               // ReplyMessage('\n:moneybag: Balance is in your DM :moneybag:');
             })
               .catch(error => {
-                console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-                message.channel.stopTyping(true);
-                ReplyMessage('it seems like I can\'t DM you! Do you have DMs disabled?');
+                errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
+                // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+                // ReplyMessage('it seems like I can\'t DM you! Do you have DMs disabled?');
               });
                 message.react(emojiCharacters.q)
                   .then(() => message.react(emojiCharacters.r))

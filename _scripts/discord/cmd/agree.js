@@ -16,6 +16,20 @@ module.exports = {
     // start the bot typing
     message.channel.startTyping();
 
+    // errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
+    function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
+      message.channel.startTyping();
+      setTimeout(function() {
+        const embed = new Discord.MessageEmbed()
+          .setColor(0x000000)
+          .setTitle(':warning:  ERROR: ' + content.error)
+          .setDescription(content.description)
+          .setFooter(footer);
+        message.reply({ embed });
+        message.channel.stopTyping(true);
+      }, 1000);
+    }
+
     // default reply message format
     // successReplyMessage({ title: 'You\ve Agreed!!', description: , term_1: , term_2: , term_3: , term_4: , footer: 'You can now use the Bot!' });
     function successReplyMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
@@ -36,28 +50,17 @@ module.exports = {
             message.reply('Thanks for agreeing to the terms. :thumbsup:\nTry `+help` for a list of my commands.');
           })
           .catch(error => {
-            console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-            message.channel.stopTyping(true);
-            message.reply('It seems like I can\'t DM you! Do you have DMs disabled?');
+            errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
+            // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+            // message.channel.stopTyping(true);
+            // message.reply('It seems like I can\'t DM you! Do you have DMs disabled?');
           });
         message.channel.stopTyping(true);
       }, 1000);
     }
 
 
-    // default error message format
-    // errorMessage({ error: 'No User(s) Mentioned...', description: 'Who are you tipping? enter `+help tip` for instructions' });
-    function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
-      setTimeout(function() {
-        const embed = new Discord.MessageEmbed()
-          .setColor(0x000000)
-          .setTitle(':warning: ' + content.error)
-          .setDescription(content.description)
-          .setFooter(content.footer || footer);
-        message.reply({ embed });
-        message.channel.stopTyping(true);
-      }, 1000);
-    }
+
 
     // Get user info. Function expects { service: service, service_id: service_id } as usrInfo
     async function getUserInfo(usrInfo) {
