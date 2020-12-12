@@ -118,7 +118,7 @@ module.exports = {
               const wallet_bal = result.wallet_bal;
               if (wallet_bal > 0) {
                 const wallet_bal_quanta = wallet_bal / 1000000000;
-                message.author.send('You have a balance of `' + wallet_bal_quanta + ' qrl` in your tip wallet. Please `+withdraw` the funds before you opt-out.\n\nTo donate your funds to the TipBot `+withdraw all ' + config.bot_details.bot_donationAddress + '`')
+                message.author.send('You have a balance of `' + wallet_bal_quanta + ' qrl` in your tip wallet. Please `+withdraw` the funds before you opt-out.\n\nTo donate your funds to the TipBot faucet `+withdraw all ' + config.faucet.faucet_wallet_pub + '`')
                   .catch(error => {
                     // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
                     ReplyMessage('You have a balance and it seems like I can\'t DM you! Enable DM and try again...');
