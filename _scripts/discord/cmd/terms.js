@@ -45,7 +45,7 @@ __**TipBot Terms and Conditions**__
 __**You assume all risk by using this service**__
                     `)
       .catch(error => {
-       console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+        // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
         errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
       // deleteMessage();
       }).then(function() {
@@ -66,12 +66,12 @@ __**You assume all risk by using this service**__
                     `).then(function() {
           ReplyMessage(' Check your DM\'s');
         }).catch((e) => {
-            console.log('Failed!', e);
-            // Do something else instead...
-          });
+          // console.log('Failed!', e);
+          // Do something else instead...
+        });
       })
       .catch(error => {
-       console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+        // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
         // ReplyMessage('It seems like I can\'t DM you! Enable DM and try again...');
         errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
 
