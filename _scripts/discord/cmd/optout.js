@@ -116,9 +116,20 @@ module.exports = {
               const wallet_bal = result.wallet_bal;
               if (wallet_bal > 0) {
                 const wallet_bal_quanta = wallet_bal / 1000000000;
-                message.author.send('You have a balance of `' + wallet_bal_quanta + ' qrl` in your tip wallet. Please `+withdraw` the funds before you opt-out.\n\nTo donate your funds to the TipBot faucet `+withdraw all ' + config.faucet.faucet_wallet_pub + '`')
+                const embed = new Discord.MessageEmbed()
+                  .setColor('BLACK')
+                  .setTitle('**Error Opting Out**')
+                  .setDescription('You need to transfer or send all funds prior to opting out. Use the `+withdraw` function to transfer out of the tipbot.\nIf you need a new wallet, create one in the [Web Wallet](https://wallet.theqrl.org)')
+                  .addFields(
+                    { name: 'Current Wallet Balance:', value: '`' + wallet_bal_quanta + '`', inline: true },
+                    { name: 'To donate your funds to the TipBot faucet:', value: '`+withdraw all ' + config.faucet.faucet_wallet_pub + '`', inline: false },
+                  )
+                  .setTimestamp()
+                  .setFooter('  .: Tipbot provided by The QRL Contributors :.');
+                message.author.send({ embed })
+                // message.author.send('You have a balance of `' + wallet_bal_quanta + ' qrl` in your tip wallet. Please `+withdraw` the funds before you opt-out.\n\nTo donate your funds to the TipBot faucet `+withdraw all ' + config.faucet.faucet_wallet_pub + '`')
                   .then(function() {
-                    ReplyMessage('Check Your DM\'s')
+                    ReplyMessage('Check Your DM\'s');
                   }).catch(error => {
                     // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
                     errorMessage({ error: 'Direct Message Disabled', description: 'You have a balance and it seems like I can\'t DM you! Enable DM and try again...' });
