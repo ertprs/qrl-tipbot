@@ -9,6 +9,7 @@ module.exports = {
 
   // execute(message, args) {
   execute(message) {
+    const Discord = require('discord.js');
     const dbHelper = require('../../db/dbHelper');
     const wallet = require('../../qrl/walletTools');
     const config = require('../../../_config/config.json');
@@ -25,6 +26,28 @@ module.exports = {
     // const GetAllUserInfo = dbHelper.GetAllUserInfo;
     const info = JSON.parse(JSON.stringify({ service: 'discord', user_id: UUID }));
     const found = checkuser(info);
+
+    function ReplyMessage(content) {
+      setTimeout(function() {
+        message.reply(content);
+        message.channel.stopTyping(true);
+      }, 1000);
+    }
+
+    // errorMessage({ error: 'No User(s) Mentioned...', description: 'Who are you tipping? enter `+help tip` for instructions' });
+
+    function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
+      setTimeout(function() {
+        const embed = new Discord.MessageEmbed()
+          .setColor(0x000000)
+          .setTitle(':warning:  ERROR: ' + content.error)
+          .setDescription(content.description)
+          .setFooter(footer);
+        message.reply({ embed });
+        message.channel.stopTyping(true);
+      }, 1000);
+    }
+
     found.then(function(result) {
       return result;
     }).then(function(foundRes) {
@@ -61,8 +84,9 @@ module.exports = {
             return response;
           }).then(function(AddusrResult) {
             // message user of status
-            message.reply('\nYou\'re now opted out.\nIf you change your mind `+opt-in`\n:wave: ');
-            message.channel.stopTyping(true);
+            ReplyMessage('You\'re now opted out.\nIf you change your mind `+opt-in` :wave: ...');
+            // message.reply('\nYou\'re now opted out.\nIf you change your mind `+opt-in`\n:wave: ');
+            // message.channel.stopTyping(true);
             return AddusrResult;
           });
         });
@@ -81,7 +105,9 @@ module.exports = {
         }).then(function(ooargs) {
           if (ooargs.opt_out == 'true') {
             // error, already opted out...
-            message.reply(':thumbsup: Already opted out.\nIf you\'ve changed your mind `+opt-in`');
+            errorMessage({ error: 'Already opted out...', description: 'f you\'ve changed your mind `+opt-in` to use the bot' });
+            // ReplyMessage(':thumbsup: Already opted out.\nIf you\'ve changed your mind `+opt-in`');
+            // message.reply(':thumbsup: Already opted out.\nIf you\'ve changed your mind `+opt-in`');
             message.channel.stopTyping(true);
           }
           else {
@@ -91,17 +117,21 @@ module.exports = {
             walletBal({ user_id: user_id }).then(function(result) {
               const wallet_bal = result.wallet_bal;
               if (wallet_bal > 0) {
-                  const wallet_bal_quanta = wallet_bal / 1000000000;
-                  message.author.send('You have a balance of `' + wallet_bal_quanta + ' qrl` in your tip wallet. Please `+withdraw` the funds before you opt-out.\n\nTo donate your funds to the TipBot `+withdraw all ' + config.bot_details.bot_donationAddress + '`');
-                  message.channel.stopTyping(true);
-                  return;
+                const wallet_bal_quanta = wallet_bal / 1000000000;
+                message.author.send('You have a balance of `' + wallet_bal_quanta + ' qrl` in your tip wallet. Please `+withdraw` the funds before you opt-out.\n\nTo donate your funds to the TipBot `+withdraw all ' + config.bot_details.bot_donationAddress + '`')
+                  .catch(error => {
+                    // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+                    ReplyMessage('You have a balance and it seems like I can\'t DM you! Enable DM and try again...');
+                    // deleteMessage();
+                  });
+                return;
               }
               else {
                 // user found, and no balance in account. Set opt_out and optput_date
                 const OptOut = dbHelper.OptOut({ user_id: user_id });
                 OptOut.then(function(results) {
                   // message user of status
-                  message.channel.stopTyping(true);
+                  ReplyMessage('You have a balance and it seems like I can\'t DM you! Enable DM and try again...');
                   message.reply('\nYou\'re now opted out.\n:wave: ');
                   return results;
                 });
