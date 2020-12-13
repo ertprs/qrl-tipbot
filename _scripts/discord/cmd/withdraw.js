@@ -23,7 +23,7 @@ module.exports = {
     // const found = checkuser(info);
     const found = getAllUserInfo(info);
     const toShor = 1000000000;
-    const lowestWDValue = 0.000000002;
+    const lowestWDValue = 0.000000001;
     const highestWDValue = 105000000;
 
     // use to send a reply to user with delay and stop typing
