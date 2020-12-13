@@ -144,11 +144,16 @@ async function sqlBackup() {
 async function main() {
   // get the sql database into a dump file.
   const sqlDumpFile = await sqlBackup();
+  console.log('sqlDumpFile: ' + JSON.stringify(sqlDumpFile));
   const SqlDumpFile = sqlDumpFile[0];
+  console.log('SqlDumpFile: ' + JSON.stringify(SqlDumpFile));
+
   // tar the files into the backup location
   const tarFileArray = [SqlDumpFile, config.backup.walletFile, config.backup.walletdLog, config.backup.nodeConfig, config.backup.faucetLog, config.backup.botConfigFile];
+  console.log('tarFileArray: ' + JSON.stringify(tarFileArray));
 
-  await tarFiles(tarFileArray);
+  const tarMe = await tarFiles(tarFileArray);
+console.log('tarMe: ' + tarMe)
   // sha256 the files and dump into file
   for (let i = 0; i < tarFileArray.length; i++) {
     let file = tarFileArray[i];
