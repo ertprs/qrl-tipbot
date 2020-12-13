@@ -132,7 +132,7 @@ async function sha256sum(file) {
 async function sqlBackup() {
   return new Promise(function(resolve) {
     // dump the result straight to a compressed file
-    const fileName = '/' + date1 + '_tipBotDatabase_Backup.sql';
+    const fileName = '/tipBotDatabase_Backup.sql';
     const dumpFilePath = config.backup.location + folderName + fileName;
     mysqldump({
       connection: {
@@ -150,6 +150,14 @@ async function sqlBackup() {
   });
 }
 
+async function getsha() {
+  return new Promise(resolve => {
+    const backup = await sqlBackup();
+    resolve(backup);
+  })
+
+}
+
 async function main() {
   // check for and make if not exist backup dir
   try {
@@ -161,7 +169,7 @@ async function main() {
   }
 
   // get the sql database into a dump file.
-  const sqlDumpFile = await sqlBackup();
+  const sqlDumpFile = await getsha();
   console.log('sqlDumpFile: ' + JSON.stringify(sqlDumpFile));
 
   const SqlDumpFile = sqlDumpFile[0];
@@ -196,7 +204,7 @@ async function main() {
 
   // get the SHA256sum of each file
   let fileArray = [];
-  fileArray = [config.backup.location + folderName +'/' + date1 + '_tipBotDatabase_Backup.sql', config.backup.location + folderName + '/walletd.json', config.backup.location + folderName + '/walletd.log', config.backup.location + folderName + '/config.yml', config.backup.location + folderName + '/faucet.log', config.backup.location + folderName + '/config.json'];
+  fileArray = [config.backup.location + folderName +'/tipBotDatabase_Backup.sql', config.backup.location + folderName + '/walletd.json', config.backup.location + folderName + '/walletd.log', config.backup.location + folderName + '/config.yml', config.backup.location + folderName + '/faucet.log', config.backup.location + folderName + '/config.json'];
 
   fileArray.forEach(function(file) {
     console.log('file:' + file);
