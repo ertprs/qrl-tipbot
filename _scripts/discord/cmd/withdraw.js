@@ -97,7 +97,7 @@ module.exports = {
     // first args should be all || a number
     // second args should be qrl address
 
-    if ((args[0] == undefined) || (args [1] == undefined)) {
+    if ((args[0] == undefined) || (args[1] == undefined)) {
       // if not in private message delete the message
       if(message.guild != null) {
         message.delete();
@@ -177,7 +177,7 @@ module.exports = {
           return;
         }
 
-        if (!trans_amt && args[0] != 'all' || args[1] != 'all' || args[2] != 'all') {
+        if (!trans_amt && args[0] !== 'all' || args[1] !== 'all') {
           // if not in private message delete the message
           if(message.guild != null) {
             message.delete();
