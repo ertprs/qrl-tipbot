@@ -128,7 +128,9 @@ module.exports = {
         const wallet_pub = result[0].wallet_pub;
         const wallet_bal = result[0].wallet_bal;
         const shor_bal = wallet_bal * toShor;
+
         const transfer_to = args[1];
+
         const fee = config.wallet.tx_fee * toShor;
         // check for valid qrl address given as args[1]
         if (args[1] === wallet_pub || args[2] === wallet_pub) {
@@ -168,8 +170,8 @@ module.exports = {
           // if not in private message delete the message
           if(message.guild != null) {
             message.delete();
+            ReplyMessage('Sending your transaction to the blockchain, I\'ll be right back...');
           }
-          ReplyMessage('Sending your transaction to the blockchain, I\'ll be right back...');
           const transArray = [];
           const addressArray = [];
           const transfer_amt = Math.round(shor_bal - fee);
@@ -253,7 +255,7 @@ module.exports = {
             const total_transferQuanta = total_transfer / toShor;
             const wdDBInfo = { service: 'discord', user_id: user_id, tx_hash: tx_hash, to_address: transfer_to, amt: total_transferQuanta };
             wdDB(wdDBInfo);
-            ReplyMessage('Funds have been sent! ' + message.author.toString() + ' details are in your DM\'s.\n*It may take a bit for the transaction to confirm.*');
+
 
             message.channel.stopTyping(true);
             const embed = new Discord.MessageEmbed()
@@ -268,7 +270,10 @@ module.exports = {
             message.author.send({ embed })
               .then(() => {
                 message.channel.stopTyping(true);
-                if (message.channel.type !== 'dm') return;
+                if (message.channel.type !== 'dm') {
+                  ReplyMessage('Funds have been sent! ' + message.author.toString() + ' details are in your DM\'s.\n*It may take a bit for the transaction to confirm.*');
+                  // return;
+                }
               })
               .catch(error => {
                 // console.error(chalk.red(`Could not send help DM to ${message.author.tag}.\n`), error);
