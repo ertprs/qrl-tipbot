@@ -156,8 +156,18 @@ module.exports = {
 
 
         const fee = config.wallet.tx_fee * toShor;
-        // check for valid qrl address given as args[1]
-        if (args[1] === wallet_pub || args[2] === wallet_pub) {
+
+        // check for address
+        if (!transfer_to) {
+          // if not in private message delete the message
+          if(message.guild != null) {
+            message.delete();
+          }
+          errorMessage({ error: 'Invalid Address...', description: 'Invalid QRL address given, starts with a `Q`. Please try again.' });
+          return;
+        }
+        // check for user address
+        if (transfer_to === wallet_pub) {
           // user sending to self.. fail and return to the user
           // if not in private message delete the message
           if(message.guild != null) {
@@ -167,15 +177,7 @@ module.exports = {
           return;
         }
 
-        if (!transfer_to) {
-          // if not in private message delete the message
-          if(message.guild != null) {
-            message.delete();
-          }
-          errorMessage({ error: 'Invalid Address...', description: 'Invalid QRL address given, starts with a `Q`. Please try again.' });
-          return;
-        }
-        if (!trans_amt) {
+        if (!trans_amt && args[0] != 'all' || args[1] != 'all' || args[2] != 'all') {
           // if not in private message delete the message
           if(message.guild != null) {
             message.delete();
