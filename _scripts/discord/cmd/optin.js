@@ -12,7 +12,7 @@ module.exports = {
     const dbHelper = require('../../db/dbHelper');
     const uuid = `${message.author}`;
     const UUID = uuid.slice(1, -1);
-    
+    const userID = username.slice(1, -1);
     // get the user_found status
     // should return either { user_found: true, user_id: id } || { user_found: false }
     const checkuser = dbHelper.CheckUser;
@@ -60,9 +60,6 @@ module.exports = {
       });
     }
 
-
-
-
     if(message.guild != null) {
       message.delete();
     }
@@ -89,18 +86,14 @@ module.exports = {
             const opt_in = dbHelper.OptIn;
             opt_in({ user_id: user_id }).then(function(args) {
               return args;
-            })
-
-            tipbotInfo(userID).then(function(tipingUserInfo) {}
-
-
-            .then(function(getalluserinfo) {
-              GetAllUserInfo({  }).then(function(futureTipsCheck) {
-                checkFutureTips({ service_id: ""});
-            })
             });
 
-
+            tipbotInfo(userID).then(function(tipingUserInfo) {
+              const tippingUserWallet_Pub = JSON.stringify(tipingUserInfo[0].wallet_pub);
+              const tippingUserWalPub = tipingUserInfo[0].wallet_pub;
+              const tippingUserUser_Id = JSON.stringify(tipingUserInfo[0].user_id);
+              checkFutureTips({ service_id: tippingUserUser_Id });
+            });
             setTimeout(function() {
               ReplyMessage('You\'ve opted back in! :thumbsup:');
             }, 1000);
