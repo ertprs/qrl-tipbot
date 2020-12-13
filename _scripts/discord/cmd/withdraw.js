@@ -6,7 +6,7 @@ module.exports = {
   aliases: ['wd', 'transfer', 'cashout', 'send'],
   usage: '\n__**withdraw** { ***wd***, ***transfer***, ***cashout***, ***send*** }__\nTransfer or withdraw QRL from your TIpBot account to another QRL address.\nRequires amount/all and a QRL address to send to.\n\nExample to transfer all funds from the tipbot wallet: `+transfer all QRLADDRESS`\nExample to transfer an amount of funds: `+transfer 2.01 QRLADDRESS` ',
   execute(message, args) {
-    // console.log('transfer called...' + JSON.stringify(args));
+    console.log('transfer called...' + JSON.stringify(args));
     const dbHelper = require('../../db/dbHelper');
     const wallet = require('../../qrl/walletTools');
     const config = require('../../../_config/config.json');
