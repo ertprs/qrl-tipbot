@@ -23,8 +23,8 @@ module.exports = {
     // const found = checkuser(info);
     const found = getAllUserInfo(info);
     const toShor = 1000000000;
-    const lowestTipValue = 0.000000001;
-    const highestTipValue = 105000000;
+    const lowestWDValue = 0.000000002;
+    const highestWDValue = 105000000;
 
     // use to send a reply to user with delay and stop typing
     // ReplyMessage(' Check your DM\'s');
@@ -55,7 +55,7 @@ module.exports = {
       // Check if it's only numeric and periods (no spaces, etc)
       if(/^[0-9]{0,8}[.]?[0-9]{0,9}$/.test(str)) {
         // And check for a value between 0.000000001 and 105000000
-        if(str >= lowestTipValue && str <= highestTipValue) {
+        if(str >= lowestWDValue && str <= highestWDValue) {
           test = true;
         }
       }
