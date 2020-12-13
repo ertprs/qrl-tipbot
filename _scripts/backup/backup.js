@@ -132,7 +132,7 @@ async function sha256sum(file) {
 async function sqlBackup() {
   return new Promise(function(resolve) {
     // dump the result straight to a compressed file
-    const fileName = date1 + '_tipBotDatabase_Backup.sql';
+    const fileName = '/' + date1 + '_tipBotDatabase_Backup.sql';
     const dumpFilePath = config.backup.location + folderName + fileName;
     mysqldump({
       connection: {
