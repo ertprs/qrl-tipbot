@@ -179,6 +179,8 @@ module.exports = {
 
         if ( args[0] === 'all' || args[1] === 'all') {
           console.log('all called')
+        }
+        else {
         if (!trans_amt) {
           // if not in private message delete the message
           if(message.guild != null) {
