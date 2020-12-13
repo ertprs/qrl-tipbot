@@ -100,6 +100,7 @@ async function main() {
   const encSqlDumpFile = sqlDumpFile[0] + '.enc';
   // console.log('file_encrypted');
   // console.log(sqlDumpFile);
+  // const tarFileArray = [encSqlDumpFile, config.backup.walletFile, config.backup.walletdLog, config.backup.nodeConfig, config.backup.faucetLog, config.backup.botLogFile, config.backup.botConfigFile];
   const tarFileArray = [encSqlDumpFile, config.backup.walletFile, config.backup.walletdLog, config.backup.nodeConfig, config.backup.faucetLog, config.backup.botConfigFile];
   // sha256sum those files
   for (let i = 0; i < tarFileArray.length; i++) {
@@ -134,15 +135,16 @@ async function main() {
     if (err) throw err;
   // console.log('faucetLog was copied to ' + config.backup.location + 'faucet.log');
   });
-  fs.copyFile(config.backup.botLogFile, config.backup.location + 'discord_bot.log', (err) => {
-    if (err) throw err;
+
+  // fs.copyFile(config.backup.botLogFile, config.backup.location + 'discord_bot.log', (err) => {
+  // if (err) throw err;
   // console.log('botLogFile was copied to ' + config.backup.location + 'discord_bot.log');
-  });
+  // });
   fs.copyFile(config.backup.botConfigFile, config.backup.location + 'config.json', (err) => {
     if (err) throw err;
   // console.log('botConfigFile was copied to ' + config.backup.location + 'config.json');
   });
-  console.log('Backup Files written to ' + config.backup.location)
+  console.log('Backup Files written to ' + config.backup.location);
 }
 
 main();
