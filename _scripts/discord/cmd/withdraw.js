@@ -271,7 +271,7 @@ module.exports = {
               .then(() => {
                 message.channel.stopTyping(true);
                 if (message.channel.type !== 'dm') {
-                  ReplyMessage('Funds have been sent! ' + message.author.toString() + ' details are in your DM\'s.\n*It may take a bit for the transaction to confirm.*');
+                  ReplyMessage('Funds have been sent! Details are in your DM\'s.\n*It may take a bit for the transaction to confirm.*');
                   // return;
                 }
               })
