@@ -70,6 +70,27 @@ module.exports = {
       }
       return test;
     }
+
+    function withdrawAmount() {
+      for (const arg of args) {
+        const checkValue = isQRLValue(toShor(arg));
+        // console.log('isQRLValue/CheckValue: ' + checkValue);
+        if(checkValue) {
+          return toShor(arg);
+        }
+      }
+    }
+
+    function withdrawAddress() {
+      for (const arg of args) {
+        const checkAddress = isQRLAddress(arg);
+        // console.log('isQRLValue/CheckValue: ' + checkValue);
+        if(checkAddress) {
+          return arg;
+        }
+      }
+    }
+
     // /////////////////////////////////
     // check that args are not blank. //
     // /////////////////////////////////
@@ -104,6 +125,10 @@ module.exports = {
         });
       return;
     }
+
+
+    const transfer_to = withdrawAddress();
+    const trans_amt = withdrawAmount();
     // //////////////////////
     // look for user in DB //
     // //////////////////////
@@ -129,7 +154,6 @@ module.exports = {
         const wallet_bal = result[0].wallet_bal;
         const shor_bal = wallet_bal * toShor;
 
-        const transfer_to = args[1];
 
         const fee = config.wallet.tx_fee * toShor;
         // check for valid qrl address given as args[1]
@@ -143,8 +167,7 @@ module.exports = {
           return;
         }
 
-        const addressTest = isQRLAddress(transfer_to);
-        if (!addressTest) {
+        if (!transfer_to) {
           // if not in private message delete the message
           if(message.guild != null) {
             message.delete();
@@ -152,7 +175,14 @@ module.exports = {
           errorMessage({ error: 'Invalid Address...', description: 'Invalid QRL address given, starts with a `Q`. Please try again.' });
           return;
         }
-        const trans_amt = args[0];
+        if (!trans_amt) {
+          // if not in private message delete the message
+          if(message.guild != null) {
+            message.delete();
+          }
+          errorMessage({ error: 'No Amount Given...', description: 'You must give an amount to withdraw or `all` to clean out the address. `+help withdraw` for more.' });
+          return;
+        }
         // check for balance in wallet
         if (shor_bal <= 0 || shor_bal < trans_amt) {
           // wallet is empty, give error and return
@@ -165,7 +195,7 @@ module.exports = {
         }
 
         // transfer all funds called.
-        if (args[0] == 'all') {
+        if (args[0] == 'all' || args[1] == 'all') {
           // transfer all the funds
           // if not in private message delete the message
           if(message.guild != null) {
@@ -208,8 +238,7 @@ module.exports = {
         else {
           // transfer amount given, do some checks and send
           // check that amount is correct value
-          const testQRLValue = isQRLValue(trans_amt);
-          if (!testQRLValue) {
+          if (!trans_amt) {
             // if not in private message delete the message
             if(message.guild != null) {
               message.delete();
