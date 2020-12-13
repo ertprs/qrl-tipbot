@@ -7,7 +7,7 @@ module.exports = {
   aliases: ['!$'],
   usage: '\n<tip amount> <user1> <user2> <user3> <etc.> \nEXAMPLE: `+tip2 1 @CoolUser`',
   execute(message, args) {
-    console.log(args)
+    console.log(args);
     const Discord = require('discord.js');
     const dbHelper = require('../../db/dbHelper');
     const config = require('../../../_config/config.json');
@@ -286,12 +286,16 @@ module.exports = {
         const output = '@' + JSON.parse(JSON.stringify(userName));
         const userid = '<@!' + user.id + '>';
         const bot = user.bot;
+        console.log(bot);
         if (!bot) {
           // if not a bot don't do anything
           return;
         }
-        const botListOutput = JSON.parse(JSON.stringify({ userName: output, userid: userid, bot: bot }));
-        return botListOutput;
+        if (!message.isMemberMentioned(bot)) {
+        // we check, whether the bot is mentioned, client.user returns the user that the client is logged in as
+          const botListOutput = JSON.parse(JSON.stringify({ userName: output, userid: userid, bot: bot }));
+          return botListOutput;
+        }
       });
       const filteredBotList = botList.filter(function(el) {
         return el != null;
