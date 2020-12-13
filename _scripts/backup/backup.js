@@ -9,7 +9,8 @@ const fs = require('fs');
 const config = require('../../_config/config.json');
 const mysqldump = require('mysqldump');
 const sha256Array = [];
-const folderName = 'backup';
+const date1 = Date.now();
+const folderName = date1 + 'backup';
 
 /*
 function decryptFile({ fileName, password }) {
