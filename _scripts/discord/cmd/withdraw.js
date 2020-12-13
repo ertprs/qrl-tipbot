@@ -195,7 +195,7 @@ module.exports = {
         }
 
         // transfer all funds called.
-        if (args[0] == 'all' || args[1] == 'all') {
+        if (args[0] == 'all' || args[1] == 'all' || args[2] == 'all') {
           // transfer all the funds
           // if not in private message delete the message
           if(message.guild != null) {
