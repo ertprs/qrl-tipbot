@@ -73,7 +73,7 @@ module.exports = {
 
     function withdrawAmount() {
       for (const arg of args) {
-        const checkValue = isQRLValue(toShor(arg));
+        const checkValue = isQRLValue(arg);
         // console.log('isQRLValue/CheckValue: ' + checkValue);
         if(checkValue) {
           return toShor(arg);
