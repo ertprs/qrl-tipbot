@@ -34,7 +34,7 @@ function decrypt({ file, password }) {
 
     readStream
       .pipe(decipher)
-      //.pipe(unzip)
+      .pipe(unzip)
       .pipe(writeStream);
   });
 }
