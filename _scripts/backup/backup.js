@@ -15,7 +15,7 @@ const { Transform } = require('stream');
 const mysqldump = require('mysqldump');
 const date1 = Date.now();
 const sha256Array = [];
-const folderName = 'backup/';
+const folderName = 'backup';
 
 // Cryptographic functions for encryption
 function getCipherKey(password) {
@@ -164,19 +164,19 @@ async function main() {
   const SqlDumpFile = sqlDumpFile[0];
   console.log('SqlDumpFile: ' + JSON.stringify(SqlDumpFile));
 
-  fs.copyFile(config.backup.walletFile, config.backup.location + folderName + 'walletd.json', (err) => {
+  fs.copyFile(config.backup.walletFile, config.backup.location + folderName + '/walletd.json', (err) => {
     if (err) throw err;
   // console.log('walletd.json was copied to ' + config.backup.location + folderName + 'walletd.json');
   });
-  fs.copyFile(config.backup.walletdLog, config.backup.location + folderName + 'walletd.log', (err) => {
+  fs.copyFile(config.backup.walletdLog, config.backup.location + folderName + '/walletd.log', (err) => {
     if (err) throw err;
   // console.log('walletd.log was copied to ' + config.backup.location + folderName + 'walletd.log');
   });
-  fs.copyFile(config.backup.nodeConfig, config.backup.location + folderName + 'config.yml', (err) => {
+  fs.copyFile(config.backup.nodeConfig, config.backup.location + folderName + '/config.yml', (err) => {
     if (err) throw err;
   // console.log('nodeConfig was copied to ' + config.backup.location + 'config.yml');
   });
-  fs.copyFile(config.backup.faucetLog, config.backup.location + folderName + 'faucet.log', (err) => {
+  fs.copyFile(config.backup.faucetLog, config.backup.location + folderName + '/faucet.log', (err) => {
     if (err) throw err;
   // console.log('faucetLog was copied to ' + config.backup.location + folderName + 'faucet.log');
   });
@@ -184,7 +184,7 @@ async function main() {
   // if (err) throw err;
   // console.log('botLogFile was copied to ' + config.backup.location + folderName + 'discord_bot.log');
   // });
-  fs.copyFile(config.backup.botConfigFile, config.backup.location + folderName + 'config.json', (err) => {
+  fs.copyFile(config.backup.botConfigFile, config.backup.location + folderName + '/config.json', (err) => {
     if (err) throw err;
   // console.log('botConfigFile was copied to ' + config.backup.location + folderName + 'config.json');
   });
@@ -193,13 +193,17 @@ async function main() {
   // get the SHA256sum of each file
   fs.readdirSync(config.backup.location + folderName).forEach(file => {
     // get sha for each file in config.backup.botConfigFile, config.backup.location + folderName dir
+    console.log('file: ' + file)
     const sha256value = sha256sum(file);
+    console.log('sha256value: ' + sha256value)
     sha256Array.push({
       key: file,
       value: sha256value,
     });
     console.log(file);
   });
+
+  console.log('sha256Array: ' + JSON.stringify(sha256Array));
 
   // write the sha256 info to file
   fs.writeFile(config.backup.location + folderName + 'sha256sum.txt', JSON.stringify(sha256Array), function(err) {
