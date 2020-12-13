@@ -420,7 +420,7 @@ module.exports = {
       // get all tippedToUser info from the database
       userInfo().then(function(FinalInfo) {
         // using details above enter the transactions into the node and respond to users.
-        console.log('\n\nFinalInfo: ' + JSON.stringify(FinalInfo));
+        // console.log('\n\nFinalInfo: ' + JSON.stringify(FinalInfo));
       //  console.log('futureTippedUserInfo: ' + JSON.stringify(futureTippedUserInfo));
       //  console.log('tippedUserInfo: ' + JSON.stringify(tippedUserInfo));
 
@@ -429,63 +429,53 @@ module.exports = {
         //  console.log('tipToInfo: ' + JSON.stringify(tipToInfo));
         wallet.sendQuanta(tipToInfo).then(function(sendData) {
           const transferOutPut = JSON.parse(sendData);
-          console.log('transferOutPut: ' + JSON.stringify(transferOutPut));
+          // console.log('transferOutPut: ' + JSON.stringify(transferOutPut));
 
           if (transferOutPut.code != 1) {
-          const tx_hash = transferOutPut.tx.transaction_hash;
-            
-
-          const txInfo = { tip_id: FinalInfo[3], tx_type: 'tip', tx_hash: tx_hash };
-          dbHelper.addTransaction(txInfo).then(function() {
-          //  console.log('transactionDBresp: ' + JSON.stringify(transactionDBresp));
-
+            const tx_hash = transferOutPut.tx.transaction_hash;
+            const txInfo = { tip_id: FinalInfo[3], tx_type: 'tip', tx_hash: tx_hash };
+            dbHelper.addTransaction(txInfo).then(function() {
+            //  console.log('transactionDBresp: ' + JSON.stringify(transactionDBresp));
             // ///////// Add to database and write the tx_id to the tip record ///////// //
             // ///////// DM User tip details and address balance after the TX ///////// //
-
             // get address balance after tx
             //  console.log('tipTotal: ' + tipTotal);
-
-            const newWal_bal = (toQuanta(tippingUserWallet_Bal) - toQuanta(tipTotal));
-
-            const embed = new Discord.MessageEmbed()
-              .setColor(0x000000)
-              .setTitle('QRL Tip Sent!')
-              .setDescription('Your tip was posted on the network! It may take a few minuets to confirm\nSee the transaction info in the [QRL Block Explorer](' + config.bot_details.explorer_url + '/tx/' + tx_hash + ')')
-              // .addField('\u200B', '\u200B')
-              // .setImage('https://github.com/theQRL/assets/blob/master/logo/inverse/QRL_logo_inverse@1x.png?raw=true')
-              .addField('Tip Amount', '**' + toQuanta(givenTip).toFixed(9) + ' QRL**', true)
-              .addField('Tip To Count', '**' + tipUserCount + ' User(s)**', true)
-              .addField('Network Fee', '**' + toQuanta(fee).toFixed(9) + ' QRL**', true)
-              .addField('You Tipped', tippedUserIDs + ' ' + futureTippedUserIDs)
-              .addField('Total Transfer', '**' + toQuanta(tipTotal).toFixed(9) + ' QRL**', true)
-              .addField('New Wallet Balance', '[**' + newWal_bal + ' QRL**](' + config.bot_details.explorer_url + '/a/' + tippingUserWalPub + ')', true)
-              .addField('Transaction Hash', '[```yaml\n' + tx_hash + '\n```](' + config.bot_details.explorer_url + '/tx/' + tx_hash + ')')
-              .setFooter('.: The QRL TipBot :. ');
-
-            message.author.send({ embed })
-              .then(() => {
-                if (message.channel.type !== 'dm') return;
-              })
-              .catch(error => {
-                message.channel.stopTyping(true);
-
-              });
-
-            if(message.guild != null) {
-              deleteMessage();
-            }
-            message.channel.stopTyping(true);
-            if (tipUserCount > 1) {
-              ReplyMessage('**You\'ve sent a `' + toQuanta(givenTip) + ' QRL` tip to ' + tippedUserIDs + ',' + futureTippedUserIDs + ' each**. Thanks for using the tipbot!\n*All tips are on-chain, and will take some time to process.*');
-            }
-            else {
-              ReplyMessage('**You\'ve sent a `' + toQuanta(givenTip) + ' QRL` tip to ' + tippedUserIDs + ',' + futureTippedUserIDs + '** Thanks for using the tipbot!\n*All tips are on-chain, and will take some time to process.*');
-            }
-          //  console.log('futureTippedUserIDs: ' + JSON.stringify(futureTippedUserIDs));
-          //  console.log('tippedUserIDs: ' + JSON.stringify(tippedUserIDs));
-          });
+              const newWal_bal = (toQuanta(tippingUserWallet_Bal) - toQuanta(tipTotal));
+              const embed = new Discord.MessageEmbed()
+                .setColor(0x000000)
+                .setTitle('QRL Tip Sent!')
+                .setDescription('Your tip was posted on the network! It may take a few minuets to confirm\nSee the transaction info in the [QRL Block Explorer](' + config.bot_details.explorer_url + '/tx/' + tx_hash + ')')
+                // .addField('\u200B', '\u200B')
+                // .setImage('https://github.com/theQRL/assets/blob/master/logo/inverse/QRL_logo_inverse@1x.png?raw=true')
+                .addField('Tip Amount', '**' + toQuanta(givenTip).toFixed(9) + ' QRL**', true)
+                .addField('Tip To Count', '**' + tipUserCount + ' User(s)**', true)
+                .addField('Network Fee', '**' + toQuanta(fee).toFixed(9) + ' QRL**', true)
+                .addField('You Tipped', tippedUserIDs + ' ' + futureTippedUserIDs)
+                .addField('Total Transfer', '**' + toQuanta(tipTotal).toFixed(9) + ' QRL**', true)
+                .addField('New Wallet Balance', '[**' + newWal_bal + ' QRL**](' + config.bot_details.explorer_url + '/a/' + tippingUserWalPub + ')', true)
+                .addField('Transaction Hash', '[```yaml\n' + tx_hash + '\n```](' + config.bot_details.explorer_url + '/tx/' + tx_hash + ')')
+                .setFooter('.: The QRL TipBot :. ');
+              message.author.send({ embed })
+                .then(() => {
+                  if (message.channel.type !== 'dm') return;
+                })
+                .catch(error => {
+                  message.channel.stopTyping(true);
+                });
+              if(message.guild != null) {
+                deleteMessage();
+              }
+              message.channel.stopTyping(true);
+              if (tipUserCount > 1) {
+                ReplyMessage('**You\'ve sent a `' + toQuanta(givenTip) + ' QRL` tip to ' + tippedUserIDs + ',' + futureTippedUserIDs + ' each**. Thanks for using the tipbot!\n*All tips are on-chain, and will take some time to process.*');
+              }
+              else {
+                ReplyMessage('**You\'ve sent a `' + toQuanta(givenTip) + ' QRL` tip to ' + tippedUserIDs + ',' + futureTippedUserIDs + '** Thanks for using the tipbot!\n*All tips are on-chain, and will take some time to process.*');
+              }
+            //  console.log('futureTippedUserIDs: ' + JSON.stringify(futureTippedUserIDs));
+            //  console.log('tippedUserIDs: ' + JSON.stringify(tippedUserIDs));
+            });
           }
-
         });
       });
       // console.log('tippedUserWallets: ' + JSON.stringify(tippedUserWallets));
