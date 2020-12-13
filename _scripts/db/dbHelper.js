@@ -554,6 +554,30 @@ async function addFutureTip(args) {
   });
 }
 
+async function checkFutureTips(args) {
+  return new Promise(resolve => {
+    // we expect { service_id: SERVICE_ID }
+    const resultsArray = [];
+    const input = JSON.parse(JSON.stringify(args));
+    const service = input.service;
+    const service_id = input.service_id;
+    // check if FUTURE TIPS ARE DUE AND PAYOUT
+    const futureTips_payout = 'SELECT SUM(tip_amount) AS future_tip_amount FROM future_tips WHERE user_id = "' + service_id + '" AND tip_paidout = "0"';
+    callmysql.query(futureTips_payout, function(err, futureTipped) {
+      if (err) {
+        console.log('[mysql error]', err);
+      }
+      if (futureTipped[0].future_tip_amount == 'NULL') {
+        return futureTipped[0].future_tip_amount;
+      }
+      const future_tip_amount = futureTipped[0].future_tip_amount * 1000000000;
+      resultsArray.push({ future_tip_amount: future_tip_amount });
+      resolve(resultsArray);
+    });
+  });
+}
+
+
 async function clearFutureTips(args) {
   return new Promise(resolve => {
     callmysql.query('UPDATE future_tips SET tip_paidout = "1" WHERE user_id = ? AND tip_paidout = "0"', [args.user_id], function(err, result) {
@@ -724,6 +748,7 @@ module.exports = {
   addFutureTip : addFutureTip,
   addTip : addTip,
   clearFutureTips : clearFutureTips,
+  checkFutureTips : checkFutureTips,
   addTransaction : addTransaction,
   addTipTo : addTipTo,
   agree : agree,

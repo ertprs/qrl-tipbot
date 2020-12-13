@@ -9,9 +9,20 @@ module.exports = {
   execute(message) {
     // use to send a reply to user with delay and stop typing
     const Discord = require('discord.js');
+    const dbHelper = require('../../db/dbHelper');
+    const uuid = `${message.author}`;
+    const UUID = uuid.slice(1, -1);
+    
+    // get the user_found status
+    // should return either { user_found: true, user_id: id } || { user_found: false }
+    const checkuser = dbHelper.CheckUser;
+    const checkFutureTips = dbHelper.checkFutureTips;
+    // ToDo clean up this script and use the GetAllUserInfo. KISS
+    const GetAllUserInfo = dbHelper.GetAllUserInfo;
+    const info = JSON.parse(JSON.stringify({ service: 'discord', user_id: UUID }));
+    const found = checkuser(info);
 
     // ReplyMessage(' Check your DM\'s');
-
     function ReplyMessage(content) {
       message.channel.startTyping();
       setTimeout(function() {
@@ -33,16 +44,25 @@ module.exports = {
       }, 1000);
     }
 
-    const dbHelper = require('../../db/dbHelper');
-    const uuid = `${message.author}`;
-    const UUID = uuid.slice(1, -1);
-    // get the user_found status
-    // should return either { user_found: true, user_id: id } || { user_found: false }
-    const checkuser = dbHelper.CheckUser;
-    // ToDo clean up this script and use the GetAllUserInfo. KISS
-    // const GetAllUserInfo = dbHelper.GetAllUserInfo;
-    const info = JSON.parse(JSON.stringify({ service: 'discord', user_id: UUID }));
-    const found = checkuser(info);
+    // Get user info.
+    async function getUserInfo(usrInfo) {
+      return new Promise(resolve => {
+        const data = dbHelper.GetAllUserInfo(usrInfo);
+        resolve(data);
+      });
+    }
+
+    async function tipbotInfo(ID) {
+      // FIX ME HERE!!!
+      return new Promise(resolve => {
+        const userInfo = getUserInfo({ service: 'discord', service_id: ID });
+        resolve(userInfo);
+      });
+    }
+
+
+
+
     if(message.guild != null) {
       message.delete();
     }
@@ -54,10 +74,8 @@ module.exports = {
       const user_found = foundRes.user_found;
       if (user_found !== 'true') {
         // if the user is not found...
-        setTimeout(function() {
-          ReplyMessage('\nYou\'re now opted out. If you change your mind, `+opt-in`\n:wave: ');
-        }, 1000);
-        return foundRes;
+        errorMessage({ error: 'User Not Found', description: 'You need to sign up `+add`' });
+        return;
       }
       else {
         // user found, check opt-out and act
@@ -71,7 +89,18 @@ module.exports = {
             const opt_in = dbHelper.OptIn;
             opt_in({ user_id: user_id }).then(function(args) {
               return args;
+            })
+
+            tipbotInfo(userID).then(function(tipingUserInfo) {}
+
+
+            .then(function(getalluserinfo) {
+              GetAllUserInfo({  }).then(function(futureTipsCheck) {
+                checkFutureTips({ service_id: ""});
+            })
             });
+
+
             setTimeout(function() {
               ReplyMessage('You\'ve opted back in! :thumbsup:');
             }, 1000);

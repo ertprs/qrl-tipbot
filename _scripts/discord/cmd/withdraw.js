@@ -114,7 +114,6 @@ module.exports = {
         .addField('To donate to the TipBot Faucet', '`+transfer all ' + config.bot_details.bot_donationAddress + '`');
       message.author.send({ embed })
         .then(() => {
-          message.channel.stopTyping(true);
           if (message.channel.type === 'dm') return;
           // message.reply('I\'ve sent you a DM. ');
         })
@@ -204,12 +203,8 @@ module.exports = {
         // transfer all funds called.
         if (args[0] == 'all' || args[1] == 'all' || args[2] == 'all') {
           // transfer all the funds
-          // if not in private message delete the message
-          if(message.guild != null) {
-            message.delete();
-            ReplyMessage('Funds have been sent! Details are in your DM\'s. Thanks for using the Tipbot.\n*It may take a bit for the transaction to confirm.*');
-            // ReplyMessage('Sending your transaction to the blockchain, I\'ll be right back...');
-          }
+          ReplyMessage('Funds have been sent! Details are in your DM\'s. Thanks for using the Tipbot.\n*It may take a bit for the transaction to confirm.*');
+
           const transArray = [];
           const addressArray = [];
           const transfer_amt = Math.round(shor_bal - fee);
@@ -221,7 +216,6 @@ module.exports = {
             // console.log('transferQrl: ' + JSON.stringify(transferQrl));
             const transferOutput = JSON.parse(transferQrl);
             const tx_hash = transferOutput.tx.transaction_hash;
-            ReplyMessage('Funds have been sent! Details are in your DM\'s. Thanks for using the Tipbot.\n*It may take a bit for the transaction to confirm.*');
             const embed = new Discord.MessageEmbed()
               .setColor(0x000000)
               .setTitle('Funds Transfered')
@@ -234,7 +228,6 @@ module.exports = {
             message.author.send({ embed })
               .then(() => {
                 if (message.channel.type !== 'dm') return;
-                message.channel.stopTyping(true);
               })
               .catch(error => {
                 // console.error(chalk.red(`Could not send help DM to ${message.author.tag}.\n`), error);
@@ -292,9 +285,7 @@ module.exports = {
             const total_transferQuanta = total_transfer / toShor;
             const wdDBInfo = { service: 'discord', user_id: user_id, tx_hash: tx_hash, to_address: transfer_to, amt: total_transferQuanta };
             wdDB(wdDBInfo);
-
-
-            message.channel.stopTyping(true);
+            ReplyMessage('Funds have been sent! Details are in your DM\'s.\n*It may take a bit for the transaction to confirm.*');
             const embed = new Discord.MessageEmbed()
               .setColor(0x000000)
               .setTitle('Funds Transfered')
@@ -306,9 +297,7 @@ module.exports = {
               .setFooter('The TX Fee is taken from the transfer amount and set by the bot owner. \nThe current fee is set to ' + config.wallet.tx_fee + ' QRL');
             message.author.send({ embed })
               .then(() => {
-                message.channel.stopTyping(true);
                 if (message.channel.type !== 'dm') {
-                  ReplyMessage('Funds have been sent! Details are in your DM\'s.\n*It may take a bit for the transaction to confirm.*');
                   // return;
                 }
               })
