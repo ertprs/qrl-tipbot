@@ -31,11 +31,14 @@ async function tarFiles(files) {
     ).then(_ => {
       // sha256sum the tar file now
       const sha256Tar = sha256sum(config.backup.location + 'full_tipbot_backup.tar.gz');
-      fs.writeFile(config.backup.location + 'full_tipbot_backup_sha256sum.txt', JSON.stringify(sha256Tar), function(err) {
-        if (err) throw err;
-        console.log('full_tipbot_backup_sha256sum.txt! ');
+      sha256Tar.then(function() {
+
+        fs.writeFile(config.backup.location + 'full_tipbot_backup_sha256sum.txt', JSON.stringify(sha256Tar), function(err) {
+          if (err) throw err;
+          console.log('full_tipbot_backup_sha256sum.txt! ');
+        });
+        console.log('tar created' + JSON.stringify(sha256Tar));
       });
-      console.log('tar created' + JSON.stringify(sha256Tar));
     });
     resolve();
   });
@@ -193,14 +196,17 @@ async function main() {
   // get the SHA256sum of each file
   fs.readdirSync(config.backup.location + folderName).forEach(file => {
     // get sha for each file in config.backup.botConfigFile, config.backup.location + folderName dir
-    console.log('file: ' + file)
+    console.log('file: ' + file);
     const sha256value = sha256sum(file);
-    console.log('sha256value: ' + sha256value)
-    sha256Array.push({
-      key: file,
-      value: sha256value,
+    sha256value.then(function() {
+
+      console.log('sha256value: ' + sha256value);
+      sha256Array.push({
+        key: file,
+        value: sha256value,
+      });
+      console.log(file);
     });
-    console.log(file);
   });
 
   console.log('sha256Array: ' + JSON.stringify(sha256Array));
