@@ -420,7 +420,7 @@ module.exports = {
       // get all tippedToUser info from the database
       userInfo().then(function(FinalInfo) {
         // using details above enter the transactions into the node and respond to users.
-      //  console.log('\n\nFinalInfo: ' + JSON.stringify(FinalInfo));
+        console.log('\n\nFinalInfo: ' + JSON.stringify(FinalInfo));
       //  console.log('futureTippedUserInfo: ' + JSON.stringify(futureTippedUserInfo));
       //  console.log('tippedUserInfo: ' + JSON.stringify(tippedUserInfo));
 
@@ -430,8 +430,8 @@ module.exports = {
         wallet.sendQuanta(tipToInfo).then(function(sendData) {
           const transferOutPut = JSON.parse(sendData);
           //  console.log('transferOutPut: ' + JSON.stringify(transferOutPut));
-          let tx_hash = 0;
-          tx_hash = transferOutPut.tx.transaction_hash;
+          const tx_hash = transferOutPut.tx.transaction_hash;
+
           const txInfo = { tip_id: FinalInfo[3], tx_type: 'tip', tx_hash: tx_hash };
           dbHelper.addTransaction(txInfo).then(function() {
           //  console.log('transactionDBresp: ' + JSON.stringify(transactionDBresp));
