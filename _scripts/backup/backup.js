@@ -100,7 +100,7 @@ async function main() {
   const encSqlDumpFile = sqlDumpFile[0] + '.enc';
   // console.log('file_encrypted');
   // console.log(sqlDumpFile);
-  const tarFileArray = [encSqlDumpFile, config.backup.walletFile, config.backup.walletdLog, config.backup.nodeConfig, config.backup.faucetLog, config.backup.botLogFile, config.backup.botConfigFile];
+  const tarFileArray = [encSqlDumpFile, config.backup.walletFile, config.backup.walletdLog, config.backup.nodeConfig, config.backup.faucetLog, config.backup.botConfigFile];
   // sha256sum those files
   for (let i = 0; i < tarFileArray.length; i++) {
     let file = tarFileArray[i];
