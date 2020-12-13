@@ -5,63 +5,13 @@
 
 
 const fs = require('fs');
-const tar = require('tar');
-const crypto = require('crypto');
-const crypto2 = require('crypto');
+// const crypto2 = require('crypto');
 const config = require('../../_config/config.json');
-const path = require('path');
-const zlib = require('zlib');
-const { Transform } = require('stream');
 const mysqldump = require('mysqldump');
-const date1 = Date.now();
 const sha256Array = [];
 const folderName = 'backup';
 
-// Cryptographic functions for encryption
-function getCipherKey(password) {
-  return crypto.createHash('sha256').update(password).digest();
-}
-
-
-async function tarFiles(files) {
-  return new Promise(function(resolve) {
-    tar.c(
-      { file: config.backup.location + 'full_tipbot_backup.tar.gz' },
-      [files],
-    ).then(_ => {
-      // sha256sum the tar file now
-      const sha256Tar = sha256sum(config.backup.location + 'full_tipbot_backup.tar.gz');
-      sha256Tar.then(function() {
-
-        fs.writeFile(config.backup.location + 'full_tipbot_backup_sha256sum.txt', JSON.stringify(sha256Tar), function(err) {
-          if (err) throw err;
-          console.log('full_tipbot_backup_sha256sum.txt! ');
-        });
-        console.log('tar created' + JSON.stringify(sha256Tar));
-      });
-    });
-    resolve();
-  });
-}
-
-
-class AppendInitVect extends Transform {
-  constructor(initVect, opts) {
-    super(opts);
-    this.initVect = initVect;
-    this.appended = false;
-  }
-
-  _transform(chunk, encoding, cb) {
-    if (!this.appended) {
-      this.push(this.initVect);
-      this.appended = true;
-    }
-    this.push(chunk);
-    cb();
-  }
-}
-
+/*
 function decryptFile({ fileName, password }) {
   const input = fs.createReadStream(fileName + '.encrypted');
   const output = fs.createWriteStream(fileName + '.unencrypted');
@@ -75,7 +25,8 @@ function decryptFile({ fileName, password }) {
     console.log(error);
   });
 }
-
+*/
+/*
 
 function encryptFile({ fileName, password }) {
   const initVect = crypto2.randomBytes(16);
@@ -92,41 +43,7 @@ function encryptFile({ fileName, password }) {
     });
 }
 
-
-function encrypt({ file, password }) {
-  module.exports = AppendInitVect;
-  // Generate a secure, pseudo random initialization vector.
-  const initVect = crypto2.randomBytes(16);
-  // Generate a cipher key from the password.
-  const CIPHER_KEY = getCipherKey(password);
-  console.log('CIPHER_KEY: ' + CIPHER_KEY);
-  const readStream = fs.createReadStream(file);
-  const gzip = zlib.createGzip();
-  const cipher = crypto.createCipheriv('aes256', CIPHER_KEY, initVect);
-  const appendInitVect = new AppendInitVect(initVect);
-  // Create a write stream with a different file extension.
-  const writeStream = fs.createWriteStream(path.join(file + '.enc'));
-  readStream
-    .pipe(gzip)
-    .pipe(cipher)
-    .pipe(appendInitVect)
-    .pipe(writeStream);
-}
-
-// sha256sum file. Send the file location to sum
-async function sha256sum(file) {
-  return new Promise(function(resolve) {
-    // change the algo to sha1, sha256 etc according to your requirements
-    const algo = 'sha256';
-    const shasum = crypto.createHash(algo);
-    const s = fs.ReadStream(file);
-    s.on('data', function(d) { shasum.update(d); });
-    s.on('end', function() {
-      const d = shasum.digest('hex');
-      resolve(d);
-    });
-  });
-}
+*/
 
 // backup database into a and save in the backup folder
 async function sqlBackup() {
@@ -150,13 +67,6 @@ async function sqlBackup() {
   });
 }
 
-async function getsha() {
-  return new Promise(resolve => {
-    const backup = sqlBackup();
-    resolve(backup);
-  });
-
-}
 
 async function main() {
   // check for and make if not exist backup dir
@@ -169,7 +79,7 @@ async function main() {
   }
 
   // get the sql database into a dump file.
-  const sqlDumpFile = await getsha();
+  const sqlDumpFile = await sqlBackup();
   console.log('sqlDumpFile: ' + JSON.stringify(sqlDumpFile));
 
   const SqlDumpFile = sqlDumpFile[0];
@@ -202,6 +112,7 @@ async function main() {
   });
 
 
+  /*
   // get the SHA256sum of each file
   let fileArray = [];
   fileArray = [config.backup.location + folderName + '/tipBotDatabase_Backup.sql', config.backup.location + folderName + '/walletd.json', config.backup.location + folderName + '/walletd.log', config.backup.location + folderName + '/config.yml', config.backup.location + folderName + '/faucet.log', config.backup.location + folderName + '/config.json'];
@@ -220,7 +131,6 @@ async function main() {
       console.log(config.backup.location + folderName + '/' + file);
     });
   });
-  /*
   fs.readdirSync(config.backup.location + folderName).forEach(file => {
     // get sha for each file in config.backup.botConfigFile, config.backup.location + folderName dir
     console.log('file: ' + config.backup.location + folderName + '/' + file);
@@ -246,7 +156,7 @@ async function main() {
   });
 
   // tar the files in the the backup location
-  const tarMe = await tarFiles(config.backup.location + folderName);
+  // const tarMe = await tarFiles(config.backup.location + folderName);
   console.log('Backup Files written to ' + config.backup.location);
 }
 
