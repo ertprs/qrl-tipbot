@@ -429,7 +429,7 @@ module.exports = {
         //  console.log('tipToInfo: ' + JSON.stringify(tipToInfo));
         wallet.sendQuanta(tipToInfo).then(function(sendData) {
           const transferOutPut = JSON.parse(sendData);
-          //  console.log('transferOutPut: ' + JSON.stringify(transferOutPut));
+          console.log('transferOutPut: ' + JSON.stringify(transferOutPut));
           const tx_hash = transferOutPut.tx.transaction_hash;
 
           const txInfo = { tip_id: FinalInfo[3], tx_type: 'tip', tx_hash: tx_hash };
