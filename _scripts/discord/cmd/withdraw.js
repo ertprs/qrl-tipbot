@@ -76,7 +76,7 @@ module.exports = {
         const checkValue = isQRLValue(arg);
         // console.log('isQRLValue/CheckValue: ' + checkValue);
         if(checkValue) {
-          return toShor(arg);
+          return arg;
         }
       }
     }
