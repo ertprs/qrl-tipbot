@@ -307,7 +307,7 @@ module.exports = {
         for(let i = 0, l = filteredBotList.length; i < l; i++) {
           bots.push(' ' + filteredBotList[i].userid);
         }
-        errorMessage({ error: 'Bots Mentioned In Tip...', description: 'You can\'t tip robots! Removing ' + bots + ' from the tip and proceeding.' });
+        errorMessage({ error: 'Bots Mentioned In Tip...', description: 'You can\'t tip robots! Removing ' + bots + ' from the tip.' });
         // ReplyMessage('No bot tipping allowed! Removing the robots and sending to the rest...\rBots mentioned ' + bots);
       }
       const tipListJSON = JSON.parse(JSON.stringify(filteredTipList));
