@@ -196,16 +196,16 @@ async function main() {
   // get the SHA256sum of each file
   fs.readdirSync(config.backup.location + folderName).forEach(file => {
     // get sha for each file in config.backup.botConfigFile, config.backup.location + folderName dir
-    console.log('file: ' + config.backup.location + folderName + file);
-    const sha256value = sha256sum(config.backup.location + folderName + file);
+    console.log('file: ' + config.backup.location + folderName + '/' + file);
+    const sha256value = sha256sum(config.backup.location + folderName + '/' + file);
     sha256value.then(function() {
 
       console.log('sha256value: ' + sha256value);
       sha256Array.push({
-        key: config.backup.location + folderName + file,
+        key: config.backup.location + folderName + '/' + file,
         value: sha256value,
       });
-      console.log(config.backup.location + folderName + file);
+      console.log(config.backup.location + folderName + '/' + file);
     });
   });
 
