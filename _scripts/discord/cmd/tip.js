@@ -430,7 +430,7 @@ module.exports = {
         wallet.sendQuanta(tipToInfo).then(function(sendData) {
           const transferOutPut = JSON.parse(sendData);
           //  console.log('transferOutPut: ' + JSON.stringify(transferOutPut));
-          const tx_hash = transferOutPut.tx.transaction_hash;
+          const tx_hash = transferOutPut.tx.transaction_hash.catch(error => {console.log('tx_hash not defined, no TX sent...')};
           const txInfo = { tip_id: FinalInfo[3], tx_type: 'tip', tx_hash: tx_hash };
           dbHelper.addTransaction(txInfo).then(function() {
           //  console.log('transactionDBresp: ' + JSON.stringify(transactionDBresp));
