@@ -207,7 +207,8 @@ module.exports = {
           // if not in private message delete the message
           if(message.guild != null) {
             message.delete();
-            ReplyMessage('Sending your transaction to the blockchain, I\'ll be right back...');
+            ReplyMessage('Funds have been sent! Details are in your DM\'s. Thanks for using the Tipbot.\n*It may take a bit for the transaction to confirm.*');
+            // ReplyMessage('Sending your transaction to the blockchain, I\'ll be right back...');
           }
           const transArray = [];
           const addressArray = [];
@@ -220,7 +221,7 @@ module.exports = {
             // console.log('transferQrl: ' + JSON.stringify(transferQrl));
             const transferOutput = JSON.parse(transferQrl);
             const tx_hash = transferOutput.tx.transaction_hash;
-            message.channel.send('Funds have been sent! ' + message.author.toString() + '  details are in your DM\'s.\n*It may take a bit for the transaction to confirm.*');
+            ReplyMessage('Funds have been sent! Details are in your DM\'s. Thanks for using the Tipbot.\n*It may take a bit for the transaction to confirm.*');
             const embed = new Discord.MessageEmbed()
               .setColor(0x000000)
               .setTitle('Funds Transfered')
