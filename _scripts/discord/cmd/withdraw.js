@@ -177,13 +177,16 @@ module.exports = {
           return;
         }
 
-        if (!trans_amt && args[0] !== 'all' || args[1] !== 'all') {
+        if ( args[0] !== 'all' || args[1] !== 'all') {
+          console.log('all called')
+        if (!trans_amt) {
           // if not in private message delete the message
           if(message.guild != null) {
             message.delete();
           }
           errorMessage({ error: 'No Amount Given...', description: 'You must give an amount to withdraw or `all` to clean out the address. `+help withdraw` for more.' });
           return;
+        }
         }
         // check for balance in wallet
         if (shor_bal <= 0 || shor_bal < trans_amt) {
