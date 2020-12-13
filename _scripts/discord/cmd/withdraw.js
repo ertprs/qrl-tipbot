@@ -7,12 +7,11 @@ module.exports = {
   usage: '\n__**withdraw** { ***wd***, ***transfer***, ***cashout***, ***send*** }__\nTransfer or withdraw QRL from your TIpBot account to another QRL address.\nRequires amount/all and a QRL address to send to.\n\nExample to transfer all funds from the tipbot wallet: `+transfer all QRLADDRESS`\nExample to transfer an amount of funds: `+transfer 2.01 QRLADDRESS` ',
   execute(message, args) {
     // console.log('transfer called...' + JSON.stringify(args));
-
     const dbHelper = require('../../db/dbHelper');
     const wallet = require('../../qrl/walletTools');
     const config = require('../../../_config/config.json');
     const Discord = require('discord.js');
-    const chalk = require('chalk');
+    // const chalk = require('chalk');
     // const checkuser = dbHelper.CheckUser;
     const getAllUserInfo = dbHelper.GetAllUserInfo;
     const wdDB = dbHelper.withdraw;
@@ -26,6 +25,29 @@ module.exports = {
     const toShor = 1000000000;
     const lowestTipValue = 0.000000001;
     const highestTipValue = 105000000;
+
+    // use to send a reply to user with delay and stop typing
+    // ReplyMessage(' Check your DM\'s');
+    function ReplyMessage(content) {
+      message.channel.startTyping();
+      setTimeout(function() {
+        message.reply(content);
+        message.channel.stopTyping(true);
+      }, 1000);
+    }
+    // errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
+    function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
+      message.channel.startTyping();
+      setTimeout(function() {
+        const embed = new Discord.MessageEmbed()
+          .setColor(0x000000)
+          .setTitle(':warning:  ERROR: ' + content.error)
+          .setDescription(content.description)
+          .setFooter(footer);
+        message.reply({ embed });
+        message.channel.stopTyping(true);
+      }, 1000);
+    }
 
     function isQRLValue(str) {
       // Fail immediately.
@@ -48,21 +70,20 @@ module.exports = {
       }
       return test;
     }
-    // check that args are not blank. first args should be all || a number
+    // /////////////////////////////////
+    // check that args are not blank. //
+    // /////////////////////////////////
+    // first args should be all || a number
     // second args should be qrl address
 
     if ((args[0] == undefined) || (args [1] == undefined)) {
-      message.channel.startTyping();
       // if not in private message delete the message
       if(message.guild != null) {
         message.delete();
       }
-      setTimeout(function() {
-        message.reply('Incorrect info given, please check your DM\'s');
-        message.channel.stopTyping(true);
-      }, 1000);
-
+      errorMessage({ error: 'Incorrect info given...', description: 'Use this function to withdraw funds from the Tipbot. `+help withdraw` for more' });
       // console.log('no args given');
+      // Print the warning with instruction to user
       const embed = new Discord.MessageEmbed()
         .setColor(0x000000)
         .setTitle('Transfer From TipBot')
@@ -77,17 +98,16 @@ module.exports = {
           // message.reply('I\'ve sent you a DM. ');
         })
         .catch(error => {
-          message.channel.startTyping();
-          console.error(chalk.red(`Could not send help DM to ${message.author.tag}.\n`), error);
-          setTimeout(function() {
-            message.reply('It seems like I can\'t DM you! Do you have DMs disabled?');
-            message.channel.stopTyping(true);
-          }, 1000);
+          // console.error(chalk.red(`Could not send help DM to ${message.author.tag}.\n`), error);
+          errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
           return;
         });
       return;
     }
-    // look for user in DB
+    // //////////////////////
+    // look for user in DB //
+    // //////////////////////
+    //
     // If found will return { user_found, wallet_pub, wallet_bal, user_id, user_name, opt_out, otpout_date }
     found.then(function(result) {
       // console.log('found results: ' + JSON.stringify(result));
@@ -99,11 +119,7 @@ module.exports = {
         if(message.guild != null) {
           message.delete();
         }
-        message.channel.startTyping();
-        setTimeout(function() {
-          message.author.send('You are not signed up yet!. `+add` to get started.');
-          message.channel.stopTyping(true);
-        }, 1000);
+        errorMessage({ error: 'User Not Found...', description: 'You are not signed up yet!. `+add` to get started.' });
         return;
       }
       else {
@@ -115,48 +131,34 @@ module.exports = {
         const transfer_to = args[1];
         const fee = config.wallet.tx_fee * toShor;
         // check for valid qrl address given as args[1]
-        message.channel.startTyping();
         if (args[1] === wallet_pub || args[2] === wallet_pub) {
           // user sending to self.. fail and return to the user
-          message.channel.startTyping();
           // if not in private message delete the message
           if(message.guild != null) {
             message.delete();
           }
-          setTimeout(function() {
-            message.reply('You cannot send funds to yourself. Please transfer ***out*** of the TipBot.');
-            message.channel.stopTyping(true);
-          }, 1000);
+          errorMessage({ error: 'User Address Detected...', description: 'You cannot send funds to yourself. Please transfer ***out*** of the TipBot.' });
           return;
         }
 
         const addressTest = isQRLAddress(transfer_to);
         if (!addressTest) {
-          message.channel.startTyping();
           // if not in private message delete the message
           if(message.guild != null) {
             message.delete();
           }
-          setTimeout(function() {
-            message.author.send('Invalid address given. Please try again.');
-            message.channel.stopTyping(true);
-          }, 1000);
+          errorMessage({ error: 'Invalid Address...', description: 'Invalid QRL address given, starts with a `Q`. Please try again.' });
           return;
         }
         const trans_amt = args[0];
         // check for balance in wallet
         if (shor_bal <= 0 || shor_bal < trans_amt) {
           // wallet is empty, give error and return
-          message.channel.startTyping();
           // if not in private message delete the message
           if(message.guild != null) {
             message.delete();
           }
-          message.channel.startTyping();
-          setTimeout(function() {
-            message.reply('Not enough funds in your account.');
-            message.channel.stopTyping(true);
-          }, 1000);
+          errorMessage({ error: 'Lacking Enough Funds...', description: 'You need more quanta for that transaction, `+bal` for your current balance.' });
           return;
         }
 
@@ -167,10 +169,7 @@ module.exports = {
           if(message.guild != null) {
             message.delete();
           }
-          setTimeout(function() {
-            message.reply('Sending your transaction to the blockchain, I\'ll be right back...');
-            message.channel.stopTyping(true);
-          }, 1000);
+          ReplyMessage('Sending your transaction to the blockchain, I\'ll be right back...');
           const transArray = [];
           const addressArray = [];
           const transfer_amt = Math.round(shor_bal - fee);
@@ -198,12 +197,8 @@ module.exports = {
                 message.channel.stopTyping(true);
               })
               .catch(error => {
-                console.error(chalk.red(`Could not send help DM to ${message.author.tag}.\n`), error);
-                message.channel.startTyping();
-                setTimeout(function() {
-                  message.reply('It seems like I can\'t DM you! Do you have DMs disabled?');
-                  message.channel.stopTyping(true);
-                }, 1000);
+                // console.error(chalk.red(`Could not send help DM to ${message.author.tag}.\n`), error);
+                errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
               });
           });
           return;
@@ -213,15 +208,11 @@ module.exports = {
           // check that amount is correct value
           const testQRLValue = isQRLValue(trans_amt);
           if (!testQRLValue) {
-            message.channel.startTyping();
             // if not in private message delete the message
             if(message.guild != null) {
               message.delete();
             }
-            setTimeout(function() {
-              message.reply('Invalid amount. Please try again.');
-              message.channel.stopTyping(true);
-            }, 1000);
+            errorMessage({ error: 'Invalid Amount Given...', description: 'You need to give a valid amount to tip. `+help tip` for more info.' });
             return;
           }
           const trans_amt_shor = trans_amt * toShor;
@@ -230,16 +221,17 @@ module.exports = {
           // console.log('transfer Details. trans_amt :' + trans_amt + ' trans_amt_shor: ' + trans_amt_shor + ' total_transfer: ' + total_transfer);
           if (total_transfer > shor_bal) {
             // more than user has
-            message.channel.startTyping();
             // if not in private message delete the message
             if(message.guild != null) {
               message.delete();
             }
-            setTimeout(function() {
-              message.reply('You\'re trying to transfer more QRL than you have!');
-              message.author.send('You are trying to send more QRL than you have. Your current balance is: **' + wallet_bal + '**');
-              message.channel.stopTyping(true);
-            }, 1000);
+            errorMessage({ error: 'Lacking Enough Funds...', description: 'You need more quanta for that transaction, `+bal` for your current balance.' });
+            message.author.send('You are trying to send more QRL than you have. Your current balance is: **' + wallet_bal + '**')
+              .catch(error => {
+                errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
+
+              // deleteMessage();
+              });
             return;
           }
           // user has given good info and not 'all' selected to transfer. Send the amount given to user defined address
@@ -248,7 +240,6 @@ module.exports = {
             message.delete();
           }
           // message.reply('Sending your transaction to the blockchain, I\'ll be right back...');
-          message.channel.startTyping();
           const totalTransArray = [];
           const addressToArray = [];
           totalTransArray.push(total_transfer);
@@ -262,15 +253,14 @@ module.exports = {
             const total_transferQuanta = total_transfer / toShor;
             const wdDBInfo = { service: 'discord', user_id: user_id, tx_hash: tx_hash, to_address: transfer_to, amt: total_transferQuanta };
             wdDB(wdDBInfo);
-            setTimeout(function() {
-              message.channel.send('Funds have been sent! ' + message.author.toString() + ' details are in your DM\'s.\n*It may take a bit for the transaction to confirm.*');
-            }, 2000);
+            ReplyMessage('Funds have been sent! ' + message.author.toString() + ' details are in your DM\'s.\n*It may take a bit for the transaction to confirm.*');
+
             message.channel.stopTyping(true);
             const embed = new Discord.MessageEmbed()
               .setColor(0x000000)
               .setTitle('Funds Transfered')
               .setDescription('Your transaction has posted on the network. It may take a few minuets to confirm, see the transaction info in the [QRL Block Explorer](' + config.bot_details.explorer_url + '/tx/' + tx_hash + '). Until the transaction confirms on the chain, you will still see a balance in your wallet. Please be patient as all good things take time')
-              .addField('Transfer amount', '**' + transfer_amt / toShor + '**')
+              .addField('Transfer amount', '**' + total_transferQuanta + '**')
               .addField('Transfer fee', '**' + config.wallet.tx_fee + '**')
               .addField('Transfer To Address', '**[' + transfer_to + '](' + config.bot_details.explorer_url + '/a/' + transfer_to + ')**')
               .addField('Transaction Hash', '**[' + tx_hash + '](' + config.bot_details.explorer_url + '/tx/' + tx_hash + ')**')
@@ -281,12 +271,8 @@ module.exports = {
                 if (message.channel.type !== 'dm') return;
               })
               .catch(error => {
-                console.error(chalk.red(`Could not send help DM to ${message.author.tag}.\n`), error);
-                message.channel.startTyping();
-                setTimeout(function() {
-                  message.reply('It seems like I can\'t DM you! Do you have DMs disabled?');
-                  message.channel.stopTyping(true);
-                }, 1000);
+                // console.error(chalk.red(`Could not send help DM to ${message.author.tag}.\n`), error);
+                errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
               });
           });
           return;
