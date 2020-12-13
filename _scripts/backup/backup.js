@@ -196,17 +196,17 @@ async function main() {
 
   // get the SHA256sum of each file
   let fileArray = [];
-  fileArray = [config.backup.location + folderName + date1 + '/_tipBotDatabase_Backup.sql', config.backup.location + folderName + '/walletd.json', config.backup.location + folderName + '/walletd.log', config.backup.location + folderName + '/config.yml', config.backup.location + folderName + '/faucet.log', config.backup.location + folderName + '/config.json'];
+  fileArray = [config.backup.location + folderName +'/' + date1 + '_tipBotDatabase_Backup.sql', config.backup.location + folderName + '/walletd.json', config.backup.location + folderName + '/walletd.log', config.backup.location + folderName + '/config.yml', config.backup.location + folderName + '/faucet.log', config.backup.location + folderName + '/config.json'];
 
   fileArray.forEach(function(file) {
-    console.log('file: ' + config.backup.location + folderName + '/' + file);
-    const sha256value = sha256sum(config.backup.location + folderName + '/' + file);
+    console.log('file: 'file);
+    const sha256value = sha256sum(file);
     sha256value.then(function() {
 
       console.log('sha256value: ' + sha256value);
 
       sha256Array.push({
-        key: config.backup.location + folderName + '/' + file,
+        key: file,
         value: sha256value,
       });
       console.log(config.backup.location + folderName + '/' + file);
