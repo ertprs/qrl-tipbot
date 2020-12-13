@@ -7,7 +7,6 @@ module.exports = {
   aliases: ['!$'],
   usage: '\n<tip amount> <user1> <user2> <user3> <etc.> \nEXAMPLE: `+tip2 1 @CoolUser`',
   execute(message, args) {
-    console.log(args);
     const Discord = require('discord.js');
     const dbHelper = require('../../db/dbHelper');
     const config = require('../../../_config/config.json');
@@ -287,7 +286,6 @@ module.exports = {
         const output = '@' + JSON.parse(JSON.stringify(userName));
         const userid = '<@!' + user.id + '>';
         const bot = user.bot;
-        console.log(bot);
         if (!bot) {
           // if not a bot don't do anything
           return;
