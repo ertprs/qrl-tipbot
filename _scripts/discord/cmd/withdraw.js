@@ -177,7 +177,7 @@ module.exports = {
           return;
         }
 
-        if ( args[0] != 'all' || args[1] != 'all') {
+        if ( args[0] === 'all' || args[1] === 'all') {
           console.log('all called')
         if (!trans_amt) {
           // if not in private message delete the message
