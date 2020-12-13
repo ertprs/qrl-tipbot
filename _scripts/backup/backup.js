@@ -152,9 +152,9 @@ async function sqlBackup() {
 
 async function getsha() {
   return new Promise(resolve => {
-    const backup = await sqlBackup();
+    const backup = sqlBackup();
     resolve(backup);
-  })
+  });
 
 }
 
@@ -204,7 +204,7 @@ async function main() {
 
   // get the SHA256sum of each file
   let fileArray = [];
-  fileArray = [config.backup.location + folderName +'/tipBotDatabase_Backup.sql', config.backup.location + folderName + '/walletd.json', config.backup.location + folderName + '/walletd.log', config.backup.location + folderName + '/config.yml', config.backup.location + folderName + '/faucet.log', config.backup.location + folderName + '/config.json'];
+  fileArray = [config.backup.location + folderName + '/tipBotDatabase_Backup.sql', config.backup.location + folderName + '/walletd.json', config.backup.location + folderName + '/walletd.log', config.backup.location + folderName + '/config.yml', config.backup.location + folderName + '/faucet.log', config.backup.location + folderName + '/config.json'];
 
   fileArray.forEach(function(file) {
     console.log('file:' + file);
