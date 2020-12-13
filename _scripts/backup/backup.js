@@ -199,7 +199,7 @@ async function main() {
   fileArray = [config.backup.location + folderName +'/' + date1 + '_tipBotDatabase_Backup.sql', config.backup.location + folderName + '/walletd.json', config.backup.location + folderName + '/walletd.log', config.backup.location + folderName + '/config.yml', config.backup.location + folderName + '/faucet.log', config.backup.location + folderName + '/config.json'];
 
   fileArray.forEach(function(file) {
-    console.log('file: 'file);
+    console.log('file:' + file);
     const sha256value = sha256sum(file);
     sha256value.then(function() {
 
