@@ -167,6 +167,7 @@ async function main() {
   const SqlDumpFile = sqlDumpFile[0];
   console.log('SqlDumpFile: ' + JSON.stringify(SqlDumpFile));
 
+
   fs.copyFile(config.backup.walletFile, config.backup.location + folderName + '/walletd.json', (err) => {
     if (err) throw err;
   // console.log('walletd.json was copied to ' + config.backup.location + folderName + 'walletd.json');
@@ -194,13 +195,16 @@ async function main() {
 
 
   // get the SHA256sum of each file
-  fs.readdirSync(config.backup.location + folderName).forEach(file => {
-    // get sha for each file in config.backup.botConfigFile, config.backup.location + folderName dir
+  let fileArray = [];
+  fileArray = [config.backup.location + folderName + date1 + '/_tipBotDatabase_Backup.sql', config.backup.location + folderName + '/walletd.json', config.backup.location + folderName + '/walletd.log', config.backup.location + folderName + '/config.yml', config.backup.location + folderName + '/faucet.log', config.backup.location + folderName + '/config.json'];
+
+  fileArray.forEach(function(file) {
     console.log('file: ' + config.backup.location + folderName + '/' + file);
     const sha256value = sha256sum(config.backup.location + folderName + '/' + file);
     sha256value.then(function() {
 
       console.log('sha256value: ' + sha256value);
+
       sha256Array.push({
         key: config.backup.location + folderName + '/' + file,
         value: sha256value,
@@ -208,7 +212,23 @@ async function main() {
       console.log(config.backup.location + folderName + '/' + file);
     });
   });
+  /*
+  fs.readdirSync(config.backup.location + folderName).forEach(file => {
+    // get sha for each file in config.backup.botConfigFile, config.backup.location + folderName dir
+    console.log('file: ' + config.backup.location + folderName + '/' + file);
+    const sha256value = sha256sum(config.backup.location + folderName + '/' + file);
+    sha256value.then(function() {
 
+      console.log('sha256value: ' + sha256value);
+
+      sha256Array.push({
+        key: config.backup.location + folderName + '/' + file,
+        value: sha256value,
+      });
+      console.log(config.backup.location + folderName + '/' + file);
+    });
+  });
+*/
   console.log('sha256Array: ' + JSON.stringify(sha256Array));
 
   // write the sha256 info to file
