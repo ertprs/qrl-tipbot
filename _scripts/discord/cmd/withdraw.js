@@ -177,9 +177,8 @@ module.exports = {
           return;
         }
 
-        if (args[0] != 'all' || args[1] != 'all') {
-          console.log('all called')
-          // const transfer_amt = 0;
+        if (args[0] === 'all' || args[1] === 'all') {
+          // console.log('all called')
         }
         else {
           if (!trans_amt) {
@@ -190,7 +189,6 @@ module.exports = {
             errorMessage({ error: 'No Amount Given...', description: 'You must give an amount to withdraw or `all` to clean out the address. `+help withdraw` for more.' });
             return;
           }
-          console.log();
         }
         // check for balance in wallet
         if (shor_bal <= 0 || shor_bal < trans_amt) {
