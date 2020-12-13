@@ -189,7 +189,8 @@ module.exports = {
               .setDescription('Your transaction has posted on the network. It may take a few minuets to confirm, see the transaction info in the [QRL Block Explorer](' + config.bot_details.explorer_url + '/tx/' + tx_hash + '). Until the transaction confirms on the chain, you will still see a balance in your wallet. Please be patient as all good things take time')
               .addField('Transfer amount', '**' + transfer_amt / toShor + '**')
               .addField('Transfer fee', '**' + config.wallet.tx_fee + '**')
-              .addField('Transfer To Address', '** ' + transfer_to + '**')
+              .addField('Transfer To Address', '**[' + transfer_to + '](' + config.bot_details.explorer_url + '/a/' + transfer_to + ')**')
+              .addField('Transaction Hash', '**[' + tx_hash + '](' + config.bot_details.explorer_url + '/tx/' + tx_hash + ')**')
               .setFooter('The TX Fee is taken from the transfer amount and set by the bot owner. \nThe current fee is set to ' + config.wallet.tx_fee + ' QRL');
             message.author.send({ embed })
               .then(() => {
@@ -246,7 +247,7 @@ module.exports = {
           if(message.guild != null) {
             message.delete();
           }
-          message.reply('Sending your transaction to the blockchain, I\'ll be right back...');
+          // message.reply('Sending your transaction to the blockchain, I\'ll be right back...');
           message.channel.startTyping();
           const totalTransArray = [];
           const addressToArray = [];
@@ -268,11 +269,12 @@ module.exports = {
             const embed = new Discord.MessageEmbed()
               .setColor(0x000000)
               .setTitle('Funds Transfered')
-              .setDescription('Your transaction has posted on the network. It may take a few minuets to confirm, see the transaction info in the [QRL Block Explorer](' + config.bot_details.explorer_url + '/tx/' + tx_hash + ')')
-              .addField('Transfer amount', '**' + total_transferQuanta + '**')
+              .setDescription('Your transaction has posted on the network. It may take a few minuets to confirm, see the transaction info in the [QRL Block Explorer](' + config.bot_details.explorer_url + '/tx/' + tx_hash + '). Until the transaction confirms on the chain, you will still see a balance in your wallet. Please be patient as all good things take time')
+              .addField('Transfer amount', '**' + transfer_amt / toShor + '**')
               .addField('Transfer fee', '**' + config.wallet.tx_fee + '**')
-              .addField('Transfer To Address', '** ' + transfer_to + '**')
-              .setFooter('The TX Fee is taken from the transfer amount and set by the bot owner. Current fee is set to ' + config.wallet.tx_fee);
+              .addField('Transfer To Address', '**[' + transfer_to + '](' + config.bot_details.explorer_url + '/a/' + transfer_to + ')**')
+              .addField('Transaction Hash', '**[' + tx_hash + '](' + config.bot_details.explorer_url + '/tx/' + tx_hash + ')**')
+              .setFooter('The TX Fee is taken from the transfer amount and set by the bot owner. \nThe current fee is set to ' + config.wallet.tx_fee + ' QRL');
             message.author.send({ embed })
               .then(() => {
                 message.channel.stopTyping(true);
