@@ -278,7 +278,8 @@ module.exports = {
       const filteredTipList = tipList.filter(function(el) {
         return el != null;
       });
-      //  console.log('filteredTipList: ' + JSON.stringify(filteredTipList));
+
+      console.log('filteredTipList: ' + JSON.stringify(filteredTipList));
 
       // get the bots into array
       const botList = message.mentions.users.map(user => {
@@ -291,11 +292,10 @@ module.exports = {
           // if not a bot don't do anything
           return;
         }
-        if (!message.isMemberMentioned(bot)) {
-        // we check, whether the bot is mentioned, client.user returns the user that the client is logged in as
-          const botListOutput = JSON.parse(JSON.stringify({ userName: output, userid: userid, bot: bot }));
-          return botListOutput;
-        }
+
+      const botListOutput = JSON.parse(JSON.stringify({ userName: output, userid: userid, bot: bot }));
+      return botListOutput;
+
       });
       const filteredBotList = botList.filter(function(el) {
         return el != null;
