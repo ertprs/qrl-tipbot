@@ -212,7 +212,7 @@ async function main() {
   console.log('sha256Array: ' + JSON.stringify(sha256Array));
 
   // write the sha256 info to file
-  fs.writeFile(config.backup.location + folderName + 'sha256sum.txt', JSON.stringify(sha256Array), function(err) {
+  fs.writeFile(config.backup.location + folderName + '/sha256sum.txt', JSON.stringify(sha256Array), function(err) {
     if (err) return console.log(err);
   // console.log('sha256sum file written');
   });
