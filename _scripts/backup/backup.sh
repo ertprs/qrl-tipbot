@@ -11,15 +11,11 @@
 # Requires the script to be in the users /home directory under the original name.
 # Also assumes that you are using the ./_scripts/backup/qrl-tipbotBackup/ directory in 
 # your config file. {config.backup.location}
-
-# Fix me to be smarter in the future.
-
-# Script Variables
+# get latest files into dir
+/usr/bin/nodejs $HOME/qrl-tips/_scripts/backup/qrl-tipbotBackup/backup.js
 
 FileLocation=`cat /home/$USER/qrl-tips/_config/config.json |jq -r .backup.location`
 echo $FileLocation
-
-BackupLocation=/home/$USER/
 
 cd $FileLocation
 # Tar the files to location defined in BackupLocation
