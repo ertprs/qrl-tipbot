@@ -71,8 +71,6 @@ async function main() {
   // console.log('botConfigFile was copied to ' + config.backup.location + folderName + 'config.json');
   });
 
-  console.log('sha256Array: ' + JSON.stringify(sha256Array));
-
   // write the sha256 info to file
   fs.writeFile(config.backup.location + folderName + '/sha256sum.txt', JSON.stringify(sha256Array), function(err) {
     if (err) return console.log(err);
@@ -81,7 +79,7 @@ async function main() {
 
   // tar the files in the the backup location
   // const tarMe = await tarFiles(config.backup.location + folderName);
-  console.log('Backup Files written to ' + config.backup.location);
+  // console.log('Backup Files written to ' + config.backup.location);
 }
 
 main();
