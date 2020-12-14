@@ -541,7 +541,7 @@ async function addFutureTip(args) {
     const tip_paidout = '0';
     const user_infoValues = [ [service, user_id, user_name, tip_id, tip_from, tip_amount, tip_paidout, time_stamp] ];
     const addTo_users_info = 'INSERT INTO future_tips(service, user_id, user_name, tip_id, tip_from, tip_amount, tip_paidout, time_stamp) VALUES ?';
-    console.log('addToFutureTipsInfo: ' + addTo_users_info + ' ' + user_infoValues);
+    // console.log('addToFutureTipsInfo: ' + addTo_users_info + ' ' + user_infoValues);
     callmysql.query(addTo_users_info, [user_infoValues], function(err, addFutureTipRes) {
       if (err) {
         console.log('[mysql error]', err);
