@@ -96,7 +96,7 @@ module.exports = {
     async function futureTipsDBWrite(futureTipInfo) {
       return new Promise(resolve => {
         // console.log('futureTipsDBWrite futureTipInfo' + JSON.stringify(futureTipInfo));
-        const infoToSubmit = { service: 'discord', user_id: futureTipInfo.user_id, user_name: futureTipInfo.user_name, tip_id: futureTipInfo.tip_id, tip_from: futureTipInfo.tip_from, tip_amount: toQuanta(futureTipInfo.tip_amount), time_stamp: new Date() };
+        const infoToSubmit = { service: 'discord', user_id: '@' + futureTipInfo.user_id, user_name: futureTipInfo.user_name, tip_id: futureTipInfo.tip_id, tip_from: futureTipInfo.tip_from, tip_amount: toQuanta(futureTipInfo.tip_amount), time_stamp: new Date() };
         //  console.log('futureTipsDBWrite infoToSubmit: ' + JSON.stringify(infoToSubmit));
         const addToFutureTipsDBinfoWrite = dbHelper.addFutureTip(infoToSubmit);
         resolve(addToFutureTipsDBinfoWrite);
