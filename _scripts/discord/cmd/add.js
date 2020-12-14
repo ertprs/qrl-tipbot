@@ -25,7 +25,7 @@ module.exports = {
     const user_info = { service: 'discord', user_id: userName };
     const checkUserpromise = checkUser(user_info);
     const getBalance = wallet.GetBalance;
-    const faucet = require('../faucet/faucetDB_Helper.js');
+    const faucet = require('../../faucet/faucetDB_Helper.js');
     const faucetDrip = faucet.Drip;
     // use to send a reply to user with delay and stop typing
     // ReplyMessage(' Check your DM\'s');

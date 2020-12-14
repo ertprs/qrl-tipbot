@@ -97,7 +97,7 @@ module.exports = {
 
     // check for user then if found check for already agreed, if not then set
     main().then(function(infoReturned) {
-console.log(JSON.stringify('infoReturned' + infoReturned));
+console.log('infoReturned' + JSON.stringify(infoReturned));
       const userFound = infoReturned[0].user_found;
 console.log('userFound: ' + userFound);
       if (userFound === 'true') {
