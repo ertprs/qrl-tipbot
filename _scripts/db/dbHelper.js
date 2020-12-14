@@ -44,7 +44,7 @@ async function GetAllUserInfo(args) {
         if (err) {
           console.log('[mysql error]', err);
         }
-        console.log('get_agree: ' + JSON.stringify(get_agree))
+        console.log('get_agree: ' + JSON.stringify(get_agree[0].agree))
         console.log('get_agree.length: ' + get_agree.length)
         
         if(get_agree.length == 0) {
