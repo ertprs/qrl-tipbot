@@ -10,7 +10,7 @@ const config = require('../../_config/config.json');
 const mysqldump = require('mysqldump');
 const sha256Array = [];
 const date1 = Date.now();
-const folderName = date1 + 'backup';
+const folderName = 'backup';
 
 /*
 function decryptFile({ fileName, password }) {
@@ -50,7 +50,7 @@ function encryptFile({ fileName, password }) {
 async function sqlBackup() {
   return new Promise(function(resolve) {
     // dump the result straight to a compressed file
-    const fileName = '/tipBotDatabase_Backup.sql';
+    const fileName = '/' + date1 + 'tipBotDatabase_Backup.sql';
     const dumpFilePath = config.backup.location + folderName + fileName;
     mysqldump({
       connection: {
