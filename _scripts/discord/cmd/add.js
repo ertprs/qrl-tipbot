@@ -25,7 +25,8 @@ module.exports = {
     const user_info = { service: 'discord', user_id: userName };
     const checkUserpromise = checkUser(user_info);
     const getBalance = wallet.GetBalance;
-
+    const faucet = require('../faucet/faucetDB_Helper.js');
+    const faucetDrip = faucet.Drip;
     // use to send a reply to user with delay and stop typing
     // ReplyMessage(' Check your DM\'s');
     function ReplyMessage(content) {
@@ -129,7 +130,7 @@ module.exports = {
         else if (found === 'false') {
           // user is not found in database. Do things here to add them
           // Create user wallet
-          ReplyMessage('Adding your address to the system. This will take a bit.');
+          // ReplyMessage('Adding your address to the system. This will take a bit.');
           const qrlWal = wallet.CreateQRLWallet;
           const WalletPromise = qrlWal();
           WalletPromise.then(function(address) {
@@ -153,10 +154,10 @@ module.exports = {
               const AddUserPromise = addUser(userInfo);
               AddUserPromise.then(function(addUserResp) {
                 const response = JSON.stringify(addUserResp);
-console.log(JSON.stringify(response));
+console.log(response);
                 message.channel.startTyping();
 
-                if (addUserResp[3].future_tip_amount > 0) {
+                if (response.future_tip_amount > 0) {
 console.log('futuretips found');
                   const future_tip_amount = addUserResp[3].future_tip_amount;
                   const tipToArray = [];
@@ -167,6 +168,7 @@ console.log('futuretips found');
                   const send_future_tip = wallet.sendQuanta;
                   send_future_tip(future_tip).then(function(futureTip) {
                     const futureTipOut = JSON.parse(futureTip);
+console.log(JSON.stringify(futureTipOut));
                     const tx_hash = futureTipOut.tx.transaction_hash;
                     // write to transactions db
                     const tip_id = 1337;
@@ -180,6 +182,17 @@ console.log('futuretips found');
                     clearFutureTips(futureClear).then(function(clearRes) {
                       return clearRes;
                     });
+
+if (dripamt > 0) {
+                      console.log('faucet Payout: ' + dripamt);
+                      const dripInfo = { service: 'discord', user_id: response[0].user_id, drip_amt: dripamt }
+                      faucetDrip(dripInfo).then(function(dripping) {
+                        return dripping;
+                      });
+
+
+}
+
                   });
                 }
                 return response;
