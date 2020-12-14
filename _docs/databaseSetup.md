@@ -73,25 +73,28 @@ mysql> SELECT concat('DROP TABLE IF EXISTS `', table_name, '`;') FROM informatio
 +----------------------------------------------------+
 | concat('DROP TABLE IF EXISTS `', table_name, '`;') |
 +----------------------------------------------------+
-| DROP TABLE IF EXISTS `discord_users`;              |
-| DROP TABLE IF EXISTS `faucet_payouts`;             |
-| DROP TABLE IF EXISTS `future_tips`;                |
-| DROP TABLE IF EXISTS `github_users`;               |
-| DROP TABLE IF EXISTS `keybase_users`;              |
-| DROP TABLE IF EXISTS `reddit_users`;               |
-| DROP TABLE IF EXISTS `slack_users`;                |
-| DROP TABLE IF EXISTS `telegram_users`;             |
-| DROP TABLE IF EXISTS `tips`;                       |
-| DROP TABLE IF EXISTS `tips_to`;                    |
-| DROP TABLE IF EXISTS `transactions`;               |
-| DROP TABLE IF EXISTS `trello_users`;               |
-| DROP TABLE IF EXISTS `twitter_users`;              |
-| DROP TABLE IF EXISTS `users`;                      |
-| DROP TABLE IF EXISTS `users_agree`;                |
-| DROP TABLE IF EXISTS `users_info`;                 |
-| DROP TABLE IF EXISTS `wallets`;                    |
-| DROP TABLE IF EXISTS `whatsapp_users`;             |
-| DROP TABLE IF EXISTS `withdrawls`;                 |
+
+DROP TABLE IF EXISTS `discord_users`; 
+DROP TABLE IF EXISTS `faucet_payouts`;
+DROP TABLE IF EXISTS `future_tips`;   
+DROP TABLE IF EXISTS `github_users`;  
+DROP TABLE IF EXISTS `keybase_users`; 
+DROP TABLE IF EXISTS `reddit_users`;  
+DROP TABLE IF EXISTS `slack_users`;   
+DROP TABLE IF EXISTS `telegram_users`;
+DROP TABLE IF EXISTS `tips`;          
+DROP TABLE IF EXISTS `tips_to`;       
+DROP TABLE IF EXISTS `transactions`;  
+DROP TABLE IF EXISTS `trello_users`;  
+DROP TABLE IF EXISTS `twitter_users`; 
+DROP TABLE IF EXISTS `users`;         
+DROP TABLE IF EXISTS `users_agree`;   
+DROP TABLE IF EXISTS `users_info`;    
+DROP TABLE IF EXISTS `wallets`;       
+DROP TABLE IF EXISTS `whatsapp_users`;
+DROP TABLE IF EXISTS `withdrawls`;    
+
+
 +----------------------------------------------------+
 19 rows in set (0.00 sec)
 ```
