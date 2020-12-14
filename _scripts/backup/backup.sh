@@ -12,7 +12,7 @@
 # Also assumes that you are using the ./_scripts/backup/qrl-tipbotBackup/ directory in 
 # your config file. {config.backup.location}
 # get latest files into dir
-/usr/bin/nodejs $HOME/qrl-tips/_scripts/backup/qrl-tipbotBackup/backup.js
+/usr/bin/nodejs $HOME/qrl-tips/_scripts/backup/backup.js
 
 FileLocation=`cat /home/$USER/qrl-tips/_config/config.json |jq -r .backup.location`
 echo $FileLocation
