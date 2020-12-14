@@ -21,4 +21,4 @@ tar -czf TipBot_Backup.tar.gz -C $FileLocation/backup . >/dev/null 2>&1
 
 openssl enc -aes-256-cbc -salt \
         -in TipBot_Backup.tar.gz -out TipBot_Backup.tar.gz.enc \
-        -file $HOME/qrl-tips/backup/qrl-tipbotBackup/secret_pass.yxy
+        -pass $HOME/qrl-tips/_scripts/backup/qrl-tipbotBackup/secret_pass.txt
