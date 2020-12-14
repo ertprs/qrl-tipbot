@@ -19,6 +19,9 @@ cd $FileLocation
 # Tar the files to location defined in BackupLocation
 tar -czf TipBot_Backup.tar.gz -C $FileLocation/backup . >/dev/null 2>&1
 
-openssl enc -aes-256-cbc -salt \
+openssl enc -pbkdf2 -e -base64 \
         -in TipBot_Backup.tar.gz -out TipBot_Backup.tar.gz.enc \
         -pass file:$HOME/qrl-tips/_scripts/backup/qrl-tipbotBackup/secret_pass.txt
+
+# decrypt with 
+# openssl enc -pbkdf2 -d -base64 -out hey_TipBot_Backup.tar.gz -in TipBot_Backup.tar.gz.enc -pass file:$HOME/qrl-tips/_scripts/backup/qrl-tipbotBackup/secret_pass.txt
