@@ -15,24 +15,15 @@
 # Fix me to be smarter in the future.
 
 # Script Variables
-NOW=$(date +"%Y%m%dT%H%MZ")
-FileLocation=`cat /home/$USER/qrl-tipbot/_config/config.json |jq -r .backup.location`
-BackupLocation=/home/$USER/
-# Remove the unencrypted file in the backup directory if there.
-#check if file exists
-count=`ls -1 ${FileLocation}*.sql 2>/dev/null | wc -l`
-if [ $count != 0 ]
-then 
-  #rm -rf ${FileLocation}*.sql 
-  count=`ls -1 ${FileLocation}*.sql 2>/dev/null | wc -l`
-  if [ $count != 0 ]
-  then 
-    echo Failed to remove
-  fi
-fi 
 
+FileLocation=`cat /home/$USER/qrl-tips/_config/config.json |jq -r .backup.location`
+echo $FileLocation
+
+BackupLocation=/home/$USER/
+
+cd $FileLocation
 # Tar the files to location defined in BackupLocation
-tar -czf ${BackupLocation}${NOW}_TipBot_Backup.tar.gz -C $FileLocation ../../backup/ >/dev/null 2>&1
+tar -czf TipBot_Backup.tar.gz -C $FileLocation/backup . >/dev/null 2>&1
 
 # Remove the old files to do this again later
 #rm -rf ${FileLocation}* 
