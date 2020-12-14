@@ -24,4 +24,6 @@ openssl enc -pbkdf2 -e -base64 \
         -pass file:$HOME/qrl-tips/_scripts/backup/qrl-tipbotBackup/secret_pass.txt
 
 # decrypt with 
-# openssl enc -pbkdf2 -d -base64 -out hey_TipBot_Backup.tar.gz -in TipBot_Backup.tar.gz.enc -pass file:$HOME/qrl-tips/_scripts/backup/qrl-tipbotBackup/secret_pass.txt
+#openssl enc -pbkdf2 -d -base64 -out hey_TipBot_Backup.tar.gz -in TipBot_Backup.tar.gz.enc -pass file:$HOME/qrl-tips/_scripts/backup/qrl-tipbotBackup/secret_pass.txt
+# or 
+#echo -n "password_here" | openssl enc -pbkdf2 -d -base64 -out hey1_TipBot_Backup.tar.gz -in TipBot_Backup.tar.gz.enc -pass stdin

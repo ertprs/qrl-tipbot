@@ -143,6 +143,7 @@ module.exports = {
                 let dripamt = 0;
                 return dripamt;
               }
+
               const userInfo = { service: 'discord', service_id: discord_id, user_name: MessageAuthorUsername, wallet_pub: wallet_pub, wallet_bal: 0, user_key: salt, user_auto_created: false, auto_create_date: new Date(), opt_out: false, optout_date: new Date(), drip_amt: dripamt };
               // console.log('userInfo:' + JSON.stringify(userInfo));
               // message.channel.stopTyping();
@@ -152,8 +153,11 @@ module.exports = {
               const AddUserPromise = addUser(userInfo);
               AddUserPromise.then(function(addUserResp) {
                 const response = JSON.stringify(addUserResp);
+console.log(JSON.stringify(response));
                 message.channel.startTyping();
+
                 if (addUserResp[3].future_tip_amount > 0) {
+console.log('futuretips found');
                   const future_tip_amount = addUserResp[3].future_tip_amount;
                   const tipToArray = [];
                   // const tipToAddress = [];
@@ -189,7 +193,7 @@ module.exports = {
                   .addField('Your QRL Wallet Public Address::', '[' + userAddress + '](' + config.bot_details.explorer_url + '/a/' + userAddress + ')')
                   .addField('Your QRL Wallet Balance:\t', '0')
                   .setImage(userInfo.wallet_qr)
-                  .addField('**Bonus!** You\'ll receive some Quanta from the faucet when funds are available! Come back for more faucet funds once a day. *Faucet payments can take up to 10 min to reflect in a users wallet and funds must be available at the time of signup*')
+                  .addField('**Bonus!** You\'ll receive some Quanta from the faucet when funds are available! Come back for more faucet funds once a day. *Faucet payments can take up to 10 min to reflect in a users wallet and funds must be available at the time of signup*', '`' + dripamt + ' qrl` faucet payout')
                   .addField('For all of my commands:\t', '`+help`');
                 message.author.send({ embed })
                   .catch(error => {
