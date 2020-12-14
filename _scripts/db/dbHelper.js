@@ -67,7 +67,7 @@ async function GetAllUserInfo(args) {
         const opt_out = infoResult[0].opt_out;
         const optout_date = infoResult[0].optout_date;
         // const foundRes = { user_found: 'true' };
-        foundResArray.push({ user_found: 'true', user_agree: 'false', wallet_pub: wallet_pub, wallet_bal: wallet_bal, user_id: U_id, user_name: user_name, opt_out: opt_out, optout_date: optout_date });
+        foundResArray.push({ user_found: 'true', user_agree: 'true', wallet_pub: wallet_pub, wallet_bal: wallet_bal, user_id: U_id, user_name: user_name, opt_out: opt_out, optout_date: optout_date });
         // Array.prototype.push.apply(foundResArray, infoResult);
         // console.log('getAllInfoSearch foundResArray ' + JSON.stringify(foundResArray));
         resolve(foundResArray);
