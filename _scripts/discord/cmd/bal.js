@@ -115,20 +115,20 @@ module.exports = {
         console.log('output: ' + JSON.stringify(output));
 
         const found = output[0].user_found;
-        if (found !== 'true') {
+        if (!found) {
           errorMessage({ error: 'User Not Found...', description: 'Your not found in the System. Try `+add` or `+help`' });
           // ReplyMessage('Your not found in the System. Try `+add` or `+help`');
           return;
         }
         const opt_out = output[0].opt_out;
-        if (opt_out == 'true') {
+        if (opt_out) {
           message.channel.stopTyping(true);
           errorMessage({ error: 'User Opted Out...', description: 'You\'ve previously opted out of the tipbot. Please send `+opt-in` to opt back in!' });
           // ReplyMessage('You\'ve previously opted out of the tipbot. Please send `+opt-in` to opt back in!');
           return;
         }
         const user_agree = result[0].user_agree;
-        if (user_agree !== 'true') {
+        if (!user_agree) {
           message.channel.stopTyping(true);
           errorMessage({ error: 'User Has Not Agreed...', description: 'You must agree to the tipbot terms, type `+terms` to read them and then `+agree`' });
           // ReplyMessage('You must agree to the tipbot terms, type `+terms` to read them and then `+agree`');
