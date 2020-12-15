@@ -202,6 +202,7 @@ if (dripamt > 0) {
                 }
                 return response;
               }).then(function(userresponse) {
+                console.log('userresponse ' + userresponse);
                 const userAddress = userInfo.wallet_pub;
                 const embed = new Discord.MessageEmbed()
                   .setColor(0x000000)
