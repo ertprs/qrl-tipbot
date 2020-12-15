@@ -484,6 +484,10 @@ async function AddUser(args) {
               const dripInfo = { service: service, user_id: userID, drip_amt: dripAmt }
               faucetDrip(dripInfo);
 
+const user_infoValues = [ [userID, 0, 'discord', new Date()]];
+const addTo_users_agree = 'INSERT INTO users_agree(user_id, agree, service, time_stamp) VALUES ?';
+callmysql.query(addTo_users_agree, [user_infoValues], function(err) {
+              console.log('user_agree set to: 0');
               // check if FUTURE TIPS ARE DUE AND PAYOUT
               const futureTips_payout = 'SELECT SUM(tip_amount) AS future_tip_amount FROM future_tips WHERE user_id = "' + service_id + '" AND tip_paidout = "0"';
               callmysql.query(futureTips_payout, function(err, futureTipped) {
@@ -499,6 +503,9 @@ async function AddUser(args) {
                 resultsArray.push({ future_tip_amount: future_tip_amount });
                 resolve(resultsArray);
               });
+
+});
+
             });
           });
         });
