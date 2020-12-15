@@ -15,7 +15,7 @@ const callmysql = mysql.createPool({
 // expects { service: service, service_id: service_id }
 // returns { user_found, wallet_pub, wallet_bal, user_id, user_name, opt_out optout_date
 async function GetAllUserInfo(args) {
-  console.log('\nGETALLUSERINFO CALLED: ' + JSON.stringify(args));
+  // console.log('\nGETALLUSERINFO CALLED: ' + JSON.stringify(args));
   return new Promise(resolve => {
     const input = JSON.parse(JSON.stringify(args));
     const service_id = input.service_id;
@@ -26,12 +26,12 @@ async function GetAllUserInfo(args) {
     let has_opt_out = false;
     // get all users_info data here...
     const getAllInfoSearch = 'SELECT wallets.wallet_pub AS wallet_pub, wallets.wallet_bal AS wallet_bal, users.id AS user_id, ' + service + '_users.user_name AS user_name, users_info.opt_out AS opt_out, users_info.optout_date AS optout_date, users_agree.agree AS agree FROM wallets, users, ' + service + '_users, users_info, users_agree WHERE users.id = wallets.user_id AND users.' + service + '_user_id = ' + service + '_users.id AND users.id = users_info.user_id AND ' + service + '_users.' + service + '_id = "' + service_id + '" AND users.id = users_agree.user_id';
-    console.log('getAllInfoSearch: ' + getAllInfoSearch);
+    // console.log('getAllInfoSearch: ' + getAllInfoSearch);
     callmysql.query(getAllInfoSearch, function(err, user_info) {
       if (err) {
         console.log('[mysql error]', err);
       }
-      console.log('user_info: ' + JSON.stringify(user_info));
+      // console.log('user_info: ' + JSON.stringify(user_info));
 
       // check for user, if length is 0 they are not found
       if(user_info.length > 0) {
@@ -47,7 +47,7 @@ async function GetAllUserInfo(args) {
         resolve(foundResArray);
         return;
       }
-      console.log('0 has_user_found, has_user_agree, has_opt_out: ' + has_user_found + ', ' + has_user_agree + ', ' + has_opt_out);
+      // console.log('0 has_user_found, has_user_agree, has_opt_out: ' + has_user_found + ', ' + has_user_agree + ', ' + has_opt_out);
       // user found, set user variables
       const user_agree = user_info[0].agree;
       const user_id = user_info[0].user_id;
@@ -57,12 +57,12 @@ async function GetAllUserInfo(args) {
       const wallet_pub = user_info[0].wallet_pub;
       const U_id = user_info[0].user_id;
       // print variables
-      console.log('0 user_agree, user_id, opt_out, user_name, : ' + user_agree + ', ' + user_id + ', ' + opt_out + ', ' + user_name + ', ' + optout_date + ', ' + wallet_pub);
+      // console.log('0 user_agree, user_id, opt_out, user_name, : ' + user_agree + ', ' + user_id + ', ' + opt_out + ', ' + user_name + ', ' + optout_date + ', ' + wallet_pub);
       if(opt_out) {
-        console.log('opt_out true');
+        // console.log('opt_out true');
         has_opt_out = true;
       }
-      console.log('1 has_user_found, has_user_agree, has_opt_out: ' + has_user_found + ', ' + has_user_agree + ', ' + has_opt_out);
+      // console.log('1 has_user_found, has_user_agree, has_opt_out: ' + has_user_found + ', ' + has_user_agree + ', ' + has_opt_out);
       if (has_opt_out) {
         // user opted out or is not found in DB. Return values
         foundResArray.push({ user_found: has_user_found, user_agree: has_user_agree, opt_out: has_opt_out });
@@ -84,10 +84,9 @@ async function GetAllUserInfo(args) {
 
       // update the balance in the wallet database and refresh info
       GetUserWalletBal({ user_id: user_id }).then(function(balance) {
-        console.log('balance: ' + JSON.stringify(balance));
         const bal = JSON.stringify(balance);
         const wallet_bal = balance.wallet_bal;
-        console.log('balance: ' + wallet_bal);
+        // console.log('balance: ' + wallet_bal);
         foundResArray.push({ user_found: has_user_found, user_agree: has_user_agree, opt_out: has_opt_out, wallet_pub: wallet_pub, wallet_bal: wallet_bal, user_id: U_id, user_name: user_name, optout_date: optout_date });
         // Array.prototype.push.apply(foundResArray, infoResult);
         console.log('getAllInfoSearch foundResArray ' + JSON.stringify(foundResArray) + '\n');
@@ -484,28 +483,24 @@ async function AddUser(args) {
               const dripInfo = { service: service, user_id: userID, drip_amt: dripAmt }
               faucetDrip(dripInfo);
 
-const user_infoValues = [ [userID, 0, 'discord', new Date()]];
-const addTo_users_agree = 'INSERT INTO users_agree(user_id, agree, service, time_stamp) VALUES ?';
-callmysql.query(addTo_users_agree, [user_infoValues], function(err) {
-              console.log('user_agree set to: 0');
-              // check if FUTURE TIPS ARE DUE AND PAYOUT
-              const futureTips_payout = 'SELECT SUM(tip_amount) AS future_tip_amount FROM future_tips WHERE user_id = "' + service_id + '" AND tip_paidout = "0"';
-              callmysql.query(futureTips_payout, function(err, futureTipped) {
-                if (err) {
-                  console.log('[mysql error]', err);
-                }
-
-                if (futureTipped[0].future_tip_amount == 'NULL') {
-                  return futureTipped[0].future_tip_amount;
-                }
-
-                const future_tip_amount = futureTipped[0].future_tip_amount * 1000000000;
-                resultsArray.push({ future_tip_amount: future_tip_amount });
-                resolve(resultsArray);
+              const user_infoValues = [ [userID, 0, 'discord', new Date()]];
+              const addTo_users_agree = 'INSERT INTO users_agree(user_id, agree, service, time_stamp) VALUES ?';
+              callmysql.query(addTo_users_agree, [user_infoValues], function(err) {
+                // console.log('user_agree set to: 0');
+                // check if FUTURE TIPS ARE DUE AND PAYOUT
+                const futureTips_payout = 'SELECT SUM(tip_amount) AS future_tip_amount FROM future_tips WHERE user_id = "' + service_id + '" AND tip_paidout = "0"';
+                callmysql.query(futureTips_payout, function(err, futureTipped) {
+                  if (err) {
+                    console.log('[mysql error]', err);
+                  }
+                  if (futureTipped[0].future_tip_amount == 'NULL') {
+                    return futureTipped[0].future_tip_amount;
+                  }
+                  const future_tip_amount = futureTipped[0].future_tip_amount * 1000000000;
+                  resultsArray.push({ future_tip_amount: future_tip_amount });
+                  resolve(resultsArray);
+                });
               });
-
-});
-
             });
           });
         });
@@ -725,7 +720,7 @@ async function agree(args) {
     const user_id = args.user_id;
     const service = args.service;
     const agreeIntoDB = 'UPDATE users_agree SET agree="1" WHERE user_id="' + user_id + '"';
-    console.log(agreeIntoDB);
+    // console.log(agreeIntoDB);
     callmysql.query(agreeIntoDB, function(err, agreeIntoDBRes) {
       if (err) {
         console.log('[mysql error]', err);

@@ -59,9 +59,6 @@ module.exports = {
       }, 1000);
     }
 
-
-
-
     // Get user info. Function expects { service: service, service_id: service_id } as usrInfo
     async function getUserInfo(usrInfo) {
       return new Promise(resolve => {
@@ -98,25 +95,22 @@ module.exports = {
     // check for user then if found check for already agreed, if not then set
     main().then(function(infoReturned) {
 
-console.log('infoReturned' + JSON.stringify(infoReturned));
+      // console.log('infoReturned' + JSON.stringify(infoReturned));
       const userFound = infoReturned[0].user_found;
-console.log('userFound: ' + userFound);
+      // console.log('userFound: ' + userFound);
       if (userFound) {
-        // console.log('UserFound!');
-
         const userAgreeStatus = infoReturned[0].user_agree;
-console.log('userAgreeStatus: ' + userAgreeStatus);
-
+        // console.log('userAgreeStatus: ' + userAgreeStatus);
         if (userAgreeStatus) {
-console.log('User already agreed');
+          // console.log('User already agreed');
           errorMessage({ error: 'You\'ve already agreed!', description: 'No need to agree again.', footer: 'Enter +help for bot instructions' });
         }
         else {
-console.log('Not yet agreed, add to DB and reply');
+          // console.log('Not yet agreed, add to DB and reply');
           const botUserId = infoReturned[0].user_id;
-console.log('botUserId: ' + botUserId);
+          // console.log('botUserId: ' + botUserId);
           userAgreeAdd(botUserId).then(function(agreeReturn) {
-console.log('agreeReturn: ' + JSON.stringify(agreeReturn));
+          // console.log('agreeReturn: ' + JSON.stringify(agreeReturn));
             successReplyMessage({ title: 'You\'ve Agreed!!', description: 'Here are the terms you agreed to:', term_1: 'Use at your own risk', term_1_description: 'You will not hold the tipbot accountable', term_2: 'You won\'t misuse the bot', term_2_description: 'be nice to the bot and others', term_3: 'You agree to share information with tipbot', term_3_description: 'usernames, tx details, wallet address etc.', term_4: 'You will not store QRL on the tipbot.', term_4_description: 'Transfer all excess funds to a wallet only you own!', footer: 'Enter +terms for full agreement. You can now use the Bot!' });
           });
         }
@@ -126,6 +120,5 @@ console.log('agreeReturn: ' + JSON.stringify(agreeReturn));
         errorMessage({ error: 'No Account Found!', description: 'You must signup to use the tipbot. enter `+help` for bot instructions' });
       }
     });
-
   },
 };
