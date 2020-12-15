@@ -157,9 +157,9 @@ module.exports = {
 console.log(response);
                 message.channel.startTyping();
 
-                if (response.future_tip_amount > 0) {
+                if (response[3].future_tip_amount > 0) {
 console.log('futuretips found');
-                  const future_tip_amount = addUserResp[3].future_tip_amount;
+                  const future_tip_amount = response[3].future_tip_amount;
                   const tipToArray = [];
                   // const tipToAddress = [];
                   tipToArray.push(userInfo.wallet_pub);
