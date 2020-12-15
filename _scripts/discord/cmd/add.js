@@ -212,7 +212,7 @@ if (dripamt > 0) {
                   .addField('Your QRL Wallet Balance:\t', '0')
                   .setImage(userInfo.wallet_qr)
                   .addField('**Bonus!** You\'ll receive some Quanta from the faucet when funds are available! Come back for more faucet funds once a day. *Faucet payments can take up to 10 min to reflect in a users wallet and funds must be available at the time of signup*', '`' + dripamt + ' qrl` faucet payout')
-                  .addField('For all of my commands:\t', '`+help`');
+                  .addField('For all of my commands:\t', '`+help`. It will take a few minutes for your wallet to be created.');
                 message.author.send({ embed })
                   .catch(error => {
                     // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
@@ -266,7 +266,7 @@ __**You assume all risk by using this service**__
                         errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
                         // deleteMessage();
                       });
-                    ReplyMessage(':white_check_mark: Your signed up! Please `+agree` to my terms to begin using the bot. For a list of my commands type `+help`');
+                    ReplyMessage(':white_check_mark: Your signed up! Please `+agree` to my terms to begin using the bot. It will take a few minutes for your wallet to be created. For a list of my commands type `+help`');
                   })
                   .catch(error => {
                     console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
