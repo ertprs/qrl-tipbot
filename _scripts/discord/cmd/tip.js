@@ -200,14 +200,14 @@ module.exports = {
       //  console.log('tippingUserUser_agree: ' + tippingUserUser_agree);
       //  console.log('tippingUserOpt_Out: ' + tippingUserOpt_Out);
       // check for tipping user in the system
-      if (tippingUserUser_Found == 'false') {
+      if (!tippingUserUser_Found) {
       //  console.log('User not found. Fail and warn');
         errorMessage({ error: 'User Not Found...', description: 'Please sign up to the tipbot. Enter `+add` to create a wallet then `+agree` to use the bot' });
         // ReplyMessage('User not found. Add your user to the bot. `+add`');
         return;
       }
       // check for tipping user opt-out
-      if (tippingUserOpt_Out == 1) {
+      if (tippingUserOpt_Out) {
         const tippingUserOptOut_Date = JSON.stringify(tipingUserInfo[0].optout_date);
         errorMessage({ error: 'User Has `Opt-Out` Status...', description: 'You opted out on ' + tippingUserOptOut_Date + '. Please opt back in to use the bot. `+opt-in`' });
         // ReplyMessage('User opt\'ed out of the bot on ' + tippingUserOptOut_Date + '. Please opt back in to use the bot. `+opt-in`');
@@ -216,7 +216,7 @@ module.exports = {
       // check for tipping user agree
       if (!tippingUserUser_agree) {
       //  console.log('User has not agreed. Fail and warn');
-        errorMessage({ error: 'User Has Agreed to Terms...', description: 'Please agree to the terms to start using the bot. Enter `+terms` to read or `+agree`' });
+        errorMessage({ error: 'User Has Not Agreed to Terms...', description: 'Please agree to the terms to start using the bot. Enter `+terms` to read or `+agree`' });
         // ReplyMessage('User needs to agree to the terms. `+agree`');
         return;
       }
