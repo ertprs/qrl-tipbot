@@ -190,7 +190,7 @@ module.exports = {
 
 if (dripamt > 0) {
                       console.log('faucet Payout: ' + dripamt);
-                      const dripInfo = { service: 'discord', user_id: response[0].user_id, drip_amt: dripamt }
+                      const dripInfo = { service: 'discord', user_id: addUserResp[0].user_id, drip_amt: dripamt }
                       faucetDrip(dripInfo).then(function(dripping) {
                         return dripping;
                       });
