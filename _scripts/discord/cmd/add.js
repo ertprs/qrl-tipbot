@@ -56,6 +56,7 @@ module.exports = {
       // using the faucet address check for a balance
         const walletAddress = config.faucet.faucet_wallet_pub;
         getBalance(walletAddress).then(function(balance) {
+          console.log('faucet balance: ' + JSON.stringify(balance));
         // getBalance('Q000300636e629ad3f50791cb2bfb9ed28010f0b072ba1f860763ef634d51225e4e1782f686547e').then(function(balance) {
           resolve(balance);
         });
@@ -139,8 +140,8 @@ module.exports = {
             const wallet_pub = QRLaddress.address;
 
             faucetBalance().then(function(faucBal) {
-              if (faucBal <= dripamt) {
-                // console.log('Faucet is flat or less than needed for drip')
+              if (dripamt > faucBal) {
+                console.log('Faucet is flat or less than needed for drip')
                 let dripamt = 0;
                 return dripamt;
               }
