@@ -156,18 +156,19 @@ module.exports = {
               AddUserPromise.then(function(addUserResp) {
                 const response = JSON.stringify(addUserResp);
 console.log('AddUserPromise response: ' + response);
-                message.channel.startTyping();
+                const future_tip_amount = response[3].future_tip_amount;
 
-                if (response[3].future_tip_amount > 0) {
+                if (future_tip_amount > 0) {
 console.log('futuretips found');
-                  const future_tip_amount = response[3].future_tip_amount;
                   const tipToArray = [];
                   // const tipToAddress = [];
-                  tipToArray.push(userInfo.wallet_pub);
+                  tipToArray.push(userInfo);
                   const fee = config.wallet.tx_fee * 1000000000;
-                  const future_tip = { amount: future_tip_amount, fee: fee, address_from: config.wallet.hold_address, address_to: tipToArray };
+                  const future_tip = { amount: future_tip_amount, fee: fee, address_from: config.wallet.hold_address, address_to: tipToArray.wallet_pub };
+                  console.log('future_tip data: ' + future_tip);
                   const send_future_tip = wallet.sendQuanta;
                   send_future_tip(future_tip).then(function(futureTip) {
+                    console.log('futureTip: ' + JSON.stringify(futureTip))
                     const futureTipOut = JSON.parse(futureTip);
 console.log(JSON.stringify(futureTipOut));
                     const tx_hash = futureTipOut.tx.transaction_hash;
