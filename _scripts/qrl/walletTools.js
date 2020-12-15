@@ -37,8 +37,8 @@ async function sendQuanta(args) {
     if (stderr) {
       console.error(`error: ${stderr}`);
     }
-    // console.log(`sendQuanta stdout: ${stdout}`);
-    const sendStdout = JSON.parse(JSON.stringify(stdout));
+    console.log(`sendQuanta stdout: ${stdout}`);
+    // const sendStdout = JSON.parse(JSON.stringify(stdout));
     const sendStdout = stdout;
     return sendStdout;
   }
