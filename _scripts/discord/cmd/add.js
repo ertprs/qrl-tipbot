@@ -147,7 +147,7 @@ module.exports = {
               }
 
               const userInfo = { service: 'discord', service_id: discord_id, user_name: MessageAuthorUsername, wallet_pub: wallet_pub, wallet_bal: 0, user_key: salt, user_auto_created: false, auto_create_date: new Date(), opt_out: false, optout_date: new Date(), drip_amt: dripamt };
-              // console.log('userInfo:' + JSON.stringify(userInfo));
+              console.log('userInfo:' + JSON.stringify(userInfo));
               // message.channel.stopTyping();
               return userInfo;
             }).then(function(userInfo) {
@@ -155,12 +155,12 @@ module.exports = {
               const AddUserPromise = addUser(userInfo);
               AddUserPromise.then(function(addUserResp) {
                 const response = JSON.stringify(addUserResp);
-console.log('AddUserPromise response: ' + response);
+                console.log('AddUserPromise response: ' + response);
                 const future_tip_amount = addUserResp[3].future_tip_amount;
-console.log('future_tip_amount: ' + future_tip_amount);
+                console.log('future_tip_amount: ' + future_tip_amount);
 
                 if (future_tip_amount > 0) {
-console.log('futuretips found');
+                  console.log('futuretips found');
 
                   const tipToArray = [];
                   // const tipToAddress = [];
@@ -173,7 +173,7 @@ console.log('futuretips found');
                     console.log('futureTip: ' + JSON.stringify(futureTip))
                     
                     const futureTipOut = JSON.parse(futureTip);
-console.log(JSON.stringify(futureTipOut));
+                    console.log(JSON.stringify(futureTipOut));
                     const tx_hash = futureTipOut.tx.transaction_hash;
                     // write to transactions db
                     const tip_id = 1337;
