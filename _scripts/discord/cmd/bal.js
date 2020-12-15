@@ -112,7 +112,7 @@ module.exports = {
       const checkUserPromise = checkUser({ service: 'discord', service_id: userName });
       checkUserPromise.then(function(result) {
         const output = JSON.parse(JSON.stringify(result));
-        // console.log(result);
+        console.log(result);
         const found = output[0].user_found;
         if (found !== 'true') {
           errorMessage({ error: 'User Not Found...', description: 'Your not found in the System. Try `+add` or `+help`' });
