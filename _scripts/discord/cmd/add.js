@@ -80,7 +80,7 @@ module.exports = {
     if (args[0] == undefined) {
       checkUserpromise.then(function(result) {
         const output = JSON.parse(JSON.stringify(result));
-        // console.log('output: ' + output);
+        console.log('checkUserpromise output: ' + result.user_found);
         const found = result.user_found;
         // console.log('user found: ' + found);
         // check for the user_found value returned from the promise
