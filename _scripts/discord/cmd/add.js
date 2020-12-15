@@ -209,7 +209,7 @@ if (dripamt > 0) {
                   .setDescription('Here is your TipBot account information.')
                   .setFooter(`TipBot Donation Address: ${config.bot_details.bot_donationAddress}`)
                   .addField('Your QRL Wallet Public Address::', '[' + userAddress + '](' + config.bot_details.explorer_url + '/a/' + userAddress + ')')
-                  .addField('Your QRL Wallet Balance:\t', '0')
+                  .addField('Your QRL Wallet Balance including previous tips:\t', future_tip_amount * 1000000000)
                   .setImage(userInfo.wallet_qr)
                   .addField('**Bonus!** You\'ll receive some Quanta from the faucet when funds are available! Come back for more faucet funds once a day. *Faucet payments can take up to 10 min to reflect in a users wallet and funds must be available at the time of signup*', '`' + dripamt + ' qrl` faucet payout')
                   .addField('For all of my commands:\t', '`+help`. It will take a few minutes for your wallet to be created.');
