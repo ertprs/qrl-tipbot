@@ -79,7 +79,8 @@ async function GetAllUserInfo(args) {
       // update the balance in the wallet database and refresh info
       GetUserWalletBal({ user_id: user_id }).then(function(balance) {
         console.log('balance: ' + JSON.stringify(balance));
-        const wallet_bal = balance[0].wallet_bal;
+        const bal = JSON.stringify(balance);
+        const wallet_bal = bal.wallet_bal;
         foundResArray.push({ user_found: has_user_found, user_agree: has_user_agree, opt_out: has_opt_out, wallet_pub: wallet_pub, wallet_bal: wallet_bal, user_id: U_id, user_name: user_name, optout_date: optout_date });
         // Array.prototype.push.apply(foundResArray, infoResult);
         console.log('getAllInfoSearch foundResArray ' + JSON.stringify(foundResArray) + '\n');
