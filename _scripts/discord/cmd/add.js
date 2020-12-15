@@ -166,7 +166,7 @@ module.exports = {
                   // const tipToAddress = [];
                   tipToArray.push(userInfo);
                   const fee = config.wallet.tx_fee * 1000000000;
-                  const future_tip = { amount: future_tip_amount, fee: fee, address_from: config.wallet.hold_address, address_to: userInfo.wallet_pub };
+                  const future_tip = { amount: future_tip_amount, fee: fee, address_from: config.wallet.hold_address, address_to: '[' + userInfo.wallet_pub + ']' };
                   console.log('future_tip data: ' + JSON.stringify(future_tip));
                   const send_future_tip = wallet.sendQuanta;
                   send_future_tip(future_tip).then(function(futureTip) {
