@@ -156,7 +156,7 @@ module.exports = {
               AddUserPromise.then(function(addUserResp) {
                 const response = JSON.stringify(addUserResp);
 console.log('AddUserPromise response: ' + response);
-                const future_tip_amount = response[3].future_tip_amount;
+                const future_tip_amount = addUserResp[3].future_tip_amount;
 console.log('future_tip_amount: ' + future_tip_amount);
 
                 if (future_tip_amount > 0) {
