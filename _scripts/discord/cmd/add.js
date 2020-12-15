@@ -155,7 +155,7 @@ module.exports = {
               const AddUserPromise = addUser(userInfo);
               AddUserPromise.then(function(addUserResp) {
                 const response = JSON.stringify(addUserResp);
-console.log(response);
+console.log('AddUserPromise response: ' + response);
                 message.channel.startTyping();
 
                 if (response[3].future_tip_amount > 0) {
