@@ -97,16 +97,17 @@ module.exports = {
 
     // check for user then if found check for already agreed, if not then set
     main().then(function(infoReturned) {
+
 console.log('infoReturned' + JSON.stringify(infoReturned));
       const userFound = infoReturned[0].user_found;
 console.log('userFound: ' + userFound);
-      if (userFound === 'true') {
+      if (userFound) {
         // console.log('UserFound!');
 
         const userAgreeStatus = infoReturned[0].user_agree;
 console.log('userAgreeStatus: ' + userAgreeStatus);
 
-        if (userAgreeStatus === 'true') {
+        if (userAgreeStatus) {
 console.log('User already agreed');
           errorMessage({ error: 'You\'ve already agreed!', description: 'No need to agree again.', footer: 'Enter +help for bot instructions' });
         }
