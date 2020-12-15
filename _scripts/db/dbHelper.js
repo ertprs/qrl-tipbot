@@ -21,6 +21,9 @@ async function GetAllUserInfo(args) {
     const service_id = input.service_id;
     const service = input.service;
     let foundResArray = [];
+    let has_user_found = false;
+    let has_user_agree = false;
+    let has_opt_out = false;
     // get all users_info data here...
     const getAllInfoSearch = 'SELECT wallets.wallet_pub AS wallet_pub, wallets.wallet_bal AS wallet_bal, users.id AS user_id, ' + service + '_users.user_name AS user_name, users_info.opt_out AS opt_out, users_info.optout_date AS optout_date, users_agree.agree AS agree FROM wallets, users, ' + service + '_users, users_info, users_agree WHERE users.id = wallets.user_id AND users.' + service + '_user_id = ' + service + '_users.id AND users.id = users_info.user_id AND ' + service + '_users.' + service + '_id = "' + service_id + '" AND users.id = users_agree.user_id';
     // console.log('getAllInfoSearch: ' + getAllInfoSearch);
@@ -28,18 +31,59 @@ async function GetAllUserInfo(args) {
       if (err) {
         console.log('[mysql error]', err);
       }
-      // console.log('user_info: ' + JSON.stringify(user_info))
-      if(user_info.length == 0) {
+      console.log('user_info: ' + JSON.stringify(user_info));
+
+      // check for user, if length is 0 they are not found
+      if(user_info.length > 0) {
         // const Results = { user_found: 'false' };
-        foundResArray.push({ user_found: 'false', user_agree: 'false', opt_out: 'false' });
+        has_user_found = true;
+        // foundResArray.push({ user_found: 'false', user_agree: 'false', opt_out: 'false' });
+        // resolve(foundResArray);
+        // return foundResArray;
+      }
+      // user found, set user variables
+      const user_agree = user_info[0].agree;
+      const user_id = user_info[0].user_id;
+      const opt_out = user_info[0].opt_out;
+      const user_name = user_info[0].user_name;
+      const optout_date = user_info[0].optout_date;
+      const wallet_pub = user_info[0].wallet_pub;
+      const U_id = user_info[0].user_id;
+      // print variables
+      console.log('0 user_agree, user_id, opt_out, user_name, : ' + user_agree + ', ' + user_id + ', ' + opt_out + ', ' + user_name + ', ' + optout_date + ', ' + wallet_pub);
+      if(!opt_out) {
+        has_opt_out = true;
+      }
+      if (!has_user_found || has_opt_out) {
+        // user opted out or is not found in DB. Return values
+        foundResArray.push({ user_found: has_user_found, user_agree: has_user_agree, opt_out: has_opt_out });
+        resolve(foundResArray);
+        return;
+      }
+      // chck if user has already agreed
+      if (user_agree) {
+        has_user_agree = true;
+      }
+      console.log('1 user_agree, user_id, opt_out, user_name, : ' + user_agree + ', ' + user_id + ', ' + opt_out + ', ' + user_name + ', ' + optout_date + ', ' + wallet_pub);
+
+      // if(user_agree === 0) {
+          // user has not agreed, not found in db users_agree but user is found
+          // foundResArray.push({ user_found: 'true', user_agree: 'false', opt_out: 'false', user_id: user_id });
+          // resolve(foundResArray);
+        // }
+
+      // update the balance in the wallet database and refresh info
+      GetUserWalletBal({ user_id: user_id }).then(function(balance) {
+        console.log('balance: ' + JSON.stringify(balance));
+        const wallet_bal = balance[0].wallet_bal;
+        foundResArray.push({ user_found: has_user_found, user_agree: has_user_agree, opt_out: has_opt_out, wallet_pub: wallet_pub, wallet_bal: wallet_bal, user_id: U_id, user_name: user_name, optout_date: optout_date });
+        // Array.prototype.push.apply(foundResArray, infoResult);
+        console.log('getAllInfoSearch foundResArray ' + JSON.stringify(foundResArray) + '\n');
         resolve(foundResArray);
         return foundResArray;
-      }
+      });
 
-      const user_id = user_info[0].user_id;
-      // update the balance in the wallet database and refresh info
-      GetUserWalletBal({ user_id: user_id });
-      // check for user agree results
+      /* // check for user agree results
       const getAgreeSearch = 'SELECT users_agree.* FROM users_agree WHERE users_agree.user_id = "' + user_id + '"';
       callmysql.query(getAgreeSearch, function(err, get_agree) {
         if (err) {
@@ -54,6 +98,9 @@ async function GetAllUserInfo(args) {
           resolve(foundResArray);
         }
       });
+
+
+
       // search the db again to pickup the updated balance and return good values to user
       callmysql.query(getAllInfoSearch, function(err, user_info_update) {
         if (err) {
@@ -68,6 +115,7 @@ async function GetAllUserInfo(args) {
         const opt_out = infoResult[0].opt_out;
         const optout_date = infoResult[0].optout_date;
         // const foundRes = { user_found: 'true' };
+
         foundResArray.push({ user_found: 'true', user_agree: 'true', wallet_pub: wallet_pub, wallet_bal: wallet_bal, user_id: U_id, user_name: user_name, opt_out: opt_out, optout_date: optout_date });
         // Array.prototype.push.apply(foundResArray, infoResult);
         // console.log('getAllInfoSearch foundResArray ' + JSON.stringify(foundResArray));
@@ -75,9 +123,13 @@ async function GetAllUserInfo(args) {
         return foundResArray;
       });
       // resolve(foundResArray)
+      */
+
     });
   });
 }
+
+
 
 async function CheckUser(args) {
   /*
