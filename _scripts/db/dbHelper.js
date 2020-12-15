@@ -20,7 +20,7 @@ async function GetAllUserInfo(args) {
     const input = JSON.parse(JSON.stringify(args));
     const service_id = input.service_id;
     const service = input.service;
-    let foundResArray = [];
+    const foundResArray = [];
     let has_user_found = false;
     let has_user_agree = false;
     let has_opt_out = false;
@@ -41,6 +41,12 @@ async function GetAllUserInfo(args) {
         // resolve(foundResArray);
         // return foundResArray;
       }
+      else {
+        // user not found. Exit and return array
+        foundResArray.push({ user_found: has_user_found, user_agree: has_user_agree, opt_out: has_opt_out });
+        resolve(foundResArray);
+        return;
+      }
       console.log('0 has_user_found, has_user_agree, has_opt_out: ' + has_user_found + ', ' + has_user_agree + ', ' + has_opt_out);
       // user found, set user variables
       const user_agree = user_info[0].agree;
@@ -57,7 +63,7 @@ async function GetAllUserInfo(args) {
         has_opt_out = true;
       }
       console.log('1 has_user_found, has_user_agree, has_opt_out: ' + has_user_found + ', ' + has_user_agree + ', ' + has_opt_out);
-      if (!has_user_found || has_opt_out) {
+      if (has_opt_out) {
         // user opted out or is not found in DB. Return values
         foundResArray.push({ user_found: has_user_found, user_agree: has_user_agree, opt_out: has_opt_out });
         resolve(foundResArray);
