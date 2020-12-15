@@ -203,8 +203,8 @@ if (dripamt > 0) {
                 return response;
               }).then(function(userresponse) {
                 console.log('userresponse ' + userresponse);
-                console.log('userresponse[3].future_tip_amount ' + userresponse[3].future_tip_amount);
-                
+                console.log('userresponse[3].future_tip_amount ' + userresponse.future_tip_amount);
+
                 const userAddress = userInfo.wallet_pub;
                 const embed = new Discord.MessageEmbed()
                   .setColor(0x000000)
