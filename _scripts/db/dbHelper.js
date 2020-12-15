@@ -725,7 +725,7 @@ async function agree(args) {
     const user_id = args.user_id;
     const service = args.service;
     const agreeValues = [ [user_id, '1', service, new Date()] ];
-    const agreeIntoDB = 'Insert INTO users_agree(user_id, agree, service, time_stamp) VALUES ? ON DUPLICATE KEY UPDATE user_id=VALUES(user_id) ';
+    const agreeIntoDB = 'Insert INTO users_agree(user_id, agree, service, time_stamp) VALUES ? ON DUPLICATE KEY UPDATE user_id= ' + user_id + ' ';
     callmysql.query(agreeIntoDB, [agreeValues], function(err, agreeIntoDBRes) {
       if (err) {
         console.log('[mysql error]', err);
