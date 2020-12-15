@@ -112,7 +112,7 @@ module.exports = {
       const checkUserPromise = checkUser({ service: 'discord', service_id: userName });
       checkUserPromise.then(function(result) {
         const output = JSON.parse(JSON.stringify(result));
-        console.log('output: ' + output);
+        console.log('output: ' + JSON.stringify(output));
 
         const found = output[0].user_found;
         if (found !== 'true') {
