@@ -15,7 +15,7 @@ const callmysql = mysql.createPool({
 // expects { service: service, service_id: service_id }
 // returns { user_found, wallet_pub, wallet_bal, user_id, user_name, opt_out optout_date
 async function GetAllUserInfo(args) {
-  console.log('\nGETALLINFO CALLED\n: ' + JSON.stringify(args));
+  console.log('\nGETALLINFO CALLED: ' + JSON.stringify(args));
   return new Promise(resolve => {
     const input = JSON.parse(JSON.stringify(args));
     const service_id = input.service_id;
@@ -41,6 +41,7 @@ async function GetAllUserInfo(args) {
         // resolve(foundResArray);
         // return foundResArray;
       }
+      console.log('0 has_user_found, has_user_agree, has_opt_out:' + has_user_found + has_user_agree + has_opt_out);
       // user found, set user variables
       const user_agree = user_info[0].agree;
       const user_id = user_info[0].user_id;
@@ -51,9 +52,11 @@ async function GetAllUserInfo(args) {
       const U_id = user_info[0].user_id;
       // print variables
       console.log('0 user_agree, user_id, opt_out, user_name, : ' + user_agree + ', ' + user_id + ', ' + opt_out + ', ' + user_name + ', ' + optout_date + ', ' + wallet_pub);
-      if(!opt_out) {
+      if(opt_out) {
+        console.log('opt_out true');
         has_opt_out = true;
       }
+      console.log('1 has_user_found, has_user_agree, has_opt_out:' + has_user_found + has_user_agree + has_opt_out);
       if (!has_user_found || has_opt_out) {
         // user opted out or is not found in DB. Return values
         foundResArray.push({ user_found: has_user_found, user_agree: has_user_agree, opt_out: has_opt_out });
@@ -64,6 +67,7 @@ async function GetAllUserInfo(args) {
       if (user_agree) {
         has_user_agree = true;
       }
+      console.log('2 has_user_found, has_user_agree, has_opt_out:' + has_user_found + has_user_agree + has_opt_out);
       console.log('1 user_agree, user_id, opt_out, user_name, : ' + user_agree + ', ' + user_id + ', ' + opt_out + ', ' + user_name + ', ' + optout_date + ', ' + wallet_pub);
 
       // if(user_agree === 0) {
