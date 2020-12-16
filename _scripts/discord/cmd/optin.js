@@ -81,6 +81,7 @@ module.exports = {
 
       const user_info = await getUserInfo({ service: 'discord', service_id: userID });
       console.log('user_info: ' + JSON.stringify(user_info));
+
       if (user_info[0].user_found) {
         found = true;
       }
@@ -112,14 +113,15 @@ module.exports = {
 
         // user passed checks, opt them back in and check for future tips
         console.log('checks passed');
-        const oi = await optIn(user_info.user_id);
-        future_tip_amount = user_info.future_tip_amount;
+
+        const oi = await optIn(user_info[0].user_id);
+        future_tip_amount = user_info[0].future_tip_amount;
         if (future_tip_amount > 0) {
 
           // send the user their saved tips
-          const sendTips = await sendFutureTips({ future_tip_amount: future_tip_amount, fee: fee, ToAddress: user_info.wallet_pub });
+          const sendTips = await sendFutureTips({ future_tip_amount: future_tip_amount, fee: fee, ToAddress: user_info[0].wallet_pub });
           // clear the saved tips in future_tips db, set to paid for user.
-          const wipeSaved = await clearFuture(user_info.user_id);
+          const wipeSaved = await clearFuture(user_info[0].user_id);
           console.log('future tips sent and cleared!');
         }
     }
