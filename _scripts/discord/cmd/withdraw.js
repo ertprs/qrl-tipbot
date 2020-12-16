@@ -149,13 +149,6 @@ module.exports = {
         return;
       }
       else {
-        // set known values from getAllUserInfo search
-        const user_id = result[0].user_id;
-        const wallet_pub = result[0].wallet_pub;
-        const wallet_bal = result[0].wallet_bal;
-        const shor_bal = wallet_bal * toShor;
-        const fee = config.wallet.tx_fee * toShor;
-
         // check for address
         if (!transfer_to) {
           // if not in private message delete the message
@@ -175,6 +168,13 @@ module.exports = {
           errorMessage({ error: 'User Address Detected...', description: 'You cannot send funds to yourself. Please transfer ***out*** of the TipBot.' });
           return;
         }
+        
+        // set known values from getAllUserInfo search
+        const user_id = result[0].user_id;
+        const wallet_pub = result[0].wallet_pub;
+        const wallet_bal = result[0].wallet_bal;
+        const shor_bal = wallet_bal * toShor;
+        const fee = config.wallet.tx_fee * toShor;
 
         // transfer all funds called.
         if (args[0] == 'all' || args[1] == 'all' || args[2] == 'all') {
@@ -186,7 +186,7 @@ module.exports = {
           transArray.push(transfer_amt);
           addressArray.push(transfer_to);
           const transferInfo = { address_to: addressArray, amount: transArray, fee: fee, address_from: wallet_pub };
-          // console.log('transferInfo ' + JSON.stringify(transferInfo));
+          console.log('transferInfo ' + JSON.stringify(transferInfo));
           transfer(transferInfo).then(function(transferQrl) {
             // console.log('transferQrl: ' + JSON.stringify(transferQrl));
             const transferOutput = JSON.parse(transferQrl);
