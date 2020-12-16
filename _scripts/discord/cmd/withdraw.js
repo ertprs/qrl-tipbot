@@ -6,7 +6,7 @@ module.exports = {
   aliases: ['wd', 'transfer', 'cashout', 'send'],
   usage: '\n__**withdraw** { ***wd***, ***transfer***, ***cashout***, ***send*** }__\nTransfer or withdraw QRL from your TIpBot account to another QRL address.\nRequires amount/all and a QRL address to send to.\n\nExample to transfer all funds from the tipbot wallet: `+transfer all QRLADDRESS`\nExample to transfer an amount of funds: `+transfer 2.01 QRLADDRESS` ',
   execute(message, args) {
-    console.log('transfer called...' + JSON.stringify(args));
+    // console.log('transfer called...' + JSON.stringify(args));
     const dbHelper = require('../../db/dbHelper');
     const wallet = require('../../qrl/walletTools');
     const config = require('../../../_config/config.json');
@@ -134,9 +134,9 @@ module.exports = {
     //
     // If found will return { user_found, wallet_pub, wallet_bal, user_id, user_name, opt_out, otpout_date }
     found.then(function(result) {
-      console.log('found results: ' + JSON.stringify(result));
+      // console.log('found results: ' + JSON.stringify(result));
       const UserFound = result[0].user_found;
-      console.log('UserFound: ' + JSON.stringify(UserFound));
+      // console.log('UserFound: ' + JSON.stringify(UserFound));
 
       if (!UserFound) {
         // console.log('user found ' + UserFound);
@@ -183,13 +183,13 @@ module.exports = {
           const transArray = [];
           const addressArray = [];
           const transfer_amt = wallet_bal - fee;
-          console.log('transfer_amt: ' + transfer_amt);
+          // console.log('transfer_amt: ' + transfer_amt);
           transArray.push(transfer_amt);
           addressArray.push(transfer_to);
           const transferInfo = { address_to: addressArray, amount: transArray, fee: fee, address_from: wallet_pub };
-          console.log('transferInfo ' + JSON.stringify(transferInfo));
+          // console.log('transferInfo ' + JSON.stringify(transferInfo));
           transfer(transferInfo).then(function(transferQrl) {
-            console.log('transferQrl: ' + JSON.stringify(transferQrl));
+            // console.log('transferQrl: ' + JSON.stringify(transferQrl));
             const transferOutput = JSON.parse(transferQrl);
             const tx_hash = transferOutput.tx.transaction_hash;
 

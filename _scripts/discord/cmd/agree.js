@@ -71,10 +71,10 @@ module.exports = {
     // add user to agree db. Function expects { service: , user_id: } as usrAgree
     async function agreeDBWrite(botUserId) {
       return new Promise(resolve => {
-      //  console.log('agreeDBWrite(usrAgree) ' + JSON.stringify(botUserId));
+      // console.log('agreeDBWrite(usrAgree) ' + JSON.stringify(botUserId));
 
         const addToAgreeDBinfo = { service: 'discord', user_id: botUserId };
-        //  console.log('tipDBWrite addToTipsDBinfo: ' + JSON.stringify(addToTipsDBinfo));
+        // console.log('tipDBWrite addToTipsDBinfo: ' + JSON.stringify(addToTipsDBinfo));
         const addToAgreeDBinfoWrite = dbHelper.agree(addToAgreeDBinfo);
         resolve(addToAgreeDBinfoWrite);
       });

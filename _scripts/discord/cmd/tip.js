@@ -97,7 +97,7 @@ module.exports = {
       return new Promise(resolve => {
         // console.log('futureTipsDBWrite futureTipInfo' + JSON.stringify(futureTipInfo));
         const infoToSubmit = { service: 'discord', user_id: '@' + futureTipInfo.user_id, user_name: futureTipInfo.user_name, tip_id: futureTipInfo.tip_id, tip_from: futureTipInfo.tip_from, tip_amount: toQuanta(futureTipInfo.tip_amount), time_stamp: new Date() };
-        //  console.log('futureTipsDBWrite infoToSubmit: ' + JSON.stringify(infoToSubmit));
+        // console.log('futureTipsDBWrite infoToSubmit: ' + JSON.stringify(infoToSubmit));
         const addToFutureTipsDBinfoWrite = dbHelper.addFutureTip(infoToSubmit);
         resolve(addToFutureTipsDBinfoWrite);
       });
@@ -108,7 +108,7 @@ module.exports = {
       return new Promise(resolve => {
         // console.log('tipDBWrite tipInfo' + JSON.stringify(tipInfo));
         const addToTipsDBinfo = { from_user_id: tipInfo.from_user_id, tip_amount: toQuanta(tipInfo.tip_amount), from_service: 'discord', time_stamp: new Date() };
-        //  console.log('tipDBWrite addToTipsDBinfo: ' + JSON.stringify(addToTipsDBinfo));
+        // console.log('tipDBWrite addToTipsDBinfo: ' + JSON.stringify(addToTipsDBinfo));
         const addToTipsDBinfoWrite = dbHelper.addTip(addToTipsDBinfo);
         resolve(addToTipsDBinfoWrite);
       });
@@ -120,7 +120,7 @@ module.exports = {
       return new Promise(resolve => {
         // console.log('tipToDBWrite tipToInfo' + JSON.stringify(tipToInfo));
         const addToTipsToDBinfo = { tip_id: tipToInfo.tip_id, from_user_id: userID, user_id: tipToInfo.user_id, tip_amt: toQuanta(tipToInfo.tip_amt), future_tip_id: tipToInfo.future_tip_id, time_stamp: new Date() };
-        //  console.log('tipToDBWrite addToTipsToDBinfo: ' + JSON.stringify(addToTipsToDBinfo));
+        // console.log('tipToDBWrite addToTipsToDBinfo: ' + JSON.stringify(addToTipsToDBinfo));
         const addToTipsToDBinfoWrite = dbHelper.addTipTo(addToTipsToDBinfo);
         resolve(addToTipsToDBinfoWrite);
       });
@@ -160,7 +160,7 @@ module.exports = {
     }
     // check if mentioned group and fail if so
     if (args.includes('@here') || args.includes('@everyone') || args.includes('@developer') || args.includes('@founder')) {
-    //  console.log('Can\'t send to a group');
+    // console.log('Can\'t send to a group');
       // ReplyMessage('Can\'t send to a group. Please send to individual user(s), up to 100 in a tip.');
       errorMessage({ error: 'Can\'t Tip Groups...', description: 'Please send to individual user(s), up to 100 users in a tip.' });
       return;
@@ -173,17 +173,17 @@ module.exports = {
 
     // check if amount is NaN
     if (isNaN(givenTip)) {
-    //  console.log('isNaN');
-    //  console.log('enter a valid amount to tip');
+    // console.log('isNaN');
+    // console.log('enter a valid amount to tip');
       // ReplyMessage('Please enter a valid amount to tip! +tip {AMOUNT} @USER(\'s)');
       errorMessage({ error: 'Invalid Amount Given...', description: 'Please enter a valid amount to tip! `+tip {AMOUNT} @USER(\'s)`' });
       return ;
     }
     // Check that tip amount is above fee
-    //  console.log('fee: ' + fee + '\namount: ' + givenTip);
+    // console.log('fee: ' + fee + '\namount: ' + givenTip);
     if (givenTip < fee) {
       message.channel.stopTyping(true);
-      //  console.log('tipAmount < tx_fee - fee:\nFee: ' + fee + ' - Tip: ' + givenTip);
+      // console.log('tipAmount < tx_fee - fee:\nFee: ' + fee + ' - Tip: ' + givenTip);
       // ReplyMessage('Please enter a valid amount to tip! Must be more than the fee `{' + config.wallet.tx_fee + '}` +tip {AMOUNT} @USER(\'s)');
       errorMessage({ error: 'Invalid Amount Given...', description: 'Tip must be more than TX Fee: `{' + config.wallet.tx_fee + '}`' });
       return ;
@@ -191,17 +191,17 @@ module.exports = {
 
     // Get user info into scope from database
     tipbotInfo(userID).then(function(tipingUserInfo) {
-      console.log('Tipping user INFO: ' + JSON.stringify(tipingUserInfo));
+      // console.log('Tipping user INFO: ' + JSON.stringify(tipingUserInfo));
       const tippingUserUser_Found = JSON.stringify(tipingUserInfo[0].user_found);
       const tippingUserUser_agree = JSON.stringify(tipingUserInfo[0].user_agree);
       const tippingUserOpt_Out = JSON.stringify(tipingUserInfo[0].opt_out);
       // log the output for debug
-      console.log('tippingUserUser_Found: ' + tippingUserUser_Found);
-      console.log('tippingUserUser_agree: ' + tippingUserUser_agree);
-      console.log('tippingUserOpt_Out: ' + tippingUserOpt_Out);
+      // console.log('tippingUserUser_Found: ' + tippingUserUser_Found);
+      // console.log('tippingUserUser_agree: ' + tippingUserUser_agree);
+      // console.log('tippingUserOpt_Out: ' + tippingUserOpt_Out);
       // check for tipping user in the system
       if (!tippingUserUser_Found) {
-      //  console.log('User not found. Fail and warn');
+      // console.log('User not found. Fail and warn');
         errorMessage({ error: 'User Not Found...', description: 'Please sign up to the tipbot. Enter `+add` to create a wallet then `+agree` to use the bot' });
         // ReplyMessage('User not found. Add your user to the bot. `+add`');
         return;
@@ -215,7 +215,7 @@ module.exports = {
       }
       // check for tipping user agree
       if (!tippingUserUser_agree) {
-      //  console.log('User has not agreed. Fail and warn');
+      // console.log('User has not agreed. Fail and warn');
         errorMessage({ error: 'User Has Not Agreed to Terms...', description: 'Please agree to the terms to start using the bot. Enter `+terms` to read or `+agree`' });
         // ReplyMessage('User needs to agree to the terms. `+agree`');
         return;
@@ -225,17 +225,17 @@ module.exports = {
       const tippingUserWallet_Pub = JSON.stringify(tipingUserInfo[0].wallet_pub);
       const tippingUserWalPub = tipingUserInfo[0].wallet_pub;
 
-      //  console.log('tippingUserWallet_Pub: ' + tippingUserWallet_Pub);
+      // console.log('tippingUserWallet_Pub: ' + tippingUserWallet_Pub);
       const tippingUserWallet_Bal = toShor(JSON.stringify(tipingUserInfo[0].wallet_bal));
-      //  console.log('tippingUserWallet_Bal: ' + tippingUserWallet_Bal);
+      // console.log('tippingUserWallet_Bal: ' + tippingUserWallet_Bal);
       const tippingUserUser_Id = JSON.stringify(tipingUserInfo[0].user_id);
-      //  console.log('tippingUserUser_Id: ' + tippingUserUser_Id);
+      // console.log('tippingUserUser_Id: ' + tippingUserUser_Id);
       // const tippingUserUser_Name = JSON.stringify(tipingUserInfo[0].user_name);
-      //  console.log('tippingUserUser_Name: ' + tippingUserUser_Name);
+      // console.log('tippingUserUser_Name: ' + tippingUserUser_Name);
 
       // check balance to tip amount
       if (tippingUserWallet_Bal <= 0) {
-      //  console.log('User has 0 balance. Fail and warn');
+      // console.log('User has 0 balance. Fail and warn');
         errorMessage({ error: 'User Wallet Empty...', description: 'No funds to tip. Transfer funds with `+deposit` or pull from the faucet if full with `+drip`' });
         // ReplyMessage('You have no funds to tip. `+bal`');
         return;
@@ -262,7 +262,7 @@ module.exports = {
         }
         if (userid === userID) {
         // user mentioned self, do not count and move on
-        //  console.log('User mentioned self');
+        // console.log('User mentioned self');
           errorMessage({ error: 'User Tipped Self...', description: 'You can\'t tip yourself! Removing you from the tip and proceeding' });
           // ReplyMessage('You can\'t tip yourself! Removing you from the tip...');
           return;
@@ -298,14 +298,14 @@ module.exports = {
       const filteredBotList = botList.filter(function(el) {
         return el != null;
       });
-      //  console.log('filteredBotList: \n' + JSON.stringify(filteredBotList));
+      // console.log('filteredBotList: \n' + JSON.stringify(filteredBotList));
       const botListJSON = JSON.parse(JSON.stringify(filteredBotList));
       const bots = [];
       const botUserCount = Count(botListJSON);
-      //  console.log('botUserCount: ' + botUserCount);
+      // console.log('botUserCount: ' + botUserCount);
       // if bot count is positive warn user and continue
       if (botUserCount > 0) {
-      //  console.log('Bots are tipped, send warning and continue..');
+      // console.log('Bots are tipped, send warning and continue..');
         // getting bot userid into array to respond to user with. userid is the correct format to notify user in
         for(let i = 0, l = filteredBotList.length; i < l; i++) {
           bots.push(' ' + filteredBotList[i].userid);
@@ -315,14 +315,14 @@ module.exports = {
       }
       const tipListJSON = JSON.parse(JSON.stringify(filteredTipList));
       const tipUserCount = Count(tipListJSON);
-      //  console.log('tipUserCount: ' + tipUserCount);
+      // console.log('tipUserCount: ' + tipUserCount);
 
       // check the balance of tipping user to total tip amount
-      //  console.log('user Balance: ' + tippingUserWallet_Bal);
-      //  console.log('Tip Amount: ' + (givenTip * tipUserCount));
+      // console.log('user Balance: ' + tippingUserWallet_Bal);
+      // console.log('Tip Amount: ' + (givenTip * tipUserCount));
       const tipTotal = ((givenTip * tipUserCount) + fee);
       if (tippingUserWallet_Bal < tipTotal) {
-      //  console.log('More than user bal. fail and error with balance');
+      // console.log('More than user bal. fail and error with balance');
         errorMessage({ error: 'Tipping more than you have...', description: 'Enter `+bal` to get your current balance.' });
         // ReplyMessage('Trying to send more than you have... Please try again. \nYou tried sending `' + toQuanta(tipTotal)) + 'qrl` which is `' + (tipTotal - tippingUserWallet_Bal) + 'qrl` more than you have.';
         return;
@@ -333,7 +333,7 @@ module.exports = {
         for(let i = 0, l = filteredTipList.length; i < l; i++) {
           // check for user in the tipbot database and grab addresses etc. for them.
           const tipToUserInfo = await tipbotInfo(filteredTipList[i].userid);
-          //  console.log('tipToUserInfo: ' + JSON.stringify(tipToUserInfo));
+          // console.log('tipToUserInfo: ' + JSON.stringify(tipToUserInfo));
           const tipToUserFound = tipToUserInfo[0].user_found;
           const tipToUserOptOut = tipToUserInfo[0].opt_out;
           // If tipped user is found then...
@@ -387,7 +387,7 @@ module.exports = {
           }
         };
         check_tip_id();
-        //  console.log('tip_id: ' + tip_id);
+        // console.log('tip_id: ' + tip_id);
 
         // ///////// Found Tipped Users Database Entry ///////// //
         // looks through all users in the tippedUserInfo array assigned above.
@@ -396,11 +396,11 @@ module.exports = {
 
         for(let i = 0, l = tippedUserInfo.length; i < l; i++) {
           const addTipToInfo = { tip_id: tip_id, tip_amt: givenTip, user_id: tippingUserUser_Id };
-          //  console.log('addTipToInfo: ' + JSON.stringify(addTipToInfo));
+          // console.log('addTipToInfo: ' + JSON.stringify(addTipToInfo));
 
           // eslint-disable-next-line
           const addTipToCall = await tipToDBWrite(addTipToInfo);
-        //  console.log('addTipToCall: ' + JSON.stringify(addTipToCall));
+        // console.log('addTipToCall: ' + JSON.stringify(addTipToCall));
         }
 
         // ///////// Future Users Database Entry ///////// //
@@ -415,7 +415,7 @@ module.exports = {
           const addTipToInfo = { tip_id: tip_id, tip_amt: givenTip, user_id: tippingUserUser_Id, future_tip_id: future_tip_id };
           // eslint-disable-next-line
           const addTipToCall = await tipToDBWrite(addTipToInfo);
-        //  console.log('addTipToCall' + JSON.stringify(addTipToCall));
+        // console.log('addTipToCall' + JSON.stringify(addTipToCall));
         }
         return [filteredTipList, tippedUserWallets, tippedUserTipAmt, tip_id];
 
@@ -424,12 +424,12 @@ module.exports = {
       userInfo().then(function(FinalInfo) {
         // using details above enter the transactions into the node and respond to users.
         // console.log('\n\nFinalInfo: ' + JSON.stringify(FinalInfo));
-      //  console.log('futureTippedUserInfo: ' + JSON.stringify(futureTippedUserInfo));
-      //  console.log('tippedUserInfo: ' + JSON.stringify(tippedUserInfo));
+      // console.log('futureTippedUserInfo: ' + JSON.stringify(futureTippedUserInfo));
+      // console.log('tippedUserInfo: ' + JSON.stringify(tippedUserInfo));
 
         // ///////// Send the transaction ///////// //
         const tipToInfo = { amount: tippedUserTipAmt, fee: fee, address_from: JSON.parse(tippingUserWallet_Pub), address_to: tippedUserWallets };
-        //  console.log('tipToInfo: ' + JSON.stringify(tipToInfo));
+        // console.log('tipToInfo: ' + JSON.stringify(tipToInfo));
         wallet.sendQuanta(tipToInfo).then(function(sendData) {
           const transferOutPut = JSON.parse(sendData);
           // console.log('transferOutPut: ' + JSON.stringify(transferOutPut));
@@ -438,11 +438,11 @@ module.exports = {
             const tx_hash = transferOutPut.tx.transaction_hash;
             const txInfo = { tip_id: FinalInfo[3], tx_type: 'tip', tx_hash: tx_hash };
             dbHelper.addTransaction(txInfo).then(function() {
-            //  console.log('transactionDBresp: ' + JSON.stringify(transactionDBresp));
+            // console.log('transactionDBresp: ' + JSON.stringify(transactionDBresp));
             // ///////// Add to database and write the tx_id to the tip record ///////// //
             // ///////// DM User tip details and address balance after the TX ///////// //
             // get address balance after tx
-            //  console.log('tipTotal: ' + tipTotal);
+            // console.log('tipTotal: ' + tipTotal);
               const newWal_bal = (toQuanta(tippingUserWallet_Bal) - toQuanta(tipTotal));
               const embed = new Discord.MessageEmbed()
                 .setColor(0x000000)
@@ -475,8 +475,8 @@ module.exports = {
               else {
                 ReplyMessage('**You\'ve sent a `' + toQuanta(givenTip) + ' QRL` tip to ' + tippedUserIDs + ',' + futureTippedUserIDs + '** Thanks for using the tipbot!\n*All tips are on-chain, and will take some time to process. Bots won\'t be tipped...*');
               }
-            //  console.log('futureTippedUserIDs: ' + JSON.stringify(futureTippedUserIDs));
-            //  console.log('tippedUserIDs: ' + JSON.stringify(tippedUserIDs));
+            // console.log('futureTippedUserIDs: ' + JSON.stringify(futureTippedUserIDs));
+            // console.log('tippedUserIDs: ' + JSON.stringify(tippedUserIDs));
             });
           }
         });

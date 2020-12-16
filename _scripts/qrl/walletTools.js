@@ -32,12 +32,12 @@ async function sendQuanta(args) {
     const addresses_to = JSON.stringify(args.address_to);
     const master_address = args.address_from;
     // console.log('Info prior to send tx command\n Amount: ' + amount + ' Fee: ' + fee + ' Addresses_to: ' +  addresses_to + ' masterAddress: ' + master_address)
-    console.log('curl -s -XPOST http://127.0.0.1:5359/api/RelayTransferTxnBySlave -d\'{ "addresses_to": ' + addresses_to + ', "amounts": [' + amount + '],  "fee": ' + fee + ', "master_address": "' + master_address + '"}')
+    // console.log('curl -s -XPOST http://127.0.0.1:5359/api/RelayTransferTxnBySlave -d\'{ "addresses_to": ' + addresses_to + ', "amounts": [' + amount + '],  "fee": ' + fee + ', "master_address": "' + master_address + '"}')
     const { stdout, stderr } = await exec(`curl -s -XPOST http://127.0.0.1:5359/api/RelayTransferTxnBySlave -d'{ "addresses_to": ${addresses_to}, "amounts": [${amount}],  "fee": ${fee}, "master_address": "${master_address}"}'`);
     if (stderr) {
       console.error(`error: ${stderr}`);
     }
-    console.log(`sendQuanta stdout: ${stdout}`);
+    // console.log(`sendQuanta stdout: ${stdout}`);
     // const sendStdout = JSON.parse(JSON.stringify(stdout));
     const sendStdout = stdout;
     return sendStdout;
@@ -105,7 +105,7 @@ async function GetBalance(args) {
   }
   else {
   // no args passed
-    console.log('no args passed... We need an address!');
+    // console.log('no args passed... We need an address!');
     const returnData = { error: true };
     return returnData;
   }
@@ -124,7 +124,7 @@ async function checkBalance(args) {
   }
   // no args passed, get the defaults from the config and create a wallet
   else {
-    console.log('no args passed... We need an address!');
+    // console.log('no args passed... We need an address!');
     return;
   }
 }
@@ -194,7 +194,7 @@ async function IsValidAddress(args) {
   }
   else {
   // no args passed
-    console.log('no args passed... We need an address!');
+    // console.log('no args passed... We need an address!');
     const returnData = { error: true };
     return returnData;
   }
@@ -214,7 +214,7 @@ async function GetSecret(args) {
   }
   else {
   // no args passed
-    console.log('no args passed... We need an address!');
+    // console.log('no args passed... We need an address!');
     return;
   }
 }
@@ -232,7 +232,7 @@ async function GetSecretKeys(args) {
   }
   else {
   // no args passed
-    console.log('no args passed... We need an address!');
+    // console.log('no args passed... We need an address!');
     return;
   }
 }

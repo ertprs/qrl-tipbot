@@ -548,7 +548,7 @@ async function OptOut(args) {
 async function OptIn(args) {
   // this function sets the users_info.opt_out to 1 or true
   // If user has set true dont let tips be sent to them.
-  console.log('OptIn passed, args: ' + JSON.stringify(args));
+  // console.log('OptIn passed, args: ' + JSON.stringify(args));
   const input = JSON.parse(JSON.stringify(args));
   callmysql.query('UPDATE users_info SET opt_out = ?, optout_date = ?, updated_at = ? WHERE user_id = ?', [false, new Date(), new Date(), input.user_id], function(err, result6) {
     if (err) {
