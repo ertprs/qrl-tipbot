@@ -157,18 +157,18 @@ module.exports = {
             // fail from the start
             let checkUserPassed = false;
             checkFaucetPromise.then(function(results) {
-              console.log('checkFaucetPromise results ' + JSON.stringify(results));
+              // console.log('checkFaucetPromise results ' + JSON.stringify(results));
               // faucetInfoArray.push(results);
               resolve(results);
             });
           });
         }
-
+        
         async function drip(DripArgs) {
           return new Promise(resolve => {
             const drip_info = DripArgs;
             faucetDrip(drip_info).then(function(dripReturn) {
-              console.log(JSON.stringify(dripReturn));
+              // console.log(JSON.stringify(dripReturn));
               resolve(dripReturn);
             });
           });
@@ -176,7 +176,7 @@ module.exports = {
 
         checkUser(service_id).then(function(checkresults) {
           // console.log('UserChecks ' + JSON.stringify(checkresults));
-          console.log('userInfoArray ' + JSON.stringify(userInfoArray));
+          // console.log('userInfoArray ' + JSON.stringify(userInfoArray));
           if (!userInfoArray[1].checkUserPassed) {
             // if the userCheck failed
             const userCheckError = userInfoArray[1].checkUserPassedError;
@@ -199,7 +199,7 @@ module.exports = {
             }
           }
           checkFaucet(service_id).then(function(faucetCheck) {
-            console.log('faucetCheck results' + JSON.stringify(faucetCheck));
+            // console.log('faucetCheck results' + JSON.stringify(faucetCheck));
             if (faucetCheck[0].drip_found == true) {
               // console.log('user has been found recently, no drips');
               errorMessage({ error: 'User is already Wet...', description: 'You have pulled from the faucet recently\n*Faucet will pay out every  **' + config.faucet.payout_interval + '*** minute(s).' });
