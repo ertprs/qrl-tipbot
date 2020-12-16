@@ -13,7 +13,28 @@ const explorer = require('../qrl/explorerTools');
 const config = require('../../_config/config.json');
 global.config = config;
 const client = new Discord.Client();
-
+  // use to send a reply to user with delay and stop typing
+  // ReplyMessage(' Check your DM\'s');
+  function ReplyMessage(content) {
+    message.channel.startTyping();
+    setTimeout(function() {
+      message.reply(content);
+      message.channel.stopTyping(true);
+    }, 1000);
+  }
+  // errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
+  function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
+    message.channel.startTyping();
+    setTimeout(function() {
+      const embed = new Discord.MessageEmbed()
+        .setColor(0x000000)
+        .setTitle(':warning:  ERROR: ' + content.error)
+        .setDescription(content.description)
+        .setFooter(footer);
+      message.reply({ embed });
+      message.channel.stopTyping(true);
+    }, 1000);
+  }
 // tells where to find the command config files
 client.commands = new Discord.Collection();
 // Read in the commands we listen for. FInd these in the ./cmd/ dir below this file
@@ -245,9 +266,16 @@ client.on('message', message => {
   // const args = message.content.slice(config.discord.prefix.length).split(/ +/);
 
   const commandName = args.shift().toLowerCase();
-  // log everthing with ${config.discord.prefix} to console
 
-  console.log(chalk.cyan('Author: ') + chalk.green(message.author.username + chalk.dim(' <@' + message.author.id + '>')) + chalk.cyan(' Message: ') + chalk.green(message.content));
+  // ///////////////////////////////////////////////////////
+  //
+  // LOG ALL THE THINGS
+  //
+  // ///////////////////////////////////////////////////////
+  // log everthing with ${config.discord.prefix} to console
+  // ///////////////////////////////////////////////////////
+  console.log(chalk.cyan('Guild') + chalk.green(message.guild.name) + '\n' + chalk.cyan('Channel') + chalk.green(message.channel.name) + chalk.cyan('Author: ') + chalk.green(message.author.username + chalk.dim(' <@' + message.author.id + '>')) + '\n' + chalk.cyan(' Message: ') + chalk.green(message.content));
+
   //  if (!client.commands.has(commandName)) return;
   //    const command = client.commands.get(commandName);
   const command = client.commands.get(commandName)
