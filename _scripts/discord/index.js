@@ -267,7 +267,7 @@ client.on('message', message => {
 
   // const now = Date.now();
   const now = new Date().getTime();
-  const now1 = new Date(now * 1000);
+  const now1 = Date(now * 1000);
   console.log('now: ' + now)
   console.log('now1: ' + now1)
 
