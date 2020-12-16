@@ -1,12 +1,9 @@
 const config = require('../../../_config/config.json');
 
-
-//  const { prefix } = require('../../../config.json');
-
 module.exports = {
   name: 'help',
   description: 'List all of my commands or info about a specific command.',
-  aliases: ['commands'],
+  aliases: ['?!', 'commands', 'Help', ''],
   usage: '[command name]',
   cooldown: 1,
   execute(message, args) {
@@ -15,7 +12,7 @@ module.exports = {
     const { commands } = message.client;
 
     if (!args.length) {
-      messagedata.push('\n**Command List**\nAll commands start with `+`\n```');
+      messagedata.push('\n**Command List**\nAll commands start with `+`\n```css');
       messagedata.push(commands.map(command => command.name).join(', | +'));
       messagedata.push('```');
       return message.reply(messagedata);
