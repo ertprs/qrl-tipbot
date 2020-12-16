@@ -15,7 +15,7 @@ const callmysql = mysql.createPool({
 // expects { service: service, service_id: service_id }
 // returns { user_found, wallet_pub, wallet_bal, user_id, user_name, opt_out optout_date
 async function GetAllUserInfo(args) {
-  // console.log('\nGETALLUSERINFO CALLED: ' + JSON.stringify(args));
+  console.log('\nGETALLUSERINFO CALLED: ' + JSON.stringify(args));
   return new Promise(resolve => {
     const input = JSON.parse(JSON.stringify(args));
     const service_id = input.service_id;
