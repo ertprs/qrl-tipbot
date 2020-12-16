@@ -7,7 +7,7 @@
 # Using the user_id from this table to lookup the wallet_pub
 # and add it to a list of addresses to pay.
 # 
-# 
+# Payout every few min.
 # 
 # ****************************************************************
 import requests
