@@ -105,7 +105,7 @@ module.exports = {
         // console.log('userAgreeStatus: ' + userAgreeStatus);
         if (userAgreeStatus) {
           // console.log('User already agreed');
-          errorMessage({ error: 'You\'ve already agreed!', description: 'No need to agree again.', footer: 'Enter +help for bot instructions' });
+          errorMessage({ error: 'You\'ve already agreed...', description: 'No need to agree again.', footer: 'Enter +help for bot instructions' });
         }
         else {
           // console.log('Not yet agreed, add to DB and reply');
