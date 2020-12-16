@@ -265,7 +265,8 @@ client.on('message', message => {
   // if (!message.content.startsWith(config.discord.prefix) || message.author.bot) return;
   // const args = message.content.slice(config.discord.prefix.length).split(/ +/);
 
-  const now = Date.now();
+  let now = Date.now();
+  now = new Date(now * 1000);
   const commandName = args.shift().toLowerCase();
 
   // ///////////////////////////////////////////////////////
