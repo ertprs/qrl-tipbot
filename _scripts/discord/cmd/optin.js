@@ -42,7 +42,7 @@ module.exports = {
     // Get user info.
     async function getUserInfo(user_id) {
       return new Promise(resolve => {
-        const userInfo = getUserInfo({ service: 'discord', service_id: user_id });
+        const userInfo = { service: 'discord', service_id: user_id };
         const data = dbHelper.GetAllUserInfo(userInfo);
         resolve(data);
       });
