@@ -57,7 +57,7 @@ module.exports = {
         const walletAddress = config.faucet.faucet_wallet_pub;
         getBalance(walletAddress).then(function(balance) {
           console.log('faucet balance: ' + JSON.stringify(balance));
-        // getBalance('Q000300636e629ad3f50791cb2bfb9ed28010f0b072ba1f860763ef634d51225e4e1782f686547e').then(function(balance) {
+          // getBalance('Q000300636e629ad3f50791cb2bfb9ed28010f0b072ba1f860763ef634d51225e4e1782f686547e').then(function(balance) {
           resolve(balance);
         });
       });
@@ -141,8 +141,8 @@ module.exports = {
 
             faucetBalance().then(function(faucBal) {
               if (dripamt > faucBal) {
-                console.log('Faucet is flat or less than needed for drip')
-                let dripamt = 0;
+                console.log('Faucet is flat or less than needed for drip');
+                dripamt = 0;
                 return dripamt;
               }
 
@@ -166,15 +166,16 @@ module.exports = {
                   const tipToAddress = [userInfo.wallet_pub];
                   tipToArray.push(userInfo);
                   const fee = config.wallet.tx_fee * 1000000000;
+                  const futureTipPretty = future_tip_amount / 1000000000;
                   const future_tip = { amount: future_tip_amount, fee: fee, address_from: config.wallet.hold_address, address_to: tipToAddress };
                   console.log('future_tip data: ' + JSON.stringify(future_tip));
                   const send_future_tip = wallet.sendQuanta;
                   send_future_tip(future_tip).then(function(futureTip) {
-                    console.log('futureTip: ' + JSON.stringify(futureTip))
-                    
+                    // console.log('futureTip: ' + JSON.stringify(futureTip))
                     const futureTipOut = JSON.parse(futureTip);
                     console.log(JSON.stringify(futureTipOut));
                     const tx_hash = futureTipOut.tx.transaction_hash;
+                    ReplyMessage('Looks like someone sent you a tip before you signed up! Sending ' + futureTipPretty + ' QRL` your way. You will see them once the transaction is confirmed by the network. `+bal` to check your wallet balance.');
                     // write to transactions db
                     const tip_id = 1337;
                     const txInfo = { tip_id: tip_id, tx_hash: tx_hash };
@@ -188,22 +189,22 @@ module.exports = {
                       return clearRes;
                     });
 
-if (dripamt > 0) {
+                    if (dripamt > 0) {
                       console.log('faucet Payout: ' + dripamt);
-                      const dripInfo = { service: 'discord', user_id: addUserResp[0].user_id, drip_amt: dripamt }
+                      const dripInfo = { service: 'discord', user_id: addUserResp[0].user_id, drip_amt: dripamt };
                       faucetDrip(dripInfo).then(function(dripping) {
                         return dripping;
                       });
 
 
-}
+                    }
 
                   });
                 }
+
+
                 return response;
               }).then(function(userresponse) {
-                console.log('userresponse ' + userresponse);
-                console.log('userresponse[3].future_tip_amount ' + userresponse.future_tip_amount);
 
                 const userAddress = userInfo.wallet_pub;
                 const embed = new Discord.MessageEmbed()
