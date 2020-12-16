@@ -56,7 +56,7 @@ module.exports = {
       // using the faucet address check for a balance
         const walletAddress = config.faucet.faucet_wallet_pub;
         getBalance(walletAddress).then(function(balance) {
-          console.log('faucet balance: ' + JSON.stringify(balance));
+          // console.log('faucet balance: ' + JSON.stringify(balance));
           // getBalance('Q000300636e629ad3f50791cb2bfb9ed28010f0b072ba1f860763ef634d51225e4e1782f686547e').then(function(balance) {
           resolve(balance);
         });
@@ -80,7 +80,7 @@ module.exports = {
     if (args[0] == undefined) {
       checkUserpromise.then(function(result) {
         const output = JSON.parse(JSON.stringify(result));
-        console.log('checkUserpromise output: ' + result.user_found);
+        // console.log('checkUserpromise output: ' + result.user_found);
         const found = result.user_found;
         // console.log('user found: ' + found);
         // check for the user_found value returned from the promise
@@ -141,13 +141,13 @@ module.exports = {
 
             faucetBalance().then(function(faucBal) {
               if (dripamt > faucBal) {
-                console.log('Faucet is flat or less than needed for drip');
+                // console.log('Faucet is flat or less than needed for drip');
                 dripamt = 0;
                 return dripamt;
               }
 
               const userInfo = { service: 'discord', service_id: discord_id, user_name: MessageAuthorUsername, wallet_pub: wallet_pub, wallet_bal: 0, user_key: salt, user_auto_created: false, auto_create_date: new Date(), opt_out: false, optout_date: new Date(), drip_amt: dripamt };
-              console.log('userInfo:' + JSON.stringify(userInfo));
+              // console.log('userInfo:' + JSON.stringify(userInfo));
               // message.channel.stopTyping();
               return userInfo;
             }).then(function(userInfo) {
@@ -155,12 +155,12 @@ module.exports = {
               const AddUserPromise = addUser(userInfo);
               AddUserPromise.then(function(addUserResp) {
                 const response = JSON.stringify(addUserResp);
-                console.log('AddUserPromise response: ' + response);
+                // console.log('AddUserPromise response: ' + response);
                 const future_tip_amount = addUserResp[3].future_tip_amount;
-                console.log('future_tip_amount: ' + future_tip_amount);
+                // console.log('future_tip_amount: ' + future_tip_amount);
 
                 if (future_tip_amount > 0) {
-                  console.log('futuretips found');
+                  // console.log('futuretips found');
 
                   const tipToArray = [];
                   const tipToAddress = [userInfo.wallet_pub];
@@ -168,12 +168,12 @@ module.exports = {
                   const fee = config.wallet.tx_fee * 1000000000;
                   const futureTipPretty = future_tip_amount / 1000000000;
                   const future_tip = { amount: future_tip_amount, fee: fee, address_from: config.wallet.hold_address, address_to: tipToAddress };
-                  console.log('future_tip data: ' + JSON.stringify(future_tip));
+                  // console.log('future_tip data: ' + JSON.stringify(future_tip));
                   const send_future_tip = wallet.sendQuanta;
                   send_future_tip(future_tip).then(function(futureTip) {
                     // console.log('futureTip: ' + JSON.stringify(futureTip))
                     const futureTipOut = JSON.parse(futureTip);
-                    console.log(JSON.stringify(futureTipOut));
+                    // console.log(JSON.stringify(futureTipOut));
                     const tx_hash = futureTipOut.tx.transaction_hash;
                     ReplyMessage('Someone sent a tip before you signed up! `' + futureTipPretty + ' qrl` on the way, look for them once the transaction is confirmed by the network. `+bal` to check your wallet balance.');
                     // write to transactions db
@@ -190,22 +190,16 @@ module.exports = {
                     });
 
                     if (dripamt > 0) {
-                      console.log('faucet Payout: ' + dripamt);
+                      // console.log('faucet Payout: ' + dripamt);
                       const dripInfo = { service: 'discord', user_id: addUserResp[0].user_id, drip_amt: dripamt };
                       faucetDrip(dripInfo).then(function(dripping) {
                         return dripping;
                       });
-
-
                     }
-
                   });
                 }
-
-
                 return response;
               }).then(function(userresponse) {
-
                 const userAddress = userInfo.wallet_pub;
                 const embed = new Discord.MessageEmbed()
                   .setColor(0x000000)
