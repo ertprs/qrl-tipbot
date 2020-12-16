@@ -272,9 +272,9 @@ client.on('message', message => {
   
   const day = now1.getDate();
   const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  const month = now1.getMonth();
-  const year = now1.getFullYear();
-  const hours = now1.getHours();
+  const month = now.getMonth();
+  const year = now.getFullYear();
+  const hours = now.getHours();
   const minutes = "0" + now1.getMinutes();
   const seconds = "0" + now1.getSeconds();
   const formattedTime = month + '/' + day + '/' + year + '-' + hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
