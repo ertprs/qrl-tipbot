@@ -265,9 +265,20 @@ client.on('message', message => {
   // if (!message.content.startsWith(config.discord.prefix) || message.author.bot) return;
   // const args = message.content.slice(config.discord.prefix.length).split(/ +/);
 
-  //const now = Date.now();
+  // const now = Date.now();
   const now = new Date().getTime();
   const now1 = new Date(now * 1000);
+
+  
+  const day = now1.getDate();
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const month = now1.getMonth();
+  const year = now1.getFullYear();
+  const hours = now1.getHours();
+  const minutes = "0" + now1.getMinutes();
+  const seconds = "0" + now1.getSeconds();
+  const formattedTime = month + '/' + day + '/' + year + '-' + hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+
   
   const commandName = args.shift().toLowerCase();
 
@@ -278,7 +289,7 @@ client.on('message', message => {
   // ///////////////////////////////////////////////////////
   // log everthing with ${config.discord.prefix} to console
   // ///////////////////////////////////////////////////////
-  console.log(chalk.cyan('Message Recieved at ' + now + '\n\tGuild: ') + chalk.green(message.guild.name) + '\n' + chalk.cyan('\tChannel: ') + chalk.green(message.channel.name) + '\n' + chalk.cyan('\tAuthor: ') + chalk.green(message.author.username + chalk.dim(' <@' + message.author.id + '>')) + '\n' + chalk.cyan('\tMessage: ') + chalk.green(message.content));
+  console.log(chalk.cyan('Message Recieved at ' + formattedTime + '\n\tGuild: ') + chalk.green(message.guild.name) + '\n' + chalk.cyan('\tChannel: ') + chalk.green(message.channel.name) + '\n' + chalk.cyan('\tAuthor: ') + chalk.green(message.author.username + chalk.dim(' <@' + message.author.id + '>')) + '\n' + chalk.cyan('\tMessage: ') + chalk.green(message.content));
 
   //  if (!client.commands.has(commandName)) return;
   //    const command = client.commands.get(commandName);
