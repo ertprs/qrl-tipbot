@@ -154,8 +154,6 @@ module.exports = {
         const wallet_pub = result[0].wallet_pub;
         const wallet_bal = result[0].wallet_bal;
         const shor_bal = wallet_bal * toShor;
-
-
         const fee = config.wallet.tx_fee * toShor;
 
         // check for address
@@ -178,34 +176,9 @@ module.exports = {
           return;
         }
 
-        if (args[0] === 'all' || args[1] === 'all') {
-          // console.log('all called')
-        }
-        else {
-          if (!trans_amt) {
-          // if not in private message delete the message
-            if(message.guild != null) {
-              message.delete();
-            }
-            errorMessage({ error: 'No Amount Given...', description: 'You must give an amount to withdraw or `all` to clean out the address. `+help withdraw` for more.' });
-            return;
-          }
-        }
-        // check for balance in wallet
-        if (shor_bal <= 0 || shor_bal < trans_amt) {
-          // wallet is empty, give error and return
-          // if not in private message delete the message
-          if(message.guild != null) {
-            message.delete();
-          }
-          errorMessage({ error: 'Lacking Enough Funds...', description: 'You need more quanta for that transaction, `+bal` for your current balance.' });
-          return;
-        }
-
         // transfer all funds called.
         if (args[0] == 'all' || args[1] == 'all' || args[2] == 'all') {
           // transfer all the funds
-          ReplyMessage('Funds have been sent! Details are in your DM\'s. Thanks for using the Tipbot.\n*It may take a bit for the transaction to confirm.*');
 
           const transArray = [];
           const addressArray = [];
@@ -222,6 +195,8 @@ module.exports = {
             const total_transferQuanta = transfer_amt / toShor;
             const wdDBInfo = { service: 'discord', user_id: user_id, tx_hash: tx_hash, to_address: transfer_to, amt: total_transferQuanta };
             wdDB(wdDBInfo);
+
+            ReplyMessage('Funds have been sent! Details are in your DM\'s. Thanks for using the Tipbot.\n*It may take a bit for the transaction to confirm.*');
 
             const embed = new Discord.MessageEmbed()
               .setColor(0x000000)
