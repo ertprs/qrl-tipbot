@@ -39,13 +39,15 @@ module.exports = {
       messagedata.push('Here are all of my commands.\n*If you need more help try:* `+help {COMMAND}`\n```diff\n');
       messagedata.push(commands.map(command => config.discord.prefix + command.name + ' - ' + command.description).join('\n'));
       messagedata.push('```');
-      return message.reply(messagedata);
+      ReplyMessage(messagedata);
+      // message.reply(messagedata);
+      return;
     }
     const name = args[0].toLowerCase();
     const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name));
 
     if (!command) {
-      errorMessage({ error: 'Not a valid command...', description: 'You have entered an invalid command for help'})
+      errorMessage({ error: 'Not a valid command...', description: 'You have entered an invalid command for help' });
       // message.reply('that\'s not a valid command!');
       return;
     }
