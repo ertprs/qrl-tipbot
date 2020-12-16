@@ -175,7 +175,7 @@ module.exports = {
                     const futureTipOut = JSON.parse(futureTip);
                     console.log(JSON.stringify(futureTipOut));
                     const tx_hash = futureTipOut.tx.transaction_hash;
-                    ReplyMessage('Looks like someone sent you a tip before you signed up! Sending ' + futureTipPretty + ' QRL` your way. You will see them once the transaction is confirmed by the network. `+bal` to check your wallet balance.');
+                    ReplyMessage('Someone sent a tip before you signed up! `' + futureTipPretty + ' qrl` on the way, look for them once the transaction is confirmed by the network. `+bal` to check your wallet balance.');
                     // write to transactions db
                     const tip_id = 1337;
                     const txInfo = { tip_id: tip_id, tx_hash: tx_hash };
@@ -214,7 +214,7 @@ module.exports = {
                   .setFooter(`TipBot Donation Address: ${config.bot_details.bot_donationAddress}`)
                   .addField('Your QRL Wallet Public Address::', '[' + userAddress + '](' + config.bot_details.explorer_url + '/a/' + userAddress + ')')
                   .setImage(userInfo.wallet_qr)
-                  .addField('**Bonus!** You\'ll receive some Quanta from the faucet when funds are available! Come back for more faucet funds once a day. *Faucet payments can take up to 10 min to reflect in a users wallet and funds must be available at the time of signup*', '`' + dripamt + ' qrl` faucet payout')
+                  .addField('**Bonus!** You\'ll receive some Quanta from the faucet. \**Faucet payments can take up to 5 min to reflect in a users wallet*', '`' + dripamt + ' qrl` faucet payout')
                   .addField('For all of my commands:\t', '`+help`. It will take a few minutes for your wallet to be created.');
                 message.author.send({ embed })
                   .catch(error => {
@@ -269,7 +269,7 @@ __**You assume all risk by using this service**__
                         errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
                         // deleteMessage();
                       });
-                    ReplyMessage(':white_check_mark: Your signed up! Please `+agree` to my terms to begin using the bot. It will take a few minutes for your wallet to be created. For a list of my commands type `+help`');
+                    ReplyMessage(' :white_check_mark: You\'re signed up! :white_check_mark: \nPlease `+agree` to my terms to begin using the bot. It will take a few minutes for your wallet to be created.');
                   })
                   .catch(error => {
                     console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
