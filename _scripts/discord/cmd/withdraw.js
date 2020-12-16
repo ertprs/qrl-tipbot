@@ -149,6 +149,12 @@ module.exports = {
         return;
       }
       else {
+        // set known values from getAllUserInfo search
+        const user_id = result[0].user_id;
+        const wallet_pub = result[0].wallet_pub;
+        const wallet_bal = result[0].wallet_bal;
+        const shor_bal = wallet_bal * toShor;
+        const fee = config.wallet.tx_fee * toShor;
         // check for address
         if (!transfer_to) {
           // if not in private message delete the message
@@ -169,12 +175,6 @@ module.exports = {
           return;
         }
         
-        // set known values from getAllUserInfo search
-        const user_id = result[0].user_id;
-        const wallet_pub = result[0].wallet_pub;
-        const wallet_bal = result[0].wallet_bal;
-        const shor_bal = wallet_bal * toShor;
-        const fee = config.wallet.tx_fee * toShor;
 
         // transfer all funds called.
         if (args[0] == 'all' || args[1] == 'all' || args[2] == 'all') {
