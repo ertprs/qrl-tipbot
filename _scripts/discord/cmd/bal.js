@@ -1,8 +1,8 @@
 module.exports = {
-  name: 'bal',
+  name: 'balance',
   description: 'Get a wallet Balance',
   args: false,
-  aliases: ['balance', 'funds'],
+  aliases: ['Bal', 'BAL', 'Balance', 'bal', 'funds'],
   guildOnly: false,
   cooldown: 0,
   usage: ' {QRL_ADDRESS}\nWill print the balance of any QRL Address given\nIf no address given check if the user has a qrltipBot address and give that balance',

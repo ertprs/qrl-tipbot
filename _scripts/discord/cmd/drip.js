@@ -1,11 +1,11 @@
 module.exports = {
-  name: 'drip',
+  name: 'faucet',
   description: 'Collect some free qrl from the faucet, if there is any to have. Once a day at most please.',
   args: false,
-  aliases: ['faucet', 'freeqrl', 'free', 'drop'],
+  aliases: ['Faucet', 'drip', 'Drip', 'payme', 'freeqrl', 'free', 'drop'],
   guildOnly: false,
   usage: ' ',
-  // cooldown: 86399,
+  cooldown: 0,
 
   execute(message) {
     const Discord = require('discord.js');
@@ -21,6 +21,7 @@ module.exports = {
     const getBalance = wallet.GetBalance;
     const faucetDrip = faucetHelper.Drip;
     const userInfoArray = [];
+    
     // const faucetInfoArray = [];
     // const checkAgree = dbHelper.CheckAgree;
     // const info = JSON.parse(JSON.stringify({ service: 'discord', service_id: UUID }));
@@ -163,7 +164,7 @@ module.exports = {
             });
           });
         }
-        
+
         async function drip(DripArgs) {
           return new Promise(resolve => {
             const drip_info = DripArgs;

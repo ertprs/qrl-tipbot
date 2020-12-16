@@ -3,7 +3,8 @@ module.exports = {
   description: 'Agree to the terms of the bot',
   args: false,
   guildOnly: false,
-  // cooldown: 0,
+  cooldown: 0,
+  aliases: ['Agree', 'AGREE', 'ok', 'confirm', 'consent'],
   usage: '\n## **agree** - Agree to the terms and conditions of the tipbot.  ',
   // execute(message, args) {
   execute(message) {

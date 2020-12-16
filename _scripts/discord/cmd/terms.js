@@ -4,7 +4,7 @@ module.exports = {
   args: false,
   aliases: ['term', 'legal', 'conditions', 'rules'],
   guildOnly: false,
-  usage: ' \n## Add your user to the QRL TipBot, creates an address and allows tipping.',
+  usage: '',
   cooldown: 0,
   execute(message) {
     const Discord = require('discord.js');

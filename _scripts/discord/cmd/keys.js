@@ -1,8 +1,8 @@
 module.exports = {
-  name: 'getkeys',
+  name: 'keys',
   description: 'Print your QRL TipBot private keys to a DM',
   args: false,
-  aliases: ['privatekeys', 'privatekey', 'keys', 'key', 'secret', 'mnemonic', 'hexseed', 'GetKeys', 'getKeys', 'GETKEYS', 'Keys', 'KEYS', 'KEY' ],
+  aliases: ['getkeys', 'privatekeys', 'privatekey', 'key', 'secret', 'mnemonic', 'hexseed', 'GetKeys', 'getKeys', 'GETKEYS', 'Keys', 'KEYS', 'KEY' ],
   guildOnly: false,
   usage: '{*alias*: privatekeys || keys || key || secret || mnemonic || hexseed}\nCommand will send a DM with TipBot Address private keys. Don\'t share these keys! You must allow Direct Messages from the Tipbot',
 

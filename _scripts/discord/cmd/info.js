@@ -4,7 +4,7 @@ module.exports = {
   aliases: [ '??', 'stats', 'status', 'state'],
   args: false,
   usage: ' {ARG}\n`args: {market | exchange | faucet | bot | user }`\nGives details about the network, QRL Market, tipbot etc. Will also print your current tipbot details to DM',
-  
+  cooldown: 0,
   execute(message, args) {
 
     const Discord = require('discord.js');

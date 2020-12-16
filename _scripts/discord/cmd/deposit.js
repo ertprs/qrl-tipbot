@@ -2,9 +2,10 @@ module.exports = {
   name: 'deposit',
   description: 'Print users wallet info',
   args: false,
-  aliases: ['dep', 'fund'],
+  aliases: ['dep', 'fund', 'addfunds', 'Deposit', 'DEP', 'fill'],
   guildOnly: false,
   usage: ' \n## Add funds to your address. Will send a DM with Address and QR code to deposit funds to',
+  cooldown: 0,
 
   execute(message) {
     const Discord = require('discord.js');
