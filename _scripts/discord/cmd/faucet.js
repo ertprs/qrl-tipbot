@@ -175,30 +175,8 @@ module.exports = {
           });
         }
 
-        checkUser(service_id).then(function(checkresults) {
-          // console.log('UserChecks ' + JSON.stringify(checkresults));
-          // console.log('userInfoArray ' + JSON.stringify(userInfoArray));
-          if (!userInfoArray[1].checkUserPassed) {
-            // if the userCheck failed
-            const userCheckError = userInfoArray[1].checkUserPassedError;
-            // console.log('the user check failed with error:' + userCheckError);
-            switch (userCheckError) {
-            case 'not_found':
-              // console.log('user is not found, error given.' + userCheckError);
-              message.reply('Sorry, looks like there is an error. error is `User ' + userCheckError + '`');
-              break;
-            case 'opted_out':
-              // console.log('user is opt_out, error given.' + userCheckError);
-              message.reply('Sorry, looks like there is an error. error is `User ' + userCheckError + '`');
-              break;
-            case 'not_agreed':
-              // console.log('user is not agreed to terms, error given.' + userCheckError);
-              message.reply('Sorry, looks like there is an error. error is `User ' + userCheckError + '`');
-              break;
-            default:
-              // console.log('Default called in error block. Something is wrong');
-            }
-          }
+        checkUser(service_id).then(function() {
+
           checkFaucet(service_id).then(function(faucetCheck) {
             // console.log('faucetCheck results' + JSON.stringify(faucetCheck));
             if (faucetCheck[0].drip_found == true) {
@@ -214,7 +192,7 @@ module.exports = {
               const Drip = dripAmount(config.faucet.min_payout, config.faucet.max_payout);
               // console.log('no drips found. Adding to db and sending a drip');
               const dripInfo = { user_id: user_id, service: 'discord', drip_amt: Drip };
-              drip(dripInfo).then(function(ResDrip) {
+              drip(dripInfo).then(function() {
                 // console.log('all done, dripped and returned values\n' + JSON.stringify(ResDrip));
               });
               message.channel.stopTyping(true);
