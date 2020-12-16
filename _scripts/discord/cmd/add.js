@@ -221,16 +221,17 @@ module.exports = {
                     // react to the users message for fun
                   }).then(() => {
                     if (message.channel.type === 'dm') return;
-                    message.author.send(` 
+                    /*
+                    message.author.send(`
 __**TipBot Terms and Conditions**__
 :small_orange_diamond: Use of this TipBot and any function it may provide to you, as the user, is at your risk.
 :small_orange_diamond: By using this service you agree to not hold liable, for any reasons, the owner, operators, or any affiliates of the QRL TipBot or anyone associated with this service.
-:small_orange_diamond: By using this service, you agree to not abuse or misuse the service and will follow the rules listed below. 
-:small_orange_diamond: Abuse of this service may result in a ban from the service and if warranted legal action may be taken. 
+:small_orange_diamond: By using this service, you agree to not abuse or misuse the service and will follow the rules listed below.
+:small_orange_diamond: Abuse of this service may result in a ban from the service and if warranted legal action may be taken.
 :small_orange_diamond: By using this service you agree to share information about your social media account used for signup to the TipBot service including but not limited to, service user name(s), service user ID(s), all interactions and messages with the bot, and any other public information available through the social media API services.
 :small_orange_diamond: At no point will this information be sold or used for any purpose other than this TipBot service, and is only stored for the purpose of managing your accounts.
-:small_orange_diamond: All funds must be withdrawn to a user controlled account. 
-:small_orange_diamond: Any funds left on the bot may be lost at any time, and the user agrees that this is an acceptable loss. 
+:small_orange_diamond: All funds must be withdrawn to a user controlled account.
+:small_orange_diamond: Any funds left on the bot may be lost at any time, and the user agrees that this is an acceptable loss.
 :small_orange_diamond: Funds shall be withdrawn from the bot regularly into user controlled wallets.
 :small_orange_diamond: Users will not store large amounts of funds in any tipbot wallet
 
@@ -246,7 +247,7 @@ __**You assume all risk by using this service**__
 
                         message.author.send(`
 :exclamation: __**RULES**__ :exclamation:
-:diamond_shape_with_a_dot_inside: *All tips are final once sent.* 
+:diamond_shape_with_a_dot_inside: *All tips are final once sent.*
 :diamond_shape_with_a_dot_inside: *Tips will never be refunded or returned to a user, for any reason.*
 :diamond_shape_with_a_dot_inside: *This service is for tipping or giving small amounts of QRL to other users.*
 :diamond_shape_with_a_dot_inside: *You agree to not store or trade currency or for any other reason than tipping users.*
@@ -265,6 +266,9 @@ __**You assume all risk by using this service**__
                         errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
                         // deleteMessage();
                       });
+                      */
+
+
                     ReplyMessage(' :white_check_mark: You\'re signed up! :white_check_mark: \nPlease `+agree` to my terms to begin using the bot. It will take a few minutes for your wallet to be created.');
                   })
                   .catch(error => {
