@@ -31,7 +31,7 @@ async function GetAllUserInfo(args) {
       if (err) {
         console.log('[mysql error]', err);
       }
-      // console.log('user_info: ' + JSON.stringify(user_info));
+      console.log('user_info: ' + JSON.stringify(user_info));
       // check for user, if length is 0 they are not found
       if(user_info.length > 0) {
         // const Results = { user_found: 'false' };
