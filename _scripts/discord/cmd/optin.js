@@ -126,6 +126,7 @@ module.exports = {
         console.log('user_id: ' + user_id);
         const oi = await optIn(user_id);
         const checkFuture = await checkFutureTips();
+        console.log('checkFuture: ' + JSON.stringify(checkFuture));
 
         future_tip_amount = checkFuture[0].future_tip_amount;
         console.log('future_tip_amount: ' + future_tip_amount);
