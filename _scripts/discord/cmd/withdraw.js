@@ -182,7 +182,7 @@ module.exports = {
 
           const transArray = [];
           const addressArray = [];
-          const transfer_amt = Math.round(wallet_bal - fee);
+          const transfer_amt = wallet_bal - fee;
           console.log('transfer_amt: ' + transfer_amt);
           transArray.push(transfer_amt);
           addressArray.push(transfer_to);
