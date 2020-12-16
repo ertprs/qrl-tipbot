@@ -12,7 +12,7 @@ module.exports = {
     const { commands } = message.client;
 
     if (!args.length) {
-      messagedata.push('\n```css\n# All commands start with ' + config.discord.prefix);
+      messagedata.push('\n```diff\n');
       messagedata.push(commands.map(command => config.discord.prefix + command.name + ' - ' + command.description).join(',\n'));
       messagedata.push('```');
       return message.reply(messagedata);

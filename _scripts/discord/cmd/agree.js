@@ -1,6 +1,6 @@
 module.exports = {
   name: 'agree',
-  description: 'Agree to the terms of the bot',
+  description: 'Agree to the terms of the bot to use',
   args: false,
   guildOnly: false,
   cooldown: 0,

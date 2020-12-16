@@ -1,6 +1,6 @@
 module.exports = {
   name: 'add',
-  description: 'Add a user to he QRL TipBot',
+  description: 'Signup to the QRL TipBot',
   args: false,
   aliases: ['join', 'signup', 'su', 'Add', 'ADD'],
   guildOnly: false,
