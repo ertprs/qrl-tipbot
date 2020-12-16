@@ -43,6 +43,7 @@ module.exports = {
           .addField(content.term_2, content.term_2_description)
           .addField(content.term_3, content.term_3_description)
           .addField(content.term_4, content.term_4_description)
+          .addField(content.term_5, content.term_5_description)
           .setFooter(content.footer || footer);
         message.author.send({ embed })
           .then(() => {
@@ -112,7 +113,7 @@ module.exports = {
           // console.log('botUserId: ' + botUserId);
           userAgreeAdd(botUserId).then(function() {
           // console.log('agreeReturn: ' + JSON.stringify(agreeReturn));
-            successReplyMessage({ title: 'You\'ve Agreed!!', description: 'Here are the terms you agreed to:', term_1: 'Use at your own risk', term_1_description: 'You will not hold the tipbot accountable', term_2: 'You won\'t misuse the bot', term_2_description: 'be nice to the bot and others', term_3: 'You agree to share information with tipbot', term_3_description: 'usernames, tx details, wallet address etc.', term_4: 'You will not store QRL on the tipbot.', term_4_description: 'Transfer all excess funds to a wallet only you own!', footer: 'Enter +terms for full agreement. You can now use the Bot!' });
+            successReplyMessage({ title: 'You\'ve Agreed!!', description: '**You can now use the tipbot**\nHere are the terms you agreed to:', term_1: 'Use at your own risk', term_1_description: 'You will not hold the tipbot accountable', term_2: 'You won\'t misuse the bot', term_2_description: 'be nice to the bot and others', term_3: 'You agree to share information with tipbot', term_3_description: 'usernames, tx details, wallet address etc.', term_4: 'You will not store QRL on the tipbot.', term_4_description: 'Transfer all excess funds to a wallet only you own!', term_5: 'To read the full terms, please enter:', term_5_description: 'Enter +terms for full agreement.'});
           });
         }
       }
