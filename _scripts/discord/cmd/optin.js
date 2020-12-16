@@ -72,7 +72,7 @@ module.exports = {
       });
     }
 
-    async function checkFutureTips() {
+    async function CheckFuture() {
       return new Promise(resolve => {
         const data = { service_id: userID };
         const checkFuture = wallet.checkFutureTips(data);
@@ -100,8 +100,8 @@ module.exports = {
         return;
       }
 
-      const tippingUserUser_agree = JSON.stringify(user_info[0].user_agree);
-      const tippingUserOpt_Out = JSON.stringify(user_info[0].opt_out);
+      // const tippingUserUser_agree = JSON.stringify(user_info[0].user_agree);
+      // const tippingUserOpt_Out = JSON.stringify(user_info[0].opt_out);
       if (user_info[0].user_agree) {
         user_agree = true;
       }
@@ -124,12 +124,11 @@ module.exports = {
         console.log('checks passed');
         const user_id = user_info[0].user_id;
         console.log('user_id: ' + user_id);
-        const checkFuture = await checkFutureTips();
+        const checkFuture = await CheckFuture();
         console.log('checkFuture: ' + JSON.stringify(checkFuture));
         future_tip_amount = checkFuture[0].future_tip_amount;
         console.log('future_tip_amount: ' + future_tip_amount);
 
-        
         if (future_tip_amount > 0) {
           const address_array = [user_info[0].wallet_pub];
           // send the user their saved tips
