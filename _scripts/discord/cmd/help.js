@@ -12,7 +12,7 @@ module.exports = {
     const { commands } = message.client;
 
     if (!args.length) {
-      messagedata.push('Here are all of my commands. If you need more help try `+help {COMMAND}`\n```diff\n');
+      messagedata.push('Here are all of my commands.\n*If you need more help try `+help {COMMAND}*`\n```diff\n');
       messagedata.push(commands.map(command => config.discord.prefix + command.name + ' - ' + command.description).join('\n'));
       messagedata.push('```');
       return message.reply(messagedata);
