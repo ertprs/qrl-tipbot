@@ -15,7 +15,7 @@ const callmysql = mysql.createPool({
 // expects { service: service, service_id: service_id }
 // returns { user_found, wallet_pub, wallet_bal, user_id, user_name, opt_out optout_date
 async function GetAllUserInfo(args) {
-  console.log('\nGETALLUSERINFO CALLED: ' + JSON.stringify(args));
+  // console.log('\nGETALLUSERINFO CALLED: ' + JSON.stringify(args));
   return new Promise(resolve => {
     const input = JSON.parse(JSON.stringify(args));
     const service_id = input.service_id;
@@ -31,7 +31,7 @@ async function GetAllUserInfo(args) {
       if (err) {
         console.log('[mysql error]', err);
       }
-      console.log('user_info: ' + JSON.stringify(user_info));
+      // console.log('user_info: ' + JSON.stringify(user_info));
       // check for user, if length is 0 they are not found
       if(user_info.length > 0) {
         // const Results = { user_found: 'false' };
