@@ -265,6 +265,7 @@ client.on('message', message => {
   // if (!message.content.startsWith(config.discord.prefix) || message.author.bot) return;
   // const args = message.content.slice(config.discord.prefix.length).split(/ +/);
 
+  const now = Date.now();
   const commandName = args.shift().toLowerCase();
 
   // ///////////////////////////////////////////////////////
@@ -274,7 +275,7 @@ client.on('message', message => {
   // ///////////////////////////////////////////////////////
   // log everthing with ${config.discord.prefix} to console
   // ///////////////////////////////////////////////////////
-  console.log(chalk.cyan('Message Recieved in Guild: ') + chalk.green(message.guild.name) + '\n' + chalk.cyan('\tChannel: ') + chalk.green(message.channel.name) + '\n' + chalk.cyan('\tAuthor: ') + chalk.green(message.author.username + chalk.dim(' <@' + message.author.id + '>')) + '\n' + chalk.cyan('\tMessage: ') + chalk.green(message.content));
+  console.log(chalk.cyan('Message Recieved at ' + now + '\n\tGuild: ') + chalk.green(message.guild.name) + '\n' + chalk.cyan('\tChannel: ') + chalk.green(message.channel.name) + '\n' + chalk.cyan('\tAuthor: ') + chalk.green(message.author.username + chalk.dim(' <@' + message.author.id + '>')) + '\n' + chalk.cyan('\tMessage: ') + chalk.green(message.content));
 
   //  if (!client.commands.has(commandName)) return;
   //    const command = client.commands.get(commandName);
@@ -301,7 +302,6 @@ client.on('message', message => {
     cooldowns.set(command.name, new Discord.Collection());
   }
 
-  const now = Date.now();
   const timestamps = cooldowns.get(command.name);
   const cooldownAmount = (command.cooldown || 3) * 1000;
   if (timestamps.has(message.author.id)) {
