@@ -75,7 +75,7 @@ module.exports = {
     async function CheckFuture() {
       return new Promise(resolve => {
         const data = { service_id: userID };
-        const checkFuture = wallet.checkFutureTips(data);
+        const checkFuture = dbHelper.checkFutureTips(data);
         resolve(checkFuture);
       });
     }
