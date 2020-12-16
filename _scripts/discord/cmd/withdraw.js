@@ -134,9 +134,9 @@ module.exports = {
     //
     // If found will return { user_found, wallet_pub, wallet_bal, user_id, user_name, opt_out, otpout_date }
     found.then(function(result) {
-      console.log('found results: ' + JSON.stringify(result));
+      // console.log('found results: ' + JSON.stringify(result));
       const UserFound = result[0].user_found;
-      if (UserFound !== 'true') {
+      if (UserFound) {
         // console.log('user found ' + UserFound);
         // user is not in the system, fail and return to user
         // if not in private message delete the message
