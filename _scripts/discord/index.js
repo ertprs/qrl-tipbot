@@ -274,7 +274,7 @@ client.on('message', message => {
   const hours = now1.getHours();
   const minutes = "0" + now1.getMinutes();
   const seconds = "0" + now1.getSeconds();
-  const formattedTime = month + '/' + date + '/' + year + '-' + hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+  const formattedTime = month + '/' + day + '/' + year + '-' + hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
 
   
   const commandName = args.shift().toLowerCase();
