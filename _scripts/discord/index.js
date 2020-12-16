@@ -266,7 +266,7 @@ client.on('message', message => {
   // const args = message.content.slice(config.discord.prefix.length).split(/ +/);
 
   const now = Date.now();
-  now1 = new Date(now * 1000);
+  const now1 = new Date(now * 1000);
   var hours = now1.getHours();
   // Minutes part from the timestamp
   var minutes = "0" + now1.getMinutes();
