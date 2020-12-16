@@ -15,18 +15,6 @@ module.exports = {
     const userName = username.slice(1, -1);
     const user_info = { service: 'discord', user_id: userName };
     const CheckUserPromise = dbHelper.CheckUser(user_info);
-
-    // use to send a reply to user with delay and stop typing
-    // ReplyMessage(' Check your DM\'s');
-    /*
-    function ReplyMessage(content) {
-      message.channel.startTyping();
-      setTimeout(function() {
-        message.reply(content);
-        message.channel.stopTyping(true);
-      }, 1000);
-    }
-    */
     // errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
     function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
       message.channel.startTyping();

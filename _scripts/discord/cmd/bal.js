@@ -155,17 +155,17 @@ module.exports = {
               message.channel.stopTyping(true);
               // ReplyMessage('\n:moneybag: Balance is in your DM :moneybag:');
             })
-              .catch(error => {
-                errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
-                // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-                // ReplyMessage('it seems like I can\'t DM you! Do you have DMs disabled?');
-              });
-                message.react(emojiCharacters.q)
-                  .then(() => message.react(emojiCharacters.r))
-                  .then(() => message.react(emojiCharacters.l))
-                  .catch(() => console.error('One of the emojis failed to react.'));
-                message.channel.stopTyping(true);
-          });
+            .catch(error => {
+              errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
+              // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+              // ReplyMessage('it seems like I can\'t DM you! Do you have DMs disabled?');
+            });
+          message.react(emojiCharacters.q)
+            .then(() => message.react(emojiCharacters.r))
+            .then(() => message.react(emojiCharacters.l))
+            .catch(() => console.error('One of the emojis failed to react.'));
+          message.channel.stopTyping(true);
+        });
       });
     }
   },

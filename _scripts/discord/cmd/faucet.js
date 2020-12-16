@@ -22,11 +22,6 @@ module.exports = {
     const faucetDrip = faucetHelper.Drip;
     const userInfoArray = [];
 
-    // const faucetInfoArray = [];
-    // const checkAgree = dbHelper.CheckAgree;
-    // const info = JSON.parse(JSON.stringify({ service: 'discord', service_id: UUID }));
-    // const found = GetAllUserInfo(info);
-
     // use to send a reply to user with delay and stop typing
     // ReplyMessage(' Check your DM\'s');
     function ReplyMessage(content) {

@@ -54,7 +54,7 @@ async function checkPayments(args) {
   // expect { service: 'discord, service_id: service_id }
   return new Promise(resolve => {
     // check the faucet_oayments db for the last time user recieved a tip, if ever.
-    // check to curent time and if less than one day no tip...
+    // check to curent time and if less than config.faucet.payout_interval no tip...
     // set all results to an array to respond to user.
     const checkPaymentsArray = [];
     const service_id = args.service_id;

@@ -288,7 +288,9 @@ client.on('message', message => {
   if (!command) return;
 
   if (command.guildOnly && message.channel.type !== 'text') {
-    return message.reply('I can\'t execute that command inside DMs!');
+    errorMessage({ error: 'Can\'t access ' + command +' from DM!', description: 'Please try again from the main chat, this function will only work there.' });
+    // message.reply('I can\'t execute that command inside DMs!');
+    return ;
   }
 
   if (command.args && !args.length) {
@@ -311,7 +313,9 @@ client.on('message', message => {
     const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
     if (now < expirationTime) {
       const timeLeft = (expirationTime - now) / 1000;
-      return message.reply(`please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`);
+      errorMessage({ error: 'Cooldown TIme Limit Hit...', description: 'Please try again after ' + timeLeft.toFixed(1) + ' before using ' + command });
+      // message.reply(`please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`);
+      return 
     }
   }
   timestamps.set(message.author.id, now);
@@ -323,6 +327,7 @@ client.on('message', message => {
   }
   catch (error) {
     console.error(error);
+    errorMessage({ error: 'It appears I have been observed...', description: ' My superposition has collapsed and I landed in another state. Please reach out to my bot owner ' + config.discord.bot_admin + ' for assistance.' });
     message.reply('there was an error trying to execute that command!');
   }
 
