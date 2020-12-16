@@ -267,12 +267,14 @@ client.on('message', message => {
 
   const now = Date.now();
   const now1 = new Date(now * 1000);
-  const date = now1.getDate();
-
+  
+  const day = now1.getDate();
+  const month = now1.getMonth();
+  const year = now1.getYear();
   const hours = now1.getHours();
   const minutes = "0" + now1.getMinutes();
   const seconds = "0" + now1.getSeconds();
-  const formattedTime = date + '-' + hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+  const formattedTime = month + '/' + date + '/' + year + '-' + hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
 
   
   const commandName = args.shift().toLowerCase();
