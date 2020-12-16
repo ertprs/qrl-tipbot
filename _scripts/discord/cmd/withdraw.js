@@ -138,7 +138,7 @@ module.exports = {
       const UserFound = result[0].user_found;
       console.log('UserFound: ' + JSON.stringify(UserFound));
 
-      if (UserFound) {
+      if (!UserFound) {
         // console.log('user found ' + UserFound);
         // user is not in the system, fail and return to user
         // if not in private message delete the message
