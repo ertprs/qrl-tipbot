@@ -109,7 +109,7 @@ module.exports = {
         return;
       }
 
-      if (found && agree && optout) {
+
         // user passed checks, opt them back in and check for future tips
         console.log('checks passed');
         const oi = await optIn(user_info.user_id);
@@ -122,9 +122,6 @@ module.exports = {
           const wipeSaved = await clearFuture(user_info.user_id);
           console.log('future tips sent and cleared!');
         }
-
-      }
-
     }
 
     main().then(function(response, err) {
