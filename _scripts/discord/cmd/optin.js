@@ -113,8 +113,9 @@ module.exports = {
 
         // user passed checks, opt them back in and check for future tips
         console.log('checks passed');
+        const user_id = user_info[0].user_id;
+        const oi = await optIn(user_id);
 
-        const oi = await optIn(user_info[0].user_id);
         future_tip_amount = user_info[0].future_tip_amount;
         if (future_tip_amount > 0) {
 
