@@ -280,7 +280,7 @@ client.on('message', message => {
   // ///////////////////////////////////////////////////////
   // log everthing with ${config.discord.prefix} to console
   // ///////////////////////////////////////////////////////
-  console.log(chalk.yellow('Message Recieved: \n') + chalk.cyan('\tTime: ') + chalk.green(now1) + chalk.cyan('\n\tGuild: ') + chalk.green(message.guild.name) + '\n' + chalk.cyan('\tChannel: ') + chalk.green(message.channel.name) + '\n' + chalk.cyan('\tAuthor: ') + chalk.green(message.author.username + chalk.dim(' <@' + message.author.id + '>')) + '\n' + chalk.cyan('\tMessage: ') + chalk.green(message.content));
+  console.log(chalk.yellow('Message Recieved: \n') + chalk.cyan('\tTime:\t') + chalk.green(now1) + chalk.cyan('\n\tGuild:\t') + chalk.green(message.guild.name) + '\n' + chalk.cyan('\tChannel:\t') + chalk.green(message.channel.name) + '\n' + chalk.cyan('\tAuthor:\t') + chalk.green(message.author.username + chalk.dim(' <@' + message.author.id + '>')) + '\n' + chalk.cyan('\tMessage:\t') + chalk.green(message.content));
 
   //  if (!client.commands.has(commandName)) return;
   //    const command = client.commands.get(commandName);
