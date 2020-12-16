@@ -71,6 +71,13 @@ module.exports = {
       });
     }
 
+    async function checkFutureTips() {
+      return new Promise(resolve => {
+        const data = { service_id: userID };
+        const checkFuture = wallet.sendQuanta(data);
+        resolve(checkFuture);
+      });
+    }
 
     async function main() {
       let found = false;
@@ -117,8 +124,9 @@ module.exports = {
         const user_id = user_info[0].user_id;
         console.log('user_id: ' + user_id);
         const oi = await optIn(user_id);
-
-        future_tip_amount = user_info[0].future_tip_amount;
+        const checkFuture = await checkFutureTips();
+        
+        future_tip_amount = checkFuture[0].future_tip_amount;
         if (future_tip_amount > 0) {
 
           // send the user their saved tips
