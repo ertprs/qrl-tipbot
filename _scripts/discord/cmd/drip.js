@@ -176,7 +176,7 @@ module.exports = {
 
         checkUser(service_id).then(function(checkresults) {
           // console.log('UserChecks ' + JSON.stringify(checkresults));
-          // console.log('userInfoArray ' + JSON.stringify(userInfoArray));
+          console.log('userInfoArray ' + JSON.stringify(userInfoArray));
           if (!userInfoArray[1].checkUserPassed) {
             // if the userCheck failed
             const userCheckError = userInfoArray[1].checkUserPassedError;
