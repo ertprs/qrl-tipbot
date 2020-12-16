@@ -124,12 +124,12 @@ module.exports = {
         console.log('checks passed');
         const user_id = user_info[0].user_id;
         console.log('user_id: ' + user_id);
-        const oi = await optIn(user_id);
         const checkFuture = await checkFutureTips();
         console.log('checkFuture: ' + JSON.stringify(checkFuture));
-
         future_tip_amount = checkFuture[0].future_tip_amount;
         console.log('future_tip_amount: ' + future_tip_amount);
+
+        
         if (future_tip_amount > 0) {
           const address_array = [user_info[0].wallet_pub];
           // send the user their saved tips
@@ -139,6 +139,9 @@ module.exports = {
           const wipeSaved = await clearFuture(user_info[0].user_id);
           console.log('future tips sent and cleared!');
         }
+        const oi = await optIn(user_id);
+        console.log('opted in\n');
+
     }
 
     main().then(function(response, err) {
