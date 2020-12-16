@@ -47,9 +47,9 @@ module.exports = {
       });
     }
 
-    async function clearFuture(user_id) {
+    async function clearFuture() {
       return new Promise(resolve => {
-        const futureClear = { user_id: user_id };
+        const futureClear = { user_id: userID };
         const clearFutureTipsDB = dbHelper.clearFutureTips(futureClear);
         resolve(clearFutureTipsDB);
       });
@@ -135,7 +135,7 @@ module.exports = {
           const sendTips = await sendFutureTips({ amount: future_tip_amount, fee: fee, address_to: address_array, address_from: config.wallet.hold_address });
 
           // clear the saved tips in future_tips db, set to paid for user.
-          const wipeSaved = await clearFuture(user_info[0].user_id);
+          const wipeSaved = await clearFuture();
           console.log('future tips sent and cleared!');
         }
         const oi = await optIn(user_id);
