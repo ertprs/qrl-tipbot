@@ -4,7 +4,7 @@ module.exports = {
   guildOnly: false,
   args: false,
   cooldown: 1,
-  aliases: ['!$'],
+  aliases: ['!$', 'send', 'Tip', 'give', 'gift', 'TIP'],
   usage: '\n<tip amount> <user1> <user2> <user3> <etc.> \nEXAMPLE: `+tip2 1 @CoolUser`',
   execute(message, args) {
     const Discord = require('discord.js');

@@ -405,7 +405,7 @@ module.exports = {
           });
       }
 
-      else if (args[0] == 'user' || args[0] == 'me' || args[0] == 'account' || args[0] == 'balance' || args[0] == 'bal' || args[0] == 'address') {
+      else if (args[0] == '?$' || args[0] == 'user' || args[0] == 'me' || args[0] == 'account' || args[0] == 'balance' || args[0] == 'bal' || args[0] == 'address') {
       // run through checks and fail if, else serve User info to the user
       // is user found?
         if (found === 'false') {
