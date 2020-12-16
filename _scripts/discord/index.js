@@ -279,10 +279,10 @@ client.on('message', message => {
   // log everthing with ${config.discord.prefix} to console
   // ///////////////////////////////////////////////////////
   if (message.channel.type === 'dm') {
-    console.log(chalk.yellow('Message Recieved: \n') + chalk.cyan('Time:\t') + chalk.green(now1) + chalk.cyan('\nGuild:\t') + chalk.green(message.guild.name) + '\n' + chalk.cyan('Chan:\t') + chalk.green(message.channel.name) + '\n' + chalk.cyan('Auth:\t') + chalk.green(message.author.username + chalk.dim(' <@' + message.author.id + '>')) + '\n' + chalk.cyan('Mesg:\t') + chalk.green(message.content));
+    console.log(chalk.yellow('Message Recieved: \n') + chalk.cyan('Time:\t') + chalk.green(now1) + chalk.cyan('\nGuild:\t') + chalk.green('Private Message') + '\n' + chalk.cyan('Chan:\t') + chalk.green(message.channel.name) + '\n' + chalk.cyan('Auth:\t') + chalk.green(message.author.username + chalk.dim(' <@' + message.author.id + '>')) + '\n' + chalk.cyan('Mesg:\t') + chalk.green(message.content));
   }
   else {
-    console.log(chalk.yellow('Message Recieved: \n') + chalk.cyan('Time:\t') + chalk.green(now1) + chalk.cyan('\nGuild:\t') + chalk.green('Private Message') + '\n' + chalk.cyan('Chan:\t') + chalk.green(message.channel.name) + '\n' + chalk.cyan('Auth:\t') + chalk.green(message.author.username + chalk.dim(' <@' + message.author.id + '>')) + '\n' + chalk.cyan('Mesg:\t') + chalk.green(message.content));
+    console.log(chalk.yellow('Message Recieved: \n') + chalk.cyan('Time:\t') + chalk.green(now1) + chalk.cyan('\nGuild:\t') + chalk.green(message.guild.name) + '\n' + chalk.cyan('Chan:\t') + chalk.green(message.channel.name) + '\n' + chalk.cyan('Auth:\t') + chalk.green(message.author.username + chalk.dim(' <@' + message.author.id + '>')) + '\n' + chalk.cyan('Mesg:\t') + chalk.green(message.content));
   }
   //  if (!client.commands.has(commandName)) return;
   //    const command = client.commands.get(commandName);
