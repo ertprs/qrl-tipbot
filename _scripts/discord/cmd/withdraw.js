@@ -188,7 +188,7 @@ module.exports = {
           const transferInfo = { address_to: addressArray, amount: transArray, fee: fee, address_from: wallet_pub };
           console.log('transferInfo ' + JSON.stringify(transferInfo));
           transfer(transferInfo).then(function(transferQrl) {
-            // console.log('transferQrl: ' + JSON.stringify(transferQrl));
+            console.log('transferQrl: ' + JSON.stringify(transferQrl));
             const transferOutput = JSON.parse(transferQrl);
             const tx_hash = transferOutput.tx.transaction_hash;
 
