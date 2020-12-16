@@ -32,7 +32,6 @@ async function GetAllUserInfo(args) {
         console.log('[mysql error]', err);
       }
       // console.log('user_info: ' + JSON.stringify(user_info));
-
       // check for user, if length is 0 they are not found
       if(user_info.length > 0) {
         // const Results = { user_found: 'false' };
@@ -62,20 +61,19 @@ async function GetAllUserInfo(args) {
         // console.log('opt_out true');
         has_opt_out = true;
       }
+      // chck if user has already agreed
+      if (user_agree) {
+        has_user_agree = true;
+      }
       // console.log('1 has_user_found, has_user_agree, has_opt_out: ' + has_user_found + ', ' + has_user_agree + ', ' + has_opt_out);
-      if (has_opt_out) {
+      if (has_opt_out || !user_agree) {
         // user opted out or is not found in DB. Return values
         foundResArray.push({ user_found: has_user_found, user_agree: has_user_agree, opt_out: has_opt_out });
         resolve(foundResArray);
         return;
       }
-      // chck if user has already agreed
-      if (user_agree) {
-        has_user_agree = true;
-      }
-      console.log('2 has_user_found, has_user_agree, has_opt_out: ' + has_user_found + ', ' + has_user_agree + ', ' + has_opt_out);
-      console.log('2 user_agree, user_id, opt_out, user_name, : ' + user_agree + ', ' + user_id + ', ' + opt_out + ', ' + user_name + ', ' + optout_date + ', ' + wallet_pub);
-
+      // console.log('2 has_user_found, has_user_agree, has_opt_out: ' + has_user_found + ', ' + has_user_agree + ', ' + has_opt_out);
+      // console.log('2 user_agree, user_id, opt_out, user_name, : ' + user_agree + ', ' + user_id + ', ' + opt_out + ', ' + user_name + ', ' + optout_date + ', ' + wallet_pub);
       // if(user_agree === 0) {
           // user has not agreed, not found in db users_agree but user is found
           // foundResArray.push({ user_found: 'true', user_agree: 'false', opt_out: 'false', user_id: user_id });
