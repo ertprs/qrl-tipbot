@@ -2,7 +2,7 @@ module.exports = {
   name: 'tip',
   description: 'Tips!',
   args: true,
-  guildOnly: true,
+  guildOnly: false,
   cooldown: 1,
   aliases: ['!$'],
   usage: '\n<tip amount> <user1> <user2> <user3> <etc.> \nEXAMPLE: `+tip2 1 @CoolUser`',
@@ -46,6 +46,13 @@ module.exports = {
         message.channel.stopTyping(true);
       }, 1000);
     }
+
+    // check if this is a DM and if so, block forcing user into the chatroom
+    if (message.channel.type === 'dm') {
+      errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
+      return;
+    }
+
 
     function deleteMessage() {
       // Delete the previous message
