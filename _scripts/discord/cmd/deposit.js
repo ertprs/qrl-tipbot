@@ -68,7 +68,8 @@ module.exports = {
                 .setColor(0x000000)
                 .setTitle('**TipBot Deposit Info**')
                 .setDescription('Deposit funds to the address shown below to begin tipping. Please don\'t make large deposits or store funds here.')
-                .setFooter(`TipBot Donation Address: ${config.bot_details.bot_donationAddress}`)
+                .setFooter('  .: Tipbot provided by The QRL Contributors :.')
+                // .setFooter(`TipBot Donation Address: ${config.bot_details.bot_donationAddress}`)
                 .addField('Your QRL Wallet Public Address::', '[' + wallet_pub + '](' + config.bot_details.explorer_url + '/a/' + wallet_pub + ')')
                 // figure out how to attach the qr image here...
                 .addField('For all of my commands:\t', '`+help`');
@@ -102,8 +103,9 @@ module.exports = {
               const embed = new Discord.MessageEmbed()
                 .setColor(0x000000)
                 .setTitle('**TipBot Deposit Info**')
-                .setDescription('Deposit funds to the address shown below to begin tipping. Please don\'t make large deposits or store funds here.')
-                .setFooter(`TipBot Donation Address: ${config.bot_details.bot_donationAddress}`)
+                .setDescription('Deposit funds to your indivigual tipbot address shown below. All tips sent to your user will also be deposited into this address.')
+                .setFooter('  .: Tipbot provided by The QRL Contributors :.')
+                // .setFooter(`TipBot Donation Address: ${config.bot_details.bot_donationAddress}`)
                 .addField('Your QRL Wallet Public Address::', '[' + wallet_pub + '](' + config.bot_details.explorer_url + '/a/' + wallet_pub + ')')
                 // figure out how to attach the qr image here...
                 .addField('For all of my commands:\t', '`+help`');

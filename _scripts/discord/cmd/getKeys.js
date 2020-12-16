@@ -56,21 +56,21 @@ module.exports = {
       // is user found?
       if (!found) {
         errorMessage({ error: 'User Not Found...', description: 'Your not found in the System. Try `+add` or `+help`' });
-        // ReplyMessage('Your not found in the System. Try `+add` or `+help`');
+        ReplyMessage('Your not found in the System. Try `+add` or `+help`');
         deleteMessage();
         return;
       }
       // check for opt_out status
       if (optOut) {
         errorMessage({ error: 'User Opted Out...', description: 'You have opted out of the tipbot. Please send `+opt-in` to opt back in!' });
-        // ReplyMessage('You have opted out of the tipbot. Please send `+opt-in` to opt back in!');
+        ReplyMessage('You have opted out of the tipbot. Please send `+opt-in` to opt back in!');
         deleteMessage();
         return;
       }
       // Check user_agree
       if (!agree) {
         errorMessage({ error: 'User Has Not Agreed...', description: 'You need to `+agree`, please see the `+terms`' });
-        // ReplyMessage('You need to agree, please see the `+terms`');
+        ReplyMessage('You need to agree, please see the `+terms`');
         deleteMessage();
         return;
       }
@@ -80,7 +80,7 @@ module.exports = {
         const userSecretKeyPromise = secretKey(walletPub);
         userSecretKeyPromise.then(function(userSecrets) {
           const keys = JSON.parse(userSecrets);
-          // console.log('keys: ' + JSON.stringify(keys));
+          console.log('keys: ' + JSON.stringify(keys));
           const embed = new Discord.MessageEmbed()
             .setColor('RED')
             .setTitle('**TipBot Secret Keys**')

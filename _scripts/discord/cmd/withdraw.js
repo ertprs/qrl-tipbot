@@ -111,7 +111,7 @@ module.exports = {
         .setDescription('To transfer or withdraw from the tipbot please provide some details.')
         .addField('Transfer given amount', '`+transfer {AMOUNT} {QRLADDRESS}`')
         .addField('Transfer entire balance', '`+transfer all {QRLADDRESS}`')
-        .addField('To donate to the TipBot Faucet', '`+transfer all ' + config.bot_details.bot_donationAddress + '`');
+        .addField('To donate evrything to the TipBot Faucet', '`+transfer all ' + config.bot_details.bot_donationAddress + '`');
       message.author.send({ embed })
         .then(() => {
           if (message.channel.type === 'dm') return;
