@@ -64,6 +64,8 @@ callmysql.connect(function(err) {
                           signup_date DATETIME,
                           opt_out BOOLEAN default 0,
                           optout_date DATETIME,
+                          banned BOOLEAN default 0,
+                          banned_date DATETIME,
                           updated_at DATETIME not null
 
                       )`;
