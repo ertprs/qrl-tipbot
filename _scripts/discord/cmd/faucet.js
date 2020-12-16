@@ -1,6 +1,6 @@
 module.exports = {
   name: 'faucet',
-  description: 'Collect some free qrl from the faucet, if there is any to have. Once a day at most please.',
+  description: 'Collect some free qrl from the tipbot faucet',
   args: false,
   aliases: ['Faucet', 'drip', 'Drip', 'payme', 'freeqrl', 'free', 'drop'],
   guildOnly: false,
@@ -21,7 +21,7 @@ module.exports = {
     const getBalance = wallet.GetBalance;
     const faucetDrip = faucetHelper.Drip;
     const userInfoArray = [];
-    
+
     // const faucetInfoArray = [];
     // const checkAgree = dbHelper.CheckAgree;
     // const info = JSON.parse(JSON.stringify({ service: 'discord', service_id: UUID }));

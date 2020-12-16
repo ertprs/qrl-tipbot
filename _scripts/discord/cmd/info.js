@@ -1,6 +1,6 @@
 module.exports = {
   name: 'info',
-  description: 'Information about this bot and the QRL Network.',
+  description: 'Information about this bot and the QRL Network',
   aliases: [ '??', 'stats', 'status', 'state'],
   args: false,
   usage: ' {ARG}\n`args: {market | exchange | faucet | bot | user }`\nGives details about the network, QRL Market, tipbot etc. Will also print your current tipbot details to DM',

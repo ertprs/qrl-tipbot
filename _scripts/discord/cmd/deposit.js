@@ -1,6 +1,6 @@
 module.exports = {
   name: 'deposit',
-  description: 'Print users wallet info',
+  description: 'Print your tipbot wallet info',
   args: false,
   aliases: ['dep', 'fund', 'addfunds', 'Deposit', 'DEP', 'fill'],
   guildOnly: false,

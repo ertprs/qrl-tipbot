@@ -1,6 +1,6 @@
 module.exports = {
   name: 'opt-in',
-  description: 'Opt Into the QRL TipBot',
+  description: 'Opt Into the QRL TipBot if you have opted out',
   args: false,
   guildOnly: false,
   aliases: ['oi'],

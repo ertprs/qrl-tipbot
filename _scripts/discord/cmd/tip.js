@@ -1,6 +1,6 @@
 module.exports = {
   name: 'tip',
-  description: 'Tips!',
+  description: 'Send QRL to other users on Discord',
   guildOnly: false,
   args: false,
   cooldown: 1,

@@ -1,6 +1,6 @@
 module.exports = {
   name: 'balance',
-  description: 'Get a wallet Balance',
+  description: 'Get a QRL wallet balance',
   args: false,
   aliases: ['?$', 'Bal', 'BAL', 'Balance', 'bal', 'funds'],
   guildOnly: false,

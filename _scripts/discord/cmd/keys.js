@@ -1,6 +1,6 @@
 module.exports = {
   name: 'keys',
-  description: 'Print your QRL TipBot private keys to a DM',
+  description: 'Print your QRL TipBot secret keys to a private message',
   args: false,
   aliases: ['getkeys', 'privatekeys', 'privatekey', 'key', 'secret', 'mnemonic', 'hexseed', 'GetKeys', 'getKeys', 'GETKEYS', 'Keys', 'KEYS', 'KEY' ],
   guildOnly: false,

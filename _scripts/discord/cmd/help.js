@@ -2,7 +2,7 @@ const config = require('../../../_config/config.json');
 
 module.exports = {
   name: 'help',
-  description: 'List all of my commands or info about a specific command.',
+  description: 'This message...',
   aliases: ['?!', 'commands', 'Help', ''],
   usage: '[command name]',
   cooldown: 1,

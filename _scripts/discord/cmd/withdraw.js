@@ -1,6 +1,6 @@
 module.exports = {
   name: 'withdraw',
-  description: 'Transfer or withdraw QRL from your TipBot account to a personal wallet.',
+  description: 'Transfer or withdraw QRL from your TipBot account to a personal QRL wallet.',
   args: false,
   guildOnly: false,
   aliases: ['wd', 'transfer', 'cashout', 'Withdraw', 'WD', 'extract'],
