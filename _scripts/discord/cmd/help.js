@@ -12,7 +12,7 @@ module.exports = {
     const { commands } = message.client;
 
     if (!args.length) {
-      messagedata.push('\n**Command List**\nAll commands start with `+`\n```css');
+      messagedata.push('\n**Command List**\nAll commands start with `+`\n```css\n+');
       messagedata.push(commands.map(command => command.name).join(', | +'));
       messagedata.push('```');
       return message.reply(messagedata);
