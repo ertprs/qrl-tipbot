@@ -269,9 +269,8 @@ client.on('message', message => {
   const now1 = new Date(now * 1000);
   
   const day = now1.getDate();
-  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  const month = months[now1.getMonth()];
-  const year = now1.getFullYear();
+  const month = now.getMonth();
+  const year = now.getFullYear();
   const hours = now1.getHours();
   const minutes = "0" + now1.getMinutes();
   const seconds = "0" + now1.getSeconds();
