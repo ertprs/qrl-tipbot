@@ -3,8 +3,8 @@ module.exports = {
   description: 'Information about this bot and the QRL Network.',
   aliases: [ '??', 'stats', 'status', 'state'],
   args: false,
-  usage: '\n`{args: market | exchange | faucet | bot | user }`\nGives details about the network, QRL Market, tipbot etc. Will also print your current tipbot details to DM',
-  cooldown: 1,
+  usage: ' {ARG}\n`args: {market | exchange | faucet | bot | user }`\nGives details about the network, QRL Market, tipbot etc. Will also print your current tipbot details to DM',
+  
   execute(message, args) {
 
     const Discord = require('discord.js');

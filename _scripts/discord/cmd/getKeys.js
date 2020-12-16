@@ -56,21 +56,18 @@ module.exports = {
       // is user found?
       if (!found) {
         errorMessage({ error: 'User Not Found...', description: 'Your not found in the System. Try `+add` or `+help`' });
-        ReplyMessage('Your not found in the System. Try `+add` or `+help`');
         deleteMessage();
         return;
       }
       // check for opt_out status
       if (optOut) {
         errorMessage({ error: 'User Opted Out...', description: 'You have opted out of the tipbot. Please send `+opt-in` to opt back in!' });
-        ReplyMessage('You have opted out of the tipbot. Please send `+opt-in` to opt back in!');
         deleteMessage();
         return;
       }
       // Check user_agree
       if (!agree) {
         errorMessage({ error: 'User Has Not Agreed...', description: 'You need to `+agree`, please see the `+terms`' });
-        ReplyMessage('You need to agree, please see the `+terms`');
         deleteMessage();
         return;
       }
@@ -84,7 +81,7 @@ module.exports = {
           const embed = new Discord.MessageEmbed()
             .setColor('RED')
             .setTitle('**TipBot Secret Keys**')
-            // .setDescription('')
+            .setDescription('You can use these private keys to open your tipbot address in another wallet application. ')
             .addField('**__WARNING: Protect These Keys!__**', ' ***NEVER SHARE THESE KEYS WITH ANYONE FOR ANY REASON!!***')
             .addField('Hexseed: ', '||' + keys.hexseed + '||')
             .addField('Mnemonic: ', '||' + keys.mnemonic + '||')
