@@ -66,7 +66,7 @@ module.exports = {
     async function sendFutureTips(tipInfo) {
       return new Promise(resolve => {
         console.log('tipInfo: ' + JSON.stringify(tipInfo));
-        const future_tip = { amount: tipInfo.future_tip_amount, fee: tipInfo.fee, address_from: config.wallet.hold_address, address_to: tipInfo.ToAddress };
+        // const future_tip = { amount: tipInfo.future_tip_amount, fee: tipInfo.fee, address_from: config.wallet.hold_address, address_to: tipInfo.ToAddress };
         const send_future_tip = wallet.sendQuanta(tipInfo);
         resolve(send_future_tip);
       });
@@ -128,10 +128,11 @@ module.exports = {
         const checkFuture = await checkFutureTips();
 
         future_tip_amount = checkFuture[0].future_tip_amount;
+        console.log('future_tip_amount: ' + future_tip_amount);
         if (future_tip_amount > 0) {
           const address_array = [user_info[0].wallet_pub];
           // send the user their saved tips
-          const sendTips = await sendFutureTips({ amount: future_tip_amount, fee: fee, address_to: address_array, address_from: config.wallet.hold_address, });
+          const sendTips = await sendFutureTips({ amount: future_tip_amount, fee: fee, address_to: address_array, address_from: config.wallet.hold_address });
 
           // clear the saved tips in future_tips db, set to paid for user.
           const wipeSaved = await clearFuture(user_info[0].user_id);
