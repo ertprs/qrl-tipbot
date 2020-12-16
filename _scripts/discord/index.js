@@ -265,8 +265,16 @@ client.on('message', message => {
   // if (!message.content.startsWith(config.discord.prefix) || message.author.bot) return;
   // const args = message.content.slice(config.discord.prefix.length).split(/ +/);
 
-  let now = Date.now();
-  now = new Date(now * 1000);
+  const now = Date.now();
+  now1 = new Date(now * 1000);
+  var hours = now1.getHours();
+  // Minutes part from the timestamp
+  var minutes = "0" + now1.getMinutes();
+  // Seconds part from the timestamp
+  var seconds = "0" + now1.getSeconds();
+  var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+
+  
   const commandName = args.shift().toLowerCase();
 
   // ///////////////////////////////////////////////////////
@@ -276,7 +284,7 @@ client.on('message', message => {
   // ///////////////////////////////////////////////////////
   // log everthing with ${config.discord.prefix} to console
   // ///////////////////////////////////////////////////////
-  console.log(chalk.cyan('Message Recieved at ' + now + '\n\tGuild: ') + chalk.green(message.guild.name) + '\n' + chalk.cyan('\tChannel: ') + chalk.green(message.channel.name) + '\n' + chalk.cyan('\tAuthor: ') + chalk.green(message.author.username + chalk.dim(' <@' + message.author.id + '>')) + '\n' + chalk.cyan('\tMessage: ') + chalk.green(message.content));
+  console.log(chalk.cyan('Message Recieved at ' + formattedTime + '\n\tGuild: ') + chalk.green(message.guild.name) + '\n' + chalk.cyan('\tChannel: ') + chalk.green(message.channel.name) + '\n' + chalk.cyan('\tAuthor: ') + chalk.green(message.author.username + chalk.dim(' <@' + message.author.id + '>')) + '\n' + chalk.cyan('\tMessage: ') + chalk.green(message.content));
 
   //  if (!client.commands.has(commandName)) return;
   //    const command = client.commands.get(commandName);
