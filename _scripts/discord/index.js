@@ -267,12 +267,12 @@ client.on('message', message => {
 
   const now = Date.now();
   const now1 = new Date(now * 1000);
-  var hours = now1.getHours();
-  // Minutes part from the timestamp
-  var minutes = "0" + now1.getMinutes();
-  // Seconds part from the timestamp
-  var seconds = "0" + now1.getSeconds();
-  var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+  const date = now1.getDate();
+
+  const hours = now1.getHours();
+  const minutes = "0" + now1.getMinutes();
+  const seconds = "0" + now1.getSeconds();
+  const formattedTime = date + '-' + hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
 
   
   const commandName = args.shift().toLowerCase();
