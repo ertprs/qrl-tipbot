@@ -81,6 +81,7 @@ module.exports = {
 
       const user_info = await getUserInfo({ service: 'discord', service_id: userID });
       console.log('user_info: ' + JSON.stringify(user_info));
+      console.log('user_id: ' + user_info[0].user_id);
 
       if (user_info[0].user_found) {
         found = true;
