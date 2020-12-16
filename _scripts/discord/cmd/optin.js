@@ -79,7 +79,7 @@ module.exports = {
       let future_tip_amount = 0;
       const fee = config.wallet.tx_fee * 1000000000;
 
-      const user_info = await getUserInfo({ service: 'discord', user_id: userID });
+      const user_info = await getUserInfo({ service: 'discord', service_id: userID });
       console.log('user_info: ' + JSON.stringify(user_info));
       if (user_info[0].user_found) {
         found = true;
