@@ -65,6 +65,7 @@ module.exports = {
 
     async function sendFutureTips(tipInfo) {
       return new Promise(resolve => {
+        console.log('tipInfo: ' + JSON.stringify(tipInfo));
         const future_tip = { amount: tipInfo.future_tip_amount, fee: tipInfo.fee, address_from: config.wallet.hold_address, address_to: tipInfo.ToAddress };
         const send_future_tip = wallet.sendQuanta(tipInfo);
         resolve(send_future_tip);
