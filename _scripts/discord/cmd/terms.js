@@ -1,6 +1,6 @@
 module.exports = {
   name: 'terms',
-  description: 'Prints the terms and conditions and rules for using the tipbot',
+  description: 'Prints the terms and rules for using the tipbot',
   args: false,
   aliases: ['term', 'legal', 'conditions', 'rules', 'Terms', 'Term'],
   guildOnly: false,
