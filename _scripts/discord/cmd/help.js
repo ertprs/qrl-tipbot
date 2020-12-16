@@ -7,6 +7,7 @@ module.exports = {
   usage: '[command name]',
   cooldown: 1,
   execute(message, args) {
+    const Discord = require('discord.js');
     const data = [];
     const messagedata = [];
     const { commands } = message.client;
