@@ -5,7 +5,7 @@ module.exports = {
   aliases: ['?$', 'Bal', 'BAL', 'Balance', 'bal', 'funds'],
   guildOnly: false,
   cooldown: 0,
-  usage: ' {QRL_ADDRESS}\nWill print the balance of any QRL Address given\nIf no address given check if the user has a qrltipBot address and give that balance',
+  usage: ' or \n+balance {QRL_ADDRESS}',
   execute(message, args) {
     const Discord = require('discord.js');
     const walletTools = require('../../qrl/walletTools');

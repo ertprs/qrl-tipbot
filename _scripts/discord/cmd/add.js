@@ -4,7 +4,7 @@ module.exports = {
   args: false,
   aliases: ['join', 'signup', 'su', 'Add', 'ADD'],
   guildOnly: false,
-  usage: ' \n## Add you\'re user to the QRL TipBot, creates an address and allows tipping. *You must allow DM to use the bot.*',
+  usage: '',
   cooldown: 0,
 
   execute(message, args) {

@@ -5,7 +5,7 @@ module.exports = {
   guildOnly: false,
   cooldown: 0,
   aliases: ['Agree', 'AGREE', 'ok', 'confirm', 'consent'],
-  usage: '\n## **agree** - Agree to the terms and conditions of the tipbot.  ',
+  usage: '',
   // execute(message, args) {
   execute(message) {
     const Discord = require('discord.js');
