@@ -253,7 +253,7 @@ module.exports = {
 
       // Get the tipList (send tip to) without bots in the array
       const tipList = message.mentions.users.map(user => {
-        console.log(JSON.stringify(user) + '\n');
+        // console.log(JSON.stringify(user) + '\n');
         const userName = user.username;
         const output = '@' + JSON.parse(JSON.stringify(userName));
         const service_user_ID = user.id;
@@ -268,8 +268,8 @@ module.exports = {
         // check if mentioned user is a bot
         if (bot) {
         // don't do anything for the bot.. silly bot
-          console.log('bot mentioned, doing nothing');
-          // return;
+          // console.log('bot mentioned, doing nothing');
+          return;
         }
         if (userid === userID) {
         // user mentioned self, do not count and move on
@@ -460,13 +460,12 @@ module.exports = {
             // ///////// DM User tip details and address balance after the TX ///////// //
             // get address balance after tx
             // console.log('tipTotal: ' + tipTotal);
-              console.log('futureTippedUserIDs: ' + JSON.stringify(futureTippedUserIDs));
-              console.log('futureTippedUserServiceIDs: ' + JSON.stringify(futureTippedUserServiceIDs));
-              console.log('futureTippedUserUsernames: ' + JSON.stringify(futureTippedUserUsernames));
-              console.log('tippedUserIDs: ' + JSON.stringify(tippedUserIDs));
-              console.log('tippedUserServiceIDs: ' + JSON.stringify(tippedUserServiceIDs));
-              console.log('tippedUserUsernames: ' + JSON.stringify(tippedUserUsernames));
-
+              // console.log('futureTippedUserIDs: ' + JSON.stringify(futureTippedUserIDs));
+              // console.log('futureTippedUserServiceIDs: ' + JSON.stringify(futureTippedUserServiceIDs));
+              // console.log('futureTippedUserUsernames: ' + JSON.stringify(futureTippedUserUsernames));
+              // console.log('tippedUserIDs: ' + JSON.stringify(tippedUserIDs));
+              // console.log('tippedUserServiceIDs: ' + JSON.stringify(tippedUserServiceIDs));
+              // console.log('tippedUserUsernames: ' + JSON.stringify(tippedUserUsernames));
               const newWal_bal = (toQuanta(tippingUserWallet_Bal) - toQuanta(tipTotal));
               const embed = new Discord.MessageEmbed()
                 .setColor(0x000000)
@@ -494,12 +493,16 @@ module.exports = {
                 deleteMessage();
               }
               */
+              ReplyMessage('Tip Sent. Thanks for using the tipbot!\n*All tips are on-chain, and will take some time to process. Bots won\'t be tipped...*');
+              /*
               if (tipUserCount > 1) {
                 ReplyMessage('**You\'ve sent a `' + toQuanta(givenTip) + ' QRL` tip to ' + tippedUserIDs + ',' + futureTippedUserIDs + ' each**. Thanks for using the tipbot!\n*All tips are on-chain, and will take some time to process. Bots won\'t be tipped...*');
               }
               else {
                 ReplyMessage('**You\'ve sent a `' + toQuanta(givenTip) + ' QRL` tip to ' + tippedUserIDs + ',' + futureTippedUserIDs + '** Thanks for using the tipbot!\n*All tips are on-chain, and will take some time to process. Bots won\'t be tipped...*');
+                ReplyMessage('**You\'ve sent a `' + toQuanta(givenTip) + ' QRL` tip to ' + tippedUserIDs + ',' + futureTippedUserIDs + '** Thanks for using the tipbot!\n*All tips are on-chain, and will take some time to process. Bots won\'t be tipped...*');
               }
+              */
             });
           }
         });
