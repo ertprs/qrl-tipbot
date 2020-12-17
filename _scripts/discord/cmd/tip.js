@@ -19,6 +19,8 @@ module.exports = {
     const tippedUserUsernames = [];
     const tippedUserIDs = [];
     const tippedUserServiceIDs = [];
+    const futureTippedUserUsernames = [];
+    const futureTippedUserServiceIDs = [];
     const fee = toShor(config.wallet.tx_fee);
     const username = `${message.author}`;
     const userID = username.slice(1, -1);
@@ -266,7 +268,7 @@ module.exports = {
         // check if mentioned user is a bot
         if (bot) {
         // don't do anything for the bot.. silly bot
-        console.log('bot mentioned, doing nothing');
+          console.log('bot mentioned, doing nothing');
           // return;
         }
         if (userid === userID) {
@@ -300,8 +302,8 @@ module.exports = {
           return;
         }
 
-      const botListOutput = JSON.parse(JSON.stringify({ userName: output, userid: userid, bot: bot }));
-      return botListOutput;
+        const botListOutput = JSON.parse(JSON.stringify({ userName: output, userid: userid, bot: bot }));
+        return botListOutput;
 
       });
       const filteredBotList = botList.filter(function(el) {
@@ -352,7 +354,11 @@ module.exports = {
               // user found and opted out. Add to the future_tips table and set the wallet address to the hold address...
               futureTippedUserInfo.push(filteredTipList[i]);
               const futureTippedUserId = ' <@!' + filteredTipList[i].service_user_ID + '>';
+              const futureTippedUserUsername = filteredTipList[i].userName;
+              const futureTippedUserServiceID = filteredTipList[i].userid;
               futureTippedUserIDs.push(futureTippedUserId);
+              futureTippedUserUsernames.push(futureTippedUserUsername);
+              futureTippedUserServiceIDs.push(futureTippedUserServiceID);
               // assign the config.hold.address here for future tips payout
               tippedUserWallets.push(config.wallet.hold_address);
               tippedUserTipAmt.push(givenTip);
@@ -455,9 +461,11 @@ module.exports = {
             // get address balance after tx
             // console.log('tipTotal: ' + tipTotal);
               console.log('futureTippedUserIDs: ' + JSON.stringify(futureTippedUserIDs));
+              console.log('futureTippedUserServiceIDs: ' + JSON.stringify(futureTippedUserServiceIDs));
+              console.log('futureTippedUserUsernames: ' + JSON.stringify(futureTippedUserUsernames));
               console.log('tippedUserIDs: ' + JSON.stringify(tippedUserIDs));
-              console.log('tippedUserIDs: ' + JSON.stringify(tippedUserServiceIDs));
-              console.log('tippedUserIDs: ' + JSON.stringify(tippedUserUsernames));
+              console.log('tippedUserServiceIDs: ' + JSON.stringify(tippedUserServiceIDs));
+              console.log('tippedUserUsernames: ' + JSON.stringify(tippedUserUsernames));
 
               const newWal_bal = (toQuanta(tippingUserWallet_Bal) - toQuanta(tipTotal));
               const embed = new Discord.MessageEmbed()
@@ -491,7 +499,6 @@ module.exports = {
               else {
                 ReplyMessage('**You\'ve sent a `' + toQuanta(givenTip) + ' QRL` tip to ' + tippedUserIDs + ',' + futureTippedUserIDs + '** Thanks for using the tipbot!\n*All tips are on-chain, and will take some time to process. Bots won\'t be tipped...*');
               }
-            
             });
           }
         });
