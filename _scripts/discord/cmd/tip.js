@@ -250,6 +250,7 @@ module.exports = {
 
       // Get the tipList (send tip to) without bots in the array
       const tipList = message.mentions.users.map(user => {
+        console.log(JSON.stringify(user) + '\n');
         const userName = user.username;
         const output = '@' + JSON.parse(JSON.stringify(userName));
         const service_user_ID = user.id;
