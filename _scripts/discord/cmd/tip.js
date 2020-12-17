@@ -16,6 +16,7 @@ module.exports = {
     const tippedUserInfo = [];
     const tippedUserWallets = [];
     const tippedUserTipAmt = [];
+    const tippedUserUsernames = [];
     const tippedUserIDs = [];
     const tippedUserServiceIDs = [];
     const fee = toShor(config.wallet.tx_fee);
@@ -361,10 +362,12 @@ module.exports = {
               // user found and not opted out, add to array and move on
               const tipToUserUserId = ' <@!' + filteredTipList[i].service_user_ID + '>';
               const tippedUserServiceID = filteredTipList[i].userid;
+              const tippedUserUsername = filteredTipList[i].userName;
               const tipToUserUserWalletPub = tipToUserInfo[0].wallet_pub;
               // push user data to arrays for tipping
               tippedUserIDs.push(tipToUserUserId);
               tippedUserServiceIDs.push(tippedUserServiceID);
+              tippedUserUsernames.push(tippedUserUsername);
               tippedUserWallets.push(tipToUserUserWalletPub);
               tippedUserInfo.push(tipToUserInfo);
               tippedUserTipAmt.push(givenTip);
@@ -454,6 +457,7 @@ module.exports = {
               console.log('futureTippedUserIDs: ' + JSON.stringify(futureTippedUserIDs));
               console.log('tippedUserIDs: ' + JSON.stringify(tippedUserIDs));
               console.log('tippedUserIDs: ' + JSON.stringify(tippedUserServiceIDs));
+              console.log('tippedUserIDs: ' + JSON.stringify(tippedUserUsernames));
 
               const newWal_bal = (toQuanta(tippingUserWallet_Bal) - toQuanta(tipTotal));
               const embed = new Discord.MessageEmbed()
