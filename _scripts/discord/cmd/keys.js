@@ -55,7 +55,7 @@ module.exports = {
       const agree = userInfo[0].user_agree;
       // is user found?
       if (!found) {
-        errorMessage({ error: 'User Not Found...', description: 'Your not found in the System. Try `+add` or `+help`' });
+        errorMessage({ error: 'User Not Found...', description: 'You\'re not found in the System. Try `+add` or `+help`' });
         deleteMessage();
         return;
       }

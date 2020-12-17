@@ -411,7 +411,7 @@ module.exports = {
         if (found === 'false') {
           console.log('!found');
           // not found, give main message and end
-          errorMessage({ error: 'Not Found In System...', description: 'You are not found in the System. Enter `+help add` for instructions' });
+          errorMessage({ error: 'Not Found In System...', description: 'You\'re not found in the System. Enter `+help add` for instructions' });
           // ReplyMessage('Your not found in the System. Try `+add` or `+help`');
           return;
         }

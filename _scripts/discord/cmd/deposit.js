@@ -32,7 +32,7 @@ module.exports = {
     CheckUserPromise.then(function(check) {
       const found = check.user_found;
       if (found !== 'true') {
-        errorMessage({ error: 'User Not Found...', description: 'Your not found in the System. Try `+add` or `+help`' });
+        errorMessage({ error: 'User Not Found...', description: 'You\'re not found in the System. Try `+add` or `+help`' });
         // message.reply('Your not found in the System. Try `+add` or `+help`');
         return console.log('error, user not found');
       }

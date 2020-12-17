@@ -116,7 +116,7 @@ module.exports = {
 
         const found = output[0].user_found;
         if (!found) {
-          errorMessage({ error: 'User Not Found...', description: 'Your not found in the System. Try `+add` or `+help`' });
+          errorMessage({ error: 'User Not Found...', description: 'You\'re not found in the System. Try `+add` or `+help`' });
           // ReplyMessage('Your not found in the System. Try `+add` or `+help`');
           return;
         }

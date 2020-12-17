@@ -47,7 +47,7 @@ module.exports = {
       }, 1000);
     }
 
-    // check if this is a DM and if so, block forcing user into the chatroom
+    // check if this is a DM and if so, block forcing user into the chat room
     if (message.channel.type === 'dm') {
       errorMessage({ error: 'Can\'t access this function from DM!', description: 'Please try again from the main chat, this function will only work there.' });
       return;

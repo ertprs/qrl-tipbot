@@ -1,6 +1,6 @@
 module.exports = {
   name: 'opt-out',
-  description: 'Opt Out of the TipBot disabling your useage',
+  description: 'Opt Out of the TipBot disabling your usage',
   args: false,
   guildOnly: false,
   aliases: ['oo'],
