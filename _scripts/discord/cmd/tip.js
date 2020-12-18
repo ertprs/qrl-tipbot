@@ -230,7 +230,7 @@ module.exports = {
       }
 
       // check for tipping user opt-out
-      if (tippingUserOpt_Out) {
+      if (!tippingUserOpt_Out) {
         console.log('User opt-out. Fail and warn');
         const tippingUserOptOut_Date = JSON.stringify(tipingUserInfo[0].optout_date);
         errorMessage({ error: 'User Has `Opt-Out` Status...', description: 'You opted out on ' + tippingUserOptOut_Date + '. Please opt back in to use the bot. `+opt-in`' });
