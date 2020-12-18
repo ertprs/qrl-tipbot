@@ -292,8 +292,8 @@ client.on('message', message => {
   if (!command) return;
 
   if (command.guildOnly && message.channel.type !== 'text') {
-    errorMessage({ error: 'Can\'t access ' + command +' from DM!', description: 'Please try again from the main chat, this function will only work there.' });
-    // message.reply('I can\'t execute that command inside DMs!');
+    // errorMessage({ error: 'Can\'t access ' + command +' from DM!', description: 'Please try again from the main chat, this function will only work there.' });
+    message.reply('I can\'t execute that command inside DMs!');
     return ;
   }
 
