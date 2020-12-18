@@ -220,15 +220,6 @@ module.exports = {
         return;
       }
 
-      // check for tipping user opt-out
-      if (tippingUserOpt_Out) {
-        console.log('User not found. Fail and warn');
-        const tippingUserOptOut_Date = JSON.stringify(tipingUserInfo[0].optout_date);
-        errorMessage({ error: 'User Has `Opt-Out` Status...', description: 'You opted out on ' + tippingUserOptOut_Date + '. Please opt back in to use the bot. `+opt-in`' });
-        // ReplyMessage('User opt\'ed out of the bot on ' + tippingUserOptOut_Date + '. Please opt back in to use the bot. `+opt-in`');
-        return;
-      }
-
       // check for tipping user agree
       if (!tippingUserUser_agree) {
         console.log('User has not agreed. Fail and warn');
@@ -236,6 +227,16 @@ module.exports = {
         // ReplyMessage('User needs to agree to the terms. `+agree`');
         return;
       }
+
+      // check for tipping user opt-out
+      if (tippingUserOpt_Out) {
+        console.log('User pt-out. Fail and warn');
+        const tippingUserOptOut_Date = JSON.stringify(tipingUserInfo[0].optout_date);
+        errorMessage({ error: 'User Has `Opt-Out` Status...', description: 'You opted out on ' + tippingUserOptOut_Date + '. Please opt back in to use the bot. `+opt-in`' });
+        // ReplyMessage('User opt\'ed out of the bot on ' + tippingUserOptOut_Date + '. Please opt back in to use the bot. `+opt-in`');
+        return;
+      }
+
 
       // user found in database and passes initial checks.
       const tippingUserWallet_Pub = JSON.stringify(tipingUserInfo[0].wallet_pub);
