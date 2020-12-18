@@ -217,7 +217,7 @@ module.exports = {
                   // .setFooter(`TipBot Donation Address: ${config.bot_details.bot_donationAddress}`)
                   .addField('Your QRL Wallet Public Address::', '[' + userAddress + '](' + config.bot_details.explorer_url + '/a/' + userAddress + ')')
                   .setImage(userInfo.wallet_qr)
-                  .addField('**Bonus!** You\'ll receive some Quanta from the faucet. \**Faucet payments can take up to 5 min to reflect in a users wallet*', '`' + userInfo.dripamt + ' qrl` faucet payout')
+                  .addField('**Bonus!** You\'ll receive some Quanta from the faucet. \**Faucet payments can take up to 5 min to reflect in a users wallet*', '`' + dripamt + ' qrl` faucet payout')
                   .addField('For all of my commands:\t', '`+help`. It will take a few minutes for your wallet to be created.')
                   .addField('You must agree to my terms:', 'Enter `+terms` to read the details and `+agree` to start using the tipbot');
                 message.author.send({ embed })
