@@ -190,6 +190,8 @@ module.exports = {
                       return clearRes;
                     });
 
+                    /* we do this in the adduser script, and send info above in the userinfo array
+                    // send user faucet drip
                     if (dripamt > 0) {
                       // console.log('faucet Payout: ' + dripamt);
                       const dripInfo = { service: 'discord', user_id: addUserResp[0].user_id, drip_amt: dripamt };
@@ -197,6 +199,8 @@ module.exports = {
                         return dripping;
                       });
                     }
+                    */
+
                   });
                 }
                 return response;
