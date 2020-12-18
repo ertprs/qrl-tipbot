@@ -14,8 +14,6 @@ module.exports = {
     const username = `${message.author}`;
     const userID = username.slice(1, -1);
 
-    console.log('message.channel.type: ' + message.channel.type)
-    if (message.channel.type !== 'dm') return;
 
 
     // errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
@@ -110,6 +108,13 @@ module.exports = {
         }
         else {
           // console.log('Not yet agreed, add to DB and reply');
+          
+          // check for dm and fail if not in DM
+          // console.log('message.channel.type: ' + message.channel.type)
+          if (message.channel.type !== 'dm') {
+            errorMessage({ error: 'Please see your DM to agree...', description: 'You must read my terms to use the bot, please see the private message.' });      
+            return;
+          }
           const botUserId = infoReturned[0].user_id;
           // console.log('botUserId: ' + botUserId);
           userAgreeAdd(botUserId).then(function() {
