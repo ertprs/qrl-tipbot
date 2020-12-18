@@ -24,7 +24,10 @@ module.exports = {
     const fee = toShor(config.wallet.tx_fee);
     const username = `${message.author}`;
     const userID = username.slice(1, -1);
-
+    let tippingUserUser_Found = false;
+    let tippingUserUser_agree = false;
+    let tippingUserOpt_Out = true;
+    
     message.channel.startTyping();
 
     // use to send a reply to user with delay and stop typing
@@ -202,13 +205,13 @@ module.exports = {
     // Get user info into scope from database
     tipbotInfo(userID).then(function(tipingUserInfo) {
       // console.log('Tipping user INFO: ' + JSON.stringify(tipingUserInfo));
-      const tippingUserUser_Found = JSON.stringify(tipingUserInfo[0].user_found);
-      const tippingUserUser_agree = JSON.stringify(tipingUserInfo[0].user_agree);
-      const tippingUserOpt_Out = JSON.stringify(tipingUserInfo[0].opt_out);
+      tippingUserUser_Found = JSON.stringify(tipingUserInfo[0].user_found);
+      tippingUserUser_agree = JSON.stringify(tipingUserInfo[0].user_agree);
+      tippingUserOpt_Out = JSON.stringify(tipingUserInfo[0].opt_out);
       // log the output for debug
-      // console.log('tippingUserUser_Found: ' + tippingUserUser_Found);
-      // console.log('tippingUserUser_agree: ' + tippingUserUser_agree);
-      // console.log('tippingUserOpt_Out: ' + tippingUserOpt_Out);
+      console.log('tippingUserUser_Found: ' + tippingUserUser_Found);
+      console.log('tippingUserUser_agree: ' + tippingUserUser_agree);
+      console.log('tippingUserOpt_Out: ' + tippingUserOpt_Out);
       // check for tipping user in the system
       if (!tippingUserUser_Found) {
       // console.log('User not found. Fail and warn');
@@ -217,7 +220,7 @@ module.exports = {
         return;
       }
       // check for tipping user opt-out
-      if (tippingUserOpt_Out == 'true') {
+      if (tippingUserOpt_Out) {
         const tippingUserOptOut_Date = JSON.stringify(tipingUserInfo[0].optout_date);
         errorMessage({ error: 'User Has `Opt-Out` Status...', description: 'You opted out on ' + tippingUserOptOut_Date + '. Please opt back in to use the bot. `+opt-in`' });
         // ReplyMessage('User opt\'ed out of the bot on ' + tippingUserOptOut_Date + '. Please opt back in to use the bot. `+opt-in`');

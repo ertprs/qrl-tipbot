@@ -251,7 +251,7 @@ module.exports = {
             });
         }
         // if none with API endpoints then give this message.
-        // FIX-ME: Need to integrate withadditional services or direct from exchange
+        // FIX-ME: Need to integrate with additional services or direct from exchange
         /* else if (args[1] == 'biteeu' || args[1] == 'bitvoicex' || args[1] == 'cointiger' || args[1] == 'simpleswap' || args[1] == 'swapzone' || args[1] == 'stealthex') {
           const embed = new Discord.MessageEmbed()
             .setColor('GREEN')
