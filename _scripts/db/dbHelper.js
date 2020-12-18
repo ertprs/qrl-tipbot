@@ -442,6 +442,7 @@ async function AddUser(args) {
     const auto_create_date = input.auto_create_date;
     const opt_out = input.opt_out;
     const dripAmt = input.drip_amt;
+    const faucet_bal = input.faucet_bal;
     const service_usersValues = [ [ user_name, service_id, new Date()]];
     const addTo_service_users = 'INSERT INTO ' + service + '_users(user_name, ' + service + '_id, time_stamp) VALUES ?';
     callmysql.query(addTo_service_users, [service_usersValues], function(err, result) {
@@ -478,9 +479,12 @@ async function AddUser(args) {
                 console.log('[mysql error]', err);
               }
               resultsArray.push({ user_added: 'true' });
-              // drip the new user from the faucet
-              const dripInfo = { service: service, user_id: userID, drip_amt: dripAmt }
-              faucetDrip(dripInfo);
+              // if faucet balance is greater than 0 send drip
+              if (faucet_bal > 0) {
+                // drip the new user from the faucet
+                const dripInfo = { service: service, user_id: userID, drip_amt: dripAmt }
+                faucetDrip(dripInfo);
+              }
 
               const user_infoValues = [ [userID, 0, 'discord', new Date()]];
               const addTo_users_agree = 'INSERT INTO users_agree(user_id, agree, service, time_stamp) VALUES ?';
