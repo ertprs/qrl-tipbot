@@ -212,6 +212,7 @@ module.exports = {
       console.log('tippingUserUser_Found: ' + tippingUserUser_Found);
       console.log('tippingUserUser_agree: ' + tippingUserUser_agree);
       console.log('tippingUserOpt_Out: ' + tippingUserOpt_Out);
+
       // check for tipping user in the system
       if (!tippingUserUser_Found) {
         console.log('User not found. Fail and warn');
@@ -221,7 +222,7 @@ module.exports = {
       }
 
       // check for tipping user agree
-      if (!tippingUserUser_agree) {
+      if (tippingUserUser_agree) {
         console.log('User has not agreed. Fail and warn');
         errorMessage({ error: 'User Has Not Agreed to Terms...', description: 'Please agree to the terms to start using the bot. Enter `+terms` to read or `+agree`' });
         // ReplyMessage('User needs to agree to the terms. `+agree`');
