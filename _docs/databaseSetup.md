@@ -75,6 +75,7 @@ mysql> SELECT concat('DROP TABLE IF EXISTS `', table_name, '`;') FROM informatio
 +----------------------------------------------------+
 
 DROP TABLE IF EXISTS `discord_users`; 
+DROP TABLE IF EXISTS `discord_link`; 
 DROP TABLE IF EXISTS `faucet_payouts`;
 DROP TABLE IF EXISTS `future_tips`;   
 DROP TABLE IF EXISTS `github_users`;  

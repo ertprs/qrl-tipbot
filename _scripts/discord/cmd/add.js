@@ -141,7 +141,7 @@ module.exports = {
             const wallet_pub = QRLaddress.address;
 
             faucetBalance().then(function(faucBal) {
-              console.log('Faucet Balance: ' + faucBal);
+              console.log('Faucet Balance: ' + JSON.stringify(faucBal));
               console.log('Drip Amount: ' + dripamt);
               if (dripamt > faucBal) {
                 // console.log('Faucet is flat or less than needed for drip');
