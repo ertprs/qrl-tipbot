@@ -16,23 +16,23 @@ const client = new Discord.Client();
 // use to send a reply to user with delay and stop typing
 // ReplyMessage(' Check your DM\'s');
 function ReplyMessage(content) {
-  message.channel.startTyping();
+  client.message.channel.startTyping();
   setTimeout(function() {
-    message.reply(content);
-    message.channel.stopTyping(true);
+    client.message.reply(content);
+    client.message.channel.stopTyping(true);
   }, 1000);
 }
 // errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
 function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
-  message.channel.startTyping();
+  client.message.channel.startTyping();
   setTimeout(function() {
     const embed = new Discord.MessageEmbed()
       .setColor(0x000000)
       .setTitle(':warning:  ERROR: ' + content.error)
       .setDescription(content.description)
       .setFooter(footer);
-    message.reply({ embed });
-    message.channel.stopTyping(true);
+    client.message.reply({ embed });
+    client.message.channel.stopTyping(true);
   }, 1000);
 }
 // tells where to find the command config files
