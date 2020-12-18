@@ -141,11 +141,14 @@ module.exports = {
             const wallet_pub = QRLaddress.address;
 
             faucetBalance().then(function(faucBal) {
+              console.log('Faucet Balance: ' + faucBal);
+              console.log('Drip Amount: ' + dripamt);
               if (dripamt > faucBal) {
                 // console.log('Faucet is flat or less than needed for drip');
                 dripamt = 0;
                 return dripamt;
               }
+              console.log('Drip Amount-1: ' + dripamt);
 
               const userInfo = { service: 'discord', service_id: discord_id, user_name: MessageAuthorUsername, wallet_pub: wallet_pub, wallet_bal: 0, user_key: salt, user_auto_created: false, auto_create_date: new Date(), opt_out: false, optout_date: new Date(), drip_amt: dripamt };
               // console.log('userInfo:' + JSON.stringify(userInfo));
