@@ -14,9 +14,8 @@ module.exports = {
     const username = `${message.author}`;
     const userID = username.slice(1, -1);
 
-    // start the bot typing
-    message.channel.startTyping();
-
+    // if (message.channel.type === 'dm') return;
+    console.log('message.channel.type: ' + message.channel.type)
     // errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
     function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
       message.channel.startTyping();
