@@ -320,7 +320,7 @@ function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contrib
     const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
     if (now < expirationTime) {
       const timeLeft = (expirationTime - now) / 1000;
-      errorMessage({ error: 'Cooldown TIme Limit Hit...', description: 'Please try again after ' + timeLeft.toFixed(1) + ' before using ' + JSON.stringify(command.name) });
+      errorMessage({ error: 'Cooldown Time Limit Hit...', description: 'Please try again later' });
       // message.reply(`please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`);
       return 
     }
