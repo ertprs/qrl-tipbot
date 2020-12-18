@@ -7,7 +7,6 @@ This is where the backup files will be once the backup.sh script is run.
 Set backup.sh in crontab to run daily `0 01 * * * $HOME/qrl-tips/_scripts/backup/backup.sh`
 this will create a encrypted file ready to be transfered to another backup location
 
-
 **Encrypted Tar File**
 
 this is the encryption script that secures the backup files.
@@ -17,8 +16,6 @@ openssl enc -pbkdf2 -e -base64 \
         -in TipBot_Backup.tar.gz -out TipBot_Backup.tar.gz.enc \
         -pass file:$HOME/qrl-tips/_scripts/backup/qrl-tipbotBackup/secret_pass.txt
 ```
-
-
 **Decrypt** 
 
 to decrypt you either need to pass the password in a file or in stdin.
@@ -34,13 +31,13 @@ echo -n "password_here" | openssl enc -pbkdf2 -d -base64 -out hey1_TipBot_Backup
 
 Inside the archive you will find;
 
-- config.json  
-- config.yml
-- faucet.log
-- sha256sum.txt
-- tipBotDatabase_Backup.sql
-- walletd.json
-- walletd.log
+  - config.json  
+  - config.yml
+  - faucet.log
+  - sha256sum.txt
+  - tipBotDatabase_Backup.sql
+  - walletd.json
+  - walletd.log
 
 Using the tipBotDatabase_Backup.sql to restore the database with
 

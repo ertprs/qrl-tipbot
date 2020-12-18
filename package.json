@@ -33,6 +33,7 @@
     "build_database": "nodejs ./_scripts/db/dbCreate.js",
     "addTestData": "nodejs ./_scripts/db/addTestData.js",
     "DiscordBot": "nodejs ./_scripts/discord/index.js",
+    "SpawnDiscordBot": "nodejs ./index.js",
     "InitializeBot": "nodejs ./_scripts/initializeBot.js",
     "unlockBotWallet": "nodejs ./_scripts/unlockBotWallet.js"
   },
