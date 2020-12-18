@@ -33,7 +33,8 @@ module.exports = {
     }
 
     message.author.send(`
-__**TipBot Terms and Conditions**__
+:exclamation: __**TipBot Terms and Conditions**__ :exclamation:
+
 :diamond_shape_with_a_dot_inside: Use of this TipBot and any function it may provide to you, as the user, is at your risk.
 :diamond_shape_with_a_dot_inside: By using this service you agree to not hold liable, for any reasons, the owner, operators, or any affiliates of the QRL TipBot or anyone associated with this service.
 :diamond_shape_with_a_dot_inside: By using this service, you agree to not abuse or misuse the service and will follow the rules listed below. 
