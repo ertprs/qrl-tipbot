@@ -102,7 +102,10 @@ module.exports = {
       if(message.guild != null) {
         message.delete();
       }
-      errorMessage({ error: 'Incorrect info given...', description: 'Use this function to withdraw funds from the Tipbot. `+help withdraw` for more' });
+      if (message.channel.type === 'dm') {
+        errorMessage({ error: 'Incorrect info given...', description: 'Use this function to withdraw funds from the Tipbot. `+help withdraw` for more' });
+        return;
+      }
       // console.log('no args given');
       // Print the warning with instruction to user
       const embed = new Discord.MessageEmbed()
