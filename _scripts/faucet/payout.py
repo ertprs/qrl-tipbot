@@ -80,7 +80,7 @@ def relayTransferTxnBySlave(addresses_to, amounts, feeShor, master_address):
   response = QRLrequest.text
   relayTransferTxnBySlaveResp = json.loads(response)
   jsonResponse = relayTransferTxnBySlaveResp
-  logging.info('amount = %s payees = %s fee = %s  masterAddress = %s %s', amounts, addresses_to, feeShor, master_address, current_time)
+  logging.info('amount = %s payees = %s fee = %s  masterAddress = %s ', amounts, addresses_to, feeShor, master_address)
   #print(f'ADMIN test:\n   amount = {amounts} \n   payees = {addresses_to} \n   fee = {feeShor}\n   masterAddress = {master_address}\n{current_time} ADMIN test:\n')
   return(jsonResponse)
 
