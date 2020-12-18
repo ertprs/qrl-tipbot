@@ -232,7 +232,7 @@ module.exports = {
       }
 
       // check for tipping user opt-out
-      if (tippingUserOpt_Out) {
+      if (tippingUserOpt_Out == 'true') {
         console.log('tippingUserOpt_Out: ' + tippingUserOpt_Out);
         console.log('User opt-out. Fail and warn');
         const tippingUserOptOut_Date = JSON.stringify(tipingUserInfo[0].optout_date);
