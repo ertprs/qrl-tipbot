@@ -13,6 +13,7 @@ const explorer = require('../qrl/explorerTools');
 const config = require('../../_config/config.json');
 global.config = config;
 const client = new Discord.Client();
+
 // tells where to find the command config files
 client.commands = new Discord.Collection();
 // Read in the commands we listen for. FInd these in the ./cmd/ dir below this file
@@ -38,28 +39,6 @@ client.on('ready', () => {
 {cyan ==========================================}
     `);
 
-// use to send a reply to user with delay and stop typing
-// ReplyMessage(' Check your DM\'s');
-function ReplyMessage(content) {
-  client.message.channel.startTyping();
-  setTimeout(function() {
-    client.message.reply(content);
-    client.message.channel.stopTyping(true);
-  }, 1000);
-}
-// errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
-function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
-  message.channel.startTyping();
-  setTimeout(function() {
-    const embed = new Discord.MessageEmbed()
-      .setColor(0x000000)
-      .setTitle(':warning:  ERROR: ' + content.error)
-      .setDescription(content.description)
-      .setFooter(footer);
-    client.message.reply({ embed });
-    client.message.channel.stopTyping(true);
-  }, 1000);
-}
 
   function getHeight() {
     return new Promise(resolve => {
@@ -255,6 +234,30 @@ wallet_Info().then(function(Info) {
 // check for messages and if received with the prefix, do stuff
 client.on('message', message => {
 
+// use to send a reply to user with delay and stop typing
+// ReplyMessage(' Check your DM\'s');
+function ReplyMessage(content) {
+  message.channel.startTyping();
+  setTimeout(function() {
+    message.reply(content);
+    message.channel.stopTyping(true);
+  }, 1000);
+}
+// errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
+function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
+  message.channel.startTyping();
+  setTimeout(function() {
+    const embed = new Discord.MessageEmbed()
+      .setColor(0x000000)
+      .setTitle(':warning:  ERROR: ' + content.error)
+      .setDescription(content.description)
+      .setFooter(footer);
+    message.reply({ embed });
+    message.channel.stopTyping(true);
+  }, 1000);
+}
+
+
   const prefixRegex = new RegExp(`^(<@!?${client.user.id}>|${escapeRegex(config.discord.prefix)})\\s*`);
   // test message content for prefex or client id of the bot. Fail if not found
   if (!prefixRegex.test(message.content)) return;
@@ -292,9 +295,8 @@ client.on('message', message => {
   if (!command) return;
 
   if (command.guildOnly && message.channel.type !== 'text') {
-    // errorMessage({ error: 'Can\'t access ' + command +' from DM!', description: 'Please try again from the main chat, this function will only work there.' });
+    errorMessage({ error: 'Can\'t access ' + command +' from DM!', description: 'Please try again from the main chat, this function will only work there.' });
     // message.reply('I can\'t execute that command inside DMs!');
-    console.log('cant execute in DM')
     return ;
   }
 
