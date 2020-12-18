@@ -6,33 +6,24 @@
 #							  #
 ###############################
 
-# Run this script from crontab just after the node backup file. 
-# This will tar, and move the files to specific directories for syncing to additional services. 
-# Requires the script to be in the users /home directory under the original name.
-# Also assumes that you are using the ./_scripts/backup/qrl-tipbotBackup/ directory in 
-# your config file. {config.backup.location}
+# Run this script from crontab.
 
-# Fix me to be smarter in the future.
+# This will tar, and move the files to specific directories for syncing to additional services. See backup.js 
+# places backup tar file in $HOME/qrl-tips/_scripts/backup/qrl-tipbotBackup/
 
-# Script Variables
-NOW=$(date +"%Y%m%dT%H%MZ")
-FileLocation=`cat /home/$USER/qrl-tipbot/_config/config.json |jq -r .backup.location`
-BackupLocation=/home/$USER/
-# Remove the unencrypted file in the backup directory if there.
-#check if file exists
-count=`ls -1 ${FileLocation}*.sql 2>/dev/null | wc -l`
-if [ $count != 0 ]
-then 
-  #rm -rf ${FileLocation}*.sql 
-  count=`ls -1 ${FileLocation}*.sql 2>/dev/null | wc -l`
-  if [ $count != 0 ]
-  then 
-    echo Failed to remove
-  fi
-fi 
-
+# get latest files into dir 
+/usr/bin/nodejs $HOME/qrl-tips/_scripts/backup/backup.js
+# location defined in config file
+FileLocation=`cat $HOME/qrl-tips/_config/config.json |jq -r .backup.location`
+cd $FileLocation
 # Tar the files to location defined in BackupLocation
-tar -czf ${BackupLocation}${NOW}_TipBot_Backup.tar.gz -C $FileLocation ../../backup/ >/dev/null 2>&1
+tar -czf TipBot_Backup.tar.gz -C $FileLocation/backup . >/dev/null 2>&1
 
-# Remove the old files to do this again later
-#rm -rf ${FileLocation}* 
+openssl enc -pbkdf2 -e -base64 \
+        -in TipBot_Backup.tar.gz -out TipBot_Backup.tar.gz.enc \
+        -pass file:$HOME/qrl-tips/_scripts/backup/qrl-tipbotBackup/secret_pass.txt
+
+# decrypt with 
+#openssl enc -pbkdf2 -d -base64 -out hey_TipBot_Backup.tar.gz -in TipBot_Backup.tar.gz.enc -pass file:$HOME/qrl-tips/_scripts/backup/qrl-tipbotBackup/secret_pass.txt
+# or 
+#echo -n "password_here" | openssl enc -pbkdf2 -d -base64 -out hey1_TipBot_Backup.tar.gz -in TipBot_Backup.tar.gz.enc -pass stdin

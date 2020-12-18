@@ -9,7 +9,7 @@ Look for the [#database] section there and add your details.
 
 ## DB Install
 
-Wwe have chosen MySQL for this project.
+We have chosen MySQL for this project.
 
 ```bash
 ## Install the database
@@ -61,4 +61,40 @@ The `_config/config.js.example` file is meant to give a framework of all of the 
     "db_user" : "DATABASE_USER",
     "db_port" : "3006"
   },
+```
+
+
+# DB Clean
+
+Run the below command and get a list of tables to DROP, then drop them...
+
+```sql
+mysql> SELECT concat('DROP TABLE IF EXISTS `', table_name, '`;') FROM information_schema.tables WHERE table_schema = 'qrltips_prod';
++----------------------------------------------------+
+| concat('DROP TABLE IF EXISTS `', table_name, '`;') |
++----------------------------------------------------+
+
+DROP TABLE IF EXISTS `discord_users`; 
+DROP TABLE IF EXISTS `faucet_payouts`;
+DROP TABLE IF EXISTS `future_tips`;   
+DROP TABLE IF EXISTS `github_users`;  
+DROP TABLE IF EXISTS `keybase_users`; 
+DROP TABLE IF EXISTS `reddit_users`;  
+DROP TABLE IF EXISTS `slack_users`;   
+DROP TABLE IF EXISTS `telegram_users`;
+DROP TABLE IF EXISTS `tips`;          
+DROP TABLE IF EXISTS `tips_to`;       
+DROP TABLE IF EXISTS `transactions`;  
+DROP TABLE IF EXISTS `trello_users`;  
+DROP TABLE IF EXISTS `twitter_users`; 
+DROP TABLE IF EXISTS `users`;         
+DROP TABLE IF EXISTS `users_agree`;   
+DROP TABLE IF EXISTS `users_info`;    
+DROP TABLE IF EXISTS `wallets`;       
+DROP TABLE IF EXISTS `whatsapp_users`;
+DROP TABLE IF EXISTS `withdrawls`;    
+
+
++----------------------------------------------------+
+19 rows in set (0.00 sec)
 ```

@@ -14,6 +14,12 @@ const callmysql = mysql.createConnection({
   password: `${config.database.db_pass}`,
   database: `${config.database.db_name}`,
 });
+console.log(`database info
+  DB Host: ${config.database.db_host}
+  DB User: ${config.database.db_user}
+  DB Pass: ${config.database.db_pass}
+  DB Name: ${config.database.db_name}
+  `);
 
 // connect to the MySQL server
 callmysql.connect(function(err) {
@@ -178,6 +184,23 @@ callmysql.connect(function(err) {
     console.log(results);
   });
 
+  // future_tips data, transactions
+  const addFutureTipsToTestData = 'INSERT INTO future_tips(service, user_id, user_name, tip_id, tip_from, tip_amount, tip_paidout, tip_donated, time_stamp) VALUES ?';
+  const FutureTipsTovalues = [
+    ['discord',  '@328611434177101835', '@fr1t2', 1, '@734267018701701242', 0.010000000, 0, 0, now ],
+    ['discord',  '@328611434177101835', '@fr1t2', 1, '@734267018701701242', 0.100000000, 0, 0, now ],
+    ['discord',  '@328611434177101835', '@fr1t2', 1, '@734267018701701242', 0.111000000, 0, 0, now ],
+    ['discord',  '@328611434177101835', '@fr1t2', 1, '@734267018701701242', 0.22000000, 0, 0, now ],
+  ];
+
+  callmysql.query(addFutureTipsToTestData, [FutureTipsTovalues], function(err, results) {
+    if (err) {
+      console.log(err.message);
+    }
+    // log the output of sql command
+    console.log('addFutureTipsToTestData results:');
+    console.log(results);
+  });
   // transactions data
   const addTransactionsTestData = 'INSERT INTO transactions(tip_id, tx_hash, time_stamp) VALUES ?';
   const Transactionsvalues = [

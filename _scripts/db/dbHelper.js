@@ -15,48 +15,109 @@ const callmysql = mysql.createPool({
 // expects { service: service, service_id: service_id }
 // returns { user_found, wallet_pub, wallet_bal, user_id, user_name, opt_out optout_date
 async function GetAllUserInfo(args) {
+  // console.log('\nGETALLUSERINFO CALLED: ' + JSON.stringify(args));
   return new Promise(resolve => {
     const input = JSON.parse(JSON.stringify(args));
     const service_id = input.service_id;
     const service = input.service;
     let foundResArray = [];
+    let has_user_found = false;
+    let has_user_agree = false;
+    let has_opt_out = false;
     // get all users_info data here...
-    const getAllInfoSearch = 'SELECT wallets.wallet_pub AS wallet_pub, wallets.wallet_bal AS wallet_bal, users.id AS user_id, ' + service + '_users.user_name AS user_name, users_info.opt_out AS opt_out, users_info.optout_date AS optout_date FROM wallets, users, ' + service + '_users, users_info WHERE users.id = wallets.user_id AND users.' + service + '_user_id = ' + service + '_users.id AND users.id = users_info.user_id AND ' + service + '_users.' + service + '_id = "' + service_id + '"';
+    const getAllInfoSearch = 'SELECT wallets.wallet_pub AS wallet_pub, wallets.wallet_bal AS wallet_bal, users.id AS user_id, ' + service + '_users.user_name AS user_name, users_info.opt_out AS opt_out, users_info.optout_date AS optout_date, users_agree.agree AS agree FROM wallets, users, ' + service + '_users, users_info, users_agree WHERE users.id = wallets.user_id AND users.' + service + '_user_id = ' + service + '_users.id AND users.id = users_info.user_id AND ' + service + '_users.' + service + '_id = "' + service_id + '" AND users.id = users_agree.user_id';
     // console.log('getAllInfoSearch: ' + getAllInfoSearch);
     callmysql.query(getAllInfoSearch, function(err, user_info) {
       if (err) {
         console.log('[mysql error]', err);
       }
-      // console.log('user_info: ' + JSON.stringify(user_info))
-      if(user_info.length == 0) {
+      // console.log('user_info: ' + JSON.stringify(user_info));
+      // check for user, if length is 0 they are not found
+      if(user_info.length > 0) {
         // const Results = { user_found: 'false' };
-        foundResArray.push({ user_found: 'false', user_agree: 'false', opt_out: 'false' });
+        has_user_found = true;
+        // foundResArray.push({ user_found: 'false', user_agree: 'false', opt_out: 'false' });
+        // resolve(foundResArray);
+        // return foundResArray;
+      }
+      else {
+        // user not found. Exit and return array
+        foundResArray.push({ user_found: has_user_found, user_agree: has_user_agree, opt_out: has_opt_out });
+        resolve(foundResArray);
+        return;
+      }
+      // console.log('0 has_user_found, has_user_agree, has_opt_out: ' + has_user_found + ', ' + has_user_agree + ', ' + has_opt_out);
+      // user found, set user variables
+      const user_agree = user_info[0].agree;
+      const user_id = user_info[0].user_id;
+      const opt_out = user_info[0].opt_out;
+      const user_name = user_info[0].user_name;
+      const optout_date = user_info[0].optout_date;
+      const wallet_pub = user_info[0].wallet_pub;
+      const U_id = user_info[0].user_id;
+      // print variables
+      // console.log('0 user_agree, user_id, opt_out, user_name, : ' + user_agree + ', ' + user_id + ', ' + opt_out + ', ' + user_name + ', ' + optout_date + ', ' + wallet_pub);
+      if(opt_out) {
+        // console.log('opt_out true');
+        has_opt_out = true;
+      }
+      // chck if user has already agreed
+      if (user_agree) {
+        has_user_agree = true;
+      }
+      // console.log('1 has_user_found, has_user_agree, has_opt_out: ' + has_user_found + ', ' + has_user_agree + ', ' + has_opt_out);
+      if (has_opt_out || !user_agree) {
+        // user opted out or is not found in DB. Return values
+        // foundResArray.push({ user_found: has_user_found, user_agree: has_user_agree, opt_out: has_opt_out });
+        foundResArray.push({ user_found: has_user_found, user_agree: has_user_agree, opt_out: has_opt_out, wallet_pub: wallet_pub, user_id: U_id, user_name: user_name, optout_date: optout_date });
+        resolve(foundResArray);
+        return;
+      }
+      // console.log('2 has_user_found, has_user_agree, has_opt_out: ' + has_user_found + ', ' + has_user_agree + ', ' + has_opt_out);
+      // console.log('2 user_agree, user_id, opt_out, user_name, : ' + user_agree + ', ' + user_id + ', ' + opt_out + ', ' + user_name + ', ' + optout_date + ', ' + wallet_pub);
+      // if(user_agree === 0) {
+          // user has not agreed, not found in db users_agree but user is found
+          // foundResArray.push({ user_found: 'true', user_agree: 'false', opt_out: 'false', user_id: user_id });
+          // resolve(foundResArray);
+        // }
+
+      // update the balance in the wallet database and refresh info
+      GetUserWalletBal({ user_id: user_id }).then(function(balance) {
+        const bal = JSON.stringify(balance);
+        const wallet_bal = balance.wallet_bal;
+        // console.log('balance: ' + wallet_bal);
+        foundResArray.push({ user_found: has_user_found, user_agree: has_user_agree, opt_out: has_opt_out, wallet_pub: wallet_pub, wallet_bal: wallet_bal, user_id: U_id, user_name: user_name, optout_date: optout_date });
+        // Array.prototype.push.apply(foundResArray, infoResult);
+        // console.log('getAllInfoSearch foundResArray ' + JSON.stringify(foundResArray) + '\n');
         resolve(foundResArray);
         return foundResArray;
-      }
+      });
 
-      const user_id = user_info[0].user_id;
-      // update the balance in the wallet database and refresh info
-      GetUserWalletBal({ user_id: user_id });
-      // check for user agree results
+      /* // check for user agree results
       const getAgreeSearch = 'SELECT users_agree.* FROM users_agree WHERE users_agree.user_id = "' + user_id + '"';
       callmysql.query(getAgreeSearch, function(err, get_agree) {
         if (err) {
           console.log('[mysql error]', err);
         }
+        //console.log('get_agree: ' + JSON.stringify(get_agree))
+        console.log('get_agree.length: ' + get_agree.length)
+
         if(get_agree.length == 0) {
           // user has not agreed, not found in db users_agree but user is found
           foundResArray.push({ user_found: 'true', user_agree: 'false', opt_out: 'false', user_id: user_id });
           resolve(foundResArray);
         }
       });
+
+
+
       // search the db again to pickup the updated balance and return good values to user
       callmysql.query(getAllInfoSearch, function(err, user_info_update) {
         if (err) {
           console.log('[mysql error]', err);
         }
         const infoResult = JSON.parse(JSON.stringify(user_info_update));
-        // console.log('infoResult: ' + JSON.stringify(infoResult));
+        console.log('infoResult: ' + JSON.stringify(infoResult));
         const wallet_pub = infoResult[0].wallet_pub;
         const wallet_bal = infoResult[0].wallet_bal;
         const U_id = infoResult[0].user_id;
@@ -64,6 +125,7 @@ async function GetAllUserInfo(args) {
         const opt_out = infoResult[0].opt_out;
         const optout_date = infoResult[0].optout_date;
         // const foundRes = { user_found: 'true' };
+
         foundResArray.push({ user_found: 'true', user_agree: 'true', wallet_pub: wallet_pub, wallet_bal: wallet_bal, user_id: U_id, user_name: user_name, opt_out: opt_out, optout_date: optout_date });
         // Array.prototype.push.apply(foundResArray, infoResult);
         // console.log('getAllInfoSearch foundResArray ' + JSON.stringify(foundResArray));
@@ -71,9 +133,13 @@ async function GetAllUserInfo(args) {
         return foundResArray;
       });
       // resolve(foundResArray)
+      */
+
     });
   });
 }
+
+
 
 async function CheckUser(args) {
   /*
@@ -412,19 +478,27 @@ async function AddUser(args) {
                 console.log('[mysql error]', err);
               }
               resultsArray.push({ user_added: 'true' });
+              // drip the new user from the faucet
               const dripInfo = { service: service, user_id: userID, drip_amt: dripAmt }
               faucetDrip(dripInfo);
-              const futureTips_payout = 'SELECT SUM(tip_amount) AS future_tip_amount FROM future_tips WHERE user_id = "' + service_id + '" AND tip_paidout = "0"';
-              callmysql.query(futureTips_payout, function(err, futureTipped) {
-                if (err) {
-                  console.log('[mysql error]', err);
-                }
-                if (futureTipped[0].future_tip_amount == 'NULL') {
-                  return futureTipped[0].future_tip_amount;
-                }
-                const future_tip_amount = futureTipped[0].future_tip_amount * 1000000000;
-                resultsArray.push({ future_tip_amount: future_tip_amount });
-                resolve(resultsArray);
+
+              const user_infoValues = [ [userID, 0, 'discord', new Date()]];
+              const addTo_users_agree = 'INSERT INTO users_agree(user_id, agree, service, time_stamp) VALUES ?';
+              callmysql.query(addTo_users_agree, [user_infoValues], function(err) {
+                // console.log('user_agree set to: 0');
+                // check if FUTURE TIPS ARE DUE AND PAYOUT
+                const futureTips_payout = 'SELECT SUM(tip_amount) AS future_tip_amount FROM future_tips WHERE user_id = "' + service_id + '" AND tip_paidout = "0"';
+                callmysql.query(futureTips_payout, function(err, futureTipped) {
+                  if (err) {
+                    console.log('[mysql error]', err);
+                  }
+                  if (futureTipped[0].future_tip_amount == 'NULL') {
+                    return futureTipped[0].future_tip_amount;
+                  }
+                  const future_tip_amount = futureTipped[0].future_tip_amount * 1000000000;
+                  resultsArray.push({ future_tip_amount: future_tip_amount });
+                  resolve(resultsArray);
+                });
               });
             });
           });
@@ -474,6 +548,7 @@ async function OptOut(args) {
 async function OptIn(args) {
   // this function sets the users_info.opt_out to 1 or true
   // If user has set true dont let tips be sent to them.
+  // console.log('OptIn passed, args: ' + JSON.stringify(args));
   const input = JSON.parse(JSON.stringify(args));
   callmysql.query('UPDATE users_info SET opt_out = ?, optout_date = ?, updated_at = ? WHERE user_id = ?', [false, new Date(), new Date(), input.user_id], function(err, result6) {
     if (err) {
@@ -532,12 +607,13 @@ async function addFutureTip(args) {
     const service = input.service;
     const user_id = input.user_id;
     const user_name = input.user_name;
+    const tip_id = input.tip_id;
     const tip_from = input.tip_from;
     const tip_amount = input.tip_amount;
     const time_stamp = new Date();
     const tip_paidout = '0';
-    const user_infoValues = [ [service, user_id, user_name, tip_from, tip_amount, tip_paidout, time_stamp] ];
-    const addTo_users_info = 'INSERT INTO future_tips(service, user_id, user_name, tip_from, tip_amount, tip_paidout, time_stamp) VALUES ?';
+    const user_infoValues = [ [service, user_id, user_name, tip_id, tip_from, tip_amount, tip_paidout, time_stamp] ];
+    const addTo_users_info = 'INSERT INTO future_tips(service, user_id, user_name, tip_id, tip_from, tip_amount, tip_paidout, time_stamp) VALUES ?';
     // console.log('addToFutureTipsInfo: ' + addTo_users_info + ' ' + user_infoValues);
     callmysql.query(addTo_users_info, [user_infoValues], function(err, addFutureTipRes) {
       if (err) {
@@ -550,6 +626,30 @@ async function addFutureTip(args) {
     });
   });
 }
+
+async function checkFutureTips(args) {
+  return new Promise(resolve => {
+    // we expect { service_id: SERVICE_ID }
+    const resultsArray = [];
+    const input = JSON.parse(JSON.stringify(args));
+    const service = input.service;
+    const service_id = input.service_id;
+    // check if FUTURE TIPS ARE DUE AND PAYOUT
+    const futureTips_payout = 'SELECT SUM(tip_amount) AS future_tip_amount FROM future_tips WHERE user_id = "' + service_id + '" AND tip_paidout = "0"';
+    callmysql.query(futureTips_payout, function(err, futureTipped) {
+      if (err) {
+        console.log('[mysql error]', err);
+      }
+      if (futureTipped[0].future_tip_amount == 'NULL') {
+        return futureTipped[0].future_tip_amount;
+      }
+      const future_tip_amount = futureTipped[0].future_tip_amount * 1000000000;
+      resultsArray.push({ future_tip_amount: future_tip_amount });
+      resolve(resultsArray);
+    });
+  });
+}
+
 
 async function clearFutureTips(args) {
   return new Promise(resolve => {
@@ -619,9 +719,9 @@ async function agree(args) {
     const txArray = [];
     const user_id = args.user_id;
     const service = args.service;
-    const agreeValues = [ [user_id, '1', service, new Date()] ];
-    const agreeIntoDB = 'Insert INTO users_agree(user_id, agree, service, time_stamp) VALUES ?';
-    callmysql.query(agreeIntoDB, [agreeValues], function(err, agreeIntoDBRes) {
+    const agreeIntoDB = 'UPDATE users_agree SET agree="1" WHERE user_id="' + user_id + '"';
+    // console.log(agreeIntoDB);
+    callmysql.query(agreeIntoDB, function(err, agreeIntoDBRes) {
       if (err) {
         console.log('[mysql error]', err);
       }
@@ -721,6 +821,7 @@ module.exports = {
   addFutureTip : addFutureTip,
   addTip : addTip,
   clearFutureTips : clearFutureTips,
+  checkFutureTips : checkFutureTips,
   addTransaction : addTransaction,
   addTipTo : addTipTo,
   agree : agree,

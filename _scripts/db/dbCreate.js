@@ -64,6 +64,8 @@ callmysql.connect(function(err) {
                           signup_date DATETIME,
                           opt_out BOOLEAN default 0,
                           optout_date DATETIME,
+                          banned BOOLEAN default 0,
+                          banned_date DATETIME,
                           updated_at DATETIME not null
 
                       )`;
@@ -104,6 +106,40 @@ callmysql.connect(function(err) {
       console.log(chalk.red('! ') + chalk.bgRed('Something else happened with createDiscordUsers...') + chalk.grey(' SQL warningCount: ' + results.warningCount));
     }
   });
+
+
+
+  // Create the 'discord_users' table to store to users info from Discord
+  const createDiscordLink = `create table if not exists discord_link(
+                               id int primary key auto_increment,
+                               user_id int not null,
+                               service ENUM('keybase', 'github', 'reddit', 'trello', 'twitter', 'slack', 'telegram', 'whatsapp'),
+                               service_uuid varchar(255) not null,
+                               generated_key varchar(255) not null,
+                               validated BOOLEAN default 0,
+                               expired BOOLEAN default 0,
+                               link_time_stamp DATETIME not null,
+                               valid_time_stamp DATETIME,
+                               expired_time_stamp DATETIME 
+                             )`;
+  callmysql.query(createDiscordLink, function(err, results) {
+    if (err) {
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
+    }
+    // log the output of sql command
+    if (results.warningCount == '0') {
+      console.log(chalk.cyan(' ✔ ') + chalk.blue(' createDiscordLink results: ') + chalk.green(' SQL Table created!'));
+    }
+    else if (results.warningCount == '1') {
+      console.log(chalk.yellow(' ⚠ ') + chalk.blue(' createDiscordLink results: ') + chalk.grey(' Table exists'));
+    }
+    else {
+      console.log(chalk.red('! ') + chalk.bgRed('Something else happened with createDiscordLink...') + chalk.grey(' SQL warningCount: ' + results.warningCount));
+    }
+  });
+
+
+
   // Create the 'twitter_users' table to store to users info from Twitter
   const createTwitterUsers = `create table if not exists twitter_users(
                                id int primary key auto_increment,

@@ -95,6 +95,7 @@ async function GetBalance(args) {
   // using the wallet API get this info and return to script
   if (args !== null) {
     const { stdout, stderr } = await exec('curl -s -XPOST http://127.0.0.1:5359/api/GetBalance -d \'{"address": "' + args + '"}\' |jq .balance');
+    // console.log('curl -s -XPOST http://127.0.0.1:5359/api/GetBalance -d \'{"address": "' + args + '"}\' |jq .balance')
     if (stderr) {
       console.error(`error: ${stderr}`);
     }
@@ -104,7 +105,7 @@ async function GetBalance(args) {
   }
   else {
   // no args passed
-    console.log('no args passed... We need an address!');
+    // console.log('no args passed... We need an address!');
     const returnData = { error: true };
     return returnData;
   }
@@ -123,7 +124,7 @@ async function checkBalance(args) {
   }
   // no args passed, get the defaults from the config and create a wallet
   else {
-    console.log('no args passed... We need an address!');
+    // console.log('no args passed... We need an address!');
     return;
   }
 }
@@ -193,7 +194,7 @@ async function IsValidAddress(args) {
   }
   else {
   // no args passed
-    console.log('no args passed... We need an address!');
+    // console.log('no args passed... We need an address!');
     const returnData = { error: true };
     return returnData;
   }
@@ -213,7 +214,25 @@ async function GetSecret(args) {
   }
   else {
   // no args passed
-    console.log('no args passed... We need an address!');
+    // console.log('no args passed... We need an address!');
+    return;
+  }
+}
+async function GetSecretKeys(args) {
+  // using the wallet API get this publicKeys secret keys
+  if (args !== null) {
+    const { stdout, stderr } = await exec('curl -s -XPOST http://127.0.0.1:5359/api/GetRecoverySeeds -d \'{"address": "' + args + '"}\'');
+    if (stderr) {
+      console.error(`error: ${stderr}`);
+    }
+    const output = JSON.stringify(JSON.parse(stdout));
+    // const output = stdout.slice(1, -2);
+    // console.log('output: ' + output)
+    return output;
+  }
+  else {
+  // no args passed
+    // console.log('no args passed... We need an address!');
     return;
   }
 }
@@ -237,4 +256,5 @@ module.exports = {
   CreateQRLWallet : CreateQRLWallet,
   sendQuanta : sendQuanta,
   GetSecret : GetSecret,
+  GetSecretKeys : GetSecretKeys,
 };

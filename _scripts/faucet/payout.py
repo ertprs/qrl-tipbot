@@ -7,7 +7,7 @@
 # Using the user_id from this table to lookup the wallet_pub
 # and add it to a list of addresses to pay.
 # 
-# 
+# Payout every few min.
 # 
 # ****************************************************************
 import requests
@@ -17,11 +17,11 @@ import datetime
 import logging
 from decimal import *
 # load the config file (find it at "data['TOPIC']['SETTING'])"
-with open('/home/fr1t2/tipbot/qrl-tipbot/_config/config.json') as json_data_file:
+with open('/home/fr1t2/qrl-tips/_config/config.json') as json_data_file:
     conf = json.load(json_data_file)
 # logging settings
 logging.getLogger("requests").setLevel(logging.WARNING)
-logging.basicConfig(format='%(asctime)s %(message)s', filename='/home/fr1t2/tipbot/qrl-tipbot/faucet.log', level=logging.INFO)
+logging.basicConfig(format='%(asctime)s %(message)s', filename='/home/fr1t2/qrl-tips/faucet.log', level=logging.INFO)
 
 #logging.info('******************** payout script ************************')
 
@@ -80,7 +80,7 @@ def relayTransferTxnBySlave(addresses_to, amounts, feeShor, master_address):
   response = QRLrequest.text
   relayTransferTxnBySlaveResp = json.loads(response)
   jsonResponse = relayTransferTxnBySlaveResp
-  #logging.info('payout.py :\n   amount = %s \n   payees = %s \n   fee = %s\n   masterAddress = %s\n%s ADMIN test:\n', amounts, addresses_to, feeShor, master_address, current_time)
+  logging.info('amount = %s payees = %s fee = %s  masterAddress = %s ', amounts, addresses_to, feeShor, master_address)
   #print(f'ADMIN test:\n   amount = {amounts} \n   payees = {addresses_to} \n   fee = {feeShor}\n   masterAddress = {master_address}\n{current_time} ADMIN test:\n')
   return(jsonResponse)
 

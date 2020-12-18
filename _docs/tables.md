@@ -2,9 +2,14 @@
 
 ## Tipbot Tables
 
+
+Create a database for each service we extend the bot to.
+
+Additionally we need a table to validate users across services. 
+
 ### `discord_users` Table
 
-The `discord_users` table will store all discord user information at account signup time.
+The `discord_users` table will store all discord user information at account sign up time.
 
 - **id** *primary_key* is created at entry time  
 - **user_name** Discord User Name
@@ -22,11 +27,36 @@ The `discord_users` table will store all discord user information at account sig
 +------------+--------------+------+-----+---------+----------------+
 ```
 
+### `discord_link` Table
+
+The `discord_link` table will store all discord user linking additional services.
+
+- **id** *primary_key* is created at entry time  
+- **user_id** Initiator's User ID
+- **service** user service intended to link
+- **service_uuid** New service Unique User ID (must be unique)
+- **generated_key** Key to link from alternative service - userkey+salt=generated key. User gets salt. 
+- **validated** Alt service validated? boolean
+- **expired** Is it expired? true if new key is written or if time expired
+- **link_time_stamp** is created at entry time `NOW()`  
+- **valid_time_stamp** is created at validation from alt service   
+- **expired_time_stamp** is created only if key expires 
+
+
+```sql
++------------+--------------+------+-----+---------+----------------+
+| Field      | Type         | Null | Key | Default | Extra          |
++------------+--------------+------+-----+---------+----------------+
+
+```
+
+
+
 ### `future_tips` Table
 
 This table holds tips to users that have not signed up yet
-We will keep these in memory for a set ampunt of time
-after this timeframe is up the bot will keep these tips in internal wallets.
+We will keep these in memory for a set amount of time
+after this time frame is up the bot will keep these tips in internal wallets.
 
 - **id** *primary_key* auto generated at entry.
 - **service** user service used to send tip
@@ -39,6 +69,8 @@ after this timeframe is up the bot will keep these tips in internal wallets.
 
 
 ```sql
++--------------------+----------------------------------------------------------------------------------------------+------+-----+---------+----------------+
+| Field              | Type                                                                                         | Null | Key | Default | Extra          |
 +--------------------+----------------------------------------------------------------------------------------------+------+-----+---------+----------------+
 | id                 | int(11)                                                                                      | NO   | PRI | NULL    | auto_increment |
 | service            | enum('discord','keybase','github','reddit','trello','twitter','slack','telegram','whatsapp') | YES  |     | NULL    |                |
@@ -61,8 +93,7 @@ Store details from the tip transaction
 - **id** *primary_key* is created at entry time 
 - **tans_id** from `transactions.id` table.field to tip and transaction
 - **from_user_id** the `users.id` that initiated the tip
-- **to_users_id** list of users to tip
-- **tip_amount** ammount to tip
+- **tip_amount** amount to tip
 - **from_service** the service that was used to tip from
 - **time_stamp** is created at entry time `NOW()`  
 
@@ -173,7 +204,7 @@ The `users_agree` table collects the user agreement from the user. This allows t
 +------------+----------------------------------------------------------------------------------------------+------+-----+---------+----------------+
 ```
 
-### `user_info` Table
+### `users_info` Table
 
 - **id** *primary_key* is created at entry time  
 - **user_id** from `users.id` table.field to join user and wallet
@@ -235,14 +266,14 @@ Store wallet details here
 ```
 
 
-### `Withdrawls` Table
+### `withdraws` Table
 
 store info related to withdraw and transfers from the bot addresses. 
 
 - **id** *primary_key* is created at entry time
 - **user_id** from `users.id` the user sending the tx
 - **tx_hash** The tx_hash from the QRL transaction
-- **service** service that intiated the transfer
+- **service** service that initiated the transfer
 - **time_stamp** when the tx happened
 
 
@@ -266,7 +297,7 @@ store info related to withdraw and transfers from the bot addresses.
 
 ### `faucet_payouts` Table
 
-Useed to track the payouts from the faucet. This will store all of the transaction details including the user_id, tx_hash from the qrl transaction, total amount transfered and the time it all happened.
+Used to track the payouts from the faucet. This will store all of the transaction details including the user_id, tx_hash from the qrl transaction, total amount transfered and the time it all happened.
 
 - **id** *primary_key* is created at entry time
 - **user_ids** the user id from `users.id`
