@@ -100,12 +100,10 @@ module.exports = {
     if ((args[0] == undefined) || (args[1] == undefined)) {
       // if not in private message delete the message
       if(message.guild != null) {
+        errorMessage({ error: 'Incorrect info given...', description: 'Use this function to withdraw funds from the Tipbot. `+help withdraw` for more' });
         message.delete();
       }
-      if (message.channel.type === 'dm') {
-        errorMessage({ error: 'Incorrect info given...', description: 'Use this function to withdraw funds from the Tipbot. `+help withdraw` for more' });
-        return;
-      }
+
       // console.log('no args given');
       // Print the warning with instruction to user
       const embed = new Discord.MessageEmbed()
