@@ -221,8 +221,8 @@ module.exports = {
                     // ReplyMessage('it seems like I can\'t DM you! Enable DM and try `+add` again...');
                     // react to the users message for fun
                   }).then(() => {
-                    if (message.channel.type === 'dm') return;
-                    /*
+                    // if (message.channel.type === 'dm') return;
+
                     message.author.send(`
 __**TipBot Terms and Conditions**__
 :small_orange_diamond: Use of this TipBot and any function it may provide to you, as the user, is at your risk.
@@ -267,7 +267,7 @@ __**You assume all risk by using this service**__
                         errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
                         // deleteMessage();
                       });
-                      */
+
 
 
                     ReplyMessage(' :white_check_mark: You\'re signed up! :white_check_mark: \nPlease `+agree` to my terms to begin using the bot. It will take a few minutes for your wallet to be created.');
