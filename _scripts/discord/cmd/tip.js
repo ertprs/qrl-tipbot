@@ -214,7 +214,7 @@ module.exports = {
       console.log('tippingUserOpt_Out: ' + tippingUserOpt_Out);
 
       // check for tipping user in the system
-      if (!tippingUserUser_Found) {
+      if (tippingUserUser_Found == 'false') {
         console.log('User not found. Fail and warn');
         console.log('tippingUserUser_Found: ' + tippingUserUser_Found);
         errorMessage({ error: 'User Not Found...', description: 'Please sign up to the tipbot. Enter `+add` to create a wallet then `+agree` to use the bot' });
@@ -223,7 +223,7 @@ module.exports = {
       }
 
       // check for tipping user agree
-      if (!tippingUserUser_agree) {
+      if (tippingUserUser_agree == 'false') {
         console.log('tippingUserUser_agree: ' + tippingUserUser_agree);
         console.log('User has not agreed. Fail and warn');
         errorMessage({ error: 'User Has Not Agreed to Terms...', description: 'Please agree to the terms to start using the bot. Enter `+terms` to read or `+agree`' });
