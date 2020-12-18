@@ -222,7 +222,7 @@ module.exports = {
       }
 
       // check for tipping user agree
-      if (tippingUserUser_agree === false) {
+      if (tippingUserUser_agree == false) {
         console.log('User has not agreed. Fail and warn');
         errorMessage({ error: 'User Has Not Agreed to Terms...', description: 'Please agree to the terms to start using the bot. Enter `+terms` to read or `+agree`' });
         // ReplyMessage('User needs to agree to the terms. `+agree`');
@@ -230,7 +230,7 @@ module.exports = {
       }
 
       // check for tipping user opt-out
-      if (tippingUserOpt_Out === true) {
+      if (tippingUserOpt_Out == true) {
         console.log('User opt-out. Fail and warn');
         const tippingUserOptOut_Date = JSON.stringify(tipingUserInfo[0].optout_date);
         errorMessage({ error: 'User Has `Opt-Out` Status...', description: 'You opted out on ' + tippingUserOptOut_Date + '. Please opt back in to use the bot. `+opt-in`' });
