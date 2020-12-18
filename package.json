@@ -12,7 +12,7 @@
   "author": "Fr1t2 <fr1t2@fr1t2.com> (https://fr1t2.com)",
   "main": "index.js",
   "dependencies": {
-    "bcryptjs": "^5.0.0",
+    "bcryptjs": "^2.4.3",
     "chalk": "^4.1.0",
     "discord.js": "^12.5.1",
     "minimist": "^1.2.5",
