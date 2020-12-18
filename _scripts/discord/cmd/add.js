@@ -143,7 +143,7 @@ module.exports = {
             faucetBalance().then(function(faucBal) {
               console.log('Faucet Balance: ' + JSON.stringify(faucBal));
               console.log('Drip Amount: ' + dripamt);
-              if (dripamt > faucBal) {
+              if (dripamt > faucBal.balance) {
                 // console.log('Faucet is flat or less than needed for drip');
                 dripamt = 0;
                 return dripamt;
