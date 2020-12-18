@@ -13,28 +13,6 @@ const explorer = require('../qrl/explorerTools');
 const config = require('../../_config/config.json');
 global.config = config;
 const client = new Discord.Client();
-// use to send a reply to user with delay and stop typing
-// ReplyMessage(' Check your DM\'s');
-function ReplyMessage(content) {
-  client.message.channel.startTyping();
-  setTimeout(function() {
-    client.message.reply(content);
-    client.message.channel.stopTyping(true);
-  }, 1000);
-}
-// errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
-function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
-  client.message.channel.startTyping();
-  setTimeout(function() {
-    const embed = new Discord.MessageEmbed()
-      .setColor(0x000000)
-      .setTitle(':warning:  ERROR: ' + content.error)
-      .setDescription(content.description)
-      .setFooter(footer);
-    client.message.reply({ embed });
-    client.message.channel.stopTyping(true);
-  }, 1000);
-}
 // tells where to find the command config files
 client.commands = new Discord.Collection();
 // Read in the commands we listen for. FInd these in the ./cmd/ dir below this file
@@ -60,6 +38,28 @@ client.on('ready', () => {
 {cyan ==========================================}
     `);
 
+// use to send a reply to user with delay and stop typing
+// ReplyMessage(' Check your DM\'s');
+function ReplyMessage(content) {
+  client.message.channel.startTyping();
+  setTimeout(function() {
+    client.message.reply(content);
+    client.message.channel.stopTyping(true);
+  }, 1000);
+}
+// errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
+function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
+  message.channel.startTyping();
+  setTimeout(function() {
+    const embed = new Discord.MessageEmbed()
+      .setColor(0x000000)
+      .setTitle(':warning:  ERROR: ' + content.error)
+      .setDescription(content.description)
+      .setFooter(footer);
+    client.message.reply({ embed });
+    client.message.channel.stopTyping(true);
+  }, 1000);
+}
 
   function getHeight() {
     return new Promise(resolve => {
