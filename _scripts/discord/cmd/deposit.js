@@ -88,7 +88,7 @@ module.exports = {
             }).then(function(userReturn) {
             // we should now have user results from the QR code, add them to the message and return
               const fileName = userReturn.fileName;
-              console.log(fileName);
+              // console.log(fileName);
               const embed = new Discord.MessageEmbed()
                 .setColor(0x000000)
                 .setTitle('**TipBot Deposit Info**')

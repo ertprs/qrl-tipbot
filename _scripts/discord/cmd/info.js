@@ -178,7 +178,7 @@ module.exports = {
           .addFields(
             { name: 'QRL USD Value:', value: '`\u0024' + thousandths(usdValue) + '`', inline: true },
             { name: 'QRL BTC Value:', value: '`\u0024' + thousandths(btcValue) + '`', inline: true },
-            
+
             { name: 'Volume USD / BTC', value: '`\u0024' + thousandths(usdTotalVolume) + ' / \u20BF' + thousandths(btcTotalVolume) + '`', inline: true },
             { name: 'Price Change USD / BTC 24h', value: '`\u0024' + (usdPriceChange24h).toFixed(4) + ' \u20BF' + (btcPriceChange24h).toFixed(9) + ' (%' + (priceChange24hPercent).toFixed(2) + ')`' },
             { name: 'Market Cap:', value: '`\u0024' + thousandths(usdMarketCap) + ' / \u20BF' + thousandths(btcMarketCap) + '`', inline: true },
@@ -411,7 +411,7 @@ module.exports = {
       // run through checks and fail if, else serve User info to the user
       // is user found?
         if (found === 'false') {
-          console.log('!found');
+          // console.log('!found');
           // not found, give main message and end
           errorMessage({ error: 'Not Found In System...', description: 'You\'re not found in the System. Enter `+help add` for instructions' });
           // ReplyMessage('Your not found in the System. Try `+add` or `+help`');
@@ -419,14 +419,14 @@ module.exports = {
         }
         // check for opt_out status
         if (optOut === 1) {
-          console.log('opt-out');
+          // console.log('opt-out');
           // Opt Out, give main message and end
           errorMessage({ error: 'User Has Opted Out...', description: 'You have opted out of the tipbot. Enter `+help opt-in` for instructions' });
           // ReplyMessage('You have opted out of the tipbot. Please send `+opt-in` to opt back in!');
           return;
         }
         if (agree === 'false') {
-          console.log('!agree');
+          // console.log('!agree');
           // not Agreed, give main message and end
           errorMessage({ error: 'User Has Not Agreed...', description: 'You have not agreed to the tipbot terms. Enter `+help agree` for instructions' });
           // ReplyMessage('You need to agree, please see the `+terms`');
