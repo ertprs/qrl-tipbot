@@ -7,7 +7,7 @@ const sha256Array = [];
 // const date1 = Date.now();
 const folderName = 'backup';
     const fileName = '/tipBotDatabase_Backup.sql';
-    const dumpFilePath = dumpFilePath + config.backup.location + folderName + fileName;
+    const dumpFilePath = config.backup.location + folderName + fileName;
     console.log('dumpFilePath: ' + dumpFilePath);
 
 // backup database into a and save in the backup folder
