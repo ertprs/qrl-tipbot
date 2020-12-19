@@ -177,6 +177,8 @@ module.exports = {
           .setDescription('Market information from Coin Gecko for QRL. For general information only')
           .addFields(
             { name: 'QRL USD Value:', value: '`\u0024' + thousandths(usdValue) + '`', inline: true },
+            { name: 'QRL BTC Value:', value: '`\u0024' + thousandths(btcValue) + '`', inline: true },
+            
             { name: 'Volume USD / BTC', value: '`\u0024' + thousandths(usdTotalVolume) + ' / \u20BF' + thousandths(btcTotalVolume) + '`', inline: true },
             { name: 'Price Change USD / BTC 24h', value: '`\u0024' + (usdPriceChange24h).toFixed(4) + ' \u20BF' + (btcPriceChange24h).toFixed(9) + ' (%' + (priceChange24hPercent).toFixed(2) + ')`' },
             { name: 'Market Cap:', value: '`\u0024' + thousandths(usdMarketCap) + ' / \u20BF' + thousandths(btcMarketCap) + '`', inline: true },
