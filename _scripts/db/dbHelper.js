@@ -82,7 +82,7 @@ async function GetAllUserInfo(args) {
         // }
 
         CheckPendingTx({ user_id: args.service_id }).then(function(pendingBal) {
-          //console.log('pendign BAl Request: ' + JSON.stringify(pendingBal));
+          console.log('pendign BAl Request: ' + JSON.stringify(pendingBal));
 
         });
       // update the balance in the wallet database and refresh info
@@ -456,7 +456,8 @@ async function CheckPendingTx(args) {
           }
 
         }).then(function(react) {
-          console.log(react)
+          //console.log(react)
+
           var sum = resultArray.reduce(function(a, b){
             return a + b;
           }, 0);
