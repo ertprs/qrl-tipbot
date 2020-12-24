@@ -237,7 +237,7 @@ async function GetSecretKeys(args) {
   }
 }
 async function GetTxInfo(args) {
-  console.log('GetTxInfo args: ' + args)
+  // console.log('GetTxInfo args: ' + args)
   const { stdout, stderr } = await exec('curl -s -XPOST http://127.0.0.1:5359/api/GetTransaction -d \'{"tx_hash": "' + args + '"}\'');
   if (stderr) {
     console.error(`error: ${stderr}`);

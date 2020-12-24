@@ -430,7 +430,16 @@ async function CheckPendingTx(args) {
         // lookup tx to varify iof still pending and clear if not.
         // wallet tools GetTxInfo
         wallet.GetTxInfo(pending.tx_hash).then(function(results) {
-          console.log('results: ' + results)
+          console.log('results: ' + results.confirmations)
+          if (results.confirmations > 0) {
+            console.log('tx confirmed' + pending.tx_hash);
+            callmysql.query('UPDATE transactions SET pending = "0" WHERE tx_hash = ?', [pending.tx_hash], function(err) {
+              if (err) {
+                console.log('[mysql error]', err);
+              }
+              console.log('updated set');
+            });
+          }
         });
       }
 
