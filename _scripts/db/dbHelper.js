@@ -431,7 +431,7 @@ async function CheckPendingTx(args) {
         // wallet tools GetTxInfo
         wallet.GetTxInfo(pending.tx_hash).then(function(results) {
           console.log('results: ' + results)
-          if (results.confirmations > 0) {
+          if (results.confirmations == 0) {
             console.log('tx confirmed' + pending.tx_hash);
             const dbInfo = 'UPDATE transactions SET pending = "0" WHERE tx_hash = "' + pending.tx_hash + '"';          
             callmysql.query(dbInfo, function(err, result) {
