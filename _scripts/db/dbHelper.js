@@ -425,7 +425,7 @@ async function CheckPendingTx(args) {
       console.log('searchResults:' + JSON.stringify(result));
       console.log('result.length:' + JSON.stringify(result.length));
 
-      /* for (var i = 0; ; i < result.length; i++) {
+ for (var i = 0; ; i < JSON.stringify(result.length); i++) {
         console.log('i:' + i);
         var pending = result.[i];
         for (var j = 0; j < pending.length; j++) {
@@ -433,7 +433,7 @@ async function CheckPendingTx(args) {
           console.log('pending.tx_hash: ' + pending.tx_hash);
         }
       }
-*/
+
 
       resolve(result);
     });
