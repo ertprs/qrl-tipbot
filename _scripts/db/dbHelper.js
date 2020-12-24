@@ -453,7 +453,7 @@ async function CheckPendingTx(args) {
             resultArray.push(txAmt)
             console.log(resultArray);
             pendingBal = Number(txAmt) + Number(pendingBal);
-            return pendingBal;
+            return resultArray;
           }
 
         });
