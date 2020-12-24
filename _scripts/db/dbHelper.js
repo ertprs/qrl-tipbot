@@ -452,18 +452,20 @@ async function CheckPendingTx(args) {
               resultArray.push(Number(txAmt))
               return resultArray;
             }
-          }).then(function(react) {
+          })
             //console.log(react)
             sum = resultArray.reduce(function(a, b){
               return a + b;
             }, 0);
             console.log('sum:' + sum)
             // no tips awaiting confirmation return 0
-          });
-        }
+
+        }.then(function(ren) {
+          console.log(ren)
+          resolve({ pendingBal: sum })
+
+        })
       });
-      console.log('resultArray: ' + resultArray)
-      resolve({ pendingBal: sum })
     });
   }
 
