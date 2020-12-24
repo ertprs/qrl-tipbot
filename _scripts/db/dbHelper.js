@@ -416,7 +416,7 @@ async function CheckPendingTx(args) {
       const input = JSON.parse(JSON.stringify(args));
       const id = input.user_id;
     // 
-    const searchDB = 'SELECT tips.from_user_id AS discord_user, tips.tip_amount AS tip_amount, tips.id AS tip_id, tips.time_stamp AS tip_timestamp, transactions.pending AS pending, transactions.tx_hash AS tx_hash FROM tips, transactions WHERE transactions.pending = "1" AND tips.from_user_id =  "' + args + '" AND transactions.tip_id = tips.id';
+    const searchDB = 'SELECT tips.from_user_id AS discord_user, tips.tip_amount AS tip_amount, tips.id AS tip_id, tips.time_stamp AS tip_timestamp, transactions.pending AS pending, transactions.tx_hash AS tx_hash FROM tips, transactions WHERE transactions.pending = "1" AND tips.from_user_id =  "' + id + '" AND transactions.tip_id = tips.id';
     console.log('serchDB: ' + searchDB);
     callmysql.query(searchDB, function(err, result) {
       if (err) {
