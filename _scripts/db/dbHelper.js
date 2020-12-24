@@ -458,7 +458,7 @@ async function CheckPendingTx(args) {
         }).then(function(react) {
           console.log(JSON.stringify(react))
           // no tips awaiting confirmation return 0
-          console.log(resultArray);
+          console.log(react);
           resolve(pendingBal)
         });
       }
