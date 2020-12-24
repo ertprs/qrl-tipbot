@@ -437,12 +437,12 @@ async function CheckPendingTx(args) {
             console.log('tx confirmed' + out.tx_hash);
 
             const dbInfo = 'UPDATE transactions SET pending = "0" WHERE tx_hash = "' + out.tx_hash + '"';          
+            console.log(dbInfo)
             callmysql.query(dbInfo, function(err, result) {
               console.log(JSON.stringify(result))
               if (err) {
                 console.log('[mysql error]', err);
               }
-              console.log('updated set');
             });
           }
         });
