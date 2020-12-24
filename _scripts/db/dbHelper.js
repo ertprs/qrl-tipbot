@@ -411,7 +411,7 @@ async function GetUserWalletBal(args) {
 
 async function CheckPendingTx(args) {
   return new Promise(resolve => {
-
+    console.log("ChekcPending Input: " + JSON.stringify(args))
     // get user pending data from database
       const input = JSON.parse(JSON.stringify(args));
       const id = input.user_id;
