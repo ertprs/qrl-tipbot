@@ -458,12 +458,15 @@ async function CheckPendingTx(args) {
           });
           console.log('resultArray: ' + resultArray)
         }
+      }).then(function(hmm) {
+          console.log('hmm: ' + hmm)
           console.log('resultArray: ' + resultArray)
-        sum = resultArray.reduce(function(a, b){
+        sum = hmm.reduce(function(a, b){
           return a + b;
         }, 0);
         console.log('sum:' + sum)
         resolve({ pendingBal: sum })
+        
       });
     });
   }
