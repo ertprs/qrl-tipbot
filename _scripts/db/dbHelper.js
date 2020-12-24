@@ -427,6 +427,7 @@ async function CheckPendingTx(args) {
       for (var i = 0; i < result.length; i++) {
         console.log('i:' + i);
         var pending = result[i];
+        console.log('pending#:' + pending);
         for (var j = 0; j < pending.length; j++) {
           console.log('j: ' + j);
           console.log('pending.tx_hash: ' + pending.tx_hash);
