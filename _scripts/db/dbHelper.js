@@ -433,7 +433,7 @@ async function CheckPendingTx(args) {
           //console.log('results: ' + JSON.parse(JSON.stringify(results)));
           const out = JSON.parse(results)
           console.log('out: ' + out.confirmations)
-          if (out.confirmations === 0) {
+          if (out.confirmations > 0) {
             console.log('tx confirmed' + out.tx_hash);
 
             const dbInfo = 'UPDATE transactions SET pending = "0" WHERE tx_hash = "' + out.tx_hash + '"';          
