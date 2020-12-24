@@ -463,9 +463,8 @@ async function CheckPendingTx(args) {
           
           console.log(sum)
           // no tips awaiting confirmation return 0
-          console.log(react);
 
-          resolve(pendingBal)
+          resolve({ pendingBal: sum })
         });
       }
     });
