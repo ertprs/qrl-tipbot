@@ -329,6 +329,7 @@ module.exports = {
       if (botUserCount > 0) {
       // console.log('Bots are tipped, send warning and continue..');
         // getting bot userid into array to respond to user with. userid is the correct format to notify user in
+        errorMessage({ error: 'Bots Won\'t Be Tipped!', description: 'You have tipped a bot, and that is not allowed. Please check your tip and try again.'})
         for(let i = 0, l = filteredBotList.length; i < l; i++) {
           bots.push(' ' + filteredBotList[i].userid);
         }
