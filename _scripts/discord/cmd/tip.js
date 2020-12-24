@@ -209,9 +209,9 @@ module.exports = {
       tippingUserUser_agree = JSON.stringify(tipingUserInfo[0].user_agree);
       tippingUserOpt_Out = JSON.stringify(tipingUserInfo[0].opt_out);
       // log the output for debug
-      console.log('tippingUserUser_Found: ' + tippingUserUser_Found);
-      console.log('tippingUserUser_agree: ' + tippingUserUser_agree);
-      console.log('tippingUserOpt_Out: ' + tippingUserOpt_Out);
+      // console.log('tippingUserUser_Found: ' + tippingUserUser_Found);
+      // console.log('tippingUserUser_agree: ' + tippingUserUser_agree);
+      // console.log('tippingUserOpt_Out: ' + tippingUserOpt_Out);
 
       // check for tipping user in the system
       if (tippingUserUser_Found == 'false') {
