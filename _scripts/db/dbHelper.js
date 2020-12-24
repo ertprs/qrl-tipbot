@@ -422,7 +422,7 @@ async function CheckPendingTx(args) {
       if (err) {
         console.log('[mysql error]', err);
       }
-      //console.log('searchResults:' + JSON.stringify(result));
+      console.log('searchResults:' + JSON.stringify(result));
 
       for (var i = 0; i < result.length; i++) {
         var pending = result[i];
@@ -434,9 +434,9 @@ async function CheckPendingTx(args) {
           const out = JSON.parse(results)
           console.log('out: ' + out)
           if (out.confirmations > 0) {
-            console.log('tx confirmed' + result.tx_hash);
+            console.log('tx confirmed' + pending.tx_hash);
 
-            const dbInfo = 'UPDATE transactions SET pending = "0" WHERE tx_hash = "' + result.tx_hash + '"';          
+            const dbInfo = 'UPDATE transactions SET pending = "0" WHERE tx_hash = "' + pending.tx_hash + '"';          
             console.log(dbInfo)
             callmysql.query(dbInfo, function(err, result) {
               console.log(JSON.stringify(result))
