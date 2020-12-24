@@ -84,10 +84,11 @@ async function GetAllUserInfo(args) {
       // update the balance in the wallet database and refresh info
       GetUserWalletBal({ user_id: user_id }).then(function(balance) {
         //check for pending tx's
-        console.log(user_id);
+        console.log(U_id);
         CheckPendingTx({ user_id: U_id }).then(function(pendingBal) {
           console.log('pendign BAl Request: ' + JSON.stringify(pendingBal));
 
+        });
         const bal = JSON.stringify(balance);
         // const pbal = JSON.stringify(pendingBal);
 
@@ -99,7 +100,6 @@ async function GetAllUserInfo(args) {
         // console.log('getAllInfoSearch foundResArray ' + JSON.stringify(foundResArray) + '\n');
         resolve(foundResArray);
         return foundResArray;
-        });
       });
 
       /* // check for user agree results
