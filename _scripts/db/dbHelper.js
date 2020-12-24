@@ -452,22 +452,18 @@ async function CheckPendingTx(args) {
               resultArray.push(Number(txAmt))
               return resultArray;
             }
+          }).then(function(react) {
             //console.log(react)
+            sum = resultArray.reduce(function(a, b){
+              return a + b;
+            }, 0);
+            console.log('sum:' + sum)
             // no tips awaiting confirmation return 0
-          console.log('resultArray: ' + resultArray)
           });
-          console.log('resultArray: ' + resultArray)
         }
-      }).then(function(hmm) {
-          console.log('hmm: ' + hmm)
-          console.log('resultArray: ' + resultArray)
-        sum = hmm.reduce(function(a, b){
-          return a + b;
-        }, 0);
-        console.log('sum:' + sum)
-        resolve({ pendingBal: sum })
-        
       });
+      console.log('resultArray: ' + resultArray)
+      resolve({ pendingBal: sum })
     });
   }
 
