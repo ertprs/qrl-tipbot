@@ -490,7 +490,7 @@ module.exports = {
                 .addField('Network Fee', '**' + toQuanta(fee).toFixed(9) + ' QRL**', true)
                 .addField('You Tipped', tippedUserIDs + ' ' + futureTippedUserIDs)
                 .addField('Total Transfer', '**' + toQuanta(tipTotal).toFixed(9) + ' QRL**', true)
-                .addField('New Wallet Balance', '[**' + newWal_bal + ' QRL**](' + config.bot_details.explorer_url + '/a/' + tippingUserWalPub + ')', true)
+                // .addField('New Wallet Balance', '[**' + newWal_bal + ' QRL**](' + config.bot_details.explorer_url + '/a/' + tippingUserWalPub + ')', true)
                 .addField('Transaction Hash', '[```yaml\n' + tx_hash + '\n```](' + config.bot_details.explorer_url + '/tx/' + tx_hash + ')')
                 .setFooter('.: The QRL TipBot :. ');
               message.author.send({ embed })
