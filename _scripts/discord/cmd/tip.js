@@ -360,7 +360,8 @@ module.exports = {
           const tipToUserFound = tipToUserInfo[0].user_found;
           const tipToUserOptOut = tipToUserInfo[0].opt_out;
           // If tipped user is found then...
-          if (tipToUserFound === 'true') {
+          console.log('tipToUserFound: ' + tipToUserFound)
+          if (tipToUserFound) {
             // If tipped user Opt-Out true...
             if (tipToUserOptOut === '1') {
               // user found and opted out. Add to the future_tips table and set the wallet address to the hold address...
