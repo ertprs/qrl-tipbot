@@ -422,7 +422,7 @@ async function CheckPendingTx(args) {
       if (err) {
         console.log('[mysql error]', err);
       }
-      console.log('searchResults:' + JSON.stringify(result));
+      console.log('searchResults:' + result);
 
       for (var i = 0; i < result.length; i++) {
         var pending = result[i];
