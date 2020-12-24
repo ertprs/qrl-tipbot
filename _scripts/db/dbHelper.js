@@ -455,9 +455,9 @@ async function CheckPendingTx(args) {
             return resultArray;
           }
 
-        }).then(function(react) {
-
-          var sum = react.reduce(function(a, b){
+        }).then(function(err, react) {
+          if (err) return err;
+          const sum = react.reduce(function(a, b){
             return a + b;
           }, 0);
           
