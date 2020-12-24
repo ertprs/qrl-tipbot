@@ -439,9 +439,9 @@ async function CheckPendingTx(args) {
           if (out.confirmations > 0) {
             // write the changes to the database as the tx is confirmed
             const dbInfo = 'UPDATE transactions SET pending = "0" WHERE tx_hash = "' + out.tx.transaction_hash + '"';          
-            console.log(dbInfo)
+            // console.log(dbInfo)
             callmysql.query(dbInfo, function(err, result) {
-              console.log(JSON.stringify(result))
+              // console.log(JSON.stringify(result))
               if (err) {
                 console.log('[mysql error]', err);
               }
@@ -461,7 +461,7 @@ async function CheckPendingTx(args) {
             return a + b;
           }, 0);
           
-          console.log(sum)
+          console.log('sum: ' + sum)
           // no tips awaiting confirmation return 0
 
           resolve({ pendingBal: sum })
