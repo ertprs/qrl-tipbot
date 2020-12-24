@@ -417,62 +417,55 @@ async function CheckPendingTx(args) {
       const id = input.user_id;
       let sum = 0;
       const resultArray = [];
-    // 
-    const searchDB = 'SELECT tips.from_user_id AS discord_user, tips.tip_amount AS tip_amount, tips.id AS tip_id, tips.time_stamp AS tip_timestamp, transactions.pending AS pending, transactions.tx_hash AS tx_hash FROM tips, transactions WHERE transactions.pending = "1" AND tips.from_user_id =  "' + id + '" AND transactions.tip_id = tips.id';
-    // console.log('serchDB: ' + searchDB);
-    callmysql.query(searchDB, function(err, result) {
-      if (err) {
-        console.log('[mysql error]', err);
-      }
-      // console.log('searchResults:' + JSON.stringify(result));
+      const searchDB = 'SELECT tips.from_user_id AS discord_user, tips.tip_amount AS tip_amount, tips.id AS tip_id, tips.time_stamp AS tip_timestamp, transactions.pending AS pending, transactions.tx_hash AS tx_hash FROM tips, transactions WHERE transactions.pending = "1" AND tips.from_user_id =  "' + id + '" AND transactions.tip_id = tips.id';
+      // console.log('serchDB: ' + searchDB);
+      callmysql.query(searchDB, function(err, result) {
+        if (err) {
+          console.log('[mysql error]', err);
+        }
+        // console.log('searchResults:' + JSON.stringify(result));
 
-      for (var i = 0; i < result.length; i++) {
-        var pending = result[i];
-        //console.log('pending.tx_hash: ' + pending.tx_hash);
-        // lookup tx to varify iof still pending and clear if not.
-        // wallet tools GetTxInfo
-        wallet.GetTxInfo(pending.tx_hash).then(function(results) {
-          //console.log('results: ' + JSON.parse(JSON.stringify(results)));
-          const out = JSON.parse(results)
-          // console.log('out: ' + JSON.stringify(out));
-          // console.log('tx confirmed: ' + out.confirmations);
-          if (out.confirmations > 0) {
-            // write the changes to the database as the tx is confirmed
-            const dbInfo = 'UPDATE transactions SET pending = "0" WHERE tx_hash = "' + out.tx.transaction_hash + '"';          
-            // console.log(dbInfo)
-            callmysql.query(dbInfo, function(err, result) {
-              // console.log(JSON.stringify(result))
-              if (err) {
-                console.log('[mysql error]', err);
-              }
-            });
-          }
-          else {
-            // tx is not confirmed, add the pending balance and return to user
-            const txAmt = out.tx.transfer.amounts[0];
-            resultArray.push(Number(txAmt))
-            return resultArray;
-          }
-
-        }).then(function(react) {
-          //console.log(react)
-
-          sum = resultArray.reduce(function(a, b){
-            return a + b;
-          }, 0);
-          
-
-          console.log('sum:' + sum)
-          // no tips awaiting confirmation return 0
-
-        });
-      }
+        for (var i = 0; i < result.length; i++) {
+          var pending = result[i];
+          //console.log('pending.tx_hash: ' + pending.tx_hash);
+          // lookup tx to varify iof still pending and clear if not.
+          // wallet tools GetTxInfo
+          wallet.GetTxInfo(pending.tx_hash).then(function(results) {
+            //console.log('results: ' + JSON.parse(JSON.stringify(results)));
+            const out = JSON.parse(results)
+            // console.log('out: ' + JSON.stringify(out));
+            // console.log('tx confirmed: ' + out.confirmations);
+            if (out.confirmations > 0) {
+              // write the changes to the database as the tx is confirmed
+              const dbInfo = 'UPDATE transactions SET pending = "0" WHERE tx_hash = "' + out.tx.transaction_hash + '"';          
+              // console.log(dbInfo)
+              callmysql.query(dbInfo, function(err, result) {
+                // console.log(JSON.stringify(result))
+                if (err) {
+                  console.log('[mysql error]', err);
+                }
+              });
+            }
+            else {
+              // tx is not confirmed, add the pending balance and return to user
+              const txAmt = out.tx.transfer.amounts[0];
+              resultArray.push(Number(txAmt))
+              return resultArray;
+            }
+            //console.log(react)
+            // no tips awaiting confirmation return 0
+          });
+          console.log('resultArray: ' + resultArray)
+          return resultArray;
+        }
+        sum = resultArray.reduce(function(a, b){
+          return a + b;
+        }, 0);
+        console.log('sum:' + sum)
+        resolve({ pendingBal: sum })
+      });
     });
-    console.log('resultArray: ' + resultArray)
-      resolve({ pendingBal: sum })
-  });
-
-}
+  }
 
 // :::: TO-DO :::: //
 // this function needs help.
