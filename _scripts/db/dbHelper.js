@@ -447,7 +447,7 @@ async function CheckPendingTx(args) {
             });
           }
           else {
-            let pendingBal = out.tx.transfer.amounts[0] + pendingBal;
+            pendingBal = out.tx.transfer.amounts[0] + pendingBal;
             return pendingBal
           }
           console.log(pendingBal);
