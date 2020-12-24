@@ -424,7 +424,7 @@ callmysql.connect(function(err) {
                                 tip_id int not null,
                                 tx_type ENUM('faucet', 'tip', 'withdraw'),
                                 tx_hash varchar(255) not null,
-                                pending BOOLEAN default 0 not null,
+                                pending BOOLEAN default 1 not null,
                                 time_stamp DATETIME not null
                              )`;
 
