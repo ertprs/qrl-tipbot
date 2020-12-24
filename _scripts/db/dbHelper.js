@@ -461,13 +461,15 @@ async function CheckPendingTx(args) {
             return a + b;
           }, 0);
           
+
           console.log('sum:' + sum)
           // no tips awaiting confirmation return 0
 
-          resolve({ pendingBal: sum })
         });
       }
     });
+    console.log('resultArray: ' + resultArray)
+      resolve({ pendingBal: sum })
   });
 
 }
