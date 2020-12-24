@@ -451,7 +451,6 @@ async function CheckPendingTx(args) {
               const txAmt = out.tx.transfer.amounts[0];
               resultArray.push(Number(txAmt))
               console.log('INTERNAL resultArray: ' + resultArray)
-              return resultArray;
             }
           })
         }
