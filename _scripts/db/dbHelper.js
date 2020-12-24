@@ -456,7 +456,9 @@ async function CheckPendingTx(args) {
           }
 
         }).then(function(err, react) {
-          if (err) return err;
+          if (err) {
+                    console.log('[mysql error]', err);
+          }
           const sum = react.reduce(function(a, b){
             return a + b;
           }, 0);
