@@ -425,10 +425,13 @@ async function CheckPendingTx(args) {
       console.log('searchResults:' + JSON.stringify(result));
 
       for (var i = 0; i < result.length; i++) {
-        console.log('i:' + i);
         var pending = result[i];
         console.log('pending.tx_hash: ' + pending.tx_hash);
-
+        // lookup tx to varify iof still pending and clear if not.
+        // wallet tools GetTxInfo
+        wallet.GetTxInfo(pending.tx_hash).then(function(results) {
+          console.log('results: ' + results)
+        });
       }
 
 
