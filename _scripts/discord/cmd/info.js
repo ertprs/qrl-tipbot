@@ -185,8 +185,8 @@ module.exports = {
             { name: 'Market Cap Change 24h: ', value: '`\u0024' + thousandths(usdMarketCapChange24h) + ' / \u20BF' + thousandths(btcMarketCapChange24h) + '`', inline: true },
             { name: '24hr USD Low/High', value: '`\u0024' + thousandths((usdLow24h).toFixed(3)) + ' / \u0024' + thousandths((usdHigh24h).toFixed(3)) + '`' },
             { name: '24hr BTC Low/High', value: '`\u20BF' + thousandths(btcLow24h) + ' / \u20BF' + thousandths(btcHigh24h) + '`' },
-            { name: 'All TIme High:', value: '**USD:** `\u0024' + thousandths((usdATH).toFixed(2)) + ' (%' + (usdATHChange).toFixed(2) + ')` **BTC:** `\u20BF' + thousandths((btcATH).toFixed(9)) + ' (%' + (btcATHChange).toFixed(2) + ')`' },
-            { name: 'All Time Low', value: '**USD:** `\u0024' + thousandths((usdATL).toFixed(2)) + ' (%' + (usdATLChange).toFixed(2) + ')` **BTC:** `\u20BF' + thousandths((btcATL).toFixed(9)) + ' (%' + (btcATLChange).toFixed(2) + ')`', inline: true },
+            { name: 'All TIme High:', value: '**USD:** `\u0024' + thousandths((usdATH).toFixed(2)) + ' **BTC:** `\u20BF' + thousandths((btcATH).toFixed(9)) },
+            { name: 'All Time Low', value: '**USD:** `\u0024' + thousandths((usdATL).toFixed(2)) + ' **BTC:** `\u20BF' + thousandths((btcATL).toFixed(9)), inline: true },
             { name: 'Circulating / Total Supply', value: '`' + thousandths(circulatingSupply.toFixed(0)) + ' / ' + thousandths(totalSupply) + '`' },
           )
           .setTimestamp()
@@ -208,8 +208,8 @@ module.exports = {
           .addFields(
             { name: 'Tipbot Faucet Balance:', value: '`' + thousandths(faucetBal) + '`' },
             { name: 'Faucet Payout interval:', value: ':timer: `' + ((faucetPayoutInterval / 60) / 24).toFixed(4) + ' Day(s)`' },
-            { name: 'Minimum Faucet Payout', value: ':small_red_triangle_down: ` ' + faucetMinPayout + ' shor`', inline: true },
-            { name: 'Maximum Faucet Payout', value: ':small_red_triangle: ` ' + faucetMaxPayout + ' shor`', inline: true },
+            { name: 'Minimum Faucet Payout', value: ':small_red_triangle_down: ` ' + faucetMinPayout + ' quanta`', inline: true },
+            { name: 'Maximum Faucet Payout', value: ':small_red_triangle: ` ' + faucetMaxPayout + ' quanta`', inline: true },
             { name: 'Faucet Wallet Address', value: '[' + FaucetWalletPub + '](' + config.bot_details.explorer_url + '/a/' + FaucetWalletPub + ')' },
           )
           .setTimestamp()
