@@ -416,6 +416,7 @@ async function CheckPendingTx(args) {
       const input = JSON.parse(JSON.stringify(args));
       const id = input.user_id;
       let pendingBal = 0;
+      const resultArray = [];
     // 
     const searchDB = 'SELECT tips.from_user_id AS discord_user, tips.tip_amount AS tip_amount, tips.id AS tip_id, tips.time_stamp AS tip_timestamp, transactions.pending AS pending, transactions.tx_hash AS tx_hash FROM tips, transactions WHERE transactions.pending = "1" AND tips.from_user_id =  "' + id + '" AND transactions.tip_id = tips.id';
     // console.log('serchDB: ' + searchDB);
@@ -436,7 +437,7 @@ async function CheckPendingTx(args) {
           // console.log('out: ' + JSON.stringify(out));
           // console.log('tx confirmed: ' + out.confirmations);
           if (out.confirmations > 0) {
-
+            // write the changes to the database as the tx is confirmed
             const dbInfo = 'UPDATE transactions SET pending = "0" WHERE tx_hash = "' + out.tx.transaction_hash + '"';          
             console.log(dbInfo)
             callmysql.query(dbInfo, function(err, result) {
@@ -447,16 +448,17 @@ async function CheckPendingTx(args) {
             });
           }
           else {
+            // tx is not confirmed, add the pending balance and return to user
             const txAmt = out.tx.transfer.amounts[0];
             pendingBal = Number(txAmt) + Number(pendingBal);
-            return pendingBal
+            console.log(pendingBal);
+            resolve(pendingBal)
+            return;
           }
-          console.log(pendingBal);
         });
       }
-
-
-      resolve(result);
+      // no tips awaiting confirmation return 0
+      resolve(pendingBal);
     });
   });
 
