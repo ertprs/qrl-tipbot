@@ -450,11 +450,11 @@ async function CheckPendingTx(args) {
           else {
             // tx is not confirmed, add the pending balance and return to user
             const txAmt = out.tx.transfer.amounts[0];
-            resultArray.push(txAmt)
+            resultArray.push({ txAmt: txAmt })
+            console.log(resultArray);
             pendingBal = Number(txAmt) + Number(pendingBal);
             return pendingBal;
           }
-            console.log(resultArray);
 
         });
       }
