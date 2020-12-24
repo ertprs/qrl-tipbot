@@ -15,7 +15,7 @@ const callmysql = mysql.createPool({
 // expects { service: service, service_id: service_id }
 // returns { user_found, wallet_pub, wallet_bal, user_id, user_name, opt_out optout_date
 async function GetAllUserInfo(args) {
-  console.log('\nGETALLUSERINFO CALLED: ' + JSON.stringify(args));
+  // console.log('\nGETALLUSERINFO CALLED: ' + JSON.stringify(args));
   return new Promise(resolve => {
     const input = JSON.parse(JSON.stringify(args));
     const service_id = input.service_id;
@@ -411,18 +411,18 @@ async function GetUserWalletBal(args) {
 
 async function CheckPendingTx(args) {
   return new Promise(resolve => {
-    console.log("ChekcPending Input: " + JSON.stringify(args))
+    // console.log("ChekcPending Input: " + JSON.stringify(args))
     // get user pending data from database
       const input = JSON.parse(JSON.stringify(args));
       const id = input.user_id;
     // 
     const searchDB = 'SELECT tips.from_user_id AS discord_user, tips.tip_amount AS tip_amount, tips.id AS tip_id, tips.time_stamp AS tip_timestamp, transactions.pending AS pending, transactions.tx_hash AS tx_hash FROM tips, transactions WHERE transactions.pending = "1" AND tips.from_user_id =  "' + id + '" AND transactions.tip_id = tips.id';
-    console.log('serchDB: ' + searchDB);
+    // console.log('serchDB: ' + searchDB);
     callmysql.query(searchDB, function(err, result) {
       if (err) {
         console.log('[mysql error]', err);
       }
-      console.log('searchResults:' + JSON.stringify(result));
+      // console.log('searchResults:' + JSON.stringify(result));
 
       for (var i = 0; i < result.length; i++) {
         var pending = result[i];
@@ -432,8 +432,8 @@ async function CheckPendingTx(args) {
         wallet.GetTxInfo(pending.tx_hash).then(function(results) {
           //console.log('results: ' + JSON.parse(JSON.stringify(results)));
           const out = JSON.parse(results)
-          console.log('out: ' + JSON.stringify(out));
-          console.log('tx confirmed: ' + out.confirmations);
+          // console.log('out: ' + JSON.stringify(out));
+          // console.log('tx confirmed: ' + out.confirmations);
           if (out.confirmations > 0) {
 
             const dbInfo = 'UPDATE transactions SET pending = "0" WHERE tx_hash = "' + out.tx.transaction_hash + '"';          
