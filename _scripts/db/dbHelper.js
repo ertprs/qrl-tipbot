@@ -455,15 +455,13 @@ async function CheckPendingTx(args) {
             return resultArray;
           }
 
-        }).then(function(err, react) {
-          if (err) {
-                    console.log('[mysql error]', err);
-          }
-          const sum = react.reduce(function(a, b){
+        }).then(function(react) {
+
+          var sum = react.reduce(function(a, b){
             return a + b;
           }, 0);
           
-          console.log('sum: ' + sum)
+          console.log('sum:' + sum)
           // no tips awaiting confirmation return 0
 
           resolve({ pendingBal: sum })
