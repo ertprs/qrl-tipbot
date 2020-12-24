@@ -411,6 +411,7 @@ async function GetUserWalletBal(args) {
 
 async function CheckPendingTx(args) {
   return new Promise(resolve => {
+
     // get user pending data from database
       const input = JSON.parse(JSON.stringify(args));
       const id = input.user_id;
@@ -421,7 +422,7 @@ async function CheckPendingTx(args) {
         console.log('[mysql error]', err);
       }
       console.log('searchResults:' + JSON.stringify(result));
-      return result;
+      resolve(result);
     });
   });
 
