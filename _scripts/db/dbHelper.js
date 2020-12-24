@@ -87,7 +87,7 @@ async function GetAllUserInfo(args) {
         console.log(JSON.stringify(args));
 
 
-        CheckPendingTx({ user_id: U_id }).then(function(pendingBal) {
+        CheckPendingTx({ user_id: service_id }).then(function(pendingBal) {
           console.log('pendign BAl Request: ' + JSON.stringify(pendingBal));
 
         });
