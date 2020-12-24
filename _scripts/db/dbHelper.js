@@ -452,12 +452,12 @@ async function CheckPendingTx(args) {
             const txAmt = out.tx.transfer.amounts[0];
             pendingBal = Number(txAmt) + Number(pendingBal);
           }
-            console.log(pendingBal);
-            resolve(pendingBal)
-            return;
+            return pendingBal;
         });
       }
       // no tips awaiting confirmation return 0
+            console.log(pendingBal);
+            resolve(pendingBal)
     });
   });
 
