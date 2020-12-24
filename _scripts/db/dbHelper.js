@@ -459,12 +459,10 @@ async function CheckPendingTx(args) {
             }, 0);
             console.log('sum:' + sum)
             // no tips awaiting confirmation return 0
-
-        }.then(function(ren) {
-          console.log(ren)
+            return sum;
+        }
+          console.log(sum)
           resolve({ pendingBal: sum })
-
-        })
       });
     });
   }
