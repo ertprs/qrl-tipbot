@@ -360,7 +360,7 @@ module.exports = {
           const tipToUserFound = tipToUserInfo[0].user_found;
           const tipToUserOptOut = tipToUserInfo[0].opt_out;
           // If tipped user is found then...
-          console.log('tipToUserFound: ' + tipToUserFound)
+          // console.log('tipToUserFound: ' + tipToUserFound)
           if (tipToUserFound) {
             // If tipped user Opt-Out true...
             if (tipToUserOptOut === '1') {

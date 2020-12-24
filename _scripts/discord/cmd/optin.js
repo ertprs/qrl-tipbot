@@ -124,6 +124,7 @@ module.exports = {
         // send the user their saved tips
         // eslint-disable-next-line
         const sendTips = await sendFutureTips({ amount: future_tip_amount, fee: fee, address_to: address_array, address_from: config.wallet.hold_address });
+        console.log(JSON.stringify(sendTips));
         ReplyMessage('Someone sent a tip while you were opted out! `' + futureTipPretty + ' qrl` on the way, look for them once the transaction is confirmed by the network. `+bal` to check your wallet balance.');
         // clear the saved tips in future_tips db, set to paid for user.
         // eslint-disable-next-line
