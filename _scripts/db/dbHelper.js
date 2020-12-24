@@ -415,7 +415,7 @@ async function CheckPendingTx(args) {
     // get user pending data from database
       const input = JSON.parse(JSON.stringify(args));
       const id = input.user_id;
-      let pendingBal = 0;
+      let sum = 0;
       const resultArray = [];
     // 
     const searchDB = 'SELECT tips.from_user_id AS discord_user, tips.tip_amount AS tip_amount, tips.id AS tip_id, tips.time_stamp AS tip_timestamp, transactions.pending AS pending, transactions.tx_hash AS tx_hash FROM tips, transactions WHERE transactions.pending = "1" AND tips.from_user_id =  "' + id + '" AND transactions.tip_id = tips.id';
@@ -451,14 +451,13 @@ async function CheckPendingTx(args) {
             // tx is not confirmed, add the pending balance and return to user
             const txAmt = out.tx.transfer.amounts[0];
             resultArray.push(Number(txAmt))
-            pendingBal = Number(txAmt) + Number(pendingBal);
             return resultArray;
           }
 
         }).then(function(react) {
           //console.log(react)
 
-          var sum = resultArray.reduce(function(a, b){
+          sum = resultArray.reduce(function(a, b){
             return a + b;
           }, 0);
           
