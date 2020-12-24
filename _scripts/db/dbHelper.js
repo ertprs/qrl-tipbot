@@ -433,7 +433,9 @@ async function CheckPendingTx(args) {
           console.log('results: ' + results.confirmations)
           if (results.confirmations > 0) {
             console.log('tx confirmed' + pending.tx_hash);
-            callmysql.query('UPDATE transactions SET pending = "0" WHERE tx_hash = ?', [pending.tx_hash], function(err) {
+            const dbInfo = 'UPDATE transactions SET pending = "0" WHERE tx_hash = "' + pending.tx_hash + '"';          
+            callmysql.query(dbInfo, function(err, result) {
+              console.log(JSON.stringify(result))
               if (err) {
                 console.log('[mysql error]', err);
               }
