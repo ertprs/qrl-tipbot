@@ -431,7 +431,7 @@ async function CheckPendingTx(args) {
         // wallet tools GetTxInfo
         wallet.GetTxInfo(pending.tx_hash).then(function(results) {
           //console.log('results: ' + JSON.parse(JSON.stringify(results)));
-          const out = JSON.parse(JSON.stringify(results))
+          const out = JSON.parse(results)
           console.log('out: ' + out.confirmations)
           if (out.confirmations === 0) {
             console.log('tx confirmed' + out.tx_hash);
