@@ -377,6 +377,9 @@ async function GetUserWalletBal(args) {
               return UpdateBalance;
             });
           }
+          // check for pending tx here and update the balance if found
+
+
           // const return_bal = balance;
           const return_bal = NetBal.balance;
           const searchResult = { wallet_bal: return_bal };
@@ -392,6 +395,26 @@ async function GetUserWalletBal(args) {
   });
 }
 
+  // expcts { user_id: user_id }
+  // expcts { user_id: @734267018701701242 }
+
+async function CheckPendingTx(args) {
+  return new Promise(resolve => {
+    // get user pending data from database
+      const input = JSON.parse(JSON.stringify(args));
+      const id = input.user_id;
+    // 
+    const searchDB = 'SELECT tips.from_user_id AS discord_user, tips.tip_amount AS tip_amount, tips.id AS tip_id, tips.time_stamp AS tip_timestamp, transactions.pending AS pending, transactions.tx_hash AS tx_hash FROM tips, transactions WHERE transactions.pending = "1" AND tips.from_user_id =  "' + args + '" AND transactions.tip_id = tips.id';
+    callmysql.query(searchDB, function(err, result) {
+      if (err) {
+        console.log('[mysql error]', err);
+      }
+      console.log('searchResults:' + JSON.stringify(result));
+      return results;
+    });
+  });
+
+}
 
 // :::: TO-DO :::: //
 // this function needs help.
@@ -827,6 +850,7 @@ module.exports = {
   clearFutureTips : clearFutureTips,
   checkFutureTips : checkFutureTips,
   addTransaction : addTransaction,
+  CheckPendingTx : CheckPendingTx,
   addTipTo : addTipTo,
   agree : agree,
   CheckAgree: CheckAgree,
