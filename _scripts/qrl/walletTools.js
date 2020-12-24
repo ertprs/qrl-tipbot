@@ -236,7 +236,14 @@ async function GetSecretKeys(args) {
     return;
   }
 }
-
+async function GetTxInfo(args) {
+  const { stdout, stderr } = await exec('curl -s -XPOST http://127.0.0.1:5359/api/GetTransaction -d \'{"address": "' + args + '"}\'');
+  if (stderr) {
+    console.error(`error: ${stderr}`);
+  }
+  const NodeInfo = stdout;
+  return NodeInfo;
+}
 // curl -s -XGET http://127.0.0.1:5359/api/GetWalletInfo
 
 module.exports = {
@@ -257,4 +264,5 @@ module.exports = {
   sendQuanta : sendQuanta,
   GetSecret : GetSecret,
   GetSecretKeys : GetSecretKeys,
+  GetTxInfo : GetTxInfo,
 };
