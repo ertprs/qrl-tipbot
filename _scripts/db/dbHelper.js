@@ -451,14 +451,13 @@ async function CheckPendingTx(args) {
             // tx is not confirmed, add the pending balance and return to user
             const txAmt = out.tx.transfer.amounts[0];
             pendingBal = Number(txAmt) + Number(pendingBal);
+          }
             console.log(pendingBal);
             resolve(pendingBal)
             return;
-          }
         });
       }
       // no tips awaiting confirmation return 0
-      resolve(pendingBal);
     });
   });
 
