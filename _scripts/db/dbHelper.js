@@ -456,7 +456,9 @@ async function CheckPendingTx(args) {
           console.log('resultArray: ' + resultArray)
           return resultArray;
           });
+          console.log('resultArray: ' + resultArray)
         }
+          console.log('resultArray: ' + resultArray)
         sum = resultArray.reduce(function(a, b){
           return a + b;
         }, 0);
