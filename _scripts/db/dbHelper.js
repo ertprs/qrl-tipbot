@@ -430,8 +430,8 @@ async function CheckPendingTx(args) {
         // lookup tx to varify iof still pending and clear if not.
         // wallet tools GetTxInfo
         wallet.GetTxInfo(pending.tx_hash).then(function(results) {
-          console.log('results: ' + results.confirmations)
-          
+          console.log('results: ' + results)
+
           if (results.confirmations <= 0) {
             console.log('tx confirmed' + pending.tx_hash);
 
