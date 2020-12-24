@@ -418,7 +418,7 @@ async function CheckPendingTx(args) {
         console.log('[mysql error]', err);
       }
       console.log('searchResults:' + JSON.stringify(result));
-      return results;
+      return result;
     });
   });
 
