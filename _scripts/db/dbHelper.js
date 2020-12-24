@@ -450,11 +450,11 @@ async function CheckPendingTx(args) {
               // tx is not confirmed, add the pending balance and return to user
               const txAmt = out.tx.transfer.amounts[0];
               resultArray.push(Number(txAmt))
+              return resultArray;
             }
             //console.log(react)
             // no tips awaiting confirmation return 0
           console.log('resultArray: ' + resultArray)
-          return resultArray;
           });
           console.log('resultArray: ' + resultArray)
         }
