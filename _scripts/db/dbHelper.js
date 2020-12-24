@@ -456,12 +456,12 @@ async function CheckPendingTx(args) {
             return resultArray;
           }
 
+        }).then(function(react) {
+          // no tips awaiting confirmation return 0
+          console.log(resultArray);
+          resolve(pendingBal)
         });
       }
-      // no tips awaiting confirmation return 0
-                  console.log(resultArray);
-
-            resolve(pendingBal)
     });
   });
 
