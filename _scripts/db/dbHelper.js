@@ -422,7 +422,7 @@ async function CheckPendingTx(args) {
       if (err) {
         console.log('[mysql error]', err);
       }
-      console.log('searchResults:' + result);
+      console.log('searchResults:' + JSON.stringify(result));
 
       for (var i = 0; i < result.length; i++) {
         var pending = result[i];
@@ -430,7 +430,7 @@ async function CheckPendingTx(args) {
         // lookup tx to varify iof still pending and clear if not.
         // wallet tools GetTxInfo
         wallet.GetTxInfo(pending.tx_hash).then(function(results) {
-          console.log('results: ' + JSON.stringify(results))
+          console.log('results: ' + results)
           if (results.confirmations > 0) {
             console.log('tx confirmed' + pending.tx_hash);
             const dbInfo = 'UPDATE transactions SET pending = "0" WHERE tx_hash = "' + pending.tx_hash + '"';          
