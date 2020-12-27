@@ -409,7 +409,7 @@ async function GetUserWalletBal(args) {
 
 async function lastTxCheck(args) {
   // return new Promise(resolve => {
-
+  console.log('lastTxCheck args: ' + JSON.stringify(args));
   const sumArray = [];
   let sum = 0;
 
@@ -461,7 +461,7 @@ async function CheckPendingTx(args) {
       if (err) {
         console.log('[mysql error]', err);
       }
-      // console.log('searchResults:' + JSON.stringify(result));
+      console.log('searchResults:' + JSON.stringify(result));
 
       lastTxCheck(result).then(function(sumis) {
         console.log('sum is: ' + sumis);
