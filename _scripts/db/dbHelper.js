@@ -441,11 +441,7 @@ async function lastTxCheck(args) {
           sumArray.push(Number(txAmt));
           console.log('INTERNAL sumArray: ' + sumArray);
         }
-      }).then(function(res) {
-        console.log('res: ' + res);
-        console.log('INTERNAL 1 sum: ' + sum);
-        console.log('INTERNAL 1 sumArray: ' + sumArray);
-      });
+      })
       console.log('INTERNAL 2 sum: ' + sum);
       console.log('INTERNAL 2 sumArray: ' + sumArray);
 
