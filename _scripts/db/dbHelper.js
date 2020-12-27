@@ -426,7 +426,7 @@ async function lastTxCheck(args) {
       const dbInfo = 'UPDATE transactions SET pending = "0" WHERE tx_hash = "' + out.tx.transaction_hash + '"';
       // console.log(dbInfo)
       callmysql.query(dbInfo, function(err, result) {
-        console.log(JSON.stringify(result));
+        // console.log(JSON.stringify(result));
         if (err) {
           console.log('[mysql error]', err);
         }
