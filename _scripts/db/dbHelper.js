@@ -410,6 +410,7 @@ async function GetUserWalletBal(args) {
 async function lastTxCheck(args) {
   // return new Promise(resolve => {
   console.log('lastTxCheck args: ' + JSON.stringify(args));
+  console.log('args.length: ' + args.length)
   const sumArray = [];
   let sum = 0;
 
@@ -430,6 +431,7 @@ async function lastTxCheck(args) {
         if (err) {
           console.log('[mysql error]', err);
         }
+        console.log('db updated:')
       });
     }
     else {
