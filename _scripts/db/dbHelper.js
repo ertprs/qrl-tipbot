@@ -409,31 +409,29 @@ async function GetUserWalletBal(args) {
 
 async function lastTxCheck(args) {
   // return new Promise(resolve => {
-  console.log('lastTxCheck args: ' + JSON.stringify(args));
-  console.log('args.length: ' + args.length)
+  // console.log('lastTxCheck args: ' + JSON.stringify(args));
+  // console.log('args.length: ' + args.length)
   const sumArray = [];
   let sum = 0;
-
   for (let i = 0; i < args.length; i++) {
     const pending = args[i];
-    console.log('pending.tx_hash: ' + pending.tx_hash);
+    // console.log('pending.tx_hash: ' + pending.tx_hash);
     // lookup tx to varify iof still pending and clear if not.
     // wallet tools GetTxInfo
     const pendingTx = await wallet.GetTxInfo(pending.tx_hash);
     // console.log('pendingTx: ' + pendingTx);
-
     const out = JSON.parse(pendingTx);
-    console.log('confirmations: ' + out.confirmations);
+    // console.log('confirmations: ' + out.confirmations);
     if (out.confirmations > 0) {
     // write the changes to the database as the tx is confirmed
       const dbInfo = 'UPDATE transactions SET pending = "0" WHERE tx_hash = "' + out.tx.transaction_hash + '"';
       // console.log(dbInfo)
-      callmysql.query(dbInfo, function(err, result) {
+      callmysql.query(dbInfo, function(err) {
         // console.log(JSON.stringify(result));
         if (err) {
           console.log('[mysql error]', err);
         }
-        console.log('db updated:')
+        // console.log('db updated:')
       });
     }
     else {
@@ -443,19 +441,17 @@ async function lastTxCheck(args) {
       sumArray.push(Number(txAmt));
     }
   }
-  console.log('INTERNAL sum: ' + sum);
-  console.log('INTERNAL sumArray: ' + sumArray);
+  // console.log('INTERNAL sum: ' + sum);
+  // console.log('INTERNAL sumArray: ' + sumArray);
   sum = sumArray.reduce(function(a, b) {
     return a + b;
   }, 0);
   return sum;
-
 }
 // expcts { user_id: user_id }
 // expcts { user_id: @734267018701701242 }
 
 async function CheckPendingTx(args) {
-
   return new Promise(resolve => {
     // console.log("ChekcPending Input: " + JSON.stringify(args))
     // get user pending data from database
@@ -468,63 +464,11 @@ async function CheckPendingTx(args) {
       if (err) {
         console.log('[mysql error]', err);
       }
-      console.log('searchResults:' + JSON.stringify(result));
-
+      // console.log('searchResults:' + JSON.stringify(result));
       lastTxCheck(result).then(function(sumis) {
-        console.log('sum is: ' + sumis);
+        // console.log('sum is: ' + sumis);
         resolve(sumis);
-
-
       });
-
-      /*
-        for (var i = 0; i < result.length; i++) {
-          var pending = result[i];
-          //console.log('pending.tx_hash: ' + pending.tx_hash);
-          // lookup tx to varify iof still pending and clear if not.
-          // wallet tools GetTxInfo
-          wallet.GetTxInfo(pending.tx_hash).then(function(results) {
-            //console.log('results: ' + JSON.parse(JSON.stringify(results)));
-            const out = JSON.parse(results)
-            // console.log('out: ' + JSON.stringify(out));
-            // console.log('tx confirmed: ' + out.confirmations);
-            if (out.confirmations > 0) {
-              // write the changes to the database as the tx is confirmed
-              const dbInfo = 'UPDATE transactions SET pending = "0" WHERE tx_hash = "' + out.tx.transaction_hash + '"';
-              // console.log(dbInfo)
-              callmysql.query(dbInfo, function(err, result) {
-                // console.log(JSON.stringify(result))
-                if (err) {
-                  console.log('[mysql error]', err);
-                }
-              });
-            }
-            else {
-              // tx is not confirmed, add the pending balance and return to user
-              const txAmt = out.tx.transfer.amounts[0];
-              sum = sum + Number(txAmt);
-
-              console.log('INTERNAL sum: ' + sum);
-              resultArray.push(Number(txAmt));
-              console.log('INTERNAL resultArray: ' + resultArray);
-            }
-          }).then(function(res) {
-              console.log('INTERNAL 1 sum: ' + sum);
-              console.log('INTERNAL 1 resultArray: ' + resultArray);
-          });
-              console.log('INTERNAL 2 sum: ' + sum);
-              console.log('INTERNAL 2 resultArray: ' + resultArray);
-        }
-*/
-
-
-      // console.log(react)
-      //sum = sumArray.reduce(function(a, b) {
-        //return a + b;
-      //}, 0);
-      // console.log('sum:' + sum);
-      // no tips awaiting confirmation return 0
-      // console.log(sum);
     });
   });
 }
