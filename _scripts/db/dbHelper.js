@@ -407,11 +407,11 @@ async function GetUserWalletBal(args) {
 }
 
 
+  const sumArray = [];
 async function lastTxCheck(args) {
   // return new Promise(resolve => {
   // console.log('lastTxCheck args: ' + JSON.stringify(args));
   // console.log('args.length: ' + args.length)
-  const sumArray = [];
   let sum = 0;
   for (let i = 0; i < args.length; i++) {
     const pending = args[i];
