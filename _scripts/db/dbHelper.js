@@ -445,7 +445,10 @@ async function lastTxCheck(args) {
   }
   console.log('INTERNAL sum: ' + sum);
   console.log('INTERNAL sumArray: ' + sumArray);
-  return sumArray;
+  sum = sumArray.reduce(function(a, b) {
+    return a + b;
+  }, 0);
+  return sum;
 
 }
 // expcts { user_id: user_id }
