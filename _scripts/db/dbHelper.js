@@ -420,7 +420,7 @@ async function lastTxCheck(args) {
     // lookup tx to varify iof still pending and clear if not.
     // wallet tools GetTxInfo
     const pendingTx = await wallet.GetTxInfo(pending.tx_hash);
-    console.log('pendingTx: ' + pendingTx);
+    // console.log('pendingTx: ' + pendingTx);
 
     const out = JSON.parse(pendingTx);
     console.log('confirmations: ' + out.confirmations);
