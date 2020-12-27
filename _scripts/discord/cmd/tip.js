@@ -249,6 +249,9 @@ module.exports = {
       // console.log('tippingUserWallet_Pub: ' + tippingUserWallet_Pub);
       const tippingUserWallet_Bal = toShor(JSON.stringify(tipingUserInfo[0].wallet_bal));
       // console.log('tippingUserWallet_Bal: ' + tippingUserWallet_Bal);
+      const tippingUserWallet_PendingBal = toShor(JSON.stringify(tipingUserInfo[0].pending));
+      console.log('tippingUserWallet_PendingBal: ' + tippingUserWallet_PendingBal);
+
       const tippingUserUser_Id = JSON.stringify(tipingUserInfo[0].user_id);
       // console.log('tippingUserUser_Id: ' + tippingUserUser_Id);
       // const tippingUserUser_Name = JSON.stringify(tipingUserInfo[0].user_name);
@@ -258,6 +261,16 @@ module.exports = {
       if (tippingUserWallet_Bal <= 0) {
       // console.log('User has 0 balance. Fail and warn');
         errorMessage({ error: 'User Wallet Empty...', description: 'No funds to tip. Transfer funds with `+deposit` or pull from the faucet if full with `+drip`' });
+        // ReplyMessage('You have no funds to tip. `+bal`');
+        return;
+      }
+      const pendingBal = tippingUserWallet_PendingBal - tippingUserWallet_Bal;
+      console.log('pendingBal: ' + pendingBal);
+
+      // check balance to tip amount pending balance
+      if ( pendingBal < 0) {
+      // console.log('User has 0 balance. Fail and warn');
+        errorMessage({ error: 'Pending Balance Found...', description: 'You have a pending balance that is less than you are sending. Wait for the transactions to confirm and try again.' +  });
         // ReplyMessage('You have no funds to tip. `+bal`');
         return;
       }
