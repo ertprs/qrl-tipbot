@@ -270,7 +270,7 @@ module.exports = {
       // check balance to tip amount pending balance
       if ( pendingBal < 0) {
       // console.log('User has 0 balance. Fail and warn');
-        errorMessage({ error: 'Pending Balance Found...', description: 'You have a pending balance that is less than you are sending. Wait for the transactions to confirm and try again.' +  });
+        errorMessage({ error: 'Pending Balance Found...', description: 'You have a pending balance that is less than you are sending. Wait for the transactions to confirm and try again.' });
         // ReplyMessage('You have no funds to tip. `+bal`');
         return;
       }
