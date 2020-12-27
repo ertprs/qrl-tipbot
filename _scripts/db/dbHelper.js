@@ -444,8 +444,8 @@ async function lastTxCheck(args) {
       sumArray.push(Number(txAmt));
       console.log('INTERNAL sumArray: ' + sumArray);
     }
-    return sumArray;
   }
+  return sumArray;
 
 }
 // expcts { user_id: user_id }
