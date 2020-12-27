@@ -141,8 +141,8 @@ module.exports = {
         BalancePromise.then(function(balanceResult) {
           const UserBalance = balanceResult.balance;
           // console.log(UserBalance);
-          const res = ((output.wallet_bal / 1000000000).toFixed(9));
-          const pending = ((output.pending / 1000000000).toFixed(9));
+          const res = ((output[0].wallet_bal / 1000000000).toFixed(9));
+          const pending = ((output[0].pending / 1000000000).toFixed(9));
           message.channel.stopTyping(true);
           const embed = new Discord.MessageEmbed()
             .setColor(0x000000)
