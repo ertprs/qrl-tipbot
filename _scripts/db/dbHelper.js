@@ -449,12 +449,20 @@ async function CheckPendingTx(args) {
             else {
               // tx is not confirmed, add the pending balance and return to user
               const txAmt = out.tx.transfer.amounts[0];
+              sum = sum + Number(txAmt)
+              console.log('INTERNAL sum: ' + sum)
               resultArray.push(Number(txAmt))
               console.log('INTERNAL resultArray: ' + resultArray)
+
+
             }
           })
+
         }
+
+
             console.log('EXTERNAL resultArray: ' + resultArray)
+            console.log('EXTERNAL sum: ' + sum)
             //console.log(react)
             sum = resultArray.reduce(function(a, b) {
               return a + b;
