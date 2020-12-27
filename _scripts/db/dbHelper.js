@@ -374,7 +374,7 @@ async function GetUserWalletBal(args) {
         }
         const wallet_bal = result[0].wallet_bal;
         const wallet_pub = result[0].wallet_pub;
-        // now check the network for ths balance info and compaire.
+        // now check the network for this balance info and compare.
         const NetBalance = wallet.GetBalance;
         NetBalance(wallet_pub).then(function(NetBal) {
           // should have netBal value from the network now, compare them
@@ -406,7 +406,7 @@ async function GetUserWalletBal(args) {
   });
 }
 
-
+// expects an array from the database lookup. Iterates through and finds all non-confirmed tx'ns.
 async function lastTxCheck(args) {
   // return new Promise(resolve => {
   // console.log('lastTxCheck args: ' + JSON.stringify(args));
@@ -416,7 +416,7 @@ async function lastTxCheck(args) {
   for (let i = 0; i < args.length; i++) {
     const pending = args[i];
     // console.log('pending.tx_hash: ' + pending.tx_hash);
-    // lookup tx to varify iof still pending and clear if not.
+    // lookup tx to verify if still pending and clear if not.
     // wallet tools GetTxInfo
     const pendingTx = await wallet.GetTxInfo(pending.tx_hash);
     // console.log('pendingTx: ' + pendingTx);

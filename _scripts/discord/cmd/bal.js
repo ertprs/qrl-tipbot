@@ -135,17 +135,20 @@ module.exports = {
           return;
         }
         const UserAddress = result[0].wallet_pub;
+
         const BalancePromise = Balance(UserAddress);
         // assign this to a promise and get the function into a result
         BalancePromise.then(function(balanceResult) {
           const UserBalance = balanceResult.balance;
           // console.log(UserBalance);
-          const res = ((UserBalance / 1000000000).toFixed(9));
+          const res = ((output.wallet_bal / 1000000000).toFixed(9));
+          const res = ((output.pending / 1000000000).toFixed(9));
           message.channel.stopTyping(true);
           const embed = new Discord.MessageEmbed()
             .setColor(0x000000)
             .setTitle('Tipbot Balance - ' + res + ' QRL \n*Transactions may take a some time to post. Please be patient*')
             .addField('Balance:', `\`${res} QRL\``, true)
+            .addField('Pending Balance:', `\`${pending} QRL\``, true)
             .addField('QRL Address:', '[' + UserAddress + '](' + config.bot_details.explorer_url + '/a/' + UserAddress + ')')
             // .addField('Transactions may take a some time to post. Please be patient')
             .setFooter('  .: Tipbot provided by The QRL Contributors :.');
