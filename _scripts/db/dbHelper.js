@@ -457,9 +457,10 @@ async function CheckPendingTx(args) {
             }
           }).then(function(res) {
               console.log('INTERNAL 1 sum: ' + sum);
-              console.log('INTERNAL resultArray: ' + resultArray);
+              console.log('INTERNAL 1 resultArray: ' + resultArray);
           });
-
+              console.log('INTERNAL 2 sum: ' + sum);
+              console.log('INTERNAL 2 resultArray: ' + resultArray);
         }
 
 
