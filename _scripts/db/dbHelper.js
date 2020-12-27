@@ -406,10 +406,10 @@ async function GetUserWalletBal(args) {
   });
 }
 
-const sumArray = [];
 
 async function lastTxCheck(args) {
   return new Promise(resolve => {
+    const sumArray = [];
     let sum = 0;
 
     for (let i = 0; i < args.length; i++) {
@@ -474,6 +474,7 @@ async function CheckPendingTx(args) {
 
       lastTxCheck(result).then(function(sumis) {
         console.log('sum is: ' + sumis);
+        resolve(sumis);
 
 
       });
@@ -518,17 +519,14 @@ async function CheckPendingTx(args) {
         }
 */
 
-      console.log('EXTERNAL resultArray: ' + sumArray);
-      console.log('EXTERNAL sum: ' + sum);
+
       // console.log(react)
-      sum = sumArray.reduce(function(a, b) {
-        return a + b;
-      }, 0);
-      console.log('sum:' + sum);
+      //sum = sumArray.reduce(function(a, b) {
+        //return a + b;
+      //}, 0);
+      // console.log('sum:' + sum);
       // no tips awaiting confirmation return 0
-      console.log(sum);
-      resolve({ pendingBal: sum });
-      return sum;
+      // console.log(sum);
     });
   });
 }
