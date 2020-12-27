@@ -135,40 +135,35 @@ module.exports = {
           return;
         }
         const UserAddress = result[0].wallet_pub;
-
-        const BalancePromise = Balance(UserAddress);
         // assign this to a promise and get the function into a result
-        BalancePromise.then(function(balanceResult) {
-          const UserBalance = balanceResult.balance;
-          // console.log(UserBalance);
-          const res = ((output[0].wallet_bal / 1000000000).toFixed(9));
-          const pending = ((output[0].pending / 1000000000).toFixed(9));
-          message.channel.stopTyping(true);
-          const embed = new Discord.MessageEmbed()
-            .setColor(0x000000)
-            .setTitle('Tipbot Balance - ' + res + ' QRL \n*Transactions may take a some time to post. Please be patient*')
-            .addField('Balance:', `\`${res} QRL\``, true)
-            .addField('Pending Balance:', `\`${pending} QRL\``, true)
-            .addField('QRL Address:', '[' + UserAddress + '](' + config.bot_details.explorer_url + '/a/' + UserAddress + ')')
-            // .addField('Transactions may take a some time to post. Please be patient')
-            .setFooter('  .: Tipbot provided by The QRL Contributors :.');
-          message.author.send({ embed })
-            .then(() => {
-              if (message.channel.type === 'dm') return;
-              message.channel.stopTyping(true);
-              // ReplyMessage('\n:moneybag: Balance is in your DM :moneybag:');
-            })
-            .catch(error => {
-              errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
-              // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-              // ReplyMessage('it seems like I can\'t DM you! Do you have DMs disabled?');
-            });
-          message.react(emojiCharacters.q)
-            .then(() => message.react(emojiCharacters.r))
-            .then(() => message.react(emojiCharacters.l))
-            .catch(() => console.error('One of the emojis failed to react.'));
-          message.channel.stopTyping(true);
-        });
+        // console.log(UserBalance);
+        const res = ((output[0].wallet_bal / 1000000000).toFixed(9));
+        const pending = ((output[0].pending / 1000000000).toFixed(9));
+        message.channel.stopTyping(true);
+        const embed = new Discord.MessageEmbed()
+          .setColor(0x000000)
+          .setTitle('Tipbot Balance - ' + res + ' QRL \n*Transactions may take a some time to post. Please be patient*')
+          .addField('Balance:', `\`${res} QRL\``, true)
+          .addField('Pending Balance:', `\`${pending} QRL\``, true)
+          .addField('QRL Address:', '[' + UserAddress + '](' + config.bot_details.explorer_url + '/a/' + UserAddress + ')')
+          // .addField('Transactions may take a some time to post. Please be patient')
+          .setFooter('  .: Tipbot provided by The QRL Contributors :.');
+        message.author.send({ embed })
+          .then(() => {
+            if (message.channel.type === 'dm') return;
+            message.channel.stopTyping(true);
+            // ReplyMessage('\n:moneybag: Balance is in your DM :moneybag:');
+          })
+          .catch(error => {
+            errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...'});
+            // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+            // ReplyMessage('it seems like I can\'t DM you! Do you have DMs disabled?');
+          });
+        message.react(emojiCharacters.q)
+          .then(() => message.react(emojiCharacters.r))
+          .then(() => message.react(emojiCharacters.l))
+          .catch(() => console.error('One of the emojis failed to react.'));
+        message.channel.stopTyping(true);
       });
     }
   },
