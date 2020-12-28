@@ -345,7 +345,7 @@ module.exports = {
             .addField('Approx New Balance:', '`' + toQuanta((check[0].userArray[0][0].wallet_bal - check[0].userArray[0][0].pending) - transferAmount) + ' QRL`', true)
             .addField('Address Sent to:', '[' + check[0].addressArray[0] + '](' + config.bot_details.explorer_url + '/a/' + check[0].addressArray[0] + ')')
             .addField('Transaction Hash:', '[```yaml\n' + transferFundsOut.tx.transaction_hash + '\n```](' + config.bot_details.explorer_url + '/tx/' + transferFundsOut.tx.transaction_hash + ')')
-            .setFooter('.: The QRL TipBot :. ');
+            .setFooter('  .: Tipbot provided by The QRL Contributors :.');
           message.author.send({ embed })
             .then(() => {
               if (message.channel.type !== 'dm') return;
