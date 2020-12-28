@@ -108,7 +108,7 @@ module.exports = {
 
         if(checkValue) {
           console.log('Valid amount given: ' + arg);
-          return (arg * toShor);
+          return (arg * toShor) - fee;
         }
         else if (arg === 'all') {
           console.log('all called, transfer full balance: ' + balance);
@@ -341,7 +341,7 @@ module.exports = {
             // .setImage('https://github.com/theQRL/assets/blob/master/logo/inverse/QRL_logo_inverse@1x.png?raw=true')
             .addField('Amount Sent:', '`' + toQuanta(check[0].amtArray) + ' QRL`', true)
             .addField('Network Fee:', '`' + toQuanta(fee).toFixed(9) + ' QRL`', true)
-            .addField('Pending Amount:', '`' + toQuanta(check[0].userArray[0][0].pending + transferAmount).toFixed(9) + ' QRL`', true)
+            .addField('Pending Amount:', '`' + toQuanta(check[0].userArray[0][0].pending) + transferAmount + ' QRL`', true)
             .addField('New Pending Balance:', '`' + toQuanta(((check[0].userArray[0][0].wallet_bal - check[0].userArray[0][0].pending) - transferAmount) - fee) + ' QRL`', true)
             .addField('Address Sent to:', '[' + check[0].addressArray[0] + '](' + config.bot_details.explorer_url + '/a/' + check[0].addressArray[0] + ')')
             .addField('Transaction Hash:', '[```yaml\n' + transferFundsOut.tx.transaction_hash + '\n```](' + config.bot_details.explorer_url + '/tx/' + transferFundsOut.tx.transaction_hash + ')')
