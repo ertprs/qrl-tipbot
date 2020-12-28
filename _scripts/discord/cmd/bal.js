@@ -144,7 +144,7 @@ module.exports = {
           .setColor(0x000000)
           .setTitle('Tipbot Balance - ' + res + ' QRL \n*Transactions may take a some time to post. Please be patient*')
           .addField('Balance:', `\`${res} QRL\``, true)
-          .addField('Pending Balance:', `\`${pending} QRL\``, true)
+          .addField('Pending Balance:', '`' + (res - pending) + ' QRL`', true)
           .addField('QRL Address:', '[' + UserAddress + '](' + config.bot_details.explorer_url + '/a/' + UserAddress + ')')
           // .addField('Transactions may take a some time to post. Please be patient')
           .setFooter('  .: Tipbot provided by The QRL Contributors :.');
