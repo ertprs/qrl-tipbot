@@ -437,7 +437,7 @@ async function lastTxCheck(args) {
     else {
     // tx is not confirmed, add the pending balance and return to user
       const txAmt = out.tx.transfer.amounts[0];
-      sum = sum + (Number(txAmt) + config.wallet.tx_fee);
+      sum = sum + Number(txAmt);
       sumArray.push(Number(txAmt));
     }
   }
