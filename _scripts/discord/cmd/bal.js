@@ -146,7 +146,7 @@ module.exports = {
             .setColor(0x000000)
             .setTitle('Tipbot Balance - ' + res + ' QRL \n*Transactions may take a some time to post. Please be patient*')
             .addField('Balance:', `\`${res} QRL\``, true)
-            .addField('Pending Balance:', '`' + ((res - pending) - config.wallet.tx_fee).toFixed(9) + ' QRL`', true)
+            .addField('Pending Balance:', '`' + (res - pending).toFixed(9) + ' QRL`', true)
             .addField('Pending in mempool:', '`' + pending + ' QRL`', false)
             .addField('QRL Address:', '[' + UserAddress + '](' + config.bot_details.explorer_url + '/a/' + UserAddress + ')')
             // .addField('Transactions may take a some time to post. Please be patient')
