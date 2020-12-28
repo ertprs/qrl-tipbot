@@ -464,7 +464,7 @@ async function CheckPendingTx(args) {
       if (err) {
         console.log('[mysql error]', err);
       }
-      // console.log('searchResults:' + JSON.stringify(result));
+      console.log('searchResults:' + JSON.stringify(result));
       lastTxCheck(result).then(function(sumis) {
         // console.log('sum is: ' + sumis);
         resolve(sumis);
