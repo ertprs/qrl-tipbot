@@ -184,6 +184,10 @@ module.exports = {
               // ReplyMessage('it seems like I can\'t DM you! Do you have DMs disabled?');
             });
         }
+        message.react(emojiCharacters.q)
+          .then(() => message.react(emojiCharacters.r))
+          .then(() => message.react(emojiCharacters.l))
+          .catch(() => console.error('One of the emojis failed to react.'));
       });
     }
   },
