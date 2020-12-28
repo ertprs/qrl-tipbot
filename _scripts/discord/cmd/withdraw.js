@@ -110,7 +110,7 @@ module.exports = {
           return balance;
         }
       }
-      // no valid amoutn given, return none
+      // no valid amount given, return none
       return 0;
     }
 
@@ -132,7 +132,7 @@ module.exports = {
       });
     }
 
-    // send the tx data to the transactiosn database
+    // send the tx data to the transactions database
     async function transactionsDBWrite(txArgs) {
       return new Promise(resolve => {
         // {tip_id: fromTipDB, tx_hash: fromTX_HASH}
@@ -185,19 +185,21 @@ module.exports = {
         // fail on error
         console.log('userFound: ' + userFound);
         errorMessage({ error: 'User Not Found...', description: 'You are not signed up yet!. `+add` to get started.' });
-        return;
+        const returnArray = [{ check: false }];
+        return returnArray;
       }
       // ########################################################
       // has user agreed
       if (userInfo[0].user_agree) {
-        console.log('user has agreed.');
+        // console.log('user has agreed.');
         userAgree = true;
       }
       else {
         // fail on error
         console.log('userAgree: ' + userAgree);
         errorMessage({ error: 'User Has Not Agreed...', description: 'You must agree to the terms and conditions. `+terms` to read them.' });
-        return false;
+        const returnArray = [{ check: false }];
+        return returnArray;
       }
       // ########################################################
       // has user opted out
@@ -208,7 +210,7 @@ module.exports = {
       else {
         // fail on error
         console.log('userOptOut: ' + userOptOut);
-        errorMessage({ error: 'User Has Opted Out...', description: 'You have previously opted out of th etipbot. Enter `+opt-in` to start using the tipbot.' });
+        errorMessage({ error: 'User Has Opted Out...', description: 'You have previously opted out of the tipbot. Enter `+opt-in` to start using the tipbot.' });
         const returnArray = [{ check: false }];
         return returnArray;
       }
@@ -218,7 +220,7 @@ module.exports = {
       // ########################################################
       // incorrect address
       if (!transfer_to) {
-        // transfer address not given or incorrrect
+        // transfer address not given or incorrect
         console.log('Incorrect Address Given...');
         errorMessage({ error: 'Incorrect Address Given...', description: 'Please enter a correct QRL Address. To donate to the bot use\n `+wd all ' + config.faucet.faucet_wallet_pub });
         const returnArray = [{ check: false }];
@@ -251,7 +253,7 @@ module.exports = {
 
       trans_amt = await withdrawAmount(wallet_bal);
       trans_amt = trans_amt * toShor;
-      console.log('trans_amt: ' + trans_amt);
+      // console.log('trans_amt: ' + trans_amt);
       const wd_amt = trans_amt - fee;
       // console.log('wd_amt: ' + wd_amt);
       amtArray.push(wd_amt);
@@ -259,7 +261,7 @@ module.exports = {
       // ########################################################
       // incorrect info in the transfer command
       if (trans_amt === 0) {
-        // no transfer or incorrect tranfer amount given
+        // no transfer or incorrect transfer amount given
         console.log('Invalid Transfer amount given');
         errorMessage({ error: 'Invalid Amount Given...', description: 'Please enter a valid number to withdraw or `+transfer all {QRL-ADDRESS}`.' });
         const returnArray = [{ check: false }];
@@ -276,11 +278,8 @@ module.exports = {
       }
 
       const pending = userInfo[0].pending;
-      console.log('pending: ' + pending);
       const pendingBal = Number(wallet_bal) - Number(pending);
-      console.log('pendingBal: ' + pendingBal);
       const appendedBal = pendingBal - wd_amt;
-      console.log('appendedBal: ' + appendedBal);
       // ########################################################
       // Pending balance is less than wd amt
       if (appendedBal <= 0) {
@@ -303,11 +302,6 @@ module.exports = {
       const check = await commandChecks();
       console.log('pass: ' + pass);
 
-      console.log('check: ' + check[0].check);
-      console.log('check: ' + JSON.stringify(check[0].addressArray));
-      console.log('check: ' + JSON.stringify(check[0].amtArray));
-      console.log('check: ' + JSON.stringify(check));
-
       if (!pass) {
         // the check command failed
         console.log('Check failed...');
@@ -317,27 +311,26 @@ module.exports = {
         // check passed, do stuff
 
         const transferInfo = { address_to: check[0].addressArray, amount: check[0].amtArray, fee: fee, address_from: check[0].userArray[0][0].wallet_pub };
-        console.log('transferInfo: ' + JSON.stringify(transferInfo));
+        // console.log('transferInfo: ' + JSON.stringify(transferInfo));
         const transferFunds = await sendFunds(transferInfo);
         const transferFundsOut = JSON.parse(transferFunds);
-        console.log('transferFunds: ' + JSON.stringify(transferFundsOut));
+        // console.log('transferFunds: ' + JSON.stringify(transferFundsOut));
 
         const wdDbInfo = { user_id: check[0].userArray[0][0].user_id, tx_hash: transferFundsOut.tx.transaction_hash, to_address: check[0].addressArray[0], amt: check[0].amtArray[0] };
         console.log('wdDbInfo: ' + JSON.stringify(wdDbInfo));
 
         const wdDbWrite = await withdrawDBWrite(wdDbInfo);
-        console.log('wdDbWrite: ' + JSON.stringify(wdDbWrite));
+        // console.log('wdDbWrite: ' + JSON.stringify(wdDbWrite));
 
         const txDbInfo = { tip_id: wdDbWrite[0].transaction_db_id, tx_hash: transferFundsOut.tx.transaction_hash };
-        console.log('txDbInfo: ' + JSON.stringify(txDbInfo));
+        // console.log('txDbInfo: ' + JSON.stringify(txDbInfo));
         const txDbWrite = await transactionsDBWrite(txDbInfo);
         console.log('txDbWrite: ' + JSON.stringify(txDbWrite));
       }
     }
 
 
-    main().then(function(returnToUser) {
-      console.log('returnToUser: ' + returnToUser);
+    main().then(function() {
       if (pass) {
         ReplyMessage('Withdraw has been sent, please see you DM for details');
       }
