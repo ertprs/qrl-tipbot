@@ -342,7 +342,7 @@ module.exports = {
         ReplyMessage('Withdraw has been sent, please see you DM for details');
       }
       else {
-        errorMessage({ error: 'Something Is Wrong...', description: 'Seems like I have an issue with this...')
+        errorMessage({ error: 'Something Is Wrong...', description: 'Seems like I have an issue with this...' });
       }
     });
 
