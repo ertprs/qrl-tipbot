@@ -308,8 +308,8 @@ module.exports = {
       const transferInfo = { address_to: check[0].addressArray, amount: check[0].amtArray, fee: fee, address_from: check[0].userArray[0][0].wallet_pub };
       console.log('transferInfo: ' + JSON.stringify(transferInfo))
       const transferFunds = await sendFunds(transferInfo);
-      console.log('transferFunds: ' + transferFunds);
-
+      const transferFundsOut = JSON.parse(transferFunds);
+      console.log('transferFunds: ' + JSON.stringify(transferFundsOut));
       const wdDbWrite = await withdrawDBWrite({ user_id: check[0].userArray[0][0].user_id, tx_hash: transferFunds.tx.transaction_hash, to_address: check[0].addressArray, amt: check[0].amtArray });
       console.log('wdDbWrite: ' + JSON.stringify(wdDbWrite));
 
