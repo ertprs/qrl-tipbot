@@ -284,7 +284,7 @@ module.exports = {
       // ########################################################
       // user passed checks. return true
       userArray.push(userInfo);
-      const returnArray = [true, { amtArray: amtArray, addressArray: addressArray }];
+      const returnArray = [{ check: true, amtArray: amtArray, addressArray: addressArray }];
       return returnArray;
     }
 
@@ -292,8 +292,8 @@ module.exports = {
     async function main() {
       // run commandChecks and fail if not successful
       const check = await commandChecks();
-      console.log('check: ' + check);
-      if (!check) {
+      console.log('check: ' + check[0].check);
+      if (!check[0].check) {
         // the check command failed
         console.log('Check failed...');
         return;
@@ -301,11 +301,11 @@ module.exports = {
 
       // check passed, do stuff
 
-      const transferInfo = { address_to: addressArray, amount: amtArray, fee: fee, address_from: userArray[0].wallet_pub };
+      const transferInfo = { address_to: check[0].addressArray, amount: check[0].amtArray, fee: fee, address_from: userArray[0].wallet_pub };
       const transferFunds = await sendFunds(transferInfo);
       console.log('transferFunds: ' + JSON.stringify(transferFunds));
 
-      const wdDbWrite = await withdrawDBWrite({ user_id: userArray[0].user_id, tx_hash: transferFunds.tx_hash, to_address: addressArray, amt: amtArray });
+      const wdDbWrite = await withdrawDBWrite({ user_id: userArray[0].user_id, tx_hash: transferFunds.tx_hash, to_address: check[0].addressArray, amt: check[0].amtArray });
       console.log('wdDbWrite: ' + JSON.stringify(wdDbWrite));
 
 
