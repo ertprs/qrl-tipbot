@@ -310,7 +310,9 @@ module.exports = {
       const transferFunds = await sendFunds(transferInfo);
       const transferFundsOut = JSON.parse(transferFunds);
       console.log('transferFunds: ' + JSON.stringify(transferFundsOut));
-      const wdDbWrite = await withdrawDBWrite({ user_id: check[0].userArray[0][0].user_id, tx_hash: transferFundsOut.tx.transaction_hash, to_address: check[0].addressArray, amt: check[0].amtArray });
+      const wdDbInfo = { user_id: check[0].userArray[0][0].user_id, tx_hash: transferFundsOut.tx.transaction_hash, to_address: check[0].addressArray, amt: check[0].amtArray };
+      console.log('wdDbInfo: ' + JSON.stringify(wdDbInfo));
+      const wdDbWrite = await withdrawDBWrite(wdDbInfo);
       console.log('wdDbWrite: ' + JSON.stringify(wdDbWrite));
 
 
