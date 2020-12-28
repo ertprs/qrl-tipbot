@@ -250,8 +250,10 @@ module.exports = {
         const returnArray = [{ check: false }];
         return returnArray;
       }
+      const pending = userInfo[0].pending;
+      const pendingBal = Number(wallet_bal) - Number(pending);
 
-      trans_amt = await withdrawAmount(wallet_bal);
+      trans_amt = await withdrawAmount(pendingBal);
       console.log('trans_amt: ' + trans_amt);
       // console.log('wd_amt: ' + wd_amt);
       amtArray.push(trans_amt);
@@ -276,8 +278,6 @@ module.exports = {
         return returnArray;
       }
 
-      const pending = userInfo[0].pending;
-      const pendingBal = Number(wallet_bal) - Number(pending);
 
       console.log(pending + ' ' + pendingBal);
       // ########################################################
