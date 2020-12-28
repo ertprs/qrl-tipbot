@@ -311,19 +311,19 @@ module.exports = {
         // check passed, do stuff
 
         const transferInfo = { address_to: check[0].addressArray, amount: check[0].amtArray, fee: fee, address_from: check[0].userArray[0][0].wallet_pub };
-        // console.log('transferInfo: ' + JSON.stringify(transferInfo));
+        console.log('transferInfo: ' + JSON.stringify(transferInfo));
         const transferFunds = await sendFunds(transferInfo);
         const transferFundsOut = JSON.parse(transferFunds);
-        // console.log('transferFunds: ' + JSON.stringify(transferFundsOut));
+        console.log('transferFunds: ' + JSON.stringify(transferFundsOut));
 
         const wdDbInfo = { user_id: check[0].userArray[0][0].user_id, tx_hash: transferFundsOut.tx.transaction_hash, to_address: check[0].addressArray[0], amt: check[0].amtArray[0] };
         console.log('wdDbInfo: ' + JSON.stringify(wdDbInfo));
 
         const wdDbWrite = await withdrawDBWrite(wdDbInfo);
-        // console.log('wdDbWrite: ' + JSON.stringify(wdDbWrite));
+        console.log('wdDbWrite: ' + JSON.stringify(wdDbWrite));
 
         const txDbInfo = { tip_id: wdDbWrite[0].transaction_db_id, tx_hash: transferFundsOut.tx.transaction_hash };
-        // console.log('txDbInfo: ' + JSON.stringify(txDbInfo));
+        console.log('txDbInfo: ' + JSON.stringify(txDbInfo));
         const txDbWrite = await transactionsDBWrite(txDbInfo);
         console.log('txDbWrite: ' + JSON.stringify(txDbWrite));
       }
