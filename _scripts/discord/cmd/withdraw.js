@@ -317,8 +317,9 @@ module.exports = {
       const wdDbWrite = await withdrawDBWrite(wdDbInfo);
       console.log('wdDbWrite: ' + JSON.stringify(wdDbWrite));
 
-
-      const txDbWrite = await transactionsDBWrite({ tip_id: wdDbWrite[0].transaction_db_id, tx_hash: transferFundsOut.tx.transaction_hash });
+      const txDbInfo = { tip_id: wdDbWrite[0].transaction_db_id, tx_hash: transferFundsOut.tx.transaction_hash };
+      console.log('txDbInfo: ' + txDbInfo);
+      const txDbWrite = await transactionsDBWrite(txDbInfo);
       console.log('txDbWrite: ' + JSON.stringify(txDbWrite));
 
 
