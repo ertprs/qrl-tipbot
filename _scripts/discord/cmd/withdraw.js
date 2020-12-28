@@ -309,8 +309,8 @@ module.exports = {
       }
       else {
         // check passed, do stuff
-
-        const transferInfo = { address_to: check[0].addressArray, amount: check[0].amtArray, fee: fee, address_from: check[0].userArray[0][0].wallet_pub };
+        const transferAmount = check[0].amtArray - fee;
+        const transferInfo = { address_to: check[0].addressArray, amount: transferAmount, fee: fee, address_from: check[0].userArray[0][0].wallet_pub };
         // console.log('transferInfo: ' + JSON.stringify(transferInfo));
         const transferFunds = await sendFunds(transferInfo);
         const transferFundsOut = JSON.parse(transferFunds);
