@@ -284,7 +284,7 @@ module.exports = {
       // ########################################################
       // user passed checks. return true
       userArray.push(userInfo);
-      const returnArray = [true, amtArray, addressArray];
+      const returnArray = [true, { amtArray: amtArray, addressArray: addressArray }];
       return returnArray;
     }
 
