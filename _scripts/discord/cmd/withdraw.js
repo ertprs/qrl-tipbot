@@ -293,6 +293,8 @@ module.exports = {
       // run commandChecks and fail if not successful
       const check = await commandChecks();
       console.log('check: ' + check[0].check);
+      console.log('check: ' + JSON.stringify(check[0].addressArray));
+      console.log('check: ' + JSON.stringify(check[0].amtArray));
       if (!check[0].check) {
         // the check command failed
         console.log('Check failed...');
