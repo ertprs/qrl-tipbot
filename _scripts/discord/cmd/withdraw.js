@@ -95,6 +95,10 @@ module.exports = {
       return test;
     }
 
+    function toQuanta(number) {
+      const shor = 1000000000;
+      return number / shor;
+    }
 
     function withdrawAmount(balance) {
       for (const arg of args) {
@@ -326,6 +330,26 @@ module.exports = {
         // console.log('txDbInfo: ' + JSON.stringify(txDbInfo));
         const txDbWrite = await transactionsDBWrite(txDbInfo);
         console.log('txDbWrite: ' + JSON.stringify(txDbWrite));
+
+        const embed = new Discord.MessageEmbed()
+          .setColor(0x000000)
+          .setTitle('Withdraw Has Been Sent!')
+          .setDescription('Your tip withdraw was posted on the network! It may take a few minuets to confirm and post\nSee the transaction info in the [QRL Block Explorer](' + config.bot_details.explorer_url + '/tx/' + transferFundsOut.tx.transaction_hash + ')')
+          // .addField('\u200B', '\u200B')
+          // .setImage('https://github.com/theQRL/assets/blob/master/logo/inverse/QRL_logo_inverse@1x.png?raw=true')
+          .addField('Amount Sent', '**' + toQuanta(check[0].amtArray).toFixed(9) + ' QRL**', true)
+          .addField('Network Fee', '**' + toQuanta(fee).toFixed(9) + ' QRL**', true)
+          .addField('Address Sent to', '[```yaml\n' + check[0].addressArray[0] + '\n```](' + config.bot_details.explorer_url + '/a/' + check[0].addressArray[0] + ')')
+          .addField('New Pending Balance', '`' + (check[0].userArray[0][0].wallet_bal - check[0].userArray[0][0].pending) + ' QRL`', true)
+          .addField('Transaction Hash', '[```yaml\n' + transferFundsOut.tx.transaction_hash + '\n```](' + config.bot_details.explorer_url + '/tx/' + transferFundsOut.tx.transaction_hash + ')')
+          .setFooter('.: The QRL TipBot :. ');
+        message.author.send({ embed })
+          .then(() => {
+            if (message.channel.type !== 'dm') return;
+          })
+          .catch(error => {
+            if (error) return error;
+          });
       }
     }
 
@@ -333,6 +357,7 @@ module.exports = {
     main().then(function() {
       if (pass) {
         ReplyMessage('Withdraw has been sent, please see you DM for details');
+
       }
     });
 
