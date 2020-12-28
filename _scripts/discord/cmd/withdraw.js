@@ -8,6 +8,7 @@ module.exports = {
   description: 'Withdraw QRL from your TipBot account to a QRL wallet.',
   args: false,
   guildOnly: false,
+  cooldown: 0,
   aliases: ['wd', 'transfer', 'cashout', 'Withdraw', 'WD', 'extract'],
   usage: '\n__**withdraw** { ***wd***, ***transfer***, ***cashout***, ***send*** }__\nTransfer or withdraw QRL from your TIpBot account to another QRL address.\nRequires amount/all and a QRL address to send to.\n\nExample to transfer all funds from the tipbot wallet: `+transfer all QRLADDRESS`\nExample to transfer an amount of funds: `+transfer 2.01 QRLADDRESS` ',
   execute(message, args) {
@@ -339,7 +340,7 @@ module.exports = {
           // .setImage('https://github.com/theQRL/assets/blob/master/logo/inverse/QRL_logo_inverse@1x.png?raw=true')
           .addField('Amount Sent:', '**' + toQuanta(check[0].amtArray).toFixed(9) + ' QRL**', true)
           .addField('Network Fee:', '**' + toQuanta(fee).toFixed(9) + ' QRL**', true)
-          .addField('Pending Amount:', '**' + toQuanta(check[0].userArray[0][0].pending).toFixed(9) + ' QRL**', true)
+          .addField('Pending Amount:', '**' + toQuanta(check[0].userArray[0][0].pending + transferAmount).toFixed(9) + ' QRL**', true)
           .addField('New Pending Balance:', '**' + toQuanta((check[0].userArray[0][0].wallet_bal - check[0].userArray[0][0].pending) - transferAmount) + ' QRL**', true)
           .addField('Address Sent to:', '[' + check[0].addressArray[0] + '](' + config.bot_details.explorer_url + '/a/' + check[0].addressArray[0] + ')')
           .addField('Transaction Hash:', '[```yaml\n' + transferFundsOut.tx.transaction_hash + '\n```](' + config.bot_details.explorer_url + '/tx/' + transferFundsOut.tx.transaction_hash + ')')
