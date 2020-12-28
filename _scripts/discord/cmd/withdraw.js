@@ -304,6 +304,7 @@ module.exports = {
       // check passed, do stuff
 
       const transferInfo = { address_to: check[0].addressArray, amount: check[0].amtArray, fee: fee, address_from: userArray[0].wallet_pub };
+      console.log('transferInfo: ' + transferInfo)
       const transferFunds = await sendFunds(transferInfo);
       console.log('transferFunds: ' + JSON.stringify(transferFunds));
 
