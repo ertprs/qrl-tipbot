@@ -358,7 +358,10 @@ module.exports = {
 
     main().then(function() {
       if (pass) {
-        ReplyMessage('Withdraw has been sent, please see you DM for details');
+        if (message.channel.type !== 'dm') {
+          ReplyMessage('Withdraw has been sent, please see you DM for details');
+          return;
+        }
 
       }
     });
