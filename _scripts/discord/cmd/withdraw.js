@@ -176,8 +176,8 @@ module.exports = {
       // ########################################################
       // is user found?
       if (userInfo[0].user_found) {
-        console.log('userFound: ' + userFound);
         userFound = true;
+        console.log('userFound: ' + userFound);
       }
       else {
         // fail on error
@@ -221,7 +221,7 @@ module.exports = {
         return false;
       }
 
-      wallet_pub = transfer_to;
+      wallet_pub = userInfo[0].wallet_pub;
       console.log('wallet_pub: ' + wallet_pub);
       // ########################################################
       // check for user address in wd cmd, cant send to self
