@@ -268,9 +268,9 @@ module.exports = {
 
       const pending = userInfo[0].pending;
       console.log('pending: ' + pending);
-      const pendingBal = Number(pending) - Number(wallet_bal);
+      const pendingBal = Number(wallet_bal) - Number(pending);
       console.log('pendingBal: ' + pendingBal);
-      const appendedBal = trans_amt - pendingBal;
+      const appendedBal = pendingBal - wd_amt;
       console.log('appendedBal: ' + appendedBal);
       // ########################################################
       // Pending balance is less than wd amt
