@@ -103,7 +103,7 @@ module.exports = {
 
         if(checkValue) {
           console.log('Valid amount given: ' + arg);
-          return arg;
+          return (arg * toShor);
         }
         else if (arg === 'all') {
           console.log('all called, transfer full balance: ' + balance);
@@ -253,10 +253,8 @@ module.exports = {
 
       trans_amt = await withdrawAmount(wallet_bal);
       console.log('trans_amt: ' + trans_amt);
-      trans_amt = trans_amt * toShor;
-      const wd_amt = trans_amt - fee;
       // console.log('wd_amt: ' + wd_amt);
-      amtArray.push(wd_amt);
+      amtArray.push(trans_amt);
       addressArray.push(transfer_to);
       // ########################################################
       // incorrect info in the transfer command
@@ -280,7 +278,7 @@ module.exports = {
 
       const pending = userInfo[0].pending;
       const pendingBal = Number(wallet_bal) - Number(pending);
-      const appendedBal = pendingBal - wd_amt;
+      const appendedBal = pendingBal - trans_amt;
       // ########################################################
       // Pending balance is less than wd amt
       if (appendedBal <= 0) {
