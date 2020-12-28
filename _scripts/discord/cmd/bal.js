@@ -147,7 +147,7 @@ module.exports = {
             .setTitle('Tipbot Balance - ' + res + ' QRL \n*Transactions may take a some time to post. Please be patient*')
             .addField('Balance:', `\`${res} QRL\``, true)
             .addField('Pending Balance less fee:', '`' + (res - pending).toFixed(9) + ' QRL`', true)
-            .addField('Pending amount found in mempool *plus fees*:', '`' + pending + ' QRL`', false)
+            .addField('Pending in mempool:', '`' + pending + ' QRL`', false)
             .addField('QRL Address:', '[' + UserAddress + '](' + config.bot_details.explorer_url + '/a/' + UserAddress + ')')
             // .addField('Transactions may take a some time to post. Please be patient')
             .setFooter('  .: Tipbot provided by The QRL Contributors :.');
