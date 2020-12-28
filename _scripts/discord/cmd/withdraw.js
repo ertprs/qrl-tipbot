@@ -135,7 +135,7 @@ module.exports = {
     async function transactionsDBWrite(txArgs) {
       return new Promise(resolve => {
         // {tip_id: fromTipDB, tx_hash: fromTX_HASH}
-        // console.log('args futureTipInfo' + JSON.stringify(args));
+        console.log('transactionsDbWrite args:' + JSON.stringify(txArgs));
         const txInfo = { tip_id: txArgs.withdraw_id, tx_hash: txArgs.tx_hash };
         const wdTxEntry = dbHelper.addTransaction(txInfo);
         resolve(wdTxEntry);
