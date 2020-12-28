@@ -38,6 +38,7 @@ module.exports = {
     let userFound = false;
     let userAgree = false;
     let userOptOut = true;
+    let pass = false;
     let transfer_to = '';
     let trans_amt = '';
     // const user_id = '';
@@ -291,7 +292,7 @@ module.exports = {
       // ########################################################
       // user passed checks. return true
       userArray.push(userInfo);
-
+      pass = true;
       const returnArray = [{ check: true, amtArray: amtArray, addressArray: addressArray, userArray: userArray }];
       return returnArray;
     }
@@ -300,43 +301,49 @@ module.exports = {
     async function main() {
       // run commandChecks and fail if not successful
       const check = await commandChecks();
+      console.log('pass: ' + pass);
 
       console.log('check: ' + check[0].check);
       console.log('check: ' + JSON.stringify(check[0].addressArray));
       console.log('check: ' + JSON.stringify(check[0].amtArray));
       console.log('check: ' + JSON.stringify(check));
-      if (!check[0].check) {
+
+      if (!pass) {
         // the check command failed
         console.log('Check failed...');
         return;
       }
+      else {
+        // check passed, do stuff
 
-      // check passed, do stuff
+        const transferInfo = { address_to: check[0].addressArray, amount: check[0].amtArray, fee: fee, address_from: check[0].userArray[0][0].wallet_pub };
+        console.log('transferInfo: ' + JSON.stringify(transferInfo));
+        const transferFunds = await sendFunds(transferInfo);
+        const transferFundsOut = JSON.parse(transferFunds);
+        console.log('transferFunds: ' + JSON.stringify(transferFundsOut));
 
-      const transferInfo = { address_to: check[0].addressArray, amount: check[0].amtArray, fee: fee, address_from: check[0].userArray[0][0].wallet_pub };
-      console.log('transferInfo: ' + JSON.stringify(transferInfo));
-      const transferFunds = await sendFunds(transferInfo);
-      const transferFundsOut = JSON.parse(transferFunds);
-      console.log('transferFunds: ' + JSON.stringify(transferFundsOut));
+        const wdDbInfo = { user_id: check[0].userArray[0][0].user_id, tx_hash: transferFundsOut.tx.transaction_hash, to_address: check[0].addressArray[0], amt: check[0].amtArray[0] };
+        console.log('wdDbInfo: ' + JSON.stringify(wdDbInfo));
 
-      const wdDbInfo = { user_id: check[0].userArray[0][0].user_id, tx_hash: transferFundsOut.tx.transaction_hash, to_address: check[0].addressArray[0], amt: check[0].amtArray[0] };
-      console.log('wdDbInfo: ' + JSON.stringify(wdDbInfo));
+        const wdDbWrite = await withdrawDBWrite(wdDbInfo);
+        console.log('wdDbWrite: ' + JSON.stringify(wdDbWrite));
 
-      const wdDbWrite = await withdrawDBWrite(wdDbInfo);
-      console.log('wdDbWrite: ' + JSON.stringify(wdDbWrite));
-
-      const txDbInfo = { tip_id: wdDbWrite[0].transaction_db_id, tx_hash: transferFundsOut.tx.transaction_hash };
-      console.log('txDbInfo: ' + JSON.stringify(txDbInfo));
-      const txDbWrite = await transactionsDBWrite(txDbInfo);
-      console.log('txDbWrite: ' + JSON.stringify(txDbWrite));
-
-
+        const txDbInfo = { tip_id: wdDbWrite[0].transaction_db_id, tx_hash: transferFundsOut.tx.transaction_hash };
+        console.log('txDbInfo: ' + JSON.stringify(txDbInfo));
+        const txDbWrite = await transactionsDBWrite(txDbInfo);
+        console.log('txDbWrite: ' + JSON.stringify(txDbWrite));
+      }
     }
 
 
     main().then(function(returnToUser) {
       console.log('returnToUser: ' + returnToUser);
-      ReplyMessage('Withdraw has been sent, please see you DM for details');
+      if (pass) {
+        ReplyMessage('Withdraw has been sent, please see you DM for details');
+      }
+      else {
+        errorMessage({ error: 'Something Is Wrong...', description: 'Seems like I have an issue with this...')
+      }
     });
 
   },
