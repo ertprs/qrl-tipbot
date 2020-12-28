@@ -120,9 +120,6 @@ module.exports = {
         if(checkAddress) {
           return arg;
         }
-        else {
-          return checkAddress;
-        }
       }
     }
 
@@ -175,10 +172,11 @@ module.exports = {
       // ########################################################
       // Check for user in system, agree, opt out?
       const userInfo = await getUserInfo({ service: 'discord', service_id: UUID });
-      console.log('userInfo:' + userInfo);
+      console.log('userInfo:' + JSON.stringify(userInfo));
       // ########################################################
       // is user found?
       if (userInfo[0].user_found) {
+        console.log('userFound: ' + userFound);
         userFound = true;
       }
       else {
