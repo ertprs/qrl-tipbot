@@ -140,7 +140,7 @@ module.exports = {
         const res = ((output[0].wallet_bal / 1000000000).toFixed(9));
         const pending = ((output[0].pending / 1000000000).toFixed(9));
         message.channel.stopTyping(true);
-        if (output[0].pending > 0) {
+        if (pending > 0) {
 
           const embed = new Discord.MessageEmbed()
             .setColor(0x000000)
