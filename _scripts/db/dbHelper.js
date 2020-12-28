@@ -421,7 +421,7 @@ async function lastTxCheck(args) {
     const pendingTx = await wallet.GetTxInfo(pending.tx_hash);
     // console.log('pendingTx: ' + pendingTx);
     const out = JSON.parse(pendingTx);
-    // console.log('confirmations: ' + out.confirmations);
+    console.log('out: ' + out);
     if (out.confirmations > 0) {
     // write the changes to the database as the tx is confirmed
       const dbInfo = 'UPDATE transactions SET pending = "0" WHERE tx_hash = "' + out.tx.transaction_hash + '"';
