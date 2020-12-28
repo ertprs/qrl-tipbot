@@ -751,7 +751,7 @@ async function addTransaction(args) {
   // exepct { tip_id: fromTipDB, tx_hash: fromTX_HASH }
   return new Promise(resolve => {
     const txArray = [];
-    // const input = JSON.parse(JSON.stringify(args));
+    const input = JSON.parse(JSON.stringify(args));
     const tip_id = args.tip_id;
     const tx_type = args.tx_type;
     const tx_hash = args.tx_hash;
