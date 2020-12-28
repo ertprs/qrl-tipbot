@@ -167,7 +167,8 @@ module.exports = {
       // Check args are not blank, as we need args to function
       if ((args[0] == undefined) || (args[1] == undefined)) {
         errorMessage({ error: 'Incorrect info given...', description: 'Use this function to withdraw funds from the Tipbot. `+help withdraw` for more' });
-        return false;
+        const returnArray = [{ check: false }];
+        return returnArray;
       }
       // ########################################################
       // Check for user in system, agree, opt out?
@@ -207,7 +208,8 @@ module.exports = {
         // fail on error
         console.log('userOptOut: ' + userOptOut);
         errorMessage({ error: 'User Has Opted Out...', description: 'You have previously opted out of th etipbot. Enter `+opt-in` to start using the tipbot.' });
-        return false;
+        const returnArray = [{ check: false }];
+        return returnArray;
       }
 
       transfer_to = withdrawAddress();
@@ -218,7 +220,8 @@ module.exports = {
         // transfer address not given or incorrrect
         console.log('Incorrect Address Given...');
         errorMessage({ error: 'Incorrect Address Given...', description: 'Please enter a correct QRL Address. To donate to the bot use\n `+wd all ' + config.faucet.faucet_wallet_pub });
-        return false;
+        const returnArray = [{ check: false }];
+        return returnArray;
       }
 
       wallet_pub = userInfo[0].wallet_pub;
@@ -229,7 +232,8 @@ module.exports = {
         // user sending to self.. fail and return to the user
         console.log('User Address Detected');
         errorMessage({ error: 'User Address Detected...', description: 'You cannot send funds to yourself. Please transfer ***out*** of the TipBot.' });
-        return false;
+        const returnArray = [{ check: false }];
+        return returnArray;
       }
 
       wallet_bal = userInfo[0].wallet_bal;
@@ -240,7 +244,8 @@ module.exports = {
         // Wallet Balance is Flat
         console.log('Wallet Balance is Flat');
         errorMessage({ error: 'Wallet Balance is Flat...', description: 'You don\'t have any funds to withdraw. Get a tip or try the faucet `+drip`' });
-        return false;
+        const returnArray = [{ check: false }];
+        return returnArray;
       }
 
       trans_amt = await withdrawAmount(wallet_bal);
@@ -256,7 +261,8 @@ module.exports = {
         // no transfer or incorrect tranfer amount given
         console.log('Invalid Transfer amount given');
         errorMessage({ error: 'Invalid Amount Given...', description: 'Please enter a valid number to withdraw or `+transfer all {QRL-ADDRESS}`.' });
-        return false;
+        const returnArray = [{ check: false }];
+        return returnArray;
       }
       // ########################################################
       // wallet balance is less than balance
@@ -264,7 +270,8 @@ module.exports = {
         // trying to send more than you have
         console.log('Wallet Balance is less than withdraw amt');
         errorMessage({ error: 'Wallet Balance Is Less Than Withdraw...', description: 'You Don\'t have enough finds for that, check you `+bal` and try again.' });
-        return false;
+        const returnArray = [{ check: false }];
+        return returnArray;
       }
 
       const pending = userInfo[0].pending;
@@ -293,10 +300,11 @@ module.exports = {
     async function main() {
       // run commandChecks and fail if not successful
       const check = await commandChecks();
+
       console.log('check: ' + check[0].check);
       console.log('check: ' + JSON.stringify(check[0].addressArray));
       console.log('check: ' + JSON.stringify(check[0].amtArray));
-      console.log('check: ' + JSON.stringify(check))
+      console.log('check: ' + JSON.stringify(check));
       if (!check[0].check) {
         // the check command failed
         console.log('Check failed...');
@@ -306,7 +314,7 @@ module.exports = {
       // check passed, do stuff
 
       const transferInfo = { address_to: check[0].addressArray, amount: check[0].amtArray, fee: fee, address_from: check[0].userArray[0][0].wallet_pub };
-      console.log('transferInfo: ' + JSON.stringify(transferInfo))
+      console.log('transferInfo: ' + JSON.stringify(transferInfo));
       const transferFunds = await sendFunds(transferInfo);
       const transferFundsOut = JSON.parse(transferFunds);
       console.log('transferFunds: ' + JSON.stringify(transferFundsOut));
