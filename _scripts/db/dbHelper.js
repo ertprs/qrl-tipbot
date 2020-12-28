@@ -421,7 +421,7 @@ async function lastTxCheck(args) {
     const pendingTx = await wallet.GetTxInfo(pending.tx_hash);
     // console.log('pendingTx: ' + pendingTx);
     const out = JSON.parse(pendingTx);
-    console.log('out: ' + JSON.stringify(out));
+    console.log('pendingTx: ' + JSON.stringify(pendingTx));
     if (out.confirmations > 0) {
     // write the changes to the database as the tx is confirmed
       const dbInfo = 'UPDATE transactions SET pending = "0" WHERE tx_hash = "' + out.tx.transaction_hash + '"';
@@ -436,8 +436,8 @@ async function lastTxCheck(args) {
     }
     else {
     // tx is not confirmed, add the pending balance and return to user
-      const txAmt = out.tx.transfer.amounts[0];
-      sum = sum + Number(txAmt);
+      const txAmt = pending.tip_amount;
+      // sum = sum + Number(txAmt);
       sumArray.push(Number(txAmt));
     }
   }
