@@ -252,7 +252,7 @@ module.exports = {
       }
 
       trans_amt = await withdrawAmount(wallet_bal);
-      trans_amt = trans_amt * toShor;
+      trans_amt = (trans_amt * toShor).toFixed(9);
       // console.log('trans_amt: ' + trans_amt);
       const wd_amt = trans_amt - fee;
       // console.log('wd_amt: ' + wd_amt);
