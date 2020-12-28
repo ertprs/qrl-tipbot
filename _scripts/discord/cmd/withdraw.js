@@ -269,7 +269,7 @@ module.exports = {
       }
       // ########################################################
       // wallet balance is less than balance
-      if ((wallet_bal - fee) < trans_amt) {
+      if ((wallet_bal) < trans_amt) {
         // trying to send more than you have
         console.log('Wallet Balance is less than withdraw amt');
         errorMessage({ error: 'Wallet Balance Is Less Than Withdraw...', description: 'You Don\'t have enough finds for that, check you `+bal` and try again.' });
