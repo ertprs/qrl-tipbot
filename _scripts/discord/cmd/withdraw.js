@@ -136,7 +136,7 @@ module.exports = {
       return new Promise(resolve => {
         // {tip_id: fromTipDB, tx_hash: fromTX_HASH}
         console.log('transactionsDbWrite args:' + JSON.stringify(txArgs));
-        const txInfo = { tip_id: txArgs.tip_id, tx_hash: txArgs.tx_hash, tx_type: withdraw };
+        const txInfo = { tip_id: txArgs.tip_id, tx_hash: txArgs.tx_hash, tx_type: 'withdraw' };
         const wdTxEntry = dbHelper.addTransaction(txInfo);
         resolve(wdTxEntry);
       });
