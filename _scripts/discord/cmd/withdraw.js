@@ -256,7 +256,7 @@ module.exports = {
         return returnArray;
       }
       const pending = userInfo[0].pending;
-      const pendingBal = Number(wallet_bal) - Number(pending);
+      const pendingBal = Number(wallet_bal) - Number(pending) - Number(fee);
 
       trans_amt = await withdrawAmount(pendingBal);
       console.log('trans_amt: ' + trans_amt);
@@ -314,44 +314,49 @@ module.exports = {
       }
       else {
         // check passed, do stuff
-        const transferAmount = check[0].amtArray - fee;
+        const transferAmount = check[0].amtArray;
         const transferInfo = { address_to: check[0].addressArray, amount: transferAmount, fee: fee, address_from: check[0].userArray[0][0].wallet_pub };
         // console.log('transferInfo: ' + JSON.stringify(transferInfo));
         const transferFunds = await sendFunds(transferInfo);
         const transferFundsOut = JSON.parse(transferFunds);
         // console.log('transferFunds: ' + JSON.stringify(transferFundsOut));
+        if (transferFundsOut.tx.transaction_hash != undefined) {
 
-        const wdDbInfo = { user_id: check[0].userArray[0][0].user_id, tx_hash: transferFundsOut.tx.transaction_hash, to_address: check[0].addressArray[0], amt: check[0].amtArray[0] };
-        console.log('wdDbInfo: ' + JSON.stringify(wdDbInfo));
+          const wdDbInfo = { user_id: check[0].userArray[0][0].user_id, tx_hash: transferFundsOut.tx.transaction_hash, to_address: check[0].addressArray[0], amt: check[0].amtArray[0] };
+          console.log('wdDbInfo: ' + JSON.stringify(wdDbInfo));
 
-        const wdDbWrite = await withdrawDBWrite(wdDbInfo);
-        // console.log('wdDbWrite: ' + JSON.stringify(wdDbWrite));
+          const wdDbWrite = await withdrawDBWrite(wdDbInfo);
+          // console.log('wdDbWrite: ' + JSON.stringify(wdDbWrite));
 
-        const txDbInfo = { tip_id: wdDbWrite[0].transaction_db_id, tx_hash: transferFundsOut.tx.transaction_hash };
-        // console.log('txDbInfo: ' + JSON.stringify(txDbInfo));
-        const txDbWrite = await transactionsDBWrite(txDbInfo);
-        console.log('txDbWrite: ' + JSON.stringify(txDbWrite));
+          const txDbInfo = { tip_id: wdDbWrite[0].transaction_db_id, tx_hash: transferFundsOut.tx.transaction_hash };
+          // console.log('txDbInfo: ' + JSON.stringify(txDbInfo));
+          const txDbWrite = await transactionsDBWrite(txDbInfo);
+          console.log('txDbWrite: ' + JSON.stringify(txDbWrite));
 
-        const embed = new Discord.MessageEmbed()
-          .setColor(0x000000)
-          .setTitle('Withdraw Has Been Sent!')
-          .setDescription('Your withdraw was posted on the network! It may take a few minutes to confirm and post. See the transaction on the [QRL Block Explorer](' + config.bot_details.explorer_url + '/tx/' + transferFundsOut.tx.transaction_hash + ')')
-          // .addField('\u200B', '\u200B')
-          // .setImage('https://github.com/theQRL/assets/blob/master/logo/inverse/QRL_logo_inverse@1x.png?raw=true')
-          .addField('Amount Sent:', '`' + toQuanta(check[0].amtArray) + ' QRL`', true)
-          .addField('Network Fee:', '`' + toQuanta(fee).toFixed(9) + ' QRL`', true)
-          .addField('Pending Amount:', '`' + toQuanta(check[0].userArray[0][0].pending + transferAmount).toFixed(9) + ' QRL`', true)
-          .addField('New Pending Balance:', '`' + toQuanta((check[0].userArray[0][0].wallet_bal - check[0].userArray[0][0].pending) - transferAmount) + ' QRL`', true)
-          .addField('Address Sent to:', '[' + check[0].addressArray[0] + '](' + config.bot_details.explorer_url + '/a/' + check[0].addressArray[0] + ')')
-          .addField('Transaction Hash:', '[```yaml\n' + transferFundsOut.tx.transaction_hash + '\n```](' + config.bot_details.explorer_url + '/tx/' + transferFundsOut.tx.transaction_hash + ')')
-          .setFooter('.: The QRL TipBot :. ');
-        message.author.send({ embed })
-          .then(() => {
-            if (message.channel.type !== 'dm') return;
-          })
-          .catch(error => {
-            if (error) return error;
-          });
+          const embed = new Discord.MessageEmbed()
+            .setColor(0x000000)
+            .setTitle('Withdraw Has Been Sent!')
+            .setDescription('Your withdraw was posted on the network! It may take a few minutes to confirm and post. See the transaction on the [QRL Block Explorer](' + config.bot_details.explorer_url + '/tx/' + transferFundsOut.tx.transaction_hash + ')')
+            // .addField('\u200B', '\u200B')
+            // .setImage('https://github.com/theQRL/assets/blob/master/logo/inverse/QRL_logo_inverse@1x.png?raw=true')
+            .addField('Amount Sent:', '`' + toQuanta(check[0].amtArray) + ' QRL`', true)
+            .addField('Network Fee:', '`' + toQuanta(fee).toFixed(9) + ' QRL`', true)
+            .addField('Pending Amount:', '`' + toQuanta(check[0].userArray[0][0].pending + transferAmount).toFixed(9) + ' QRL`', true)
+            .addField('New Pending Balance:', '`' + toQuanta((check[0].userArray[0][0].wallet_bal - check[0].userArray[0][0].pending) - transferAmount) + ' QRL`', true)
+            .addField('Address Sent to:', '[' + check[0].addressArray[0] + '](' + config.bot_details.explorer_url + '/a/' + check[0].addressArray[0] + ')')
+            .addField('Transaction Hash:', '[```yaml\n' + transferFundsOut.tx.transaction_hash + '\n```](' + config.bot_details.explorer_url + '/tx/' + transferFundsOut.tx.transaction_hash + ')')
+            .setFooter('.: The QRL TipBot :. ');
+          message.author.send({ embed })
+            .then(() => {
+              if (message.channel.type !== 'dm') return;
+            })
+            .catch(error => {
+              if (error) return error;
+            });
+        }
+        else {
+          console.log('error thrown');
+        }
       }
     }
 

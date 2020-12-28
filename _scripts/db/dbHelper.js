@@ -98,7 +98,7 @@ async function GetAllUserInfo(args) {
         // console.log('balance: ' + wallet_bal);
         foundResArray.push({ user_found: has_user_found, user_agree: has_user_agree, opt_out: has_opt_out, wallet_pub: wallet_pub, wallet_bal: wallet_bal, user_id: U_id, user_name: user_name, optout_date: optout_date, pending: pendingBal });
         // Array.prototype.push.apply(foundResArray, infoResult);
-        console.log('getAllInfoSearch foundResArray ' + JSON.stringify(foundResArray) + '\n');
+        // console.log('getAllInfoSearch foundResArray ' + JSON.stringify(foundResArray) + '\n');
         resolve(foundResArray);
         return foundResArray;
         });
