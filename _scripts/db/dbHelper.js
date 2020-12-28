@@ -437,7 +437,7 @@ async function lastTxCheck(args) {
     else {
     // tx is not confirmed, add the pending balance and return to user
       const txAmt = out.tx.transfer.amounts[0];
-      sum = sum + Number(txAmt);
+      sum = sum + (Number(txAmt) + config.wallet.tx_fee);
       sumArray.push(Number(txAmt));
     }
   }
@@ -448,8 +448,8 @@ async function lastTxCheck(args) {
   }, 0);
   return sum;
 }
-// expcts { user_id: user_id }
-// expcts { user_id: @734267018701701242 }
+// expects { user_id: user_id }
+// expects { user_id: @734267018701701242 }
 
 async function CheckPendingTx(args) {
   return new Promise(resolve => {
