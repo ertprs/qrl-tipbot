@@ -466,7 +466,7 @@ module.exports = {
       // get all tippedToUser info from the database
       userInfo().then(function(FinalInfo) {
         // using details above enter the transactions into the node and respond to users.
-        // console.log('\n\nFinalInfo: ' + JSON.stringify(FinalInfo));
+        console.log('\n\nFinalInfo: ' + JSON.stringify(FinalInfo));
       // console.log('futureTippedUserInfo: ' + JSON.stringify(futureTippedUserInfo));
       // console.log('tippedUserInfo: ' + JSON.stringify(tippedUserInfo));
 
