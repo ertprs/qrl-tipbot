@@ -296,6 +296,7 @@ module.exports = {
       console.log('check: ' + check[0].check);
       console.log('check: ' + JSON.stringify(check[0].addressArray));
       console.log('check: ' + JSON.stringify(check[0].amtArray));
+      console.log('check: ' + JSON.stringify(check))
       if (!check[0].check) {
         // the check command failed
         console.log('Check failed...');
@@ -304,7 +305,7 @@ module.exports = {
 
       // check passed, do stuff
 
-      const transferInfo = { address_to: check[0].addressArray, amount: check[0].amtArray, fee: fee, address_from: userArray[0].wallet_pub };
+      const transferInfo = { address_to: check[0].addressArray, amount: check[0].amtArray, fee: fee, address_from: check[0].userArray[0].wallet_pub };
       console.log('transferInfo: ' + JSON.stringify(transferInfo))
       const transferFunds = await sendFunds(transferInfo);
       console.log('transferFunds: ' + JSON.stringify(transferFunds));
