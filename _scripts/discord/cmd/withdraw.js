@@ -278,11 +278,11 @@ module.exports = {
 
       const pending = userInfo[0].pending;
       const pendingBal = Number(wallet_bal) - Number(pending);
-      const appendedBal = trans_amt - pendingBal;
-      console.log( pending + ' ' +pendingBal + ' ' +appendedBal)
+
+      console.log(pending + ' ' + pendingBal);
       // ########################################################
       // Pending balance is less than wd amt
-      if (appendedBal < 0) {
+      if (pendingBal < 0) {
         // pending balance is less than attempted withdraw
         console.log('Pending Balance is less than withdraw amt');
         errorMessage({ error: 'Pending Balance Is Less Than Withdraw...', description: 'You Don\'t have enough finds for that after all transactions clear, check you `+bal` and try again.' });
