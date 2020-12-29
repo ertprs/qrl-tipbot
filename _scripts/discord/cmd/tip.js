@@ -251,7 +251,7 @@ module.exports = {
       console.log('tippingUserWallet_Pub: ' + tippingUserWallet_Pub);
       console.log('tippingUserWallet_Bal: ' + tippingUserWallet_Bal);
       console.log('tippingUserWallet_PendingBal: ' + tippingUserWallet_PendingBal);
-      console.log('tippingUserWallet_Bal - tippingUserWallet_PendingBal: ' + (Number(tippingUserWallet_Bal) - Number(tippingUserWallet_PendingBal)));
+      console.log('tippingUserWallet_Bal - tippingUserWallet_PendingBal: ' + (Number(tippingUserWallet_Bal) - tippingUserWallet_PendingBal));
 
 
       const tippingUserUser_Id = JSON.stringify(tipingUserInfo[0].user_id);
