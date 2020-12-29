@@ -752,7 +752,7 @@ async function addTransaction(args) {
   return new Promise(resolve => {
     const txArray = [];
     const input = JSON.stringify(args);
-    console.log('input: ' + input);
+    // console.log('input: ' + input);
     const tip_id = args.tip_id;
     const tx_type = args.tx_type;
     const tx_hash = args.tx_hash;

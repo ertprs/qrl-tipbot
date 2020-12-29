@@ -107,12 +107,12 @@ module.exports = {
         // console.log('isQRLValue/CheckValue: ' + checkValue);
 
         if(checkValue) {
-          console.log('Valid amount given: ' + arg);
+          // console.log('Valid amount given: ' + arg);
           return (arg * toShor) - fee;
         }
         else if (arg === 'all') {
-          console.log('all called, transfer full balance: ' + balance);
-          return balance;
+          // console.log('all called, transfer full balance: ' + balance);
+          return balance - fee;
         }
       }
       // no valid amount given, return none
@@ -141,7 +141,7 @@ module.exports = {
     async function transactionsDBWrite(txArgs) {
       return new Promise(resolve => {
         // {tip_id: fromTipDB, tx_hash: fromTX_HASH}
-        console.log('transactionsDbWrite args:' + JSON.stringify(txArgs));
+        // console.log('transactionsDbWrite args:' + JSON.stringify(txArgs));
         const txInfo = { tip_id: txArgs.tip_id, tx_hash: txArgs.tx_hash, tx_type: 'withdraw' };
         const wdTxEntry = dbHelper.addTransaction(txInfo);
         resolve(wdTxEntry);
@@ -325,7 +325,7 @@ module.exports = {
     async function main() {
       // run commandChecks and fail if not successful
       const check = await commandChecks();
-      console.log('pass: ' + pass);
+      // console.log('pass: ' + pass);
 
       if (!pass) {
         // the check command failed
