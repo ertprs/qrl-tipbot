@@ -263,11 +263,10 @@ module.exports = {
         // ReplyMessage('You have no funds to tip. `+bal`');
         return;
       }
-      const pendingBal = Number(tippingUserWallet_Bal) - Number(tippingUserWallet_PendingBal);
-      console.log('pendingBal: ' + pendingBal);
+
 
       // check balance to tip amount pending balance
-      if ( pendingBal < 0) {
+      if (tippingUserWallet_PendingBal < 0) {
       // console.log('User has 0 balance. Fail and warn');
         errorMessage({ error: 'Pending Balance Found...', description: 'You have a pending balance that is less than you are sending. Wait for the transactions to confirm and try again.' });
         // ReplyMessage('You have no funds to tip. `+bal`');
@@ -498,11 +497,11 @@ module.exports = {
                 .setDescription('Your tip was posted on the network! It may take a few minutes to confirm\nSee the transaction info in the [QRL Block Explorer](' + config.bot_details.explorer_url + '/tx/' + tx_hash + ')')
                 // .addField('\u200B', '\u200B')
                 // .setImage('https://github.com/theQRL/assets/blob/master/logo/inverse/QRL_logo_inverse@1x.png?raw=true')
-                .addField('Tip Amount', '**' + toQuanta(givenTip).toFixed(9) + ' QRL**', true)
-                .addField('Tip To Count', '**' + tipUserCount + ' User(s)**', true)
-                .addField('Network Fee', '**' + toQuanta(fee).toFixed(9) + ' QRL**', true)
-                .addField('You Tipped', tippedUserIDs + ' ' + futureTippedUserIDs)
-                .addField('Total Transfer', '**' + toQuanta(tipTotal).toFixed(9) + ' QRL**', true)
+                .addField('Tip Amount', '`' + toQuanta(givenTip).toFixed(9) + ' QRL`', true)
+                .addField('Tipped User Count', '`' + tipUserCount + ' User(s)`', true)
+                .addField('Network Fee', '`' + toQuanta(fee).toFixed(9) + ' QRL`', true)
+                // .addField('You Tipped', tippedUserIDs + ' ' + futureTippedUserIDs)
+                .addField('Total Transfer', '`' + toQuanta(tipTotal).toFixed(9) + ' QRL`', true)
                 // .addField('New Wallet Balance', '[**' + newWal_bal + ' QRL**](' + config.bot_details.explorer_url + '/a/' + tippingUserWalPub + ')', true)
                 .addField('Transaction Hash', '[```yaml\n' + tx_hash + '\n```](' + config.bot_details.explorer_url + '/tx/' + tx_hash + ')')
                 .setFooter('.: The QRL TipBot :. ');
