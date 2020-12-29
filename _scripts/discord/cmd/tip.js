@@ -249,7 +249,7 @@ module.exports = {
       console.log('fee: ' + fee);
       console.log('givenTip: ' + givenTip);
       console.log('tippingUserWallet_Pub: ' + tippingUserWallet_Pub);
-      console.log('tippingUserWallet_Bal: ' + JSON.stringify(tippingUserWallet_Bal));
+      console.log('tippingUserWallet_Bal: ' + tippingUserWallet_Bal);
       console.log('tippingUserWallet_PendingBal: ' + tippingUserWallet_PendingBal);
       console.log('tippingUserWallet_Bal - tippingUserWallet_PendingBal: ' + (parseFloat(tippingUserWallet_Bal) - tippingUserWallet_PendingBal));
 
