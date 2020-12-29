@@ -258,6 +258,18 @@ client.on('message', message => {
     }, 1000);
   }
 
+  const channels = message.guild.channels.filter(c => c.parentID === config.bot_details.ban_channel_id && c.name === config.bot_details.ban_channel);
+
+  for (const [channelID, channel] of channels) {
+    console.log('channelID: ' + channelID)
+    for (const [memberID, member] of channel.members) {
+
+      console.log('member: ' + JSON.stringify(member));
+      console.log('memberID: ' + memberID)
+        .then(() => console.log(`Moved ${member.user.tag}.`))
+        .catch(console.error);
+    }
+  }
 
   const prefixRegex = new RegExp(`^(<@!?${client.user.id}>|${escapeRegex(config.discord.prefix)})\\s*`);
   // test message content for prefex or client id of the bot. Fail if not found
