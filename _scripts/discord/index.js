@@ -308,6 +308,7 @@ client.on('message', message => {
 
   if (command.name !== 'withdraw' && message.channel.name === 'limbo') {
     console.log('sent from limbo... Fail this command since not withdraw');
+    return;
   }
 
   if (!command) return;
@@ -315,7 +316,7 @@ client.on('message', message => {
   if (command.guildOnly && message.channel.type !== 'text') {
     errorMessage({ error: 'Can\'t access ' + command + ' from DM!', description: 'Please try again from the main chat, this function will only work there.' });
     // message.reply('I can\'t execute that command inside DMs!');
-    return ;
+    return;
   }
 
   if (command.args && !args.length) {
