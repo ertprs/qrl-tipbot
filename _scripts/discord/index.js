@@ -233,29 +233,30 @@ wallet_Info().then(function(Info) {
 
 // check for messages and if received with the prefix, do stuff
 client.on('message', message => {
-
-// use to send a reply to user with delay and stop typing
-// ReplyMessage(' Check your DM\'s');
-function ReplyMessage(content) {
-  message.channel.startTyping();
-  setTimeout(function() {
-    message.reply(content);
-    message.channel.stopTyping(true);
-  }, 1000);
-}
-// errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
-function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
-  message.channel.startTyping();
-  setTimeout(function() {
-    const embed = new Discord.MessageEmbed()
-      .setColor(0x000000)
-      .setTitle(':warning:  ERROR: ' + content.error)
-      .setDescription(content.description)
-      .setFooter(footer);
-    message.reply({ embed });
-    message.channel.stopTyping(true);
-  }, 1000);
-}
+  /*
+  // use to send a reply to user with delay and stop typing
+  // ReplyMessage(' Check your DM\'s');
+  function ReplyMessage(content) {
+    message.channel.startTyping();
+    setTimeout(function() {
+      message.reply(content);
+      message.channel.stopTyping(true);
+    }, 1000);
+  }
+  */
+  // errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
+  function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
+    message.channel.startTyping();
+    setTimeout(function() {
+      const embed = new Discord.MessageEmbed()
+        .setColor(0x000000)
+        .setTitle(':warning:  ERROR: ' + content.error)
+        .setDescription(content.description)
+        .setFooter(footer);
+      message.reply({ embed });
+      message.channel.stopTyping(true);
+    }, 1000);
+  }
 
 
   const prefixRegex = new RegExp(`^(<@!?${client.user.id}>|${escapeRegex(config.discord.prefix)})\\s*`);
@@ -273,6 +274,9 @@ function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contrib
   const now = new Date().getTime();
   const now1 = Date(now * 1000);
   const commandName = args.shift().toLowerCase();
+  //  if (!client.commands.has(commandName)) return;
+  //    const command = client.commands.get(commandName);
+  const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
   // ///////////////////////////////////////////////////////
   //
@@ -282,20 +286,32 @@ function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contrib
   // log everthing with ${config.discord.prefix} to console
   // ///////////////////////////////////////////////////////
   if (message.channel.type === 'dm') {
-    console.log(chalk.yellow('Message Recieved: \n') + chalk.cyan('Time:\t') + chalk.green(now1) + chalk.cyan('\nGuild:\t') + chalk.green('Private Message') + '\n' + chalk.cyan('Chan:\t') + chalk.green(message.channel.name) + '\n' + chalk.cyan('Auth:\t') + chalk.green(message.author.username + chalk.dim(' <@' + message.author.id + '>')) + '\n' + chalk.cyan('Mesg:\t') + chalk.green(message.content));
+    console.log(chalk.yellow('Message Recieved:..') +
+      chalk.cyan('\nTime:\t') + chalk.green(now1) +
+      chalk.cyan('\nGuild:\t') + chalk.green('Private Message') +
+      chalk.cyan('\nChan:\t') + chalk.green(message.channel.name) +
+      chalk.cyan('\nAuth:\t') + chalk.green(message.author.username + chalk.dim(' <@' + message.author.id + '>')) +
+      chalk.cyan('\nCMD:\t') + chalk.green(command) +
+      chalk.cyan('\nMesg:\t') + chalk.green(message.content));
   }
   else {
-    console.log(chalk.yellow('Message Recieved: \n') + chalk.cyan('Time:\t') + chalk.green(now1) + chalk.cyan('\nGuild:\t') + chalk.green(message.guild.name) + '\n' + chalk.cyan('Chan:\t') + chalk.green(message.channel.name) + '\n' + chalk.cyan('Auth:\t') + chalk.green(message.author.username + chalk.dim(' <@' + message.author.id + '>')) + '\n' + chalk.cyan('Mesg:\t') + chalk.green(message.content));
+    console.log(chalk.yellow('Message Recieved:..') +
+      chalk.cyan('\nTime:\t') + chalk.green(now1) +
+      chalk.cyan('\nGuild:\t') + chalk.green(message.guild.name) +
+      chalk.cyan('\nChan:\t') + chalk.green(message.channel.name) +
+      chalk.cyan('\nAuth:\t') + chalk.green(message.author.username + chalk.dim(' <@' + message.author.id + '>')) +
+      chalk.cyan('\nCMD:\t') + chalk.green(command) +
+      chalk.cyan('\nMesg:\t') + chalk.green(message.content));
   }
-  //  if (!client.commands.has(commandName)) return;
-  //    const command = client.commands.get(commandName);
-  const command = client.commands.get(commandName)
-    || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+
+  if (!command === 'withdraw' && message.channel === 'limbo') {
+    console.log('sent from limbo... Fail this command since not withdraw');
+  }
 
   if (!command) return;
 
   if (command.guildOnly && message.channel.type !== 'text') {
-    errorMessage({ error: 'Can\'t access ' + command +' from DM!', description: 'Please try again from the main chat, this function will only work there.' });
+    errorMessage({ error: 'Can\'t access ' + command + ' from DM!', description: 'Please try again from the main chat, this function will only work there.' });
     // message.reply('I can\'t execute that command inside DMs!');
     return ;
   }
@@ -319,23 +335,24 @@ function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contrib
   if (timestamps.has(message.author.id)) {
     const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
     if (now < expirationTime) {
-      const timeLeft = (expirationTime - now) / 1000;
+      // const timeLeft = (expirationTime - now) / 1000;
       errorMessage({ error: 'Cooldown Time Limit Hit...', description: 'Please try again later' });
       // message.reply(`please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`);
-      return 
+      return;
     }
   }
   timestamps.set(message.author.id, now);
   setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
   try {
+
     // iterate through ${command} found in ./cmd/ dir
     command.execute(message, args);
   }
   catch (error) {
     console.error(error);
     errorMessage({ error: 'It appears I have been observed...', description: ' My superposition has collapsed and I landed in another state. Please reach out to my bot owner ' + config.discord.bot_admin + ' for assistance.' });
-    message.reply('there was an error trying to execute that command!');
+    // message.reply('there was an error trying to execute that command!');
   }
 
 });

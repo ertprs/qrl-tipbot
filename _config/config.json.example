@@ -5,7 +5,8 @@
     "bot_url" : "https://BOT_URL.COM",
     "explorer_url" : "https://explorer.theqrl.org",
     "bot_dir" : "/home/{$USER}/qrltips",
-    "bot_donationAddress" : "Q010500e9ec3de4d403d59be6ff329134c6d6fab4f94ea40eaa443aff47ab76350519e94fe9326b"
+    "bot_donationAddress" : "Q010500e9ec3de4d403d59be6ff329134c6d6fab4f94ea40eaa443aff47ab76350519e94fe9326b",
+    "ban_channel": "CHANNEL_NAME"
   },
   "wallet" : {
     "tx_fee"  : "0.00001",
