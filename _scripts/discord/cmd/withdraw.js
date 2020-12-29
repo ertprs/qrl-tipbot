@@ -196,7 +196,7 @@ module.exports = {
       // ########################################################
       // has user agreed
       if (userInfo[0].user_agree) {
-        // console.log('user has agreed.');
+        console.log('user has agreed.');
         userAgree = true;
       }
       else {
@@ -219,7 +219,7 @@ module.exports = {
         const returnArray = [{ check: false }];
         return returnArray;
       }
-
+      // get withdraw address from the message, regardless of where after +wd it is. Also checks for valid address
       transfer_to = withdrawAddress();
       console.log('transfer_to: ' + transfer_to);
       // ########################################################
@@ -231,7 +231,7 @@ module.exports = {
         const returnArray = [{ check: false }];
         return returnArray;
       }
-
+      // SET THE WALLET_PUB TO USER LOOKUP WALLET_PUB address for transaction and balance lookup
       wallet_pub = userInfo[0].wallet_pub;
       console.log('wallet_pub: ' + wallet_pub);
       // ########################################################
@@ -243,7 +243,7 @@ module.exports = {
         const returnArray = [{ check: false }];
         return returnArray;
       }
-
+      // set the wallet balance from the user lookup
       wallet_bal = userInfo[0].wallet_bal;
       console.log('wallet_bal: ' + wallet_bal);
       // ########################################################
@@ -255,11 +255,40 @@ module.exports = {
         const returnArray = [{ check: false }];
         return returnArray;
       }
-      const pending = userInfo[0].pending;
-      const pendingBal = Number(wallet_bal) - Number(pending) - Number(fee);
 
-      trans_amt = await withdrawAmount(pendingBal);
+      trans_amt = await withdrawAmount(wallet_bal);
       console.log('trans_amt: ' + trans_amt);
+
+
+      // get the pending amount, if any from the database
+      const pending = userInfo[0].pending;
+      if (pending > 0) {
+        console.log('Pending balance found, user has: ' + pending + ' pending');
+        errorMessage({ error: 'Pending Balance Found...', description: 'Withdraw not posted! You\'ve recently sent funds that have not confirmed on the network. Please wait for all transactions to clear before withdrawing any funds. More details in your DM.' });
+
+        const embed = new Discord.MessageEmbed()
+          .setColor(0x000000)
+          .setTitle('Pending Balance - ' + toQuanta(pending) + ' QRL')
+          .setDescription('You must wait for all transactions to clear before you can withdraw any funds. Check unconfirmed transactions on the [QRL Block Explorer](' + config.bot_details.explorer_url + '/unconfirmed)\n\n**Attempted transaction details below**')
+          // .addField('\u200B', '\u200B')
+          // .setImage('https://github.com/theQRL/assets/blob/master/logo/inverse/QRL_logo_inverse@1x.png?raw=true')
+          .addField('Withdraw Amount:', '`' + toQuanta(trans_amt) + ' QRL`', true)
+          .addField('Network Fee:', '`' + toQuanta(fee).toFixed(9) + ' QRL`', true)
+          .addField('Pending Amount:', '`' + toQuanta(Number(pending)) + ' QRL`', true)
+          .addField('Wallet Balance:', '[`' + toQuanta(wallet_bal) + ' QRL`](' + config.bot_details.explorer_url + '/a/' + wallet_pub + ')', true)
+          .addField('Address Sent to:', '[' + transfer_to + '](' + config.bot_details.explorer_url + '/a/' + transfer_to + ')')
+          .setFooter('  .: Tipbot provided by The QRL Contributors :.');
+        message.author.send({ embed })
+          .catch(error => {
+            errorMessage({ error: 'Direct Message Disabled...', description: 'It seems you have DM\'s blocked, please enable and try again...' });
+            if (error) return error;
+          });
+        const returnArray = [{ check: false }];
+        return returnArray;
+      }
+
+      // const pendingBal = Number(wallet_bal) - Number(pending) - Number(fee);
+
       // console.log('wd_amt: ' + wd_amt);
       amtArray.push(trans_amt);
       addressArray.push(transfer_to);
@@ -283,16 +312,6 @@ module.exports = {
         return returnArray;
       }
 
-
-      console.log(pending + ' ' + pendingBal);
-      // ########################################################
-      // Pending balance is less than wd amt
-      if (pendingBal < 0) {
-        // pending balance is less than attempted withdraw
-        console.log('Pending Balance is less than withdraw amt');
-        errorMessage({ error: 'Pending Balance Is Less Than Withdraw...', description: 'You Don\'t have enough finds for that after all transactions clear, check you `+bal` and try again.' });
-        return false;
-      }
       // ########################################################
       // user passed checks. return true
       userArray.push(userInfo);
@@ -347,10 +366,8 @@ module.exports = {
             .addField('Transaction Hash:', '[```yaml\n' + transferFundsOut.tx.transaction_hash + '\n```](' + config.bot_details.explorer_url + '/tx/' + transferFundsOut.tx.transaction_hash + ')')
             .setFooter('  .: Tipbot provided by The QRL Contributors :.');
           message.author.send({ embed })
-            .then(() => {
-              if (message.channel.type !== 'dm') return;
-            })
             .catch(error => {
+              errorMessage({ error: 'Direct Message Disabled...', description: 'It seems you have DM\'s blocked, please enable and try again...' });
               if (error) return error;
             });
         }

@@ -512,7 +512,7 @@ module.exports = {
                   if (message.channel.type !== 'dm') return;
                 })
                 .catch(error => {
-                  message.channel.stopTyping(true);
+                    errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
                 });
               /*
               if(message.guild != null) {
