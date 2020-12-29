@@ -258,6 +258,9 @@ client.on('message', message => {
     }, 1000);
   }
 
+
+console.log(JSON.stringify(message.guild.channels));
+/*
   const channels = message.guild.channels.filter(c => c.parentID === config.bot_details.ban_channel_id && c.name === config.bot_details.ban_channel);
 
   for (const [channelID, channel] of channels) {
@@ -270,7 +273,7 @@ client.on('message', message => {
         .catch(console.error);
     }
   }
-
+*/
   const prefixRegex = new RegExp(`^(<@!?${client.user.id}>|${escapeRegex(config.discord.prefix)})\\s*`);
   // test message content for prefex or client id of the bot. Fail if not found
   if (!prefixRegex.test(message.content)) return;
