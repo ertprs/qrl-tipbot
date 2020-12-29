@@ -269,7 +269,7 @@ module.exports = {
         const embed = new Discord.MessageEmbed()
           .setColor(0x000000)
           .setTitle('Pending Balance - ' + toQuanta(pending) + ' QRL')
-          .setDescription('You must wait for all transactions to clear before you can withdraw any funds. Check unconfirmed transactions on the [QRL Block Explorer](' + config.bot_details.explorer_url + '/unconfirmed)\n\n**Attempted transaction details below**')
+          .setDescription('You must wait for all transactions to clear before you can withdraw any funds. Check unconfirmed transactions on the [QRL Block Explorer](' + config.bot_details.explorer_url + '/unconfirmed). once cleared you can send your transaction.\n\n**Attempted transaction details below**')
           // .addField('\u200B', '\u200B')
           // .setImage('https://github.com/theQRL/assets/blob/master/logo/inverse/QRL_logo_inverse@1x.png?raw=true')
           .addField('Withdraw Amount:', '`' + toQuanta(trans_amt) + ' QRL`', true)
