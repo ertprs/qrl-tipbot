@@ -359,7 +359,7 @@ module.exports = {
             { name: 'balance: ', value: 'Print user QRL balance or QRL address balance to DM, `+help balance`', inline: false },
             { name: 'deposit: ', value: 'Deposit information to send funds to your tipbot address, `+help deposit`', inline: false },
             { name: 'drip: ', value: 'Receive a payout from the tipbot faucet, `+help drip`', inline: false },
-            { name: 'getKeys: ', value: 'Prints the users private keys to a DM, **CAUTION** `+help getKeys`', inline: false },
+            // { name: 'getKeys: ', value: 'Prints the users private keys to a DM, **CAUTION** `+help getKeys`', inline: false },
             { name: 'help: ', value: 'Print help information for the tipbot commands, `+help`', inline: false },
             { name: 'info: ', value: 'This command, giving information on various topics, `+help info`', inline: false },
             { name: 'optin: ', value: 'Opt into the tipbot {default signup condition} after user has opt\'ed out, `+help optin`', inline: false },
