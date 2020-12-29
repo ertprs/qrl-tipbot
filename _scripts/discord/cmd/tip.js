@@ -245,9 +245,9 @@ module.exports = {
       // user found in database and passes initial checks.
       const tippingUserWallet_Pub = JSON.stringify(tipingUserInfo[0].wallet_pub);
       console.log('tippingUserWallet_Pub: ' + tippingUserWallet_Pub);
-      const tippingUserWallet_Bal = toShor(JSON.stringify(tipingUserInfo[0].wallet_bal));
+      const tippingUserWallet_Bal = JSON.stringify(tipingUserInfo[0].wallet_bal);
       console.log('tippingUserWallet_Bal: ' + tippingUserWallet_Bal);
-      const tippingUserWallet_PendingBal = toShor(JSON.stringify(tipingUserInfo[0].pending));
+      const tippingUserWallet_PendingBal = JSON.stringify(tipingUserInfo[0].pending);
 
       console.log('tippingUserWallet_PendingBal: ' + tippingUserWallet_PendingBal);
 
