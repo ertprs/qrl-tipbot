@@ -306,9 +306,9 @@ client.on('message', message => {
 
   // console.log(chalk.cyan('\command array:\t') + chalk.green(JSON.stringify(command)))
 
-  if (command.name !== 'withdraw' && message.channel.name === 'limbo') {
+  if (command.name !== 'withdraw' && message.channel.name === config.bot.ban_channel) {
     console.log('sent from limbo... Fail this command since not withdraw');
-    errorMessage({ error: 'Function Not Allowed...', description: 'You have been banned or licked from this server. The only working function is `+withdraw` which will require an external adresss to transfer your funds to.\n\n**Example:**\nSend all funds to the facuet address - `+withdraw all ' + config.faucet.faucet_wallet_pub + '`\nUse an address you have created at ' + config.wallet.wallet_url });
+    errorMessage({ error: 'Function Not Allowed...', description: 'You have been banned or kicked from this server. The only working function is `+withdraw` which will require an external adresss to transfer your funds to.\n\n**Example:**\nSend all funds to the facuet address - `+withdraw all ' + config.faucet.faucet_wallet_pub + '`\nUse an address you have created at ' + config.wallet.wallet_url });
     return;
   }
 

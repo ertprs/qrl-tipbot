@@ -169,6 +169,7 @@ module.exports = {
     //  Checks...
     // ########################################################
     async function commandChecks() {
+
       // ########################################################
       // Check args are not blank, as we need args to function
       if ((args[0] == undefined) || (args[1] == undefined)) {
@@ -353,24 +354,54 @@ module.exports = {
           const txDbWrite = await transactionsDBWrite(txDbInfo);
           // console.log('txDbWrite: ' + JSON.stringify(txDbWrite));
 
-          const embed = new Discord.MessageEmbed()
-            .setColor(0x000000)
-            .setTitle('Withdraw Has Been Sent!')
-            .setDescription('Your withdraw was posted on the network! It may take a few minutes to confirm and post. See the transaction on the [QRL Block Explorer](' + config.bot_details.explorer_url + '/tx/' + transferFundsOut.tx.transaction_hash + ')')
-            // .addField('\u200B', '\u200B')
-            // .setImage('https://github.com/theQRL/assets/blob/master/logo/inverse/QRL_logo_inverse@1x.png?raw=true')
-            .addField('Amount Sent:', '`' + toQuanta(check[0].amtArray) + ' QRL`', true)
-            .addField('Network Fee:', '`' + toQuanta(fee).toFixed(9) + ' QRL`', true)
-            .addField('Pending Amount:', '`' + toQuanta(Number(check[0].userArray[0][0].pending) + Number(transferAmount) + fee) + ' QRL`', true)
-            .addField('Approx New Balance:', '`' + toQuanta((check[0].userArray[0][0].wallet_bal - check[0].userArray[0][0].pending) - transferAmount).toFixed(9) + ' QRL`', true)
-            .addField('Address Sent to:', '[' + check[0].addressArray[0] + '](' + config.bot_details.explorer_url + '/a/' + check[0].addressArray[0] + ')')
-            .addField('Transaction Hash:', '[```yaml\n' + transferFundsOut.tx.transaction_hash + '\n```](' + config.bot_details.explorer_url + '/tx/' + transferFundsOut.tx.transaction_hash + ')')
-            .setFooter('  .: Tipbot provided by The QRL Contributors :.');
-          message.author.send({ embed })
-            .catch(error => {
-              errorMessage({ error: 'Direct Message Disabled...', description: 'It seems you have DM\'s blocked, please enable and try again...' });
-              if (error) return error;
-            });
+          if (message.channel.name === config.bot.ban_channel) {
+            console.log('sent from limbo...');
+            message.channel('<@!360148642406858753> .cg qrl');
+
+
+            const embed = new Discord.MessageEmbed()
+              .setColor(0x000000)
+              .setTitle('Withdraw Has Been Sent!')
+              .setDescription('Your withdraw was posted on the network. It may take a few minutes to confirm and post. See the transaction on the [QRL Block Explorer](' + config.bot_details.explorer_url + '/tx/' + transferFundsOut.tx.transaction_hash + ')')
+              // .addField('\u200B', '\u200B')
+              // .setImage('https://github.com/theQRL/assets/blob/master/logo/inverse/QRL_logo_inverse@1x.png?raw=true')
+              .addField('Amount Sent:', '`' + toQuanta(check[0].amtArray) + ' QRL`', true)
+              .addField('Network Fee:', '`' + toQuanta(fee).toFixed(9) + ' QRL`', true)
+              .addField('Pending Amount:', '`' + toQuanta(Number(check[0].userArray[0][0].pending) + Number(transferAmount) + fee) + ' QRL`', true)
+              .addField('Approx New Balance:', '`' + toQuanta((check[0].userArray[0][0].wallet_bal - check[0].userArray[0][0].pending) - transferAmount).toFixed(9) + ' QRL`', true)
+              .addField('Address Sent to:', '[' + check[0].addressArray[0] + '](' + config.bot_details.explorer_url + '/a/' + check[0].addressArray[0] + ')')
+              .addField('Transaction Hash:', '[```yaml\n' + transferFundsOut.tx.transaction_hash + '\n```](' + config.bot_details.explorer_url + '/tx/' + transferFundsOut.tx.transaction_hash + ')')
+              .setFooter('  .: Tipbot provided by The QRL Contributors :.');
+            message.author.send({ embed })
+              .catch(error => {
+                errorMessage({ error: 'Direct Message Disabled...', description: 'It seems you have DM\'s blocked, please enable and try again...' });
+                if (error) return error;
+              });
+            ReplyMessage('Ensure to take your full balance...');
+            if (args[0] === 'all' || args[1] === 'all' || trans_amt + fee === check[0].userArray[0][0].wallet_pub) {
+              message.channel('.ban ' + uuid + 'please <@!360148642406858753>, their balance is `0 QRL` ');
+            }
+          }
+          else {
+            const embed = new Discord.MessageEmbed()
+              .setColor(0x000000)
+              .setTitle('Withdraw Has Been Sent!')
+              .setDescription('Your withdraw was posted on the network! It may take a few minutes to confirm and post. See the transaction on the [QRL Block Explorer](' + config.bot_details.explorer_url + '/tx/' + transferFundsOut.tx.transaction_hash + ')')
+              // .addField('\u200B', '\u200B')
+              // .setImage('https://github.com/theQRL/assets/blob/master/logo/inverse/QRL_logo_inverse@1x.png?raw=true')
+              .addField('Amount Sent:', '`' + toQuanta(check[0].amtArray) + ' QRL`', true)
+              .addField('Network Fee:', '`' + toQuanta(fee).toFixed(9) + ' QRL`', true)
+              .addField('Pending Amount:', '`' + toQuanta(Number(check[0].userArray[0][0].pending) + Number(transferAmount) + fee) + ' QRL`', true)
+              .addField('Approx New Balance:', '`' + toQuanta((check[0].userArray[0][0].wallet_bal - check[0].userArray[0][0].pending) - transferAmount).toFixed(9) + ' QRL`', true)
+              .addField('Address Sent to:', '[' + check[0].addressArray[0] + '](' + config.bot_details.explorer_url + '/a/' + check[0].addressArray[0] + ')')
+              .addField('Transaction Hash:', '[```yaml\n' + transferFundsOut.tx.transaction_hash + '\n```](' + config.bot_details.explorer_url + '/tx/' + transferFundsOut.tx.transaction_hash + ')')
+              .setFooter('  .: Tipbot provided by The QRL Contributors :.');
+            message.author.send({ embed })
+              .catch(error => {
+                errorMessage({ error: 'Direct Message Disabled...', description: 'It seems you have DM\'s blocked, please enable and try again...' });
+                if (error) return error;
+              });
+          }
         }
         else {
           console.log('error thrown');
