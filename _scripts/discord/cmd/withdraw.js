@@ -264,7 +264,7 @@ module.exports = {
       const pending = userInfo[0].pending;
       if (pending > 0) {
         console.log('Pending balance found, user has: ' + pending + ' pending');
-        errorMessage({ error: 'Pending Balance Found...', description: 'Withdraw not posted! You\'ve recently sent funds that have not confirmed on the network. Please wait for all transactions to clear before withdrawing any funds. More details in your DM.' });
+        errorMessage({ error: 'Pending Balance Found...', description: 'You\'ve recently sent funds that have not confirmed on the network. Please wait for all transactions to clear. More details in your DM.' });
 
         const embed = new Discord.MessageEmbed()
           .setColor(0x000000)
@@ -277,7 +277,7 @@ module.exports = {
           // .addField('Current Balance:', '[`' + toQuanta(wallet_bal) + ' QRL`](' + config.bot_details.explorer_url + '/a/' + wallet_pub + ')', true)
           .addField('Receiving Address:', '[' + transfer_to + '](' + config.bot_details.explorer_url + '/a/' + transfer_to + ')')
           .addField('Pending Balance:', '[`' + toQuanta(wallet_bal - pending) + ' QRL`](' + config.bot_details.explorer_url + '/a/' + wallet_pub + ')', true)
-          .addField('Pending Amount:', '`' + toQuanta(Number(pending)) + ' QRL`', true)
+          .addField('Pending Amount Found:', '`' + toQuanta(Number(pending)) + ' QRL`', true)
           .setFooter('  .: Tipbot provided by The QRL Contributors :.');
         message.author.send({ embed })
           .catch(error => {
