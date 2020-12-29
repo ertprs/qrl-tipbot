@@ -261,8 +261,8 @@ client.on('message', message => {
 
   async function channelUsers() {
     console.log('(message.guild.members: ' + JSON.stringify(message.guild.members));
-    console.log('message.guild.members.length: ' +message.guild.members.length);
-    for(let i = 0, l = message.guild.members.length; i < l; i++) {
+    console.log('message.guild.members.length: ' + (message.guild.members).length);
+    for(let i = 0, l = (message.guild.members).length; i < l; i++) {
       console.log('user: ' + message.guild.members[i]);
     }
     // const channels = await client.channels.cache.get(config.bot_details.ban_channel_id);
