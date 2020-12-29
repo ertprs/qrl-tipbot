@@ -304,7 +304,8 @@ client.on('message', message => {
       chalk.cyan('\nMesg:\t') + chalk.green(message.content));
   }
 
-  console.log(chalk.cyan('\command array:\t') + chalk.green(JSON.stringify(command)))
+  // console.log(chalk.cyan('\command array:\t') + chalk.green(JSON.stringify(command)))
+
   if (command.name !== 'withdraw' && message.channel.name === 'limbo') {
     console.log('sent from limbo... Fail this command since not withdraw');
   }
