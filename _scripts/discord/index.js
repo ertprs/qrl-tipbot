@@ -260,8 +260,8 @@ client.on('message', message => {
 
 
   async function channelUsers() {
-    const messageGuild = JSON.stringify(message.guild)
-    console.log('message.guild.members: ' + JSON.stringify(messageGuild));
+    const messageGuild = message.guild;
+    console.log('message.guild.members: ' + messageGuild.members);
     console.log('message.guild.members.length: ' + (message.guild.members).length);
     for(let i = 0, l = (message.guild.members).length; i < l; i++) {
       console.log('user: ' + message.guild.members[i]);
