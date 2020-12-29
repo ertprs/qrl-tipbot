@@ -179,12 +179,12 @@ module.exports = {
       // ########################################################
       // Check for user in system, agree, opt out?
       const userInfo = await getUserInfo({ service: 'discord', service_id: UUID });
-      console.log('userInfo:' + JSON.stringify(userInfo));
+      // console.log('userInfo:' + JSON.stringify(userInfo));
       // ########################################################
       // is user found?
       if (userInfo[0].user_found) {
         userFound = true;
-        console.log('userFound: ' + userFound);
+        // console.log('userFound: ' + userFound);
       }
       else {
         // fail on error
@@ -196,7 +196,7 @@ module.exports = {
       // ########################################################
       // has user agreed
       if (userInfo[0].user_agree) {
-        console.log('user has agreed.');
+        // console.log('user has agreed.');
         userAgree = true;
       }
       else {
@@ -209,7 +209,7 @@ module.exports = {
       // ########################################################
       // has user opted out
       if (!userInfo[0].opt_out) {
-        console.log('user has not opted out.');
+        // console.log('user has not opted out.');
         userOptOut = false;
       }
       else {
@@ -221,7 +221,7 @@ module.exports = {
       }
       // get withdraw address from the message, regardless of where after +wd it is. Also checks for valid address
       transfer_to = withdrawAddress();
-      console.log('transfer_to: ' + transfer_to);
+      // console.log('transfer_to: ' + transfer_to);
       // ########################################################
       // incorrect address
       if (!transfer_to) {
@@ -233,7 +233,7 @@ module.exports = {
       }
       // SET THE WALLET_PUB TO USER LOOKUP WALLET_PUB address for transaction and balance lookup
       wallet_pub = userInfo[0].wallet_pub;
-      console.log('wallet_pub: ' + wallet_pub);
+      // console.log('wallet_pub: ' + wallet_pub);
       // ########################################################
       // check for user address in wd cmd, cant send to self
       if (transfer_to === wallet_pub) {
@@ -245,7 +245,7 @@ module.exports = {
       }
       // set the wallet balance from the user lookup
       wallet_bal = userInfo[0].wallet_bal;
-      console.log('wallet_bal: ' + wallet_bal);
+      // console.log('wallet_bal: ' + wallet_bal);
       // ########################################################
       // wallet is flat
       if (wallet_bal === 0) {
@@ -257,7 +257,7 @@ module.exports = {
       }
 
       trans_amt = await withdrawAmount(wallet_bal);
-      console.log('trans_amt: ' + trans_amt);
+      // console.log('trans_amt: ' + trans_amt);
 
 
       // get the pending amount, if any from the database
@@ -304,7 +304,7 @@ module.exports = {
       }
       // ########################################################
       // wallet balance is less than balance
-      console.log('wallet_bal: ' + wallet_bal + ' trans_amt: ' + trans_amt);
+      // console.log('wallet_bal: ' + wallet_bal + ' trans_amt: ' + trans_amt);
       if (wallet_bal < trans_amt) {
         // trying to send more than you have
         console.log('Wallet Balance is less than withdraw amt');
@@ -343,7 +343,7 @@ module.exports = {
         if (transferFundsOut.tx.transaction_hash != undefined) {
 
           const wdDbInfo = { user_id: check[0].userArray[0][0].user_id, tx_hash: transferFundsOut.tx.transaction_hash, to_address: check[0].addressArray[0], amt: check[0].amtArray[0] };
-          console.log('wdDbInfo: ' + JSON.stringify(wdDbInfo));
+          // console.log('wdDbInfo: ' + JSON.stringify(wdDbInfo));
 
           const wdDbWrite = await withdrawDBWrite(wdDbInfo);
           // console.log('wdDbWrite: ' + JSON.stringify(wdDbWrite));
@@ -351,7 +351,7 @@ module.exports = {
           const txDbInfo = { tip_id: wdDbWrite[0].transaction_db_id, tx_hash: transferFundsOut.tx.transaction_hash };
           // console.log('txDbInfo: ' + JSON.stringify(txDbInfo));
           const txDbWrite = await transactionsDBWrite(txDbInfo);
-          console.log('txDbWrite: ' + JSON.stringify(txDbWrite));
+          // console.log('txDbWrite: ' + JSON.stringify(txDbWrite));
 
           const embed = new Discord.MessageEmbed()
             .setColor(0x000000)
