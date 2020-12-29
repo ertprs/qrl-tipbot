@@ -248,8 +248,9 @@ module.exports = {
 
       // console.log('tippingUserWallet_Pub: ' + tippingUserWallet_Pub);
       const tippingUserWallet_Bal = toShor(JSON.stringify(tipingUserInfo[0].wallet_bal));
-      // console.log('tippingUserWallet_Bal: ' + tippingUserWallet_Bal);
+      console.log('tippingUserWallet_Bal: ' + tippingUserWallet_Bal);
       const tippingUserWallet_PendingBal = toShor(JSON.stringify(tipingUserInfo[0].pending));
+
       console.log('tippingUserWallet_PendingBal: ' + tippingUserWallet_PendingBal);
 
       const tippingUserUser_Id = JSON.stringify(tipingUserInfo[0].user_id);
@@ -264,7 +265,7 @@ module.exports = {
         // ReplyMessage('You have no funds to tip. `+bal`');
         return;
       }
-      const pendingBal = tippingUserWallet_PendingBal - tippingUserWallet_Bal;
+      const pendingBal = Number(tippingUserWallet_Bal) - Number(tippingUserWallet_PendingBal);
       console.log('pendingBal: ' + pendingBal);
 
       // check balance to tip amount pending balance
