@@ -354,7 +354,7 @@ module.exports = {
           const txDbWrite = await transactionsDBWrite(txDbInfo);
           // console.log('txDbWrite: ' + JSON.stringify(txDbWrite));
 
-          if (message.channel.name === config.bot.ban_channel) {
+          if (message.channel.name === config.bot_details.ban_channel) {
             console.log('sent from limbo...');
             message.channel('<@!360148642406858753> .cg qrl');
 
