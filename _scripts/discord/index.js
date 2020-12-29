@@ -291,7 +291,7 @@ client.on('message', message => {
       chalk.cyan('\nGuild:\t') + chalk.green('Private Message') +
       chalk.cyan('\nChan:\t') + chalk.green(message.channel.name) +
       chalk.cyan('\nAuth:\t') + chalk.green(message.author.username + chalk.dim(' <@' + message.author.id + '>')) +
-      chalk.cyan('\nCMD:\t') + chalk.green(command) +
+      chalk.cyan('\nCMD:\t') + chalk.green(command.name) +
       chalk.cyan('\nMesg:\t') + chalk.green(message.content));
   }
   else {
@@ -300,10 +300,11 @@ client.on('message', message => {
       chalk.cyan('\nGuild:\t') + chalk.green(message.guild.name) +
       chalk.cyan('\nChan:\t') + chalk.green(message.channel.name) +
       chalk.cyan('\nAuth:\t') + chalk.green(message.author.username + chalk.dim(' <@' + message.author.id + '>')) +
-      chalk.cyan('\nCMD:\t') + chalk.green(command) +
+      chalk.cyan('\nCMD:\t') + chalk.green(command.name) +
       chalk.cyan('\nMesg:\t') + chalk.green(message.content));
   }
 
+  console.log(chalk.cyan('\command array:\t') + chalk.green(JSON.stringify(command)))
   if (!command === 'withdraw' && message.channel === 'limbo') {
     console.log('sent from limbo... Fail this command since not withdraw');
   }
