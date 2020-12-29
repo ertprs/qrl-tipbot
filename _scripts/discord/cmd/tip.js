@@ -249,8 +249,8 @@ module.exports = {
       console.log('fee: ' + fee);
       console.log('givenTip: ' + givenTip);
       console.log('tippingUserWallet_Pub: ' + tippingUserWallet_Pub);
-      console.log('tippingUserWallet_Bal: ' + Number(tippingUserWallet_Bal));
-      console.log('tippingUserWallet_Bal: ' + typeof Number(tippingUserWallet_Bal));
+      console.log('tippingUserWallet_Bal: ' + Number(tipingUserInfo[0].wallet_bal));
+      console.log('tippingUserWallet_Bal: ' + typeof tipingUserInfo[0].wallet_bal);
       console.log('tippingUserWallet_PendingBal: ' + tippingUserWallet_PendingBal);
       console.log('tippingUserWallet_Bal - tippingUserWallet_PendingBal: ' + (parseFloat(tippingUserWallet_Bal) - tippingUserWallet_PendingBal));
 
