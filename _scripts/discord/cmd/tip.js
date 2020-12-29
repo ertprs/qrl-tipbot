@@ -204,7 +204,7 @@ module.exports = {
 
     // Get user info into scope from database
     tipbotInfo(userID).then(function(tipingUserInfo) {
-      // console.log('Tipping user INFO: ' + JSON.stringify(tipingUserInfo));
+      console.log('Tipping user INFO: ' + JSON.stringify(tipingUserInfo));
       tippingUserUser_Found = JSON.stringify(tipingUserInfo[0].user_found);
       tippingUserUser_agree = JSON.stringify(tipingUserInfo[0].user_agree);
       tippingUserOpt_Out = JSON.stringify(tipingUserInfo[0].opt_out);
@@ -244,9 +244,7 @@ module.exports = {
 
       // user found in database and passes initial checks.
       const tippingUserWallet_Pub = JSON.stringify(tipingUserInfo[0].wallet_pub);
-      const tippingUserWalPub = tipingUserInfo[0].wallet_pub;
-
-      // console.log('tippingUserWallet_Pub: ' + tippingUserWallet_Pub);
+      console.log('tippingUserWallet_Pub: ' + tippingUserWallet_Pub);
       const tippingUserWallet_Bal = toShor(JSON.stringify(tipingUserInfo[0].wallet_bal));
       console.log('tippingUserWallet_Bal: ' + tippingUserWallet_Bal);
       const tippingUserWallet_PendingBal = toShor(JSON.stringify(tipingUserInfo[0].pending));
