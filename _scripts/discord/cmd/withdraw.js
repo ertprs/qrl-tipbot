@@ -272,12 +272,12 @@ module.exports = {
           .setDescription('You must wait for all transactions to clear before you can withdraw any funds. Check unconfirmed transactions on the [QRL Block Explorer](' + config.bot_details.explorer_url + '/unconfirmed). once cleared you can send your transaction.\n\n**Attempted transaction details below**')
           // .addField('\u200B', '\u200B')
           // .setImage('https://github.com/theQRL/assets/blob/master/logo/inverse/QRL_logo_inverse@1x.png?raw=true')
-          .addField('Withdraw Amount:', '`' + toQuanta(trans_amt) + ' QRL`', true)
+          .addField('Attempted Amount:', '`' + toQuanta(trans_amt) + ' QRL`', true)
           .addField('Network Fee:', '`' + toQuanta(fee).toFixed(9) + ' QRL`', true)
-          .addField('Pending Amount:', '`' + toQuanta(Number(pending)) + ' QRL`', true)
-          .addField('Current Balance:', '[`' + toQuanta(wallet_bal) + ' QRL`](' + config.bot_details.explorer_url + '/a/' + wallet_pub + ')', true)
-          .addField('Pending Balance:', '[`' + toQuanta(wallet_bal - pending) + ' QRL`](' + config.bot_details.explorer_url + '/a/' + wallet_pub + ')', true)
+          // .addField('Current Balance:', '[`' + toQuanta(wallet_bal) + ' QRL`](' + config.bot_details.explorer_url + '/a/' + wallet_pub + ')', true)
           .addField('Receiving Address:', '[' + transfer_to + '](' + config.bot_details.explorer_url + '/a/' + transfer_to + ')')
+          .addField('Pending Balance:', '[`' + toQuanta(wallet_bal - pending) + ' QRL`](' + config.bot_details.explorer_url + '/a/' + wallet_pub + ')', true)
+          .addField('Pending Amount:', '`' + toQuanta(Number(pending)) + ' QRL`', true)
           .setFooter('  .: Tipbot provided by The QRL Contributors :.');
         message.author.send({ embed })
           .catch(error => {
