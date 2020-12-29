@@ -247,12 +247,12 @@ module.exports = {
 
       const tippingUserWallet_PendingBal = JSON.stringify(tipingUserInfo[0].pending);
 
-      console.log('fee: ' + fee);
-      console.log('givenTip: ' + givenTip);
-      console.log('tippingUserWallet_Pub: ' + tippingUserWallet_Pub);
-      console.log('tippingUserWallet_Bal: ' + Number(tipingUserInfo[0].wallet_bal));
-      console.log('tippingUserWallet_PendingBal: ' + tippingUserWallet_PendingBal);
-      console.log('tippingUserWallet_Bal - tippingUserWallet_PendingBal: ' + (Number(tipingUserInfo[0].wallet_bal) - tipingUserInfo[0].pending));
+      // console.log('fee: ' + fee);
+      // console.log('givenTip: ' + givenTip);
+      // console.log('tippingUserWallet_Pub: ' + tippingUserWallet_Pub);
+      // console.log('tippingUserWallet_Bal: ' + Number(tipingUserInfo[0].wallet_bal));
+      // console.log('tippingUserWallet_PendingBal: ' + tippingUserWallet_PendingBal);
+      // console.log('tippingUserWallet_Bal - tippingUserWallet_PendingBal: ' + (Number(tipingUserInfo[0].wallet_bal) - tipingUserInfo[0].pending));
 
 
       const tippingUserUser_Id = JSON.stringify(tipingUserInfo[0].user_id);
