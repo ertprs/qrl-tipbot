@@ -264,12 +264,19 @@ module.exports = {
         return;
       }
 
-
       // check balance to tip amount pending balance
-      if (tippingUserWallet_PendingBal < 0) {
+      if (tippingUserWallet_Bal - tippingUserWallet_PendingBal < 0) {
       // console.log('User has 0 balance. Fail and warn');
         errorMessage({ error: 'Pending Balance Found...', description: 'You have a pending balance that is less than you are sending. Wait for the transactions to confirm and try again.' });
         // ReplyMessage('You have no funds to tip. `+bal`');
+        return;
+      }
+
+      // check if tip is more than user has in wallet and pending
+      if (tippingUserWallet_Bal - tippingUserWallet_PendingBal < givenTip ) {
+        console.log('User sending more than they can...');
+        console.log(givenTip + ' > ' + tippingUserWallet_Bal - tippingUserWallet_PendingBal)
+        errorMessage({ error: 'Sending More Than You Have...', description: 'You don\'t have enough funds for that. Check your balance and try again `+bal`.' });
         return;
       }
 
