@@ -245,8 +245,8 @@ module.exports = {
       // user found in database and passes initial checks.
       const tippingUserWallet_Pub = JSON.stringify(tipingUserInfo[0].wallet_pub);
 
-      const tippingUserWallet_Bal = JSON.stringify(tipingUserInfo[0].wallet_bal);
       const tippingUserWallet_PendingBal = JSON.stringify(tipingUserInfo[0].pending);
+
       console.log('fee: ' + fee);
       console.log('givenTip: ' + givenTip);
       console.log('tippingUserWallet_Pub: ' + tippingUserWallet_Pub);
@@ -261,7 +261,7 @@ module.exports = {
       // console.log('tippingUserUser_Name: ' + tippingUserUser_Name);
 
       // check balance to tip amount
-      if (tippingUserWallet_Bal <= 0) {
+      if (Number(tipingUserInfo[0].wallet_bal) <= 0) {
       // console.log('User has 0 balance. Fail and warn');
         errorMessage({ error: 'User Wallet Empty...', description: 'No funds to tip. Transfer funds with `+deposit` or pull from the faucet if full with `+drip`' });
         // ReplyMessage('You have no funds to tip. `+bal`');
@@ -269,7 +269,7 @@ module.exports = {
       }
 
       // check balance to tip amount pending balance
-      if (tippingUserWallet_Bal - tippingUserWallet_PendingBal < 0) {
+      if (Number(tipingUserInfo[0].wallet_bal) - tippingUserWallet_PendingBal < 0) {
       // console.log('User has 0 balance. Fail and warn');
         errorMessage({ error: 'Pending Balance Found...', description: 'You have a pending balance that is less than you are sending. Wait for the transactions to confirm and try again.' });
         // ReplyMessage('You have no funds to tip. `+bal`');
@@ -277,9 +277,9 @@ module.exports = {
       }
 
       // check if tip is more than user has in wallet and pending
-      if (tippingUserWallet_Bal - tippingUserWallet_PendingBal < givenTip ) {
+      if (Number(tipingUserInfo[0].wallet_bal) - tippingUserWallet_PendingBal < givenTip ) {
         console.log('User sending more than they can...');
-        console.log(givenTip + ' > ' + tippingUserWallet_Bal - tippingUserWallet_PendingBal)
+        console.log(givenTip + ' > ' + Number(tipingUserInfo[0].wallet_bal) - tippingUserWallet_PendingBal)
         errorMessage({ error: 'Sending More Than You Have...', description: 'You don\'t have enough funds for that. Check your balance and try again `+bal`.' });
         return;
       }
@@ -366,7 +366,8 @@ module.exports = {
       // console.log('user Balance: ' + tippingUserWallet_Bal);
       // console.log('Tip Amount: ' + (givenTip * tipUserCount));
       const tipTotal = ((givenTip * tipUserCount) + fee);
-      if (tippingUserWallet_Bal < tipTotal) {
+
+      if (Number(tipingUserInfo[0].wallet_bal) - tippingUserWallet_PendingBal < tipTotal) {
       // console.log('More than user bal. fail and error with balance');
         errorMessage({ error: 'Tipping more than you have...', description: 'Enter `+bal` to get your current balance.' });
         // ReplyMessage('Trying to send more than you have... Please try again. \nYou tried sending `' + toQuanta(tipTotal)) + 'qrl` which is `' + (tipTotal - tippingUserWallet_Bal) + 'qrl` more than you have.';
@@ -501,7 +502,7 @@ module.exports = {
               // console.log('tippedUserIDs: ' + JSON.stringify(tippedUserIDs));
               // console.log('tippedUserServiceIDs: ' + JSON.stringify(tippedUserServiceIDs));
               // console.log('tippedUserUsernames: ' + JSON.stringify(tippedUserUsernames));
-              const newWal_bal = (toQuanta(tippingUserWallet_Bal) - toQuanta(tipTotal));
+              const newWal_bal = (toQuanta(Number(tipingUserInfo[0].wallet_bal)) - toQuanta(tipTotal));
               const embed = new Discord.MessageEmbed()
                 .setColor(0x000000)
                 .setTitle('QRL Tip Sent!')
