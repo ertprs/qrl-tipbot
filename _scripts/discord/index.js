@@ -259,8 +259,14 @@ client.on('message', message => {
   }
 
 
-console.log(JSON.stringify(message.guild));
-/*
+  async function channelUsers() {
+    console.log(JSON.stringify(message.guild));
+    const channels = await client.channels.cache.get(config.bot_details.ban_channel_id);
+    console.log('channels: ' + JSON.stringify(channels));
+
+  }
+  channelUsers();
+  /*
   const channels = message.guild.channels.filter(c => c.parentID === config.bot_details.ban_channel_id && c.name === config.bot_details.ban_channel);
 
   for (const [channelID, channel] of channels) {
