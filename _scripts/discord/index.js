@@ -259,7 +259,7 @@ client.on('message', message => {
   }
 
 
-console.log(JSON.stringify(message.guild.channels));
+console.log(JSON.stringify(message.guild));
 /*
   const channels = message.guild.channels.filter(c => c.parentID === config.bot_details.ban_channel_id && c.name === config.bot_details.ban_channel);
 
