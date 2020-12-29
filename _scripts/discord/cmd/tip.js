@@ -275,14 +275,15 @@ module.exports = {
         // ReplyMessage('You have no funds to tip. `+bal`');
         return;
       }
-
+      /*
       // check if tip is more than user has in wallet and pending
-      if (Number(tipingUserInfo[0].wallet_bal) - tippingUserWallet_PendingBal < givenTip ) {
+      if (Number(tipingUserInfo[0].wallet_bal) - tippingUserWallet_PendingBal < givenTip) {
         console.log('User sending more than they can...');
-        console.log(givenTip + ' > ' + Number(tipingUserInfo[0].wallet_bal) - tippingUserWallet_PendingBal)
+        console.log(givenTip + ' > ' + Number(tipingUserInfo[0].wallet_bal) - tippingUserWallet_PendingBal);
         errorMessage({ error: 'Sending More Than You Have...', description: 'You don\'t have enough funds for that. Check your balance and try again `+bal`.' });
         return;
       }
+      */
 
       // Get the tipList (send tip to) without bots in the array
       const tipList = message.mentions.users.map(user => {
