@@ -16,9 +16,6 @@ module.exports = {
     const username = `${message.author}`;
     const userName = username.slice(1, -1);
 
-    if (message.channel.name === 'limbo') {
-      console.log('sent from limbo... Fail this command since not withdraw');
-    }
     // use to send a reply to user with delay and stop typing
     // ReplyMessage(' Check your DM\'s');
     function ReplyMessage(content) {
