@@ -16,15 +16,26 @@ const client = new Discord.Client();
 
 // tells where to find the command config files
 client.commands = new Discord.Collection();
+client.adminCommands = new Discord.Collection();
 // Read in the commands we listen for. FInd these in the ./cmd/ dir below this file
 const commandFiles = fs.readdirSync(`${config.discord.cmd_dir}`).filter(file => file.endsWith('.js'));
+const adminCommandFiles = fs.readdirSync(`${config.discord.admin_cmd_dir}`).filter(file => file.endsWith('.js'));
 // for each file, assign values and command name
 for (const file of commandFiles) {
   // this looks in the config file for the discord.cmd_dir setting
   const command = require(`${config.discord.cmd_dir}/${file}`);
   client.commands.set(command.name, command);
 }
-  console.log('client.commands:' + JSON.stringify(client.commands));
+
+for (const file of adminCommandFiles) {
+  // this looks in the config file for the discord.cmd_dir setting
+  const adminCommand = require(`${config.discord.cmd_dir}/${file}`);
+  client.adminCommands.set(adminCommand.name, adminCommand);
+}
+
+
+console.log('client.commands:' + JSON.stringify(client.commands));
+console.log('client.adminCommands:' + JSON.stringify(client.adminCommands));
 // define cooldowns const
 const cooldowns = new Discord.Collection();
 // start the bot
@@ -286,6 +297,7 @@ client.on('message', message => {
     }
   }
 */
+  // check that the message starts with our prefix called out in the config file or direct to the bot
   const prefixRegex = new RegExp(`^(<@!?${client.user.id}>|${escapeRegex(config.discord.prefix)})\\s*`);
   // test message content for prefex or client id of the bot. Fail if not found
   if (!prefixRegex.test(message.content)) return;
@@ -293,9 +305,7 @@ client.on('message', message => {
   const [, matchedPrefix] = message.content.match(prefixRegex);
   const args = message.content.slice(matchedPrefix.length).trim().split(/ +/);
 
-  // check that the message starts with our prefix called out in the config file
-  // if (!message.content.startsWith(config.discord.prefix) || message.author.bot) return;
-  // const args = message.content.slice(config.discord.prefix.length).split(/ +/);
+
 
   // const now = Date.now();
   const now = new Date().getTime();
@@ -303,7 +313,37 @@ client.on('message', message => {
   const commandName = args.shift().toLowerCase();
   //  if (!client.commands.has(commandName)) return;
   //    const command = client.commands.get(commandName);
-  const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // get the command name set to command either from admin commands or user commands.
+  const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName)) ;
 
   // ///////////////////////////////////////////////////////
   //
