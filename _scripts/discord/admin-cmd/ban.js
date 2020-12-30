@@ -6,7 +6,7 @@ module.exports = {
   guildOnly: false,
   usage: '{*alias*: kick}\nCommand will send a DM with TipBot private keys to the user mentioned.',
 
-  execute(message, args) {
+  execute(message) {
   /*
     Take a user name and return the users private keys in DM to the user.
     if args are passed to un-ban then remove the ban in place
@@ -41,6 +41,10 @@ module.exports = {
       }, 1000);
     }
 
+    function toQuanta(number) {
+      const shor = 1000000000;
+      return number / shor;
+    }
 
     // Get user info.
     async function getUserInfo(usrInfo) {
@@ -92,13 +96,16 @@ module.exports = {
       const userInfo = await getUserInfo({ service: 'discord', service_id: service_id });
 
       if (userInfo[0].user_found) {
-      	const wallet_bal = userInfo[0].wallet_bal;
-      	console.log('wallet_bal: ' + wallet_bal);
-      	if (wallet_bal === 0) {
-      		console.log('wallet is empty, no need to send keys...')
-      		ReplyMessage('user has no funds in tipbot, yeet away...')
-      	}
+        const wallet_bal = userInfo[0].wallet_bal;
+        console.log('wallet_bal: ' + wallet_bal);
+        // check wallet balance and if flat, ban and quit
+        if (wallet_bal === 0) {
+          console.log('wallet is empty, no need to send keys...');
+          // write to the database that the user is banned
 
+          ReplyMessage('user has no funds in tipbot, yeet away...');
+          return;
+        }
         const walletPub = userInfo[0].wallet_pub;
         const userSecretKeyPromise = secretKey(walletPub);
         userSecretKeyPromise.then(function(userSecrets) {
@@ -107,7 +114,11 @@ module.exports = {
           const embed = new Discord.MessageEmbed()
             .setColor('RED')
             .setTitle('**TipBot Secret Keys**')
-            .setDescription('You can use these private keys to open your tipbot address in another wallet application. ')
+            .setDescription('You have been banned from the server. Because of this you cannot any longer use this tipbot service.\n \
+                Below are the private keys to the tipbot account you held with a positive balance of `' + toQuanta(wallet_bal) + ' QRL`.\
+                Please use the [QRL Web Wallet](' + config.wallet.wallet_url + ') to withdraw these funds into an address you own.\n**There is NO support offered**\n \
+                **ANY FUNDS LEFT IN THE ADDRESS ARE SUBJECT TO LOSS** After one week the funds may be re-claimed by the service and forfeited by the user. \n \
+                **This is the last message you will receive from the tipbot**')
             .addField('**__WARNING: Protect These Keys!__**', ' ***NEVER SHARE THESE KEYS WITH ANYONE FOR ANY REASON!!***')
             .addField('Public Address: ', '`' + walletPub + '`')
             .addField('Hexseed: ', '||' + keys.hexseed + '||')
@@ -130,7 +141,7 @@ module.exports = {
       else {
         // fail on error
         console.log('userFound: ' + userInfo[0].userFound);
-        errorMessage({ error: 'User Not Found...', description: 'The banned user is not in teh tipbot, no keys to send!' });
+        errorMessage({ error: 'User Not Found...', description: 'The banned user is not in the tipbot, no keys to send!' });
         const returnArray = [{ check: false }];
         return returnArray;
       }
