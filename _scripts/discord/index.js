@@ -335,7 +335,7 @@ client.on('message', message => {
 
 
 
-console.log(JSON.stringify(message))
+console.log(JSON.stringify(message.member.hasPermission))
     /*
     if(message.member.roles.find(r => r.name === config.discord.admin_role) || message.member.roles.find(r => rname === config.discord.mod_role)){
         //Rest of your code
