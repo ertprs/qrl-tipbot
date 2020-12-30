@@ -78,7 +78,7 @@ module.exports = {
         // {user_id: 1}
         // console.log('transactionsDbWrite args:' + JSON.stringify(txArgs));
         const address = walletArgs;
-        const addressInfo = { user_id: user };
+        const addressInfo = { user_id: address };
         const addAddressEntry = dbHelper.addWallet(addressInfo);
         resolve(addAddressEntry);
       });
