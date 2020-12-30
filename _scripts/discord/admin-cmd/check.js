@@ -9,7 +9,6 @@ module.exports = {
 
   // execute(message, args) {
   execute(message, args) {
-    message.channel.startTyping();
     const Discord = require('discord.js');
     const dbHelper = require('../../db/dbHelper');
     const checkUser = dbHelper.CheckUser;
@@ -26,8 +25,28 @@ module.exports = {
     const CheckUserPromise = checkUser(userToCheck);
 
 
-
-
+    // use to send a reply to user with delay and stop typing
+    // ReplyMessage(' Check your DM\'s');
+    function ReplyMessage(content) {
+      message.channel.startTyping();
+      setTimeout(function() {
+        message.reply(content);
+        message.channel.stopTyping(true);
+      }, 1000);
+    }
+    // errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
+    function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
+      message.channel.startTyping();
+      setTimeout(function() {
+        const embed = new Discord.MessageEmbed()
+          .setColor(0x000000)
+          .setTitle(':warning:  ERROR: ' + content.error)
+          .setDescription(content.description)
+          .setFooter(footer);
+        message.reply({ embed });
+        message.channel.stopTyping(true);
+      }, 1000);
+    }
 
 
     // checkForUser function returns results and outputs user info to discord
@@ -73,7 +92,7 @@ module.exports = {
               const RETURNDATA = JSON.parse(JSON.stringify(returnData));
               // user found, return the results
               // console.log('result\t' + id + ' has been found ' + found);
-
+              ReplyMessage('user found, details in your DM.');
               const embed = new Discord.MessageEmbed()
                 .setColor(0x000000)
                 .addField('User_found: ', '`' + found + '`', false)
@@ -86,21 +105,20 @@ module.exports = {
                 .addField('signed_up_from: ', '`' + result.signed_up_from + '`', false)
                 .addField('opt_out: ', '`' + opt_out + '`', true)
                 .addField('optout_date: ', '`' + opt_out_date + '`', true)
-                .addField('User last updated_at: ', '`' + result.updated_at + '`', false)
-              message.reply({ embed })
-                .then(cfu => cfu.channel.stopTyping())
+                .addField('User last updated_at: ', '`' + result.updated_at + '`', false);
+              message.author.send({ embed })
                 .catch(console.error);
               message.react('🇶')
                 .then(() => message.react('🇷'))
                 .then(() => message.react('🇱'))
                 .catch(() => console.error('One of the emojis failed to react.'));
-              message.channel.stopTyping(true);
               return RETURNDATA;
             });
           }
           else {
             // user not found
             const returnData = { found: 'false' };
+            errorMessage({ error: 'User Not Found...', description: 'The user has not been found in the tipbot.' });
             // console.log('returnData: ' + returnData);
             // console.log('User found:\t' + found);
             const embed = new Discord.MessageEmbed()
@@ -115,59 +133,8 @@ module.exports = {
         });
         return;
       }
-
-
-      CheckUserPromise.then(function(result) {
-        const found = result.user_found;
-
-        // console.log('found: ' + found);
-        if (found == 'true') {
-          const id = result.user_id;
-          // console.log('id: ' + id);
-          const returnData = { found: 'true', user_id: id };
-          const RETURNDATA = JSON.parse(JSON.stringify(returnData));
-          // user found, return the results
-          // console.log('result\t' + id + ' has been found ' + found);
-          const embed = new Discord.MessageEmbed()
-            .setColor(0x000000)
-            .addField('User_found: ', `\`${found}\``)
-            .addField('User_id: ', `\`${id}\``)
-            .addField('User_auto_created: ', `\`${result.user_auto_created}\``)
-            .addField('Auto_create_date: ', `\`${result.auto_create_date}\``)
-            .addField('signed_up_from: ', `\`${result.signed_up_from}\``)
-            .addField('signup_date: ', `\`${result.signup_date}\``)
-            .addField('opt_out: ', `\`${result.opt_out}\``)
-            .addField('optout_date: ', `\`${result.optout_date}\``)
-            .addField('updated_at: ', `\`${result.updated_at}\``);
-
-          message.author.send({ embed })
-            .then(cfu => cfu.channel.stopTyping())
-            .catch(console.error);
-          message.react('🇶')
-            .then(() => message.react('🇷'))
-            .then(() => message.react('🇱'))
-            .catch(() => console.error('One of the emojis failed to react.'));
-          // result(result);
-          // console.log('##### RETURNDATA #####\n' + 'found: ' + RETURNDATA.found + '\nuser_id: ' + RETURNDATA.user_id);
-          message.channel.stopTyping(true);
-          return RETURNDATA;
-        }
-        else {
-          // user not found
-          const returnData = { found: 'false' };
-          // console.log('returnData: ' + returnData);
-          // console.log('User found:\t' + found);
-          const embed = new Discord.MessageEmbed()
-            .setColor(0x000000)
-            .addField('User Found:\t', `\`${found}\``);
-          message.channel.send({ embed })
-            .then(cfu1 => cfu1.channel.stopTyping())
-            .catch(console.error);
-          message.channel.stopTyping(true);
-          return JSON.parse(JSON.stringify(returnData));
-        }
-      });
     }
+
     async function getUserID() {
       CheckUserPromise.then(function(check) {
         const found = check.user_found;
@@ -374,7 +341,7 @@ module.exports = {
           console.log('Buffer data is now: ' + newBuff);
 
 
-          const wallet_qr = result.wallet_qr;
+          // const wallet_qr = result.wallet_qr;
           console.log('checkUserWalletqr: ' + newBuff);
 
 
