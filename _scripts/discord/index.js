@@ -344,7 +344,7 @@ client.on('message', message => {
 
   // get the command name set to command either from admin commands or user commands.
   const command = (client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName))) || (client.adminCommands.get(commandName) || client.adminCommands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName)));
-
+  console.log('command: ' + command)
   // ///////////////////////////////////////////////////////
   //
   // LOG ALL THE THINGS
