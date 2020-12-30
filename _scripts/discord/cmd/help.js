@@ -11,7 +11,7 @@ module.exports = {
     const data = [];
     const messagedata = [];
     const { commands } = message.client;
-    let admin = false;
+    // let admin = false;
     // let { adminCommands } = '';
     // console.log({ commands });
 
@@ -38,33 +38,31 @@ module.exports = {
       }, 1000);
     }
 
-    // add the adminCommands as well to the help fiule for mods and admib
-    if (message.channel.type !== 'dm') {
-      if(message.member.roles.cache.some(r=>['admin', 'mod'].includes(r.name))) {
-        // has one of the roles
-        console.log('hey hey roles: ');
-        const { adminCommands } = message.client;
-
-        messagedata.push('**ADMIN COMMANDS -**\n```diff\n');
-        messagedata.push(adminCommands.map(command => config.discord.prefix + command.name + ' - ' + command.description).join('\n'));
-        messagedata.push('```');
-
-        admin = true;
-        // console.log({ adminCommands });
-      }
-      else {
-        // has none of the roles
-        console.log('boo roles: ');
-      }
-    }
-
-
     if (!args.length) {
       // no args given give the list of commands
       messagedata.push('Here are all of my commands.\n*If you need more help try:* `+help {COMMAND}`\n```diff\n');
       messagedata.push(commands.map(command => config.discord.prefix + command.name + ' - ' + command.description).join('\n'));
       messagedata.push('```');
-     
+      // add the adminCommands as well to the help fiule for mods and admib
+      if (message.channel.type !== 'dm') {
+        if(message.member.roles.cache.some(r=>['admin', 'mod'].includes(r.name))) {
+          // has one of the roles
+          console.log('hey hey roles: ');
+          const { adminCommands } = message.client;
+
+          messagedata.push('**ADMIN COMMANDS -**\n```diff\n');
+          messagedata.push(adminCommands.map(command => config.discord.prefix + command.name + ' - ' + command.description).join('\n'));
+          messagedata.push('```');
+
+          // admin = true;
+        // console.log({ adminCommands });
+        }
+        else {
+          // has none of the roles
+          console.log('boo roles: ');
+        }
+      }
+
       ReplyMessage(messagedata);
       // message.reply(messagedata);
       return;
