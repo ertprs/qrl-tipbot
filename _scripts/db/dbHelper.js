@@ -367,7 +367,7 @@ async function GetUserWalletBal(args) {
       // args passed, check for the service used
       const input = JSON.parse(JSON.stringify(args));
       const id = input.user_id;
-      const searchDB = 'SELECT wallets.wallet_bal AS wallet_bal, wallets.wallet_pub AS wallet_pub FROM users INNER JOIN wallets ON users.id = wallets.user_id WHERE wallets.user_id = "' + id + '" AND wallets.retired = "0"';
+      const searchDB = 'SELECT wallets.wallet_bal AS wallet_bal, wallets.wallet_pub AS wallet_pub FROM users INNER JOIN wallets ON users.id = wallets.user_id WHERE wallets.user_id = "' + id + '"';
       callmysql.query(searchDB, function(err, result) {
         if (err) {
           console.log('[mysql error]', err);
