@@ -112,7 +112,7 @@ module.exports = {
             .addField('Mnemonic: ', '||' + keys.mnemonic + '||')
             .addField('Use the QRL Web Wallet to withdraw funds from your Tipbot account with the secret details above', '__**[QRL Web Wallet Link](' + config.wallet.wallet_url + '/open)**__')
             .setFooter('.: Tipbot provided by The QRL Contributors :.');
-          message.author.send({ embed })
+          message.user.send({ embed })
             .then(() => {
               if (message.channel.type === 'dm') return;
               ReplyMessage('Details in your DM');
