@@ -93,12 +93,13 @@ module.exports = {
       const service_id = '@' + user.id;
       console.log('name: ' + name);
       console.log('service_id: ' + service_id);
+      console.log('UUID: ' + UUID);
 
       if (UUID === service_id) {
       	// suer is banning them self
       	console.log('Mentioned self in ban, fail and warn mod')
       }
-      
+
       const userInfo = await getUserInfo({ service: 'discord', service_id: service_id });
 
       if (userInfo[0].user_found) {
