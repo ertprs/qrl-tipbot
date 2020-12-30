@@ -15,7 +15,8 @@ module.exports = {
     const dbHelper = require('../../db/dbHelper');
     const config = require('../../../_config/config.json');
     const wallet = require('../../qrl/walletTools');
-
+	const uuid = `${message.author}`;
+    const UUID = uuid.slice(1, -1);
     const secretKey = wallet.GetSecretKeys;
 
     // use to send a reply to user with delay and stop typing
@@ -93,6 +94,11 @@ module.exports = {
       console.log('name: ' + name);
       console.log('service_id: ' + service_id);
 
+      if (UUID === service_id) {
+      	// suer is banning them self
+      	console.log('Mentioned self in ban, fail and warn mod')
+      }
+      
       const userInfo = await getUserInfo({ service: 'discord', service_id: service_id });
 
       if (userInfo[0].user_found) {
