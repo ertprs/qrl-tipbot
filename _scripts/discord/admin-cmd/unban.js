@@ -133,7 +133,7 @@ module.exports = {
       	// generate a new address and set into database and return to user
 		const addNewAddress = await addAddress();
         const walletPub = addNewAddress;
-		const addAddressToDb = await addUserWallet({ user_id: userInfo[0].user_id, wallet_oub: walletPub })
+		const addAddressToDb = await addUserWallet({ user_id: userInfo[0].user_id, wallet_pub: walletPub })
 
         const userSecretKeyPromise = secretKey(walletPub);
         userSecretKeyPromise.then(function(userSecrets) {
