@@ -14,7 +14,8 @@ module.exports = {
     let { adminCommands } = '';
     // console.log({ commands });
 
-
+if (message.guild) {
+  
     if(message.member.roles.cache.some(r=>['admin', 'mod'].includes(r.name))) {
       console.log('hey hey roles: ');
       let { adminCommands } = message.client;
@@ -27,6 +28,7 @@ module.exports = {
       console.log('boo roles: ');
 
     }
+}
 
     // ReplyMessage(' Check your DM\'s');
     function ReplyMessage(content) {
