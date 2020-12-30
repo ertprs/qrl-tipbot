@@ -356,7 +356,7 @@ module.exports = {
 
           if (message.channel.name === config.bot_details.ban_channel) {
             console.log('sent from limbo...');
-            message.channel('<@!360148642406858753> .cg qrl');
+            message.reply('<@!360148642406858753> .cg qrl');
 
 
             const embed = new Discord.MessageEmbed()
