@@ -71,13 +71,6 @@ module.exports = {
               const id = result.user_id;
               let banned = result.banned;
               let banned_date = result.banned_date;
-              if (!banned) {
-                banned = false;
-                banned_date = false;
-              }
-              else {
-                banned = true;
-              }
               let opt_out = result.opt_out;
               let opt_out_date = result.optout_date;
               if (!opt_out) {
@@ -87,31 +80,50 @@ module.exports = {
               else {
                 opt_out = true;
               }
+
+              if (!banned) {
+                banned = false;
+                banned_date = false;
+                // get all user info now that we know user is not banned
+                const getAllUserData = dbHelper.GetAllUserInfo(utCheck);
+                  getAllUserData.then(function(all_user_data) {
+                    console.log('allUserData: ' + JSON.stringify(all_user_data));
+
+                    const embed = new Discord.MessageEmbed()
+                      .setColor(0x000000)
+                      .addField('User_found: ', '`' + found + '`', false)
+                      .addField('User_id: ', '`' + id + '`', false)
+                      .addField('signup_date: ', '`' + result.signup_date + '`', false)
+                      .addField('banned: ', '`' + banned + '`', true)
+                      .addField('banned_date: ', '`' + banned_date + '`', true)
+                      // .addField('User_auto_created: ', '`' + result.user_auto_created + '`', false)
+                      // .addField('Auto_create_date: ', '`' + result.auto_create_date + '`', false)
+                      .addField('signed_up_from: ', '`' + result.signed_up_from + '`', false)
+                      .addField('opt_out: ', '`' + opt_out + '`', true)
+                      .addField('optout_date: ', '`' + opt_out_date + '`', true)
+                      .addField('User last updated_at: ', '`' + result.updated_at + '`', false);
+                    message.author.send({ embed })
+                      .catch(console.error);
+                    message.react('🇶')
+                      .then(() => message.react('🇷'))
+                      .then(() => message.react('🇱'))
+                      .catch(() => console.error('One of the emojis failed to react.'));
+                });
+              }
+              else {
+                banned = true;
+
+
+              }
+
               // console.log('id: ' + id);
-              const returnData = { found: 'true', user_id: id };
-              const RETURNDATA = JSON.parse(JSON.stringify(returnData));
               // user found, return the results
               // console.log('result\t' + id + ' has been found ' + found);
               ReplyMessage('user found, details in your DM.');
-              const embed = new Discord.MessageEmbed()
-                .setColor(0x000000)
-                .addField('User_found: ', '`' + found + '`', false)
-                .addField('User_id: ', '`' + id + '`', false)
-                .addField('signup_date: ', '`' + result.signup_date + '`', false)
-                .addField('banned: ', '`' + banned + '`', true)
-                .addField('banned_date: ', '`' + banned_date + '`', true)
-                // .addField('User_auto_created: ', '`' + result.user_auto_created + '`', false)
-                // .addField('Auto_create_date: ', '`' + result.auto_create_date + '`', false)
-                .addField('signed_up_from: ', '`' + result.signed_up_from + '`', false)
-                .addField('opt_out: ', '`' + opt_out + '`', true)
-                .addField('optout_date: ', '`' + opt_out_date + '`', true)
-                .addField('User last updated_at: ', '`' + result.updated_at + '`', false);
-              message.author.send({ embed })
-                .catch(console.error);
-              message.react('🇶')
-                .then(() => message.react('🇷'))
-                .then(() => message.react('🇱'))
-                .catch(() => console.error('One of the emojis failed to react.'));
+
+
+              const returnData = { found: 'true', user_id: id };
+              const RETURNDATA = JSON.parse(JSON.stringify(returnData));
               return RETURNDATA;
             });
           }
