@@ -12,7 +12,7 @@ module.exports = {
     const messagedata = [];
     const { commands } = message.client;
     let admin = false;
-    let { adminCommands } = '';
+    // let { adminCommands } = '';
     // console.log({ commands });
 
     // ReplyMessage(' Check your DM\'s');
@@ -43,7 +43,7 @@ module.exports = {
       if(message.member.roles.cache.some(r=>['admin', 'mod'].includes(r.name))) {
         // has one of the roles
         console.log('hey hey roles: ');
-        adminCommands = message.client;
+        const { adminCommands } = message.client;
         admin = true;
         // console.log({ adminCommands });
       }
