@@ -130,8 +130,8 @@ module.exports = {
 		console.log('User ban removed: ' + removeBan)
 
       	// generate a new address and set into database and return to user
-		const addAddress = await addAddress();
-        const walletPub = addAddress[0].wallet_pub;
+		const addNewAddress = await addAddress();
+        const walletPub = addNewAddress[0].wallet_pub;
 		const addAddressToDb = await addUserWallet(walletPub)
 
         const userSecretKeyPromise = secretKey(walletPub);
