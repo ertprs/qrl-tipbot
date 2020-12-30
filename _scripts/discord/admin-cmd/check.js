@@ -46,36 +46,39 @@ module.exports = {
           if (found == 'true') {
             // GetAllUserInfo
 
-            const getUserData = await dbHelper.GetAllUserInfo(utCheck);
-            console.log('GetAllUserInfo: ' + JSON.stringify(getUserData));
-            const id = result.user_id;
-            // console.log('id: ' + id);
-            const returnData = { found: 'true', user_id: id };
-            const RETURNDATA = JSON.parse(JSON.stringify(returnData));
-            // user found, return the results
-            // console.log('result\t' + id + ' has been found ' + found);
+            const getUserData = dbHelper.GetAllUserInfo(utCheck);
+            getUserData.then(function(user_data) {
+              console.log('user_data: ' + JSON.stringify(user_data));
+              const id = result.user_id;
 
-            const embed = new Discord.MessageEmbed()
-              .setColor(0x000000)
-              .addField('User_found: ', `\`${found}\``)
-              .addField('User_id: ', `\`${id}\``)
+              // console.log('id: ' + id);
+              const returnData = { found: 'true', user_id: id };
+              const RETURNDATA = JSON.parse(JSON.stringify(returnData));
+              // user found, return the results
+              // console.log('result\t' + id + ' has been found ' + found);
 
-              .addField('User_auto_created: ', `\`${result.user_auto_created}\``)
-              .addField('Auto_create_date: ', `\`${result.auto_create_date}\``)
-              .addField('signed_up_from: ', `\`${result.signed_up_from}\``)
-              .addField('signup_date: ', `\`${result.signup_date}\``)
-              .addField('opt_out: ', `\`${result.opt_out}\``)
-              .addField('optout_date: ', `\`${result.optout_date}\``)
-              .addField('updated_at: ', `\`${result.updated_at}\``);
-            message.reply({ embed })
-              .then(cfu => cfu.channel.stopTyping())
-              .catch(console.error);
-            message.react('🇶')
-              .then(() => message.react('🇷'))
-              .then(() => message.react('🇱'))
-              .catch(() => console.error('One of the emojis failed to react.'));
-            message.channel.stopTyping(true);
-            return RETURNDATA;
+              const embed = new Discord.MessageEmbed()
+                .setColor(0x000000)
+                .addField('User_found: ', `\`${found}\``)
+                .addField('User_id: ', `\`${id}\``)
+
+                .addField('User_auto_created: ', `\`${result.user_auto_created}\``)
+                .addField('Auto_create_date: ', `\`${result.auto_create_date}\``)
+                .addField('signed_up_from: ', `\`${result.signed_up_from}\``)
+                .addField('signup_date: ', `\`${result.signup_date}\``)
+                .addField('opt_out: ', `\`${result.opt_out}\``)
+                .addField('optout_date: ', `\`${result.optout_date}\``)
+                .addField('updated_at: ', `\`${result.updated_at}\``);
+              message.reply({ embed })
+                .then(cfu => cfu.channel.stopTyping())
+                .catch(console.error);
+              message.react('🇶')
+                .then(() => message.react('🇷'))
+                .then(() => message.react('🇱'))
+                .catch(() => console.error('One of the emojis failed to react.'));
+              message.channel.stopTyping(true);
+              return RETURNDATA;
+            });
           }
           else {
             // user not found
