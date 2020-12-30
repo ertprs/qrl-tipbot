@@ -334,6 +334,8 @@ if(message.member.roles.cache.some(r=>["admin", "mod"].includes(r.name)) ) {
   // has one of the roles
 } else {
   // has none of the roles
+  console.log('boo roles: ')
+
 }
 
 console.log(JSON.stringify(message.author))
