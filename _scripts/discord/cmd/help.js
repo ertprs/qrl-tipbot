@@ -14,20 +14,6 @@ module.exports = {
     let admin = false;
     let { adminCommands } = '';
     // console.log({ commands });
-    // add the adminCommands as well to the help fiule for mods and admib
-    if (message.channel.type !== 'dm') {
-      if(message.member.roles.cache.some(r=>['admin', 'mod'].includes(r.name))) {
-        // has one of the roles
-        console.log('hey hey roles: ');
-        let { adminCommands } = message.client;
-        admin = true;
-        // console.log({ adminCommands });
-      }
-      else {
-        // has none of the roles
-        console.log('boo roles: ');
-      }
-    }
 
     // ReplyMessage(' Check your DM\'s');
     function ReplyMessage(content) {
@@ -51,6 +37,22 @@ module.exports = {
         message.channel.stopTyping(true);
       }, 1000);
     }
+
+    // add the adminCommands as well to the help fiule for mods and admib
+    if (message.channel.type !== 'dm') {
+      if(message.member.roles.cache.some(r=>['admin', 'mod'].includes(r.name))) {
+        // has one of the roles
+        console.log('hey hey roles: ');
+        adminCommands = message.client;
+        admin = true;
+        // console.log({ adminCommands });
+      }
+      else {
+        // has none of the roles
+        console.log('boo roles: ');
+      }
+    }
+
 
     if (!args.length) {
       // no args given give the list of commands
