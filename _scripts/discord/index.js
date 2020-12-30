@@ -29,7 +29,7 @@ for (const file of commandFiles) {
 
 for (const file of adminCommandFiles) {
   // this looks in the config file for the discord.cmd_dir setting
-  const adminCommand = require(`${config.discord.cmd_dir}/${file}`);
+  const adminCommand = require(`${config.discord.admin_cmd_dir}/${file}`);
   client.adminCommands.set(adminCommand.name, adminCommand);
 }
 
