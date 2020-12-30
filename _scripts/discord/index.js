@@ -328,15 +328,7 @@ console.log(message.member.roles.cache)
 
 
 
-// Check if they have one of many roles
-if(message.member.roles.cache.some(r=>["admin", "mod"].includes(r.name)) ) {
-  console.log('hey hey roles: ')
-  // has one of the roles
-} else {
-  // has none of the roles
-  console.log('boo roles: ')
 
-}
 
 console.log(JSON.stringify(message.author))
 
@@ -353,11 +345,21 @@ console.log(JSON.stringify(member))
         console.log('admin or mod calling functions');
     }
   */
+  let command = '';
 
-
-
-  // get the command name set to command either from admin commands or user commands.
+// Check if they have one of many roles
+if(message.member.roles.cache.some(r=>["admin", "mod"].includes(r.name)) ) {
+  console.log('hey hey roles: ')
   const command = (client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName))) || (client.adminCommands.get(commandName) || client.adminCommands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName)));
+
+  // has one of the roles
+} else {
+  // has none of the roles
+  console.log('boo roles: ')
+  const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+}
+  // get the command name set to command either from admin commands or user commands.
+  // const command = (client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName))) || (client.adminCommands.get(commandName) || client.adminCommands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName)));
   console.log('command: ' + JSON.stringify(command));
   if (!command) return;
   // ///////////////////////////////////////////////////////
