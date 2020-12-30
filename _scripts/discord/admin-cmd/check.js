@@ -43,7 +43,7 @@ module.exports = {
         CUPromise.then(function(result) {
           const found = result.user_found;
           console.log('found: ' + found);
-          if (found === 'false') {
+          if (found === 'true') {
             // GetAllUserInfo
 
             const getUserData = dbHelper.CheckUser(utCheck);
