@@ -127,7 +127,7 @@ module.exports = {
 
       	// unban the user from the users_info database
 		const removeBan = await removeBanDBWrite(userInfo[0].user_id);
-		console.log('User ban removed: ' + JSON.log(removeBan));
+		console.log('User ban removed: ' + JSON.stringify(removeBan));
 
       	// generate a new address and set into database and return to user
 		const addNewAddress = await addAddress();
