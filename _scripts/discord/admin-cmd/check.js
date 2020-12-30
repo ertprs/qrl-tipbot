@@ -56,6 +56,12 @@ module.exports = {
                 banned = false;
                 banned_date = false;
               }
+              let opt_out = result.opt_out;
+              let opt_out_date = result.optout_date;
+              if (!opt_out) {
+                opt_out = false;
+                opt_out_date = false;
+              }
               // console.log('id: ' + id);
               const returnData = { found: 'true', user_id: id };
               const RETURNDATA = JSON.parse(JSON.stringify(returnData));
@@ -72,8 +78,8 @@ module.exports = {
                 // .addField('User_auto_created: ', '`' + result.user_auto_created + '`', false)
                 // .addField('Auto_create_date: ', '`' + result.auto_create_date + '`', false)
                 .addField('signed_up_from: ', '`' + result.signed_up_from + '`', false)
-                .addField('opt_out: ', '`' + result.opt_out + '`', true)
-                .addField('optout_date: ', '`' + result.optout_date + '`', true)
+                .addField('opt_out: ', '`' + opt_out + '`', true)
+                .addField('optout_date: ', '`' + opt_out_date + '`', true)
                 .addField('User last updated_at: ', '`' + result.updated_at + '`', false)
               message.reply({ embed })
                 .then(cfu => cfu.channel.stopTyping())
