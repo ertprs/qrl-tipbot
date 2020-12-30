@@ -41,13 +41,7 @@ module.exports = {
       }, 1000);
     }
 
-    function deleteMessage() {
-      // Delete the previous message
-      if(message.guild != null) {
-        message.channel.stopTyping(true);
-        message.delete();
-      }
-    }
+
     // Get user info.
     async function getUserInfo(usrInfo) {
       return new Promise(resolve => {
@@ -82,13 +76,14 @@ module.exports = {
 
     async function main() {
       // get the users info
-      console.log('args sent: ' + JSON.stringify(args));
+      // console.log('args sent: ' + JSON.stringify(args));
       const user = message.mentions.users.first();
-      console.log('user: ' + JSON.stringify(user));
+      // console.log('user: ' + JSON.stringify(user));
       if (user === undefined) {
         errorMessage({ error: 'No user mentioned', description: 'You must mention one user...' });
         return;
       }
+
       const name = user.username;
       const service_id = '@' + user.id;
       console.log('name: ' + name);
@@ -97,11 +92,17 @@ module.exports = {
       const userInfo = await getUserInfo({ service: 'discord', service_id: service_id });
 
       if (userInfo[0].user_found) {
+      	const wallet_bal = userInfo[0].wallet_bal;
+      	if (wallet_bal === 0) {
+      		console.log('wallet is empty, no need to send keys...')
+      		ReplyMessage('user has no funds in tipbot, yeet away...')
+      	}
+
         const walletPub = userInfo[0].wallet_pub;
         const userSecretKeyPromise = secretKey(walletPub);
         userSecretKeyPromise.then(function(userSecrets) {
           const keys = JSON.parse(userSecrets);
-          console.log('keys: ' + JSON.stringify(keys));
+          // console.log('keys: ' + JSON.stringify(keys));
           const embed = new Discord.MessageEmbed()
             .setColor('RED')
             .setTitle('**TipBot Secret Keys**')
@@ -115,14 +116,12 @@ module.exports = {
           user.send({ embed })
             .then(() => {
               if (message.channel.type === 'dm') return;
-              ReplyMessage('Details in your DM');
-              deleteMessage();
+              ReplyMessage('Users keys sent');
             })
             .catch(error => {
             // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
               errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
               // ReplyMessage('it seems like I can\'t DM you! Enable DM and try again...');
-              deleteMessage();
             });
           return;
         });
