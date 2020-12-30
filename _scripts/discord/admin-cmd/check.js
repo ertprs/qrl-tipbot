@@ -25,6 +25,11 @@ module.exports = {
     const userToCheck = { service: 'discord', user_id: userID };
     const CheckUserPromise = checkUser(userToCheck);
 
+
+
+
+
+
     // checkForUser function returns results and outputs user info to discord
     async function checkForUser(userargs) {
       console.log('hmmm userargs ' + userargs);
@@ -33,12 +38,17 @@ module.exports = {
         const UUID = uuid.slice(1, -1);
         const utCheck = { service: 'discord', user_id: UUID };
         const CUPromise = checkUser(utCheck);
+        const CUPromise = checkUser(utCheck);
 
         console.log('check_usr args: ' + userargs);
         CUPromise.then(function(result) {
           const found = result.user_found;
           // console.log('found: ' + found);
           if (found == 'true') {
+            // GetAllUserInfo
+
+            const getUserData = await dbHelper.GetAllUserInfo(utCheck);
+            console.log('GetAllUserInfo: ' + JSON.stringify(getUserData));
             const id = result.user_id;
             // console.log('id: ' + id);
             const returnData = { found: 'true', user_id: id };

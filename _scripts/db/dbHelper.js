@@ -25,7 +25,7 @@ async function GetAllUserInfo(args) {
     let has_user_agree = false;
     let has_opt_out = false;
     // get all users_info data here...
-    const getAllInfoSearch = 'SELECT wallets.wallet_pub AS wallet_pub, wallets.wallet_bal AS wallet_bal, users.id AS user_id, ' + service + '_users.user_name AS user_name, users_info.opt_out AS opt_out, users_info.optout_date AS optout_date, users_agree.agree AS agree, users_info.banned AS banned FROM wallets, users, ' + service + '_users, users_info, users_agree WHERE users.id = wallets.user_id AND users.' + service + '_user_id = ' + service + '_users.id AND users.id = users_info.user_id AND ' + service + '_users.' + service + '_id = "' + service_id + '" AND users.id = users_agree.user_id AND wallets.retired = "0"';
+    const getAllInfoSearch = 'SELECT wallets.wallet_pub AS wallet_pub, wallets.wallet_bal AS wallet_bal, users.id AS user_id, ' + service + '_users.user_name AS user_name, users_info.opt_out AS opt_out, users_info.optout_date AS optout_date, users_agree.agree AS agree, users_info.banned AS banned, users_info.banned_date AS banned_date FROM wallets, users, ' + service + '_users, users_info, users_agree WHERE users.id = wallets.user_id AND users.' + service + '_user_id = ' + service + '_users.id AND users.id = users_info.user_id AND ' + service + '_users.' + service + '_id = "' + service_id + '" AND users.id = users_agree.user_id AND wallets.retired = "0"';
     // console.log('getAllInfoSearch: ' + getAllInfoSearch);
     callmysql.query(getAllInfoSearch, function(err, user_info) {
       if (err) {
@@ -55,6 +55,8 @@ async function GetAllUserInfo(args) {
       const optout_date = user_info[0].optout_date;
       const wallet_pub = user_info[0].wallet_pub;
       const U_id = user_info[0].user_id;
+      const banned = user_info[0].banned;
+      const banned_date = user_info[0].banned_date;
       // print variables
       // console.log('0 user_agree, user_id, opt_out, user_name, : ' + user_agree + ', ' + user_id + ', ' + opt_out + ', ' + user_name + ', ' + optout_date + ', ' + wallet_pub);
       if(opt_out) {
@@ -69,7 +71,7 @@ async function GetAllUserInfo(args) {
       if (has_opt_out || !user_agree) {
         // user opted out or is not found in DB. Return values
         // foundResArray.push({ user_found: has_user_found, user_agree: has_user_agree, opt_out: has_opt_out });
-        foundResArray.push({ user_found: has_user_found, user_agree: has_user_agree, opt_out: has_opt_out, wallet_pub: wallet_pub, user_id: U_id, user_name: user_name, optout_date: optout_date });
+        foundResArray.push({ user_found: has_user_found, user_agree: has_user_agree, opt_out: has_opt_out, wallet_pub: wallet_pub, user_id: U_id, user_name: user_name, optout_date: optout_date, banned: banned, banned_date: banned_date });
         resolve(foundResArray);
         return;
       }
