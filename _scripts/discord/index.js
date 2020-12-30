@@ -334,8 +334,13 @@ client.on('message', message => {
 
 
 
+const testuser = client.user // get the user object
+const guild = client.guilds.cache.get('Guild ID') // get the guild object
 
-console.log(JSON.stringify(client))
+const member = guild.member(testuser) // convert the User object to a GuildMember!
+
+
+console.log(JSON.stringify(member))
     /*
     if(message.member.roles.find(r => r.name === config.discord.admin_role) || message.member.roles.find(r => rname === config.discord.mod_role)){
         //Rest of your code
