@@ -48,7 +48,10 @@ module.exports = {
       }, 1000);
     }
 
-
+    function toQuanta(number) {
+      const shor = 1000000000;
+      return number / shor;
+    }
     // checkForUser function returns results and outputs user info to discord
     async function checkForUser(userargs) {
       console.log('hmmm userargs ' + userargs);
@@ -90,14 +93,19 @@ module.exports = {
                     console.log('allUserData: ' + JSON.stringify(all_user_data));
 
                     const embed = new Discord.MessageEmbed()
-                      .setColor(0x000000)
-                      .addField('User_found: ', '`' + found + '`', false)
-                      .addField('User_id: ', '`' + id + '`', false)
+                      .setColor('GREEN')
+                      .setTitle('**TipBot ADMIN User Info**')
+                      .setDescription('This information is provided as a privilege to moderators and administrators. Please do not abuse it.\
+                        \n\nUser Information for: `' + message.mention.first() + '` ')
+                      .addField('User_found: ', '`' + found + '`', true)
+                      .addField('User_id: ', '`' + id + '`', true)
+                      .addField('wallet_bal: ', '`' + toQuanta(all_user_data[0].wallet_bal) + '`', true)
+                      .addField('wallet_pub: ', '[`' + all_user_data[0].wallet_pub + '`](' + config.bot_details.explorer_url + '/a/' + all_user_data[0].wallet_pub + ')', true)
+                      .addField('user_agree: ', '`' + all_user_data[0].user_agree + '`', true)
+                      .addField('pending balance: ', '`' + toQuanta(all_user_data[0].pending) + '`', true)
                       .addField('signup_date: ', '`' + result.signup_date + '`', false)
                       .addField('banned: ', '`' + banned + '`', true)
                       .addField('banned_date: ', '`' + banned_date + '`', true)
-                      // .addField('User_auto_created: ', '`' + result.user_auto_created + '`', false)
-                      // .addField('Auto_create_date: ', '`' + result.auto_create_date + '`', false)
                       .addField('signed_up_from: ', '`' + result.signed_up_from + '`', false)
                       .addField('opt_out: ', '`' + opt_out + '`', true)
                       .addField('optout_date: ', '`' + opt_out_date + '`', true)
@@ -112,7 +120,23 @@ module.exports = {
               }
               else {
                 banned = true;
-
+                const embed = new Discord.MessageEmbed()
+                  .setColor(0x000000)
+                  .addField('User_found: ', '`' + found + '`', true)
+                  .addField('User_id: ', '`' + id + '`', true)
+                  .addField('signup_date: ', '`' + result.signup_date + '`', false)
+                  .addField('banned: ', '`' + banned + '`', true)
+                  .addField('banned_date: ', '`' + banned_date + '`', true)
+                  .addField('signed_up_from: ', '`' + result.signed_up_from + '`', false)
+                  .addField('opt_out: ', '`' + opt_out + '`', true)
+                  .addField('optout_date: ', '`' + opt_out_date + '`', true)
+                  .addField('User last updated_at: ', '`' + result.updated_at + '`', false);
+                message.author.send({ embed })
+                  .catch(console.error);
+                message.react('🇶')
+                  .then(() => message.react('🇷'))
+                  .then(() => message.react('🇱'))
+                  .catch(() => console.error('One of the emojis failed to react.'));
 
               }
 
