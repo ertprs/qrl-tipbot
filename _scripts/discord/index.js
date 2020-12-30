@@ -329,6 +329,7 @@ client.on('message', message => {
     }
   */
   let command = '';
+
   if (message.channel.type !== 'dm') {
     // Check if they have one of many roles
     if(message.member.roles.cache.some(r=>["admin", "mod"].includes(r.name)) ) {
@@ -336,7 +337,12 @@ client.on('message', message => {
       command = (client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName))) || (client.adminCommands.get(commandName) || client.adminCommands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName)));
 
       // has one of the roles
-    } 
+    }
+    else {
+    // has none of the roles
+    console.log('boo roles: ')
+    command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+    }
   }
   else {
     // has none of the roles
