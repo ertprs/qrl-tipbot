@@ -27,7 +27,7 @@ module.exports = {
     // discord user id uuid is then striped of extra chars as UUID
     const uuid = `${message.author}`;
     const UUID = uuid.slice(1, -1);
-    console.log('uuid, UUID: ' + uuid + ', ' + UUID);
+    // console.log('uuid, UUID: ' + uuid + ', ' + UUID);
 
     // const info = JSON.parse(JSON.stringify({ service: 'discord', service_id: UUID }));
     // const found = checkuser(info);
