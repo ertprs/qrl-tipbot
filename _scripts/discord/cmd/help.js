@@ -11,24 +11,23 @@ module.exports = {
     const data = [];
     const messagedata = [];
     const { commands } = message.client;
+    let admin = false;
     let { adminCommands } = '';
     // console.log({ commands });
-
-if (message.channel.type !== 'dm') {
-
-    if(message.member.roles.cache.some(r=>['admin', 'mod'].includes(r.name))) {
-      console.log('hey hey roles: ');
-      let { adminCommands } = message.client;
-      // console.log({ adminCommands });
-
-      // has one of the roles
+    // add the adminCommands as well to the help fiule for mods and admib
+    if (message.channel.type !== 'dm') {
+      if(message.member.roles.cache.some(r=>['admin', 'mod'].includes(r.name))) {
+        // has one of the roles
+        console.log('hey hey roles: ');
+        let { adminCommands } = message.client;
+        admin = true;
+        // console.log({ adminCommands });
+      }
+      else {
+        // has none of the roles
+        console.log('boo roles: ');
+      }
     }
-    else {
-      // has none of the roles
-      console.log('boo roles: ');
-
-    }
-}
 
     // ReplyMessage(' Check your DM\'s');
     function ReplyMessage(content) {
@@ -54,13 +53,21 @@ if (message.channel.type !== 'dm') {
     }
 
     if (!args.length) {
+      // no args given give the list of commands
       messagedata.push('Here are all of my commands.\n*If you need more help try:* `+help {COMMAND}`\n```diff\n');
       messagedata.push(commands.map(command => config.discord.prefix + command.name + ' - ' + command.description).join('\n'));
       messagedata.push('```');
+      if (admin) {
+        messagedata.push('**ADMIN COMMANDS -**\n```diff\n');
+        messagedata.push(adminCommands.map(command => config.discord.prefix + command.name + ' - ' + command.description).join('\n'));
+        messagedata.push('```');
+      }
       ReplyMessage(messagedata);
       // message.reply(messagedata);
       return;
     }
+
+
     const name = args[0].toLowerCase();
     const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name));
 
