@@ -328,10 +328,13 @@ client.on('message', message => {
 
 
 
-
-
-
-
+// Check if they have one of many roles
+if(message.member.roles.cache.some(r=>["admin", "mod"].includes(r.name)) ) {
+  console.log('hey hey roles: ')
+  // has one of the roles
+} else {
+  // has none of the roles
+}
 
 console.log(JSON.stringify(message.author))
 
