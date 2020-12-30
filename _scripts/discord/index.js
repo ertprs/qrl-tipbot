@@ -23,8 +23,8 @@ for (const file of commandFiles) {
   // this looks in the config file for the discord.cmd_dir setting
   const command = require(`${config.discord.cmd_dir}/${file}`);
   client.commands.set(command.name, command);
-  console.log('client.commands:' + JSON.stringify(client.commands));
 }
+  console.log('client.commands:' + JSON.stringify(client.commands));
 // define cooldowns const
 const cooldowns = new Discord.Collection();
 // start the bot
