@@ -131,6 +131,7 @@ module.exports = {
 
       	// generate a new address and set into database and return to user
 		const addNewAddress = await addAddress();
+		console.log(addNewAddress)
         const walletPub = addNewAddress.address;
 		const addAddressToDb = await addUserWallet(walletPub)
 
