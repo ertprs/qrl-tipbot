@@ -91,17 +91,20 @@ module.exports = {
 
       const name = user.username;
       const service_id = '@' + user.id;
-      console.log('name: ' + name);
-      console.log('service_id: ' + service_id);
-      console.log('UUID: ' + UUID);
+      // console.log('name: ' + name);
+      // console.log('service_id: ' + service_id);
+      // console.log('UUID: ' + UUID);
 
+      // check for self mentioned and fail
       if (UUID === service_id) {
-      	// suer is banning them self
+      	// user is banning them self
       	console.log('Mentioned self in ban, fail and warn mod')
+        errorMessage({ error: 'Mentioned Self In Ban...', description: 'You cannot ban yourself. try again' });
+        return;
       }
 
       const userInfo = await getUserInfo({ service: 'discord', service_id: service_id });
-
+      // if the user is found then continue.
       if (userInfo[0].user_found) {
         const wallet_bal = userInfo[0].wallet_bal;
         console.log('wallet_bal: ' + wallet_bal);
