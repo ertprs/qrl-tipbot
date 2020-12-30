@@ -14,8 +14,8 @@ module.exports = {
     let { adminCommands } = '';
     // console.log({ commands });
 
-if (message.guild) {
-  
+if (message.channel.type !== 'dm') {
+
     if(message.member.roles.cache.some(r=>['admin', 'mod'].includes(r.name))) {
       console.log('hey hey roles: ');
       let { adminCommands } = message.client;
