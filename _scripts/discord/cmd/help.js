@@ -12,7 +12,7 @@ module.exports = {
     const messagedata = [];
     const { commands } = message.client;
     let { adminCommands } = '';
-    console.log({ commands });
+    // console.log({ commands });
 
 
     if(message.member.roles.cache.some(r=>['admin', 'mod'].includes(r.name))) {
