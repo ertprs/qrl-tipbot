@@ -321,25 +321,8 @@ client.on('message', message => {
 
 
 
-console.log(message.member.roles.cache)
 
-
-
-
-
-
-
-
-console.log(JSON.stringify(message.author))
-
-const testuser = message.author.id // get the user object
-const guild = client.guilds.cache.get('592573831512850432') // get the guild object
-
-const member = guild.member(testuser) // convert the User object to a GuildMember!
-
-
-console.log(JSON.stringify(member))
-    /*
+  /*
     if(message.member.roles.find(r => r.name === config.discord.admin_role) || message.member.roles.find(r => rname === config.discord.mod_role)){
         //Rest of your code
         console.log('admin or mod calling functions');
