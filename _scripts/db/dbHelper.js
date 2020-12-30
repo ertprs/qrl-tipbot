@@ -25,7 +25,7 @@ async function GetAllUserInfo(args) {
     let has_user_agree = false;
     let has_opt_out = false;
     // get all users_info data here...
-    const getAllInfoSearch = 'SELECT wallets.wallet_pub AS wallet_pub, wallets.wallet_bal AS wallet_bal, users.id AS user_id, ' + service + '_users.user_name AS user_name, users_info.opt_out AS opt_out, users_info.optout_date AS optout_date, users_agree.agree AS agree FROM wallets, users, ' + service + '_users, users_info, users_agree WHERE users.id = wallets.user_id AND users.' + service + '_user_id = ' + service + '_users.id AND users.id = users_info.user_id AND ' + service + '_users.' + service + '_id = "' + service_id + '" AND users.id = users_agree.user_id';
+    const getAllInfoSearch = 'SELECT wallets.wallet_pub AS wallet_pub, wallets.wallet_bal AS wallet_bal, users.id AS user_id, ' + service + '_users.user_name AS user_name, users_info.opt_out AS opt_out, users_info.optout_date AS optout_date, users_agree.agree AS agree FROM wallets, users, ' + service + '_users, users_info, users_agree WHERE users.id = wallets.user_id AND users.' + service + '_user_id = ' + service + '_users.id AND users.id = users_info.user_id AND ' + service + '_users.' + service + '_id = "' + service_id + '" AND users.id = users_agree.user_id AND wallets.retired = "0"';
     // console.log('getAllInfoSearch: ' + getAllInfoSearch);
     callmysql.query(getAllInfoSearch, function(err, user_info) {
       if (err) {
@@ -339,7 +339,7 @@ async function GetUserWalletPub(args) {
       // args passed, check for the service used
       const input = JSON.parse(JSON.stringify(args));
       const id = input.user_id;
-      const searchDB = 'SELECT wallets.wallet_pub AS wallet_pub, wallets.wallet_qr AS wallet_qr FROM users INNER JOIN wallets ON users.id = wallets.user_id WHERE wallets.user_id = "' + id + '"';
+      const searchDB = 'SELECT wallets.wallet_pub AS wallet_pub, wallets.wallet_qr AS wallet_qr FROM users INNER JOIN wallets ON users.id = wallets.user_id WHERE wallets.user_id = "' + id + '" AND wallets.retired = "0"';
       callmysql.query(searchDB, function(err, result) {
         if (err) {
           console.log('[mysql error]', err);
@@ -367,7 +367,7 @@ async function GetUserWalletBal(args) {
       // args passed, check for the service used
       const input = JSON.parse(JSON.stringify(args));
       const id = input.user_id;
-      const searchDB = 'SELECT wallets.wallet_bal AS wallet_bal, wallets.wallet_pub AS wallet_pub FROM users INNER JOIN wallets ON users.id = wallets.user_id WHERE wallets.user_id = "' + id + '"';
+      const searchDB = 'SELECT wallets.wallet_bal AS wallet_bal, wallets.wallet_pub AS wallet_pub FROM users INNER JOIN wallets ON users.id = wallets.user_id WHERE wallets.user_id = "' + id + '" AND wallets.retired = "0"';
       callmysql.query(searchDB, function(err, result) {
         if (err) {
           console.log('[mysql error]', err);
@@ -485,7 +485,7 @@ async function GetUserWalletQR(args) {
       // args passed, check for the service used
       const input = JSON.parse(JSON.stringify(args));
       const id = input.user_id;
-      const searchDB = 'SELECT wallets.wallet_qr FROM users INNER JOIN wallets ON users.id = wallets.user_id WHERE wallets.user_id = "' + id + '"';
+      const searchDB = 'SELECT wallets.wallet_qr FROM users INNER JOIN wallets ON users.id = wallets.user_id WHERE wallets.user_id = "' + id + '" AND wallets.retired = "0"';
       callmysql.query(searchDB, function(err, result) {
         if (err) {
           console.log('[mysql error]', err);
@@ -605,7 +605,7 @@ async function AddWalletQR(args) {
     fs.writeFile(file, url, function(err) {
       if (err) throw err;
     });
-    callmysql.query('UPDATE wallets SET wallet_qr = ?, updated_at = ? WHERE user_id = ?', [file, new Date(), id], function(err) {
+    callmysql.query('UPDATE wallets SET wallet_qr = ?, updated_at = ? WHERE user_id = ? AND wallets.retired = "0"', [file, new Date(), id], function(err) {
       if (err) {
         console.log('[mysql error]', err);
       }
@@ -649,7 +649,7 @@ async function updateWalletBal(args) {
   // expects { user_id: user_id, new_bal: new_bal }
   // get the balance from the node and send here
   const wallet_bal = args.new_bal;
-  callmysql.query('UPDATE wallets SET wallet_bal = ?, updated_at = ? WHERE user_id = ?', [wallet_bal, new Date(), args.user_id], function(err, result) {
+  callmysql.query('UPDATE wallets SET wallet_bal = ?, updated_at = ? WHERE user_id = ? AND wallets.retired = "0"', [wallet_bal, new Date(), args.user_id], function(err, result) {
     if (err) {
       console.log('[mysql error]', err);
     }
@@ -889,14 +889,24 @@ async function withdraw(args) {
 }
 
 async function addBan(args) {
+  const resultArray = [];
   // expects { user_id: user_id }
   // adds a ban to the user
   callmysql.query('UPDATE users_info SET banned = ?, banned_date = ? WHERE user_id = ?', [1, new Date(), args.user_id], function(err, result) {
     if (err) {
       console.log('[mysql error]', err);
+      return;
     }
-    return result;
+    resultArray.push(result)
   });
+  callmysql.query('UPDATE wallets SET retired = ?, retired_time_stamp = ? WHERE user_id = ? AND wallets.retired = "0"', [1, new Date(), args.user_id], function(err, result) {
+    if (err) {
+      console.log('[mysql error]', err);
+      return;
+    }
+    resultArray.push(result)
+  });
+  return resultArray;
 }
 async function removeBan(args) {
   // expects { user_id: user_id }

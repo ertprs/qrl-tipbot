@@ -1,10 +1,10 @@
 module.exports = {
-  name: 'ban',
+  name: 'unban',
   description: 'Print your secret keys to a private message',
   args: false,
-  aliases: ['kick' ],
+  aliases: ['unkick', 'un-ban', 'unBan', 'remove-ban', 'removeban' ],
   guildOnly: false,
-  usage: '{*alias*: kick}\nCommand will send a DM with TipBot private keys to the user mentioned.',
+  usage: 'Command will remove a ban on a user, and generate a new adress to use.',
 
   execute(message) {
   /*

@@ -324,6 +324,8 @@ callmysql.connect(function(err) {
                           wallet_pub varchar(80) not null,
                           wallet_bal DECIMAL(24,9) not null default 0,
                           wallet_qr blob,
+                          retired BOOLEAN default 0,
+                          retired_time_stamp DATETIME,
                           time_stamp DATETIME not null,
                           updated_at DATETIME not null
                         )`;
