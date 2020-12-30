@@ -86,6 +86,7 @@ module.exports = {
       const user = message.mentions.users.first();
       console.log('user: ' + JSON.stringify(user));
       if (user === undefined) {
+        errorMessage({ error: 'No user mentioned', description: 'You must mention one user...' });
         return;
       }
       const name = user.username;
