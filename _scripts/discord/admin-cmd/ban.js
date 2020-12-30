@@ -89,7 +89,7 @@ module.exports = {
         return;
       }
       const name = user.username;
-      const service_id = user.id;
+      const service_id = '@' + user.id;
       console.log('name: ' + name);
       console.log('service_id: ' + service_id);
 
