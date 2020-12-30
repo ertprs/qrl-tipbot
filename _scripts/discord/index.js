@@ -336,7 +336,7 @@ client.on('message', message => {
 console.log(JSON.stringify(message.author))
 
 const testuser = message.author.id // get the user object
-const guild = client.guilds.cache.get('401568138317135873') // get the guild object
+const guild = client.guilds.cache.get('592573831512850432') // get the guild object
 
 const member = guild.member(testuser) // convert the User object to a GuildMember!
 
