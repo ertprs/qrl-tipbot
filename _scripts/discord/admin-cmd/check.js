@@ -50,8 +50,12 @@ module.exports = {
             getUserData.then(function(user_data) {
               console.log('user_data: ' + JSON.stringify(user_data));
               const id = result.user_id;
-              const banned = result.banned;
-              const banned_date = result.banned_date;
+              let banned = result.banned;
+              let banned_date = result.banned_date;
+              if (!banned) {
+                banned = false;
+                banned_date = false;
+              }
               // console.log('id: ' + id);
               const returnData = { found: 'true', user_id: id };
               const RETURNDATA = JSON.parse(JSON.stringify(returnData));
@@ -60,8 +64,8 @@ module.exports = {
 
               const embed = new Discord.MessageEmbed()
                 .setColor(0x000000)
-                .addField('User_found: ', '`' + found + '`', true)
-                .addField('User_id: ', '`' + id + '`', true)
+                .addField('User_found: ', '`' + found + '`', false)
+                .addField('User_id: ', '`' + id + '`', false)
                 .addField('signup_date: ', '`' + result.signup_date + '`', false)
                 .addField('banned: ', '`' + banned + '`', true)
                 .addField('banned_date: ', '`' + banned_date + '`', true)
