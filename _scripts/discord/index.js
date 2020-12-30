@@ -258,6 +258,7 @@ client.on('message', message => {
     }, 1000);
   }
 
+  /*
 
   async function channelUsers() {
     const messageGuild = message.guild;
@@ -271,7 +272,6 @@ client.on('message', message => {
 
   }
   channelUsers();
-  /*
   const channels = message.guild.channels.filter(c => c.parentID === config.bot_details.ban_channel_id && c.name === config.bot_details.ban_channel);
 
   for (const [channelID, channel] of channels) {
