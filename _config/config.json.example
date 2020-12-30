@@ -30,7 +30,9 @@
     "cmd_dir" : "/home/{$USER}/qrl-tips/_scripts/discord/cmd",
     "admin_cmd_dir" : "/home/{$USER}/qrl-tips/_scripts/discord/admin-cmd",
     "prefix" : "+",
-    "bot_admin" : "DISCORD_ID"
+    "bot_admin" : "DISCORD_ID",
+    "admin_role" : "ROLE"
+    "mod_role" : "ROLE"
   },
   "faucet" : {
     "faucet_wallet_pub" : "Q...",

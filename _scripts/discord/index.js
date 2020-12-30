@@ -305,8 +305,6 @@ client.on('message', message => {
   const [, matchedPrefix] = message.content.match(prefixRegex);
   const args = message.content.slice(matchedPrefix.length).trim().split(/ +/);
 
-
-
   // const now = Date.now();
   const now = new Date().getTime();
   const now1 = Date(now * 1000);
@@ -338,6 +336,9 @@ client.on('message', message => {
 
 
 
+    if(message.member.roles.find(r => r.name === config.discord.admin_role) || message.member.roles.find(r => rname === config.discord.mod_role)){
+        //Rest of your code
+    }
 
 
 
@@ -372,18 +373,16 @@ client.on('message', message => {
   }
 
   // console.log(chalk.cyan('\command array:\t') + chalk.green(JSON.stringify(command)))
-if (message.channel.type !== 'dm') {
+  if (message.channel.type !== 'dm') {
 
-  if (command.name !== 'withdraw' && message.channel.name === config.bot_details.ban_channel) {
-    console.log('sent from limbo... Fail this command since not withdraw');
-    console.log('command: ' + JSON.stringify(command));
-    errorMessage({ error: 'Function Not Allowed...', description: 'You have been banned or kicked from this server. The only working function is `+withdraw` which will require an external adresss to transfer your funds to.\n\n**Example:**\nSend all funds to the facuet address - `+withdraw all ' + config.faucet.faucet_wallet_pub + '`\nUse an address you have created at ' + config.wallet.wallet_url });
-    return;
+    if (command.name !== 'withdraw' && message.channel.name === config.bot_details.ban_channel) {
+      console.log('sent from limbo... Fail this command since not withdraw');
+      console.log('command: ' + JSON.stringify(command));
+      errorMessage({ error: 'Function Not Allowed...', description: 'You have been banned or kicked from this server. The only working function is `+withdraw` which will require an external adresss to transfer your funds to.\n\n**Example:**\nSend all funds to the facuet address - `+withdraw all ' + config.faucet.faucet_wallet_pub + '`\nUse an address you have created at ' + config.wallet.wallet_url });
+      return;
+    }
+
   }
-
-}
-
-
 
   if (command.guildOnly && message.channel.type !== 'text') {
     errorMessage({ error: 'Can\'t access ' + command + ' from DM!', description: 'Please try again from the main chat, this function will only work there.' });
