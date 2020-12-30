@@ -31,7 +31,7 @@
     "admin_cmd_dir" : "/home/{$USER}/qrl-tips/_scripts/discord/admin-cmd",
     "prefix" : "+",
     "bot_admin" : "DISCORD_ID",
-    "admin_role" : "ROLE"
+    "admin_role" : "ROLE",
     "mod_role" : "ROLE"
   },
   "faucet" : {

@@ -11,9 +11,23 @@ module.exports = {
     const data = [];
     const messagedata = [];
     const { commands } = message.client;
-    console.log({ commands })    
-    const { adminCommands } = message.client;
-    console.log({ adminCommands })
+    let { adminCommands } = '';
+    console.log({ commands });
+
+
+    if(message.member.roles.cache.some(r=>['admin', 'mod'].includes(r.name))) {
+      console.log('hey hey roles: ');
+      let { adminCommands } = message.client;
+      console.log({ adminCommands });
+
+      // has one of the roles
+    }
+    else {
+      // has none of the roles
+      console.log('boo roles: ');
+
+    }
+
     // ReplyMessage(' Check your DM\'s');
     function ReplyMessage(content) {
       message.channel.startTyping();
