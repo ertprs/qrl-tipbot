@@ -56,11 +56,17 @@ module.exports = {
                 banned = false;
                 banned_date = false;
               }
+              else {
+                banned = true;
+              }
               let opt_out = result.opt_out;
               let opt_out_date = result.optout_date;
               if (!opt_out) {
                 opt_out = false;
                 opt_out_date = false;
+              }
+              else {
+                opt_out = true;
               }
               // console.log('id: ' + id);
               const returnData = { found: 'true', user_id: id };
