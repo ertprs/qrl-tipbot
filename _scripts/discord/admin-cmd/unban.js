@@ -77,8 +77,9 @@ module.exports = {
         // {user_id: user_id} - id from database not discord suer uuid
         // {user_id: 1}
         // console.log('transactionsDbWrite args:' + JSON.stringify(txArgs));
-        const address = walletArgs;
-        const addressInfo = { user_id: address };
+        const address = walletArgs.wallet_pub;
+        const user_id = walletArgs.user_id;
+        const addressInfo = { user_id: user_id, wallet_pub: address };
         const addAddressEntry = dbHelper.addWallet(addressInfo);
         resolve(addAddressEntry);
       });
@@ -132,7 +133,7 @@ module.exports = {
       	// generate a new address and set into database and return to user
 		const addNewAddress = await addAddress();
         const walletPub = addNewAddress;
-		const addAddressToDb = await addUserWallet(walletPub)
+		const addAddressToDb = await addUserWallet({ user_id: userInfo[0].user_id, wallet_oub: walletPub })
 
         const userSecretKeyPromise = secretKey(walletPub);
         userSecretKeyPromise.then(function(userSecrets) {
