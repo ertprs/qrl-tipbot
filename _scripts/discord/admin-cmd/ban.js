@@ -106,6 +106,7 @@ module.exports = {
             .setTitle('**TipBot Secret Keys**')
             .setDescription('You can use these private keys to open your tipbot address in another wallet application. ')
             .addField('**__WARNING: Protect These Keys!__**', ' ***NEVER SHARE THESE KEYS WITH ANYONE FOR ANY REASON!!***')
+            .addField('Public Address: ', '`' + walletPub + '`')
             .addField('Hexseed: ', '||' + keys.hexseed + '||')
             .addField('Mnemonic: ', '||' + keys.mnemonic + '||')
             .addField('Use the QRL Web Wallet to withdraw funds from your Tipbot account with the secret details above', '__**[QRL Web Wallet Link](' + config.wallet.wallet_url + '/open)**__')
