@@ -144,7 +144,7 @@ module.exports = {
             .setDescription('The ban has been removed from the server.\n\n \
                 Below is your new tipbot address.\n \
                 Your old address has been retired and is no longer used. If there are any funds left in the old address they are lost and will be claimed by the faucet.')
-            .addField('Public Address: ', '[`' + walletPub + '`](' + config. + ')')
+            .addField('Public Address: ', '[`' + walletPub + '`](' + config.bot_details.explorer_url + ')')
             .setFooter('.: Tipbot provided by The QRL Contributors :.');
           user.send({ embed })
             .then(() => {
