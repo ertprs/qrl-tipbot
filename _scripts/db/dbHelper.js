@@ -168,6 +168,7 @@ async function CheckUser(args) {
       const service = input.service;
       const input_user_id = input.user_id;
       const searchDB = 'SELECT users.id AS user_id FROM users INNER JOIN ' + service + '_users ON users.discord_user_id = ' + service + '_users.id WHERE ' + service + '_users.' + service + '_id = "' + input_user_id + '"';
+      console.log(searchDB);
       callmysql.query(searchDB, function(err, result) {
         if (err) {
           console.log('[mysql error]', err);
