@@ -183,7 +183,7 @@ async function CheckUser(args) {
                 console.log('[mysql error]', err);
               }
               // assign results to json and pass to return
-              const searchResult = { user_found: 'true', user_id: id, user_auto_created: user_info[0].user_auto_created, auto_create_date: user_info[0].auto_create_date, signed_up_from: user_info[0].signed_up_from, signup_date: user_info[0].signup_date, opt_out: user_info[0].opt_out, optout_date: user_info[0].optout_date, updated_at: user_info[0].updated_at };
+              const searchResult = { user_found: 'true', user_id: id, user_auto_created: user_info[0].user_auto_created, auto_create_date: user_info[0].auto_create_date, signed_up_from: user_info[0].signed_up_from, signup_date: user_info[0].signup_date, opt_out: user_info[0].opt_out, optout_date: user_info[0].optout_date, updated_at: user_info[0].updated_at, banned: user_info[0].banned, banned_date: user_info[0].banned_date };
               const Results = JSON.parse(JSON.stringify(searchResult));
               resolve(Results);
               return Results;
