@@ -50,7 +50,7 @@ module.exports = {
           console.log('hey hey roles: ');
           const { adminCommands } = message.client;
 
-          messagedata.push('**ADMIN COMMANDS -**\n```diff\n');
+          messagedata.push('**Special User Commands -**\n```diff\n');
           messagedata.push(adminCommands.map(command => config.discord.prefix + command.name + ' - ' + command.description).join('\n'));
           messagedata.push('```');
 

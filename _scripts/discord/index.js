@@ -34,8 +34,8 @@ for (const file of adminCommandFiles) {
 }
 
 
-console.log('client.commands:' + JSON.stringify(client.commands));
-console.log('client.adminCommands:' + JSON.stringify(client.adminCommands));
+// console.log('client.commands:' + JSON.stringify(client.commands));
+// console.log('client.adminCommands:' + JSON.stringify(client.adminCommands));
 // define cooldowns const
 const cooldowns = new Discord.Collection();
 // start the bot
