@@ -117,11 +117,10 @@ module.exports = {
             .setDescription('You have been banned from the server. Because of this you cannot use this tipbot service.\n\n \
                 Below are the private keys to the tipbot account you held, with a positive balance of `' + toQuanta(wallet_bal) + ' QRL`.\n \
                 Please use the [QRL Web Wallet](' + config.wallet.wallet_url + ') to withdraw these funds into an address you own. \
-                After one week the funds may be re-claimed by the service and forfeited by the user. \n\n \
-                :exclamation: **There is NO support offered**\n \
-                :exclamation: **ANY FUNDS LEFT IN THE ADDRESS ARE SUBJECT TO LOSS**\n \
-                :exclamation: **This is the last message you will receive from the tipbot** :exclamation: ')
-            .addField('**__WARNING: Protect These Keys!__**', ' ***NEVER SHARE THESE KEYS WITH ANYONE FOR ANY REASON!!***')
+                After **ONE Week** from ban the funds may be re-claimed by the service and forfeited by the user.')
+            .addField('**__:exclamation: There is NO support offered Banned users__**', ' This bot will no longer reply to messages from you.')
+            .addField('**__:exclamation: **ANY FUNDS LEFT IN THE ADDRESS ARE SUBJECT TO LOSS**', 'After **ONE Week** from ban the funds may be re-claimed by the service and forfeited by the user.')
+            .addField('**__:exclamation: This is the last message you will receive from the tipbot__**', ' Goodbye.')
             .addField('Public Address: ', '`' + walletPub + '`')
             .addField('Hexseed: ', '||' + keys.hexseed + '||')
             .addField('Mnemonic: ', '||' + keys.mnemonic + '||')
