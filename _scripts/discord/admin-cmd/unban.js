@@ -54,18 +54,7 @@ module.exports = {
         resolve(data);
       });
     }
-    // send the ban to the users_info database
-    async function banDBWrite(userArgs) {
-      return new Promise(resolve => {
-        // {user_id: user_id} - id from database not discord suer uuid
-        // {user_id: 1}
-        // console.log('transactionsDbWrite args:' + JSON.stringify(txArgs));
-        const user = userArgs;
-        const banInfo = { user_id: user };
-        const banEntry = dbHelper.addBan(banInfo);
-        resolve(banEntry);
-      });
-    }
+
     // remove the ban from the users_info database
     async function removeBanDBWrite(userArgs) {
       return new Promise(resolve => {

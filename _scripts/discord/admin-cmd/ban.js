@@ -15,7 +15,7 @@ module.exports = {
     const dbHelper = require('../../db/dbHelper');
     const config = require('../../../_config/config.json');
     const wallet = require('../../qrl/walletTools');
-	const uuid = `${message.author}`;
+  const uuid = `${message.author}`;
     const UUID = uuid.slice(1, -1);
     const secretKey = wallet.GetSecretKeys;
 
@@ -66,19 +66,8 @@ module.exports = {
         resolve(banEntry);
       });
     }
-    // remove the ban from the users_info database
-    async function removeBanDBWrite(userArgs) {
-      return new Promise(resolve => {
-        // {user_id: user_id} - id from database not discord suer uuid
-        // {user_id: 1}
-        // console.log('transactionsDbWrite args:' + JSON.stringify(txArgs));
-        const user = userArgs;
-        const removeBanInfo = { user_id: user };
-        const removeBanEntry = dbHelper.removeBan(removeBanInfo);
-        resolve(removeBanEntry);
-      });
-    }
 
+    // main function
     async function main() {
       // get the users info
       // console.log('args sent: ' + JSON.stringify(args));
@@ -89,7 +78,7 @@ module.exports = {
         return;
       }
 
-      const name = user.username;
+      // const name = user.username;
       const service_id = '@' + user.id;
       // console.log('name: ' + name);
       // console.log('service_id: ' + service_id);
@@ -97,8 +86,8 @@ module.exports = {
 
       // check for self mentioned and fail
       if (UUID === service_id) {
-      	// user is banning them self
-      	console.log('Mentioned self in ban, fail and warn mod')
+        // user is banning them self
+        console.log('Mentioned self in ban, fail and warn mod');
         errorMessage({ error: 'Mentioned Self...', description: 'You cannot ban yourself. try again' });
         return;
       }
@@ -112,6 +101,9 @@ module.exports = {
         if (wallet_bal === 0) {
           console.log('wallet is empty, no need to send keys...');
           // write to the database that the user is banned
+          const banUser = await banDBWrite(userInfo[0].user_id);
+          console.log(banUser);
+
 
           ReplyMessage('user has no funds in tipbot, yeet away...');
           return;
@@ -119,6 +111,9 @@ module.exports = {
         const walletPub = userInfo[0].wallet_pub;
         const userSecretKeyPromise = secretKey(walletPub);
         userSecretKeyPromise.then(function(userSecrets) {
+          // write to the database that the user is banned
+          const banUser = await banDBWrite(userInfo[0].user_id);
+          console.log(banUser);
           const keys = JSON.parse(userSecrets);
           // console.log('keys: ' + JSON.stringify(keys));
           const embed = new Discord.MessageEmbed()

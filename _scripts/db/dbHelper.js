@@ -897,14 +897,15 @@ async function addBan(args) {
       console.log('[mysql error]', err);
       return;
     }
-    resultArray.push(result)
+    resultArray.push(result);
   });
+
   callmysql.query('UPDATE wallets SET retired = ?, retired_time_stamp = ? WHERE user_id = ? AND wallets.retired = "0"', [1, new Date(), args.user_id], function(err, result) {
     if (err) {
       console.log('[mysql error]', err);
       return;
     }
-    resultArray.push(result)
+    resultArray.push(result);
   });
   return resultArray;
 }
