@@ -9,7 +9,6 @@ module.exports = {
   execute(message) {
   /*
     Take a user name and return the users private keys in DM to the user.
-    if args are passed to un-ban then remove the ban in place
   */
     const Discord = require('discord.js');
     const dbHelper = require('../../db/dbHelper');

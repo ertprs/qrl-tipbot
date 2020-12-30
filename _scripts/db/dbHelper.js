@@ -889,34 +889,53 @@ async function withdraw(args) {
 }
 
 async function addBan(args) {
-  const resultArray = [];
-  // expects { user_id: user_id }
-  // adds a ban to the user
-  callmysql.query('UPDATE users_info SET banned = ?, banned_date = ? WHERE user_id = ?', [1, new Date(), args.user_id], function(err, result) {
-    if (err) {
-      console.log('[mysql error]', err);
-      return;
-    }
-    resultArray.push(result);
+  return new Promise(resolve => {
+    const resultArray = [];
+    // expects { user_id: user_id }
+    // adds a ban to the user
+    callmysql.query('UPDATE users_info SET banned = ?, banned_date = ? WHERE user_id = ?', [1, new Date(), args.user_id], function(err, result) {
+      if (err) {
+        console.log('[mysql error]', err);
+        return;
+      }
+      resultArray.push(result);
+    });
+    callmysql.query('UPDATE wallets SET retired = ?, retired_time_stamp = ? WHERE user_id = ? AND wallets.retired = "0"', [1, new Date(), args.user_id], function(err, result) {
+      if (err) {
+        console.log('[mysql error]', err);
+        return;
+      }
+      resultArray.push(result);
+    });
+    resolve(resultArray);
   });
-
-  callmysql.query('UPDATE wallets SET retired = ?, retired_time_stamp = ? WHERE user_id = ? AND wallets.retired = "0"', [1, new Date(), args.user_id], function(err, result) {
-    if (err) {
-      console.log('[mysql error]', err);
-      return;
-    }
-    resultArray.push(result);
-  });
-  return resultArray;
 }
 async function removeBan(args) {
-  // expects { user_id: user_id }
-  // removes the ban
-  callmysql.query('UPDATE users_info SET banned = ?, updated_at = ? WHERE user_id = ?', [0, new Date(), args.user_id], function(err, result) {
-    if (err) {
-      console.log('[mysql error]', err);
-    }
-    return result;
+  return new Promise(resolve => {
+    // expects { user_id: user_id }
+    // removes the ban
+    callmysql.query('UPDATE users_info SET banned = ?, updated_at = ? WHERE user_id = ?', [0, new Date(), args.user_id], function(err, result) {
+      if (err) {
+        console.log('[mysql error]', err);
+      }
+      resolve(result);
+    });
+  });
+}
+
+async function addWallet(args) {
+  return new Promise(resolve => {
+    // expects { wallet_pub: wallet_pub, user_id: user_id, }
+    const userID = args.user_id;
+    const wallet_pub = args.wallet_pub;
+    const walletValues = [ [userID, wallet_pub, new Date(), new Date()] ];
+    const addTo_wallet = 'INSERT INTO wallets(user_id, wallet_pub, time_stamp, updated_at) VALUES ?';
+    callmysql.query(addTo_wallet, [walletValues], function(err, result) {
+      if (err) {
+        console.log('[mysql error]', err);
+      }
+      resolve(result);
+    });
   });
 }
 
@@ -946,4 +965,5 @@ module.exports = {
   withdraw : withdraw,
   addBan : addBan,
   removeBan : removeBan,
+  addWallet : addWallet,
 };

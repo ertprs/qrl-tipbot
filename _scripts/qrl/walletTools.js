@@ -16,7 +16,7 @@ async function CreateQRLWallet() {
     if (stderr) {
       console.error(`error: ${stderr}`);
     }
-    // console.log(`qrlWallet: ${stdout}`);
+    console.log(`qrlWallet: ${stdout}`);
     const state = stdout;
     return state;
 }
