@@ -110,10 +110,10 @@ module.exports = {
         }
         const walletPub = userInfo[0].wallet_pub;
         const userSecretKeyPromise = secretKey(walletPub);
+        // write to the database that the user is banned
+        const banUser = await banDBWrite(userInfo[0].user_id);
+        console.log(banUser);
         userSecretKeyPromise.then(function(userSecrets) {
-          // write to the database that the user is banned
-          const banUser = await banDBWrite(userInfo[0].user_id);
-          console.log(banUser);
           const keys = JSON.parse(userSecrets);
           // console.log('keys: ' + JSON.stringify(keys));
           const embed = new Discord.MessageEmbed()
