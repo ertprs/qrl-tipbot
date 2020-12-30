@@ -38,7 +38,6 @@ module.exports = {
         const UUID = uuid.slice(1, -1);
         const utCheck = { service: 'discord', user_id: UUID };
         const CUPromise = checkUser(utCheck);
-        const CUPromise = checkUser(utCheck);
 
         console.log('check_usr args: ' + userargs);
         CUPromise.then(function(result) {
