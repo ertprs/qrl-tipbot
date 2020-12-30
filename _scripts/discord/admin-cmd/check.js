@@ -46,7 +46,7 @@ module.exports = {
           if (found == 'true') {
             // GetAllUserInfo
 
-            const getUserData = dbHelper.checkUser(utCheck);
+            const getUserData = dbHelper.CheckUser(utCheck);
             getUserData.then(function(user_data) {
               console.log('user_data: ' + JSON.stringify(user_data));
               const id = result.user_id;
