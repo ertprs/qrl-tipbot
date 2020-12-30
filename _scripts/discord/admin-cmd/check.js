@@ -39,10 +39,10 @@ module.exports = {
         const utCheck = { service: 'discord', user_id: UUID };
         const CUPromise = checkUser(utCheck);
 
-        console.log('check_usr args: ' + userargs);
+        console.log('check_usr args: ' + JSON.stringify(utCheck));
         CUPromise.then(function(result) {
           const found = result.user_found;
-          // console.log('found: ' + found);
+          console.log('found: ' + found);
           if (found == 'true') {
             // GetAllUserInfo
 
