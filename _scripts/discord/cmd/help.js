@@ -11,7 +11,9 @@ module.exports = {
     const data = [];
     const messagedata = [];
     const { commands } = message.client;
-    console.log({ commands })
+    console.log({ commands })    
+    const { adminCommands } = message.client;
+    console.log({ adminCommands })
     // ReplyMessage(' Check your DM\'s');
     function ReplyMessage(content) {
       message.channel.startTyping();
