@@ -888,7 +888,26 @@ async function withdraw(args) {
   });
 }
 
-
+async function addBan(args) {
+  // expects { user_id: user_id }
+  // adds a ban to the user
+  callmysql.query('UPDATE users_info SET banned = ?, banned_date = ? WHERE user_id = ?', [1, new Date(), args.user_id], function(err, result) {
+    if (err) {
+      console.log('[mysql error]', err);
+    }
+    return result;
+  });
+}
+async function removeBan(args) {
+  // expects { user_id: user_id }
+  // removes the ban
+  callmysql.query('UPDATE users_info SET banned = ?, updated_at = ? WHERE user_id = ?', [0, new Date(), args.user_id], function(err, result) {
+    if (err) {
+      console.log('[mysql error]', err);
+    }
+    return result;
+  });
+}
 
 module.exports = {
   GetAllUserInfo : GetAllUserInfo,
@@ -913,5 +932,7 @@ module.exports = {
   agree : agree,
   CheckAgree: CheckAgree,
   updateWalletBal : updateWalletBal,
-  withdraw: withdraw,
+  withdraw : withdraw,
+  addBan : addBan,
+  removeBan : removeBan,
 };
