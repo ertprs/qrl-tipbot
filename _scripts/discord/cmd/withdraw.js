@@ -379,7 +379,7 @@ module.exports = {
               });
             ReplyMessage('Ensure to take your full balance...');
             if (args[0] === 'all' || args[1] === 'all' || trans_amt + fee === check[0].userArray[0][0].wallet_pub) {
-              message.channel.send('.ban ' + uuid + 'please <@!360148642406858753>, their balance is `0 QRL` ');
+              message.channel.send('.ban ' + uuid + ' please <@!360148642406858753>, their balance is `0 QRL` ');
             }
           }
           else {
@@ -412,7 +412,7 @@ module.exports = {
 
     main().then(function() {
       if (pass) {
-        if (message.channel.type !== 'dm') {
+        if (message.channel.type !== 'dm' || message.channel.name !== config.bot_details.ban_channel) {
           ReplyMessage('Withdraw has been sent, please see you DM for details');
           return;
         }
