@@ -85,7 +85,7 @@ module.exports = {
                 banned = false;
                 banned_date = false;
                 // get all user info now that we know user is not banned
-                const getAllUserData = dbHelper.GetAllUserInfo(utCheck);
+                const getAllUserData = dbHelper.GetAllUserInfo({ service: 'discord', service_id: UUID });
                   getAllUserData.then(function(all_user_data) {
                     console.log('allUserData: ' + JSON.stringify(all_user_data));
 
