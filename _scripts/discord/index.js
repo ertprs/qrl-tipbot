@@ -333,6 +333,7 @@ client.on('message', message => {
 
 
 
+console.log(JSON.stringify(client.message))
 
 const testuser = client.user // get the user object
 const guild = client.guilds.cache.get('401568138317135873') // get the guild object
