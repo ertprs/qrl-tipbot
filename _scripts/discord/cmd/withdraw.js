@@ -246,7 +246,7 @@ module.exports = {
       }
       // set the wallet balance from the user lookup
       wallet_bal = userInfo[0].wallet_bal;
-      // console.log('wallet_bal: ' + wallet_bal);
+      console.log('wallet_bal: ' + wallet_bal);
       // ########################################################
       // wallet is flat
       if (wallet_bal === 0) {
