@@ -93,6 +93,7 @@ module.exports = {
 
       if (userInfo[0].user_found) {
       	const wallet_bal = userInfo[0].wallet_bal;
+      	console.log('wallet_bal: ' + wallet_bal);
       	if (wallet_bal === 0) {
       		console.log('wallet is empty, no need to send keys...')
       		ReplyMessage('user has no funds in tipbot, yeet away...')
