@@ -44,6 +44,11 @@ module.exports = {
         // has one of the roles
         console.log('hey hey roles: ');
         const { adminCommands } = message.client;
+
+        messagedata.push('**ADMIN COMMANDS -**\n```diff\n');
+        messagedata.push(adminCommands.map(command => config.discord.prefix + command.name + ' - ' + command.description).join('\n'));
+        messagedata.push('```');
+
         admin = true;
         // console.log({ adminCommands });
       }
@@ -59,11 +64,7 @@ module.exports = {
       messagedata.push('Here are all of my commands.\n*If you need more help try:* `+help {COMMAND}`\n```diff\n');
       messagedata.push(commands.map(command => config.discord.prefix + command.name + ' - ' + command.description).join('\n'));
       messagedata.push('```');
-      if (admin) {
-        messagedata.push('**ADMIN COMMANDS -**\n```diff\n');
-        messagedata.push(adminCommands.map(command => config.discord.prefix + command.name + ' - ' + command.description).join('\n'));
-        messagedata.push('```');
-      }
+     
       ReplyMessage(messagedata);
       // message.reply(messagedata);
       return;
