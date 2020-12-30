@@ -52,7 +52,7 @@ module.exports = {
     // Get user info.
     async function getUserInfo(usrInfo) {
       return new Promise(resolve => {
-        const data = dbHelper.GetAllUserInfo(usrInfo);
+        const data = dbHelper.CheckUser(usrInfo);
         resolve(data);
       });
     }
