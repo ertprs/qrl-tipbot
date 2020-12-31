@@ -331,7 +331,7 @@ module.exports = {
       else if (args[0] == 'QRL' || args[0] == 'qrl' || args[0] == 'project' || args[0] == 'economics' || args[0] == 'about' || args[0] == 'wallet') {
         // give default response with listing info
         const nodeBlockHeight = JSON.parse(await getHeight());
-        const poolData = await getPoolInfo();
+        const poolData = JSON.parse(await getPoolInfo());
         console.log(poolData);
         const hashrate = getHashRate(poolData.network.difficulty / poolData.config.coinDifficultyTarget) + '/sec';
         const embed = new Discord.MessageEmbed()
