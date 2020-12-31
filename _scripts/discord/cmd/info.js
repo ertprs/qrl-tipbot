@@ -332,6 +332,7 @@ module.exports = {
         // give default response with listing info
         const nodeBlockHeight = JSON.parse(await getHeight());
         const poolData = await getPoolInfo();
+        console.log(poolData);
         const hashrate = getHashRate(poolData.network.difficulty / poolData.config.coinDifficultyTarget) + '/sec';
         const embed = new Discord.MessageEmbed()
           .setColor('GREEN')
