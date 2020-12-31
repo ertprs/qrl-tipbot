@@ -838,7 +838,7 @@ async function CheckAgree(args) {
           console.log('[mysql error]', err);
         }
         chechAgreeArray.push(result);
-        if (result.length == 0) {
+        if (result.length === 0) {
           const searchResult = { agreed: 'false' };
           const Results = JSON.parse(JSON.stringify(searchResult));
           chechAgreeArray.push(Results);
