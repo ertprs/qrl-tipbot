@@ -114,8 +114,8 @@ module.exports = {
               .setTitle('**Address Balance**')
               .setDescription('Details from the balance query.')
               .addField('QRL Address Balance:', `\`${res}\``, true)
-              .addField('QRL/USD Balance:', '`\u0024' + thousandths(userBTCValue) + '`', true)
-              .addField('QRL/BTC Balance:', '`\u0024' + thousandths(userUSDValue) + '`', true)
+              .addField('QRL/USD Balance:', '`\u0024' + thousandths(userUSDValue) + '`', true)
+              .addField('QRL/BTC Balance:', '`\u0024' + thousandths(userBTCValue) + '`', true)
               .addField('QRL Address:', '[' + givenAddress + '](' + config.bot_details.explorer_url + '/a/' + givenAddress + ')')
               .setFooter('  .: Tipbot provided by The QRL Contributors :.');
             message.author.send({ embed })
