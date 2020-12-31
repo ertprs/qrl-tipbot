@@ -14,7 +14,7 @@
 # get latest files into dir 
 /usr/bin/nodejs "$HOME/qrl-tipbot/_scripts/backup/backup.js"
 # location defined in config file
-FileLocation=`cat "$HOME/qrl-tipbot/_config/config.json" |jq -r .backup.location`
+FileLocation=`< "$HOME/qrl-tipbot/_config/config.json" jq -r .backup.location`
 cd $FileLocation
 # Tar the files to location defined in BackupLocation
 tar -czf TipBot_Backup.tar.gz -C "$FileLocation/backup" . >/dev/null 2>&1
