@@ -91,33 +91,33 @@ module.exports = {
                 }
                 // get all user info now that we know user is not banned
                 const getAllUserData = dbHelper.GetAllUserInfo({ service: 'discord', service_id: UUID });
-                  getAllUserData.then(function(all_user_data) {
-                    // console.log('allUserData: ' + JSON.stringify(all_user_data));
+                getAllUserData.then(function(all_user_data) {
+                  // console.log('allUserData: ' + JSON.stringify(all_user_data));
 
-                    const embed = new Discord.MessageEmbed()
-                      .setColor('GREEN')
-                      .setTitle('**TipBot ADMIN User Info**')
-                      .setDescription('This information is provided as a privilege to moderators and administrators. Please do not abuse it.\
-                        \n**User Information for:**\n<@' + message.mentions.users.first() + '> User_ID: ' + message.mentions.users.first() )
-                      .addField('User_found: ', '`' + found + '`', true)
-                      .addField('User_id: ', '`' + id + '`', true)
-                      .addField('wallet_bal: ', '`' + toQuanta(all_user_data[0].wallet_bal) + '`', true)
-                      .addField('wallet_pub: ', '[`' + all_user_data[0].wallet_pub + '`](' + config.bot_details.explorer_url + '/a/' + all_user_data[0].wallet_pub + ')', false)
-                      .addField('user_agree: ', '`' + all_user_data[0].user_agree + '`', true)
-                      .addField('pending balance: ', '`' + toQuanta(all_user_data[0].pending) + '`', true)
-                      .addField('signup_date: ', '`' + result.signup_date + '`', false)
-                      .addField('banned: ', '`' + banned + '`', true)
-                      .addField('last banned_date: ', '`' + banned_date + '`', true)
-                      .addField('signed_up_from: ', '`' + result.signed_up_from + '`', false)
-                      .addField('opt_out: ', '`' + opt_out + '`', true)
-                      .addField('optout_date: ', '`' + opt_out_date + '`', true)
-                      .addField('User last updated_at: ', '`' + result.updated_at + '`', false);
-                    message.author.send({ embed })
-                      .catch(console.error);
-                    message.react('🇶')
-                      .then(() => message.react('🇷'))
-                      .then(() => message.react('🇱'))
-                      .catch(() => console.error('One of the emojis failed to react.'));
+                  const embed = new Discord.MessageEmbed()
+                    .setColor('GREEN')
+                    .setTitle('**TipBot ADMIN User Info**')
+                    .setDescription('This information is provided as a privilege to moderators and administrators. Please do not abuse it.\
+                      \n**User Information for:**\n<@' + message.mentions.users.first() + '> User_ID: ' + message.mentions.users.first())
+                    .addField('User_found: ', '`' + found + '`', true)
+                    .addField('User_id: ', '`' + id + '`', true)
+                    .addField('wallet_bal: ', '`' + toQuanta(all_user_data[0].wallet_bal) + '`', true)
+                    .addField('wallet_pub: ', '[`' + all_user_data[0].wallet_pub + '`](' + config.bot_details.explorer_url + '/a/' + all_user_data[0].wallet_pub + ')', false)
+                    .addField('user_agree: ', '`' + all_user_data[0].user_agree + '`', true)
+                    .addField('pending balance: ', '`' + toQuanta(all_user_data[0].pending) + '`', true)
+                    .addField('signup_date: ', '`' + result.signup_date + '`', false)
+                    .addField('banned: ', '`' + banned + '`', true)
+                    .addField('last banned_date: ', '`' + banned_date + '`', true)
+                    .addField('signed_up_from: ', '`' + result.signed_up_from + '`', false)
+                    .addField('opt_out: ', '`' + opt_out + '`', true)
+                    .addField('optout_date: ', '`' + opt_out_date + '`', true)
+                    .addField('User last updated_at: ', '`' + result.updated_at + '`', false);
+                  message.author.send({ embed })
+                    .catch(console.error);
+                  message.react('🇶')
+                    .then(() => message.react('🇷'))
+                    .then(() => message.react('🇱'))
+                    .catch(() => console.error('One of the emojis failed to react.'));
                 });
               }
               else {
@@ -127,7 +127,7 @@ module.exports = {
                   .setTitle('**TipBot ADMIN User Info**')
                   .setDescription('This information is provided as a privilege to moderators and administrators. Please do not abuse it.\
                   \n\n```css\nUSER IS BANNED```\n\n \
-                  **User Information for:**\n<@' + message.mentions.users.first() + '> User_ID: ' + message.mentions.users.first() )
+                  **User Information for:**\n<@' + message.mentions.users.first() + '> User_ID: ' + message.mentions.users.first())
                   .addField('User_found: ', '`' + found + '`', true)
                   .addField('User_id: ', '`' + id + '`', true)
                   .addField('signup_date: ', '`' + result.signup_date + '`', false)
