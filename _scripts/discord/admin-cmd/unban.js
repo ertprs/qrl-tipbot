@@ -97,7 +97,7 @@ module.exports = {
       // console.log('user: ' + JSON.stringify(user));
       if (user === undefined) {
         errorMessage({ error: 'No user mentioned', description: 'You must mention one user...' });
-        return;
+        return false;
       }
 
       // const name = user.username;
@@ -111,7 +111,7 @@ module.exports = {
         // user is banning them self
         console.log('Mentioned self in ban, fail and warn mod');
         errorMessage({ error: 'Mentioned Self...', description: 'You cannot ban yourself. try again' });
-        return;
+        return false;
       }
 
       const userInfo = await getUserInfo({ service: 'discord', user_id: service_id });
@@ -122,7 +122,7 @@ module.exports = {
       		// user is not banned fail and return the user data
       		console.log('user is not banned');
       		errorMessage({ error: 'User Not Banned...', description: 'User is found but not banned. Try `+check user <' + service_id + '>`'})
-      		return;
+      		return false;
       	}
         // unban the user from the users_info database
         const removeBan = await removeBanDBWrite(userInfo.user_id);
@@ -151,7 +151,8 @@ module.exports = {
             errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
             // ReplyMessage('it seems like I can\'t DM you! Enable DM and try again...');
           });
-        return;
+        const returnArray = [{ check: true }];
+        return returnArray;
       }
       else {
         // fail on error
