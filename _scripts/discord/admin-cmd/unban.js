@@ -115,7 +115,7 @@ module.exports = {
       }
 
       const userInfo = await getUserInfo({ service: 'discord', user_id: service_id });
-      console.log('userInfo: ' + JSON.stringify(userInfo));
+      // console.log('userInfo: ' + JSON.stringify(userInfo));
       // if the user is found then continue.
       if (userInfo.user_found) {
       	if (!userInfo.banned) {
