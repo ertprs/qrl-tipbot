@@ -168,7 +168,7 @@ module.exports = {
         const pending = toQuanta(output[0].pending).toFixed(9);
 
         getCgData().then(function(cg) {
-          console.log(JSON.stringify(cg));
+          console.log(cg);
           const usdValue = cg.market_data.current_price.usd;
           const btcValue = cg[0].market_data.current_price.btc;
 
