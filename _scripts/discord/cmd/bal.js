@@ -55,7 +55,11 @@ module.exports = {
         message.delete();
       }
     }
-
+    function thousandths(number) {
+      const splitNumber = number.toString().split('.');
+      splitNumber[0] = splitNumber[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      return splitNumber.join('.');
+    }
     function toQuanta(number) {
       const shor = 1000000000;
       return number / shor;
@@ -94,9 +98,9 @@ module.exports = {
         BalancePromise.then(function(balanceResult) {
           getCgData().then(function(cg) {
             // console.log(JSON.stringify(cg));
-          const data = JSON.parse(cg)
-          const usdValue = data.market_data.current_price.usd;
-          const btcValue = data.market_data.current_price.btc;
+            const data = JSON.parse(cg);
+            const usdValue = data.market_data.current_price.usd;
+            const btcValue = data.market_data.current_price.btc;
 
             const results = balanceResult.balance;
             const res = toQuanta(results).toFixed(9);
@@ -110,8 +114,8 @@ module.exports = {
               .setTitle('**Address Balance**')
               .setDescription('Details from the balance query.')
               .addField('QRL Address Balance:', `\`${res}\``, true)
-              .addField('QRL/USD Balance:', userUSDValue, true)
-              .addField('QRL/BTC Balance:', userBTCValue, true)
+              .addField('QRL/USD Balance:', '`\u0024' + thousandths(userBTCValue) + '`', true)
+              .addField('QRL/BTC Balance:', '`\u0024' + thousandths(userUSDValue) + '`', true)
               .addField('QRL Address:', '[' + givenAddress + '](' + config.bot_details.explorer_url + '/a/' + givenAddress + ')')
               .setFooter('  .: Tipbot provided by The QRL Contributors :.');
             message.author.send({ embed })
@@ -170,7 +174,7 @@ module.exports = {
 
         getCgData().then(function(cg) {
           console.log(cg);
-          const data = JSON.parse(cg)
+          const data = JSON.parse(cg);
           const usdValue = data.market_data.current_price.usd;
           const btcValue = data.market_data.current_price.btc;
 
