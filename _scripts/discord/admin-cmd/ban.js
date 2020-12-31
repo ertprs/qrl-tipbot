@@ -120,9 +120,7 @@ module.exports = {
           // write to the database that the user is banned
           const banUser = await banDBWrite(allUserInfo[0].user_id);
           console.log(banUser);
-
-
-          ReplyMessage('user has no funds in tipbot, yeet away...');
+          ReplyMessage('user banned. They have no funds in tipbot, no keys sent.');
           return;
         }
         const walletPub = allUserInfo[0].wallet_pub;
