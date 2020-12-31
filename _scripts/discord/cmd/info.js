@@ -332,6 +332,7 @@ module.exports = {
         // give default response with listing info
         const nodeBlockHeight = JSON.parse(await getHeight());
         const poolData = JSON.parse(await getPoolInfo());
+        const poolBlockheight = poolData.lastblock.height;
         console.log(poolData);
         const hashrate = getHashRate(poolData.network.difficulty / poolData.config.coinDifficultyTarget) + '/sec';
         const embed = new Discord.MessageEmbed()
@@ -346,7 +347,7 @@ module.exports = {
             { name: 'Initial reserved supply: ', value: '`13,000,000 Quanta` 8,000,000 reserved for distribution by the QRL Foundation', inline: false },
             { name: 'Eventual total supply: ', value: '`105,000,000 Quanta`', inline: false },
             { name: 'Mining:: ', value: 'Proof-of-Work, RandomX (Proof-of-Stake development underway)', inline: false },
-            { name: 'Block Height: ', value: '`' + nodeBlockHeight.height + '`', inline: true },
+            { name: 'Block Height: ', value: '`' + poolBlockheight + '`', inline: true },
             { name: 'Network Hashrate:', value: '`' + hashrate + '`', inline: true },
           )
           .setDescription(`QRL Project Information, official links and Coin Economics
