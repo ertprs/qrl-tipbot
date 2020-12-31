@@ -70,44 +70,71 @@ module.exports = {
         if (found === 'true') {
           // GetAllUserInfo
 
-          // console.log('user_data: ' + JSON.stringify(user_data));
-          const id = result.user_id;
-          let banned = result.banned;
-          let banned_date = result.banned_date;
-          let opt_out = result.opt_out;
-          let opt_out_date = result.optout_date;
-          if (!opt_out) {
-            opt_out = false;
-            opt_out_date = false;
-          }
-          else {
-            opt_out = true;
-          }
-
-          if (!banned) {
-            banned = false;
-            if (banned_date === null) {
-              banned_date = false;
+          const getUserData = dbHelper.CheckUser(utCheck);
+          getUserData.then(function(user_data) {
+            // console.log('user_data: ' + JSON.stringify(user_data));
+            const id = result.user_id;
+            let banned = result.banned;
+            let banned_date = result.banned_date;
+            let opt_out = result.opt_out;
+            let opt_out_date = result.optout_date;
+            if (!opt_out) {
+              opt_out = false;
+              opt_out_date = false;
             }
-            // get all user info now that we know user is not banned
-            const getAllUserData = dbHelper.GetAllUserInfo({ service: 'discord', service_id: UUID });
-            getAllUserData.then(function(all_user_data) {
-              // console.log('allUserData: ' + JSON.stringify(all_user_data));
+            else {
+              opt_out = true;
+            }
 
+            if (!banned) {
+              banned = false;
+              if (banned_date === null) {
+                banned_date = false;
+              }
+              // get all user info now that we know user is not banned
+              const getAllUserData = dbHelper.GetAllUserInfo({ service: 'discord', service_id: UUID });
+              getAllUserData.then(function(all_user_data) {
+                // console.log('allUserData: ' + JSON.stringify(all_user_data));
+
+                const embed = new Discord.MessageEmbed()
+                  .setColor('GREEN')
+                  .setTitle('**TipBot ADMIN User Info**')
+                  .setDescription('This information is provided as a privilege to moderators and administrators. Please do not abuse it.\
+                    \n**User Information for:**\n<@' + message.mentions.users.first() + '> User_ID: ' + message.mentions.users.first())
+                  .addField('User_found: ', '`' + found + '`', true)
+                  .addField('User_id: ', '`' + id + '`', true)
+                  .addField('wallet_bal: ', '`' + toQuanta(all_user_data[0].wallet_bal) + '`', true)
+                  .addField('wallet_pub: ', '[`' + all_user_data[0].wallet_pub + '`](' + config.bot_details.explorer_url + '/a/' + all_user_data[0].wallet_pub + ')', false)
+                  .addField('user_agree: ', '`' + all_user_data[0].user_agree + '`', true)
+                  .addField('pending balance: ', '`' + toQuanta(all_user_data[0].pending) + '`', true)
+                  .addField('signup_date: ', '`' + result.signup_date + '`', false)
+                  .addField('banned: ', '`' + banned + '`', true)
+                  .addField('last banned_date: ', '`' + banned_date + '`', true)
+                  .addField('signed_up_from: ', '`' + result.signed_up_from + '`', false)
+                  .addField('opt_out: ', '`' + opt_out + '`', true)
+                  .addField('optout_date: ', '`' + opt_out_date + '`', true)
+                  .addField('User last updated_at: ', '`' + result.updated_at + '`', false);
+                message.author.send({ embed })
+                  .catch(console.error);
+                message.react('🇶')
+                  .then(() => message.react('🇷'))
+                  .then(() => message.react('🇱'))
+                  .catch(() => console.error('One of the emojis failed to react.'));
+              });
+            }
+            else {
+              banned = true;
               const embed = new Discord.MessageEmbed()
-                .setColor('GREEN')
+                .setColor('RED')
                 .setTitle('**TipBot ADMIN User Info**')
                 .setDescription('This information is provided as a privilege to moderators and administrators. Please do not abuse it.\
-                  \n**User Information for:**\n<@' + message.mentions.users.first() + '> User_ID: ' + message.mentions.users.first())
+                \n\n```css\nUSER IS BANNED```\n\n \
+                **User Information for:**\n<@' + message.mentions.users.first() + '> User_ID: ' + message.mentions.users.first())
                 .addField('User_found: ', '`' + found + '`', true)
                 .addField('User_id: ', '`' + id + '`', true)
-                .addField('wallet_bal: ', '`' + toQuanta(all_user_data[0].wallet_bal) + '`', true)
-                .addField('wallet_pub: ', '[`' + all_user_data[0].wallet_pub + '`](' + config.bot_details.explorer_url + '/a/' + all_user_data[0].wallet_pub + ')', false)
-                .addField('user_agree: ', '`' + all_user_data[0].user_agree + '`', true)
-                .addField('pending balance: ', '`' + toQuanta(all_user_data[0].pending) + '`', true)
                 .addField('signup_date: ', '`' + result.signup_date + '`', false)
                 .addField('banned: ', '`' + banned + '`', true)
-                .addField('last banned_date: ', '`' + banned_date + '`', true)
+                .addField('banned_date: ', '`' + banned_date + '`', true)
                 .addField('signed_up_from: ', '`' + result.signed_up_from + '`', false)
                 .addField('opt_out: ', '`' + opt_out + '`', true)
                 .addField('optout_date: ', '`' + opt_out_date + '`', true)
@@ -118,42 +145,18 @@ module.exports = {
                 .then(() => message.react('🇷'))
                 .then(() => message.react('🇱'))
                 .catch(() => console.error('One of the emojis failed to react.'));
-            });
-          }
-          else {
-            banned = true;
-            const embed = new Discord.MessageEmbed()
-              .setColor('RED')
-              .setTitle('**TipBot ADMIN User Info**')
-              .setDescription('This information is provided as a privilege to moderators and administrators. Please do not abuse it.\
-              \n\n```css\nUSER IS BANNED```\n\n \
-              **User Information for:**\n<@' + message.mentions.users.first() + '> User_ID: ' + message.mentions.users.first())
-              .addField('User_found: ', '`' + found + '`', true)
-              .addField('User_id: ', '`' + id + '`', true)
-              .addField('signup_date: ', '`' + result.signup_date + '`', false)
-              .addField('banned: ', '`' + banned + '`', true)
-              .addField('banned_date: ', '`' + banned_date + '`', true)
-              .addField('signed_up_from: ', '`' + result.signed_up_from + '`', false)
-              .addField('opt_out: ', '`' + opt_out + '`', true)
-              .addField('optout_date: ', '`' + opt_out_date + '`', true)
-              .addField('User last updated_at: ', '`' + result.updated_at + '`', false);
-            message.author.send({ embed })
-              .catch(console.error);
-            message.react('🇶')
-              .then(() => message.react('🇷'))
-              .then(() => message.react('🇱'))
-              .catch(() => console.error('One of the emojis failed to react.'));
 
-          }
-          // console.log('id: ' + id);
-          // user found, return the results
-          // console.log('result\t' + id + ' has been found ' + found);
-          ReplyMessage('user found, details in your DM.');
+            }
+            // console.log('id: ' + id);
+            // user found, return the results
+            // console.log('result\t' + id + ' has been found ' + found);
+            ReplyMessage('user found, details in your DM.');
 
 
-          const returnData = { found: 'true', user_id: id };
-          const RETURNDATA = JSON.parse(JSON.stringify(returnData));
-          return RETURNDATA;
+            const returnData = { found: 'true', user_id: id };
+            const RETURNDATA = JSON.parse(JSON.stringify(returnData));
+            return RETURNDATA;
+          });
         }
         else {
           // user not found
