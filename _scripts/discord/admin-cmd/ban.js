@@ -14,7 +14,7 @@ module.exports = {
     const dbHelper = require('../../db/dbHelper');
     const config = require('../../../_config/config.json');
     const wallet = require('../../qrl/walletTools');
-  const uuid = `${message.author}`;
+    const uuid = `${message.author}`;
     const UUID = uuid.slice(1, -1);
     const secretKey = wallet.GetSecretKeys;
 
@@ -94,6 +94,12 @@ module.exports = {
       const userInfo = await getUserInfo({ service: 'discord', service_id: service_id });
       // if the user is found then continue.
       if (userInfo[0].user_found) {
+        if (userInfo.banned) {
+          // user is not banned fail and return the user data
+          console.log('user is already banned');
+          errorMessage({ error: 'User Already Banned...', description: 'User is already banned. Try `+check user <' + service_id + '>`' });
+          return;
+        }
         const wallet_bal = userInfo[0].wallet_bal;
         console.log('wallet_bal: ' + wallet_bal);
         // check wallet balance and if flat, ban and quit

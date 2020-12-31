@@ -121,6 +121,7 @@ module.exports = {
       	if (!userInfo.banned) {
       		// user is not banned fail and return the user data
       		console.log('user is not banned');
+      		errorMessage({ error: 'User Not Banned...', description: 'User is found but not banned. Try `+check user <' + service_id + '>`'})
       		return;
       	}
         // unban the user from the users_info database
