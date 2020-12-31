@@ -66,7 +66,10 @@ module.exports = {
       return;
     }
     const name = args[0].toLowerCase();
+
+
     if (message.channel.type !== 'dm') {
+      console.log('not a DM')
       if (message.member.roles.cache.some(r=>['admin', 'mod'].includes(r.name))) {
         // has a role, admin stuff here
         const { adminCommands } = message.client;
@@ -88,6 +91,7 @@ module.exports = {
     }
 
     else {
+      console.log('not a DM')
       const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name));
       if (!command) {
         errorMessage({ error: 'Not a valid command...', description: 'You have entered an invalid command for help' });
