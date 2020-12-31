@@ -20,7 +20,7 @@ module.exports = {
     const getWalletInfo = walletTools.getWalletInfo;
     const createWallet = walletTools.CreateQRLWallet;
     const admin = config.discord.bot_admin;
-    const user = '@' + message.author.id;
+    const user = message.author.id;
     // check for admin user, if not admin fail
 
 
