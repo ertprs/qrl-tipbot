@@ -96,7 +96,7 @@ module.exports = {
                       .setColor('GREEN')
                       .setTitle('**TipBot ADMIN User Info**')
                       .setDescription('This information is provided as a privilege to moderators and administrators. Please do not abuse it.\
-                        \n\nUser Information for: <@' + message.mentions.users.first() + '> ' + message.mentions.users.first() )
+                        \n**User Information for:**\n<@' + message.mentions.users.first() + '> User_ID: ' + message.mentions.users.first() )
                       .addField('User_found: ', '`' + found + '`', true)
                       .addField('User_id: ', '`' + id + '`', true)
                       .addField('wallet_bal: ', '`' + toQuanta(all_user_data[0].wallet_bal) + '`', true)
