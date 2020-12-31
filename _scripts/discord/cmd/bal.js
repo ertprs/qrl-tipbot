@@ -94,8 +94,9 @@ module.exports = {
         BalancePromise.then(function(balanceResult) {
           getCgData().then(function(cg) {
             // console.log(JSON.stringify(cg));
-            const usdValue = cg.market_data.current_price.usd;
-            const btcValue = cg.market_data.current_price.btc;
+          const data = JSON.parse(cg)
+          const usdValue = data.market_data.current_price.usd;
+          const btcValue = data.market_data.current_price.btc;
 
             const results = balanceResult.balance;
             const res = toQuanta(results).toFixed(9);
@@ -169,8 +170,9 @@ module.exports = {
 
         getCgData().then(function(cg) {
           console.log(cg);
-          const usdValue = cg.market_data.current_price.usd;
-          const btcValue = cg.market_data.current_price.btc;
+          const data = JSON.parse(cg)
+          const usdValue = data.market_data.current_price.usd;
+          const btcValue = data.market_data.current_price.btc;
 
           const userBTCValue = (res * btcValue).toFixed(9);
           const userUSDValue = (res * usdValue).toFixed(3);
