@@ -60,6 +60,7 @@ module.exports = {
       // FEATURE ADD -
       // Could serve up the users balance if config.bot.admin requested
       if (message.mentions.users.size > 0) {
+
         errorMessage({ error: 'Invalid entry given...', description: 'Enter an address to query, or simply `+bal` to get your balance.' });
         // ReplyMessage('Invalid entry given...\nEnter an address to query, or simply `+bal` to get your balance.');
         deleteMessage();

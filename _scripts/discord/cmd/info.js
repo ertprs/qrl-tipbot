@@ -53,6 +53,27 @@ module.exports = {
       });
     }
 
+    function count() {
+      return new Promise(resolve => {
+        const count = wallet.count();
+        resolve(count);
+      });
+    }
+
+    function totalBalance() {
+      return new Promise(resolve => {
+        const getWalletInfo = wallet.getWalletInfo();
+        resolve(getWalletInfo);
+      });
+    }
+
+    function getWalletInfo() {
+      return new Promise(resolve => {
+        const getWalletInfo = wallet.getWalletInfo();
+        resolve(getWalletInfo);
+      });
+    }
+
     function getCgData() {
       return new Promise(resolve => {
         const cgdata = cgTools.cgData();
@@ -305,21 +326,23 @@ module.exports = {
       // list all information related to QRL
       else if (args[0] == 'QRL' || args[0] == 'qrl' || args[0] == 'project' || args[0] == 'economics' || args[0] == 'about' || args[0] == 'wallet') {
         // give default response with listing info
+        const nodeBlockHeight = JSON.parse(await getHeight());
+        const hashrate = getHashRate(poolData.network.difficulty / poolData.config.coinDifficultyTarget) + '/sec';
         const embed = new Discord.MessageEmbed()
           .setColor('GREEN')
           .setTitle('**QRL Project Info**')
           .setURL('https://theqrl.org/')
 
           .addFields(
-            { name: 'Initial public supply: ', value: '`52,000,000 Quanta`', inline: false },
-            { name: 'Initial reserved supply: ', value: '`13,000,000 Quanta` of which 8,000,000 reserved for distribution by the QRL Foundation', inline: false },
-            { name: 'Emission: ', value: '`40,000,000 Quanta`', inline: false },
             { name: 'Quanta distribution: ', value: 'Exponential decay emission schedule over approximately 200 years', inline: false },
+            { name: 'Emission: ', value: '`40,000,000 Quanta`', inline: true },
+            { name: 'Initial public supply: ', value: '`52,000,000 Quanta`', inline: true },
+            { name: 'Initial reserved supply: ', value: '`13,000,000 Quanta` 8,000,000 reserved for distribution by the QRL Foundation', inline: false },
             { name: 'Eventual total supply: ', value: '`105,000,000 Quanta`', inline: false },
             { name: 'Mining:: ', value: 'Proof-of-Work, RandomX (Proof-of-Stake development underway)', inline: false },
-            { name: 'Initial public supply: ', value: '`52,000,000 Quanta`', inline: false },
+            { name: 'Block Height: ', value: '`' + nodeBlockHeight.height + '`', inline: true },
+            { name: 'Network Hashrate:', value: '`' + hashrate + '`', inline: true },
           )
-
           .setDescription(`QRL Project Information, official links and Coin Economics
             
             **Links**
@@ -385,6 +408,64 @@ module.exports = {
         const hashrate = getHashRate(poolData.network.difficulty / poolData.config.coinDifficultyTarget) + '/sec';
         // serve the bot info here
         const nodeBlockHeight = JSON.parse(await getHeight());
+
+        if (message.channel.type !== 'dm') {
+          console.log('not a DM');
+          if (message.member.roles.cache.some(r=>[config.discord.admin_role, config.discord.mod_role].includes(r.name))) {
+          // has a role, admin stuff here
+            const wallet_count = JSON.parse(await count());
+            const total_balance = JSON.parse(await totalBalance());
+            const get_wallet_info = JSON.parse(await getWalletInfo());
+
+            const embed = new Discord.MessageEmbed()
+              .setColor('GREEN')
+              .setTitle('**QRL Tipbot Info**')
+              .setURL(botUrl)
+              .setDescription('Tipbot **ADMIN** information.')
+              .addFields(
+                { name: 'Block Height: ', value: '`' + nodeBlockHeight.height + '`', inline: true },
+                { name: 'Network Hashrate:', value: '`' + hashrate + '`', inline: true },
+                { name: 'Wallet Count:', value: '`' + wallet_count + '`', inline: true },
+                { name: 'Total Balance:', value: '`' + total_balance + '`', inline: true },
+                { name: 'get_wallet_info:', value: '`' + get_wallet_info + '`', inline: true },
+                // FIX-ME:
+                //    add more information about the bot here
+                //    including how many accounts signed up, total tips sent, servers and other bot stats.
+
+              // { name: 'Bot Transaction Fees:', value: '`\u0024 ' + botFee + '`', inline: true },
+              )
+              .setTimestamp()
+              .setFooter('  .: Tipbot provided by The QRL Contributors :.');
+            message.author.send({ embed })
+              .then(() => {
+                message.channel.stopTyping(true);
+              });
+
+          }
+          // is not a DM and user is Not admin
+          const embed = new Discord.MessageEmbed()
+          .setColor('GREEN')
+          .setTitle('**QRL Tipbot Info**')
+          .setURL(botUrl)
+          .setDescription('Tipbot general information.')
+          .addFields(
+            { name: 'Block Height: ', value: '`' + nodeBlockHeight.height + '`', inline: true },
+            { name: 'Network Hashrate:', value: '`' + hashrate + '`', inline: true },
+            // FIX-ME:
+            //    add more information about the bot here
+            //    including how many accounts signed up, total tips sent, servers and other bot stats.
+
+          // { name: 'Bot Transaction Fees:', value: '`\u0024 ' + botFee + '`', inline: true },
+          )
+          .setTimestamp()
+          .setFooter('  .: Tipbot provided by The QRL Contributors :.');
+        message.reply({ embed })
+          .then(() => {
+            message.channel.stopTyping(true);
+          });
+        }
+        else {
+          // message is a DM
         const embed = new Discord.MessageEmbed()
           .setColor('GREEN')
           .setTitle('**QRL Tipbot Info**')
@@ -405,6 +486,10 @@ module.exports = {
           .then(() => {
             message.channel.stopTyping(true);
           });
+
+        }
+
+
       }
 
       else if (args[0] == '?$' || args[0] == 'user' || args[0] == 'me' || args[0] == 'account' || args[0] == 'balance' || args[0] == 'bal' || args[0] == 'address') {
