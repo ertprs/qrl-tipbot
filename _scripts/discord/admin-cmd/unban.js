@@ -139,7 +139,7 @@ module.exports = {
         user.send({ embed })
           .then(() => {
             if (message.channel.type === 'dm') return;
-            ReplyMessage('Users keys sent');
+            ReplyMessage('User has been setup, their new address is in a DM or can be found with the user entering `+info me` or an Admin entering +check user <' + service_id + '>');
           })
           .catch(error => {
           // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
