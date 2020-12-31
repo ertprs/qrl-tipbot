@@ -12,7 +12,7 @@ module.exports = {
     const messagedata = [];
     const { commands } = message.client;
     // let admin = false;
-    // let { adminCommands } = '';
+        // let { adminCommands } = '';
     // console.log({ commands });
 
     // ReplyMessage(' Check your DM\'s');
@@ -65,7 +65,7 @@ module.exports = {
       // message.reply(messagedata);
       return;
     }
-    const name = args[0].toLowerCase();
+        const name = args[0].toLowerCase();
 
 
     if (message.channel.type !== 'dm') {

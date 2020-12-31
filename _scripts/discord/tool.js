@@ -1,5 +1,5 @@
 module.exports = {
-  name: 'tool',
+    name: 'tool',
   description: 'info! Print info on wallets.',
   args: true,
   guildOnly: false,

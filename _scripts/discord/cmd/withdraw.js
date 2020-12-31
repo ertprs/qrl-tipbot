@@ -70,7 +70,7 @@ module.exports = {
           .setTitle(':warning:  ERROR: ' + content.error)
           .setDescription(content.description)
           .setFooter(footer);
-        message.reply({ embed });
+                message.reply({ embed });
         message.channel.stopTyping(true);
       }, 1000);
     }
@@ -332,7 +332,7 @@ module.exports = {
       if (!pass) {
         // the check command failed
         // console.log('Check failed...');
-        return;
+        return false;
       }
       else {
         // check passed, do stuff

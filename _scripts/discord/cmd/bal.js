@@ -5,7 +5,7 @@ module.exports = {
   aliases: ['?$', 'Bal', 'BAL', 'Balance', 'bal', 'funds'],
   guildOnly: false,
   cooldown: 0,
-  usage: ' or \n+balance {QRL_ADDRESS}',
+    usage: ' or \n+balance {QRL_ADDRESS}',
   execute(message, args) {
     const Discord = require('discord.js');
     const walletTools = require('../../qrl/walletTools');

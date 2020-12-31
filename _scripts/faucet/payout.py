@@ -6,7 +6,7 @@
 # requests will be in the DB.faucet_payments table. The request is marked {paid: false} to start
 # Using the user_id from this table to lookup the wallet_pub
 # and add it to a list of addresses to pay.
-# 
+#
 # Payout every few min.
 # 
 # ****************************************************************
