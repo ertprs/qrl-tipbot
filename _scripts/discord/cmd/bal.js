@@ -170,7 +170,7 @@ module.exports = {
         getCgData().then(function(cg) {
           console.log(cg);
           const usdValue = cg.market_data.current_price.usd;
-          const btcValue = cg[0].market_data.current_price.btc;
+          const btcValue = cg.market_data.current_price.btc;
 
           const userBTCValue = (res * btcValue).toFixed(9);
           const userUSDValue = (res * usdValue).toFixed(3);
