@@ -187,10 +187,10 @@ callmysql.connect(function(err) {
   // future_tips data, transactions
   const addFutureTipsToTestData = 'INSERT INTO future_tips(service, user_id, user_name, tip_id, tip_from, tip_amount, tip_paidout, tip_donated, time_stamp) VALUES ?';
   const FutureTipsTovalues = [
-    ['discord',  '@328611434177101835', '@fr1t2', 1, '@734267018701701242', 0.010000000, 0, 0, now ],
-    ['discord',  '@328611434177101835', '@fr1t2', 1, '@734267018701701242', 0.100000000, 0, 0, now ],
-    ['discord',  '@328611434177101835', '@fr1t2', 1, '@734267018701701242', 0.111000000, 0, 0, now ],
-    ['discord',  '@328611434177101835', '@fr1t2', 1, '@734267018701701242', 0.22000000, 0, 0, now ],
+    ['discord',  '@328611434177101835', '@fr1t2', 1, '@734267018701701242', 0.01, 0, 0, now ],
+    ['discord',  '@328611434177101835', '@fr1t2', 1, '@734267018701701242', 0.1, 0, 0, now ],
+    ['discord',  '@328611434177101835', '@fr1t2', 1, '@734267018701701242', 0.111, 0, 0, now ],
+    ['discord',  '@328611434177101835', '@fr1t2', 1, '@734267018701701242', 0.22, 0, 0, now ],
   ];
 
   callmysql.query(addFutureTipsToTestData, [FutureTipsTovalues], function(err, results) {
