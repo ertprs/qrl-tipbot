@@ -112,8 +112,8 @@ module.exports = {
 
 
 
-        const wallet_bal = allUserInfo[0].wallet_bal;
-        console.log('wallet_bal: ' + wallet_bal);
+        const wallet_bal = number(allUserInfo[0].wallet_bal);
+        // console.log('wallet_bal: ' + wallet_bal);
         // check wallet balance and if flat, ban and quit
         if (wallet_bal === 0) {
           console.log('wallet is empty, no need to send keys...');
