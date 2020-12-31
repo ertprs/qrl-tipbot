@@ -49,6 +49,13 @@ module.exports = {
     // Get user info.
     async function getUserInfo(usrInfo) {
       return new Promise(resolve => {
+        const data = dbHelper.CheckUser(usrInfo);
+        resolve(data);
+      });
+    }
+    // Get all user info.
+    async function getAllUserInfo(usrInfo) {
+      return new Promise(resolve => {
         const data = dbHelper.GetAllUserInfo(usrInfo);
         resolve(data);
       });
@@ -91,32 +98,37 @@ module.exports = {
         return;
       }
 
-      const userInfo = await getUserInfo({ service: 'discord', service_id: service_id });
+      const userInfo = await getUserInfo({ service: 'discord', user_id: service_id });
+      console.log('userInfo: ' + JSON.stringify(userInfo));
       // if the user is found then continue.
-      if (userInfo[0].user_found) {
-        if (userInfo[0].banned) {
+      if (userInfo.user_found) {
+        if (userInfo.banned) {
           // user is not banned fail and return the user data
           console.log('user is already banned');
           errorMessage({ error: 'User Already Banned...', description: 'User is already banned. Try `+check user <' + service_id + '>`' });
           return;
         }
-        const wallet_bal = userInfo[0].wallet_bal;
+      const allUserInfo = await getAllUserInfo({ service: 'discord', service_id: service_id });
+
+
+
+        const wallet_bal = allUserInfo[0].wallet_bal;
         console.log('wallet_bal: ' + wallet_bal);
         // check wallet balance and if flat, ban and quit
         if (wallet_bal === 0) {
           console.log('wallet is empty, no need to send keys...');
           // write to the database that the user is banned
-          const banUser = await banDBWrite(userInfo[0].user_id);
+          const banUser = await banDBWrite(allUserInfo[0].user_id);
           console.log(banUser);
 
 
           ReplyMessage('user has no funds in tipbot, yeet away...');
           return;
         }
-        const walletPub = userInfo[0].wallet_pub;
+        const walletPub = allUserInfo[0].wallet_pub;
         const userSecretKeyPromise = secretKey(walletPub);
         // write to the database that the user is banned
-        const banUser = await banDBWrite(userInfo[0].user_id);
+        const banUser = await banDBWrite(allUserInfo[0].user_id);
         console.log(banUser);
         userSecretKeyPromise.then(function(userSecrets) {
           const keys = JSON.parse(userSecrets);
@@ -151,7 +163,7 @@ module.exports = {
       }
       else {
         // fail on error
-        console.log('userFound: ' + userInfo[0].userFound);
+        console.log('userFound: ' + allUserInfo[0].userFound);
         errorMessage({ error: 'User Not Found...', description: 'The banned user is not in the tipbot, no keys to send!' });
         const returnArray = [{ check: false }];
         return returnArray;

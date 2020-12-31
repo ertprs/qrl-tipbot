@@ -101,7 +101,6 @@ module.exports = {
       }
 
     }
-
     else {
       console.log('a DM')
       const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name));
