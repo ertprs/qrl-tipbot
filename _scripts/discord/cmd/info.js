@@ -421,7 +421,8 @@ module.exports = {
             const wallet_count = JSON.parse(await count());
             const total_balance = JSON.parse(await totalBalance());
             const faucet_balance = await faucetWalletBalance();
-
+            console.log('wallet_count: ' + wallet_count);
+            console.log('faucet_balance: ' + faucet_balance);
             console.log('total_balance: ' + JSON.stringify(total_balance));
             const embed = new Discord.MessageEmbed()
               .setColor('GREEN')
@@ -432,7 +433,7 @@ module.exports = {
                 { name: 'Block Height: ', value: '`' + nodeBlockHeight.height + '`', inline: true },
                 { name: 'Network Hashrate:', value: '`' + hashrate + '`', inline: true },
                 { name: 'Wallet Count:', value: '`' + wallet_count + '`', inline: true },
-                { name: 'Total Users Balance:', value: '`' + toQuanta(Number(total_balance) - Number(faucet_balance)).toFixed(9) + '`', inline: true },
+                { name: 'Total Users Balance:', value: '`' + toQuanta(Number(total_balance) - Number(faucet_balance)) + '`', inline: true },
                 // FIX-ME:
                 //    add more information about the bot here
                 //    including how many accounts signed up, total tips sent, servers and other bot stats.
