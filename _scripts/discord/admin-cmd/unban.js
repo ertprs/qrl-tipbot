@@ -121,7 +121,7 @@ module.exports = {
         // return;
       }
 
-      const userInfo = await getUserInfo({ service: 'discord', service_id: service_id });
+      const userInfo = await getUserInfo({ service: 'discord', user_id: service_id });
       console.log('userInfo: ' + JSON.stringify(userInfo));
       // if the user is found then continue.
       if (userInfo[0].user_found) {
