@@ -416,7 +416,8 @@ module.exports = {
             const wallet_count = JSON.parse(await count());
             const total_balance = JSON.parse(await totalBalance());
             const get_wallet_info = JSON.parse(await getWalletInfo());
-
+            console.log('total_balance: ' + JSON.stringify(total_balance));
+            console.log('get_wallet_info: ' + JSON.stringify(get_wallet_info));
             const embed = new Discord.MessageEmbed()
               .setColor('GREEN')
               .setTitle('**QRL Tipbot Info**')
