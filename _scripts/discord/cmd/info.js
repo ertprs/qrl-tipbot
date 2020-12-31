@@ -420,6 +420,8 @@ module.exports = {
           // has a role, admin stuff here
             const wallet_count = JSON.parse(await count());
             const total_balance = JSON.parse(await totalBalance());
+            const faucet_balance = JSON.parse(await faucetWalletBalance());
+
             console.log('total_balance: ' + JSON.stringify(total_balance));
             const embed = new Discord.MessageEmbed()
               .setColor('GREEN')
@@ -430,7 +432,7 @@ module.exports = {
                 { name: 'Block Height: ', value: '`' + nodeBlockHeight.height + '`', inline: true },
                 { name: 'Network Hashrate:', value: '`' + hashrate + '`', inline: true },
                 { name: 'Wallet Count:', value: '`' + wallet_count + '`', inline: true },
-                { name: 'Total Balance:', value: '`' + toQuanta(total_balance) + '`', inline: true },
+                { name: 'Total Users Balance:', value: '`' + toQuanta(total_balance - faucet_balance) + '`', inline: true },
                 // FIX-ME:
                 //    add more information about the bot here
                 //    including how many accounts signed up, total tips sent, servers and other bot stats.
