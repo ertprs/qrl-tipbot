@@ -86,7 +86,9 @@ module.exports = {
 
               if (!banned) {
                 banned = false;
-                banned_date = false;
+                if (banned_date === null) {
+                  banned_date = false;
+                }
                 // get all user info now that we know user is not banned
                 const getAllUserData = dbHelper.GetAllUserInfo({ service: 'discord', service_id: UUID });
                   getAllUserData.then(function(all_user_data) {
@@ -105,7 +107,7 @@ module.exports = {
                       .addField('pending balance: ', '`' + toQuanta(all_user_data[0].pending) + '`', true)
                       .addField('signup_date: ', '`' + result.signup_date + '`', false)
                       .addField('banned: ', '`' + banned + '`', true)
-                      .addField('banned_date: ', '`' + banned_date + '`', true)
+                      .addField('last banned_date: ', '`' + banned_date + '`', true)
                       .addField('signed_up_from: ', '`' + result.signed_up_from + '`', false)
                       .addField('opt_out: ', '`' + opt_out + '`', true)
                       .addField('optout_date: ', '`' + opt_out_date + '`', true)
