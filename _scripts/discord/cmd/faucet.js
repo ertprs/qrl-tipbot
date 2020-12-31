@@ -44,7 +44,14 @@ module.exports = {
         message.channel.stopTyping(true);
       }, 1000);
     }
-
+    function toQuanta(number) {
+      const shor = 1000000000;
+      return number / shor;
+    }
+    function toShor(number) {
+      const shor = 1000000000;
+      return number * shor;
+    }
     // check if this is a DM and if so, block forcing user into the chatroom
     if (message.channel.type === 'dm') {
       errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
@@ -75,13 +82,13 @@ module.exports = {
 
 
         function dripAmount(min, max) {
-          const minAmt = min * 1000000000;
-          const maxAmt = max * 1000000000;
+          const minAmt = toShor(min);
+          const maxAmt = toShor(max);
           // console.log('min: ' + minAmt + ' max: ' + maxAmt);
           const randomNumber = Math.floor(
             Math.random() * (maxAmt - minAmt) + minAmt,
           );
-          const num = randomNumber / 1000000000;
+          const num = toQuanta(randomNumber);
           // console.log('Random number ' + num);
           return num;
         // generate a randm number from a range set in the config file.
@@ -181,7 +188,7 @@ module.exports = {
               // message.reply(':no_entry_sign: You have pulled from the faucet recently :no_entry_sign:\n*Faucet will pay out once every  **' + config.faucet.payout_interval + ' minutes***.');
               return;
             }
-            else if (faucetCheck[0].drip_found == false) {
+            else if (faucetCheck[0].drip_found === false) {
               // no drip found. Do things here.
               // insert into faucet_payments to request a payment
               const user_id = userInfoArray[0][0].user_id;

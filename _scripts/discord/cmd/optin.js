@@ -23,7 +23,14 @@ module.exports = {
         message.channel.stopTyping(true);
       }, 1000);
     }
-
+    function toQuanta(number) {
+      const shor = 1000000000;
+      return number / shor;
+    }
+    function toShor(number) {
+      const shor = 1000000000;
+      return number * shor;
+    }
     // errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
     function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
       message.channel.startTyping();
@@ -85,7 +92,7 @@ module.exports = {
       // eslint-disable-next-line
       let optout = false;
       let future_tip_amount = 0;
-      const fee = config.wallet.tx_fee * 1000000000;
+      const fee = toShor(config.wallet.tx_fee);
       const user_info = await getUserInfo({ service: 'discord', service_id: userID });
       if (user_info[0].user_found) {
         // eslint-disable-next-line
@@ -117,7 +124,7 @@ module.exports = {
       const user_id = user_info[0].user_id;
       const checkFuture = await CheckFuture();
       future_tip_amount = checkFuture[0].future_tip_amount;
-      const futureTipPretty = future_tip_amount / 1000000000;
+      const futureTipPretty = toQuanta(future_tip_amount);
 
       if (future_tip_amount > 0) {
         const address_array = [user_info[0].wallet_pub];

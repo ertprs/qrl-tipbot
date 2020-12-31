@@ -50,7 +50,14 @@ module.exports = {
       }, 1000);
     }
 
-
+    function toQuanta(number) {
+      const shor = 1000000000;
+      return number / shor;
+    }
+    function toShor(number) {
+      const shor = 1000000000;
+      return number * shor;
+    }
     async function faucetBalance() {
       return new Promise(function(resolve) {
       // using the faucet address check for a balance
@@ -65,13 +72,13 @@ module.exports = {
 
     // used for the new user signup. Add the new users address to the faucet and drip them some funds
     function dripAmount(min, max) {
-      const minAmt = min * 1000000000;
-      const maxAmt = max * 1000000000;
+      const minAmt = toShor(min);
+      const maxAmt = toShor(max);
       // console.log('min: ' + minAmt + ' max: ' + maxAmt);
       const randomNumber = Math.floor(
         Math.random() * (maxAmt - minAmt) + minAmt,
       );
-      const num = randomNumber / 1000000000;
+      const num = toQuanta(randomNumber);
       // console.log('Random number ' + num);
       return num;
     }
@@ -100,7 +107,7 @@ module.exports = {
             }).then(function(reply) {
 
               //  embed a message to the user with account details
-              const userBalance = reply.wallet_bal / 1000000000;
+              const userBalance = toQuanta(reply.wallet_bal);
               // console.log('userBalance ' + userBalance);
               const embed = new Discord.MessageEmbed()
                 .setColor(0x000000)
@@ -165,8 +172,8 @@ module.exports = {
                   const tipToArray = [];
                   const tipToAddress = [userInfo.wallet_pub];
                   tipToArray.push(userInfo);
-                  const fee = config.wallet.tx_fee * 1000000000;
-                  const futureTipPretty = future_tip_amount / 1000000000;
+                  const fee = toShor(config.wallet.tx_fee);
+                  const futureTipPretty = toQuanta(future_tip_amount);
                   const future_tip = { amount: future_tip_amount, fee: fee, address_from: config.wallet.hold_address, address_to: tipToAddress };
                   // console.log('future_tip data: ' + JSON.stringify(future_tip));
                   const send_future_tip = wallet.sendQuanta;
