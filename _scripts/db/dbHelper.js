@@ -12,6 +12,11 @@ const callmysql = mysql.createPool({
   password: `${config.database.db_pass}`,
   database: `${config.database.db_name}`,
 });
+
+function toQuanta(number) {
+  const shor = 1000000000;
+  return number / shor;
+}
 // expects { service: service, service_id: service_id }
 // returns { user_found, wallet_pub, wallet_bal, user_id, user_name, opt_out optout_date
 async function GetAllUserInfo(args) {
@@ -380,8 +385,8 @@ async function GetUserWalletBal(args) {
         const NetBalance = wallet.GetBalance;
         NetBalance(wallet_pub).then(function(NetBal) {
           // should have netBal value from the network now, compare them
-          const balance = NetBal.balance / 1000000000 ;
-          const OldBal = wallet_bal / 1000000000;
+          const balance = toQuanta(NetBal.balance);
+          const OldBal = toQuanta(wallet_bal);
           // console.log('balance\'s returned. NetBal: ' + JSON.stringify(NetBal) + ' wallet_bal: ' + wallet_bal+ ' balance: ' + balance + ' OldBal: ' + OldBal);
           if (balance != OldBal) {
             // the balances are different, update the DB

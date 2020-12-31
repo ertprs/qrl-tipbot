@@ -60,25 +60,25 @@ module.exports = {
 
     function count() {
       return new Promise(resolve => {
-        const count = wallet.count();
-        resolve(count);
+        const walcount = wallet.count();
+        resolve(walcount);
       });
     }
 
     function totalBalance() {
       return new Promise(resolve => {
-        const totalBalance = wallet.totalBalance();
-        resolve(totalBalance);
+        const totBalance = wallet.totalBalance();
+        resolve(totBalance);
       });
     }
-
+    /*
     function getWalletInfo() {
       return new Promise(resolve => {
-        const getWalletInfo = wallet.getWalletInfo();
-        resolve(getWalletInfo);
+        const getWalInfo = wallet.getWalletInfo();
+        resolve(getWalInfo);
       });
     }
-
+    */
     function getCgData() {
       return new Promise(resolve => {
         const cgdata = cgTools.cgData();
@@ -139,7 +139,6 @@ module.exports = {
       const optOut = userData[0].opt_out;
       const agree = userData[0].user_agree;
       // multiplier for balance calculations
-      const shor = 1000000000;
 
       // faucet data
       const FaucetWalletPub = config.faucet.faucet_wallet_pub;
@@ -147,7 +146,7 @@ module.exports = {
       const faucetMinPayout = config.faucet.min_payout;
       const faucetMaxPayout = config.faucet.max_payout;
       const faucetBalShor = await faucetWalletBalance();
-      const faucetBal = (faucetBalShor.balance / shor).toFixed(9);
+      const faucetBal = toQuanta(faucetBalShor.balance).toFixed(9);
 
       // general bot data
       // const botFee = config.wallet.tx_fee;
@@ -168,10 +167,10 @@ module.exports = {
 
       const usdValue = cgData.market_data.current_price.usd;
       const usdATH = cgData.market_data.ath.usd;
-      const usdATHChange = cgData.market_data.ath_change_percentage.usd;
+      // const usdATHChange = cgData.market_data.ath_change_percentage.usd;
 
       const usdATL = cgData.market_data.atl.usd;
-      const usdATLChange = cgData.market_data.atl_change_percentage.usd;
+      // const usdATLChange = cgData.market_data.atl_change_percentage.usd;
 
       const usdMarketCap = cgData.market_data.market_cap.usd;
       const usdTotalVolume = cgData.market_data.total_volume.usd;
@@ -182,9 +181,9 @@ module.exports = {
       // BTC market data from CoinGecko
       const btcValue = cgData.market_data.current_price.btc;
       const btcATH = cgData.market_data.ath.btc;
-      const btcATHChange = cgData.market_data.ath_change_percentage.btc;
+      // const btcATHChange = cgData.market_data.ath_change_percentage.btc;
       const btcATL = cgData.market_data.atl.btc;
-      const btcATLChange = cgData.market_data.atl_change_percentage.btc;
+      // const btcATLChange = cgData.market_data.atl_change_percentage.btc;
       const btcMarketCap = cgData.market_data.market_cap.btc;
       const btcTotalVolume = cgData.market_data.total_volume.btc;
       const btcHigh24h = cgData.market_data.high_24h.btc;
@@ -332,6 +331,7 @@ module.exports = {
       else if (args[0] == 'QRL' || args[0] == 'qrl' || args[0] == 'project' || args[0] == 'economics' || args[0] == 'about' || args[0] == 'wallet') {
         // give default response with listing info
         const nodeBlockHeight = JSON.parse(await getHeight());
+        const poolData = await getPoolInfo();
         const hashrate = getHashRate(poolData.network.difficulty / poolData.config.coinDifficultyTarget) + '/sec';
         const embed = new Discord.MessageEmbed()
           .setColor('GREEN')
@@ -530,7 +530,7 @@ module.exports = {
           // if (message.channel.type === 'dm') return;
           const userWalletPub = userData[0].wallet_pub;
           const userBalShor = await userWalletBalance(userWalletPub);
-          const userBal = (userBalShor.balance / shor).toFixed(9);
+          const userBal = toQuanta(userBalShor.balance).toFixed(9);
           const userBTCValue = (userBal * btcValue).toFixed(9);
           const userUSDValue = (userBal * usdValue).toFixed(3);
           // console.log('userBal: ' + userBal);
