@@ -94,7 +94,7 @@ module.exports = {
       const userInfo = await getUserInfo({ service: 'discord', service_id: service_id });
       // if the user is found then continue.
       if (userInfo[0].user_found) {
-        if (userInfo.banned) {
+        if (userInfo[0].banned) {
           // user is not banned fail and return the user data
           console.log('user is already banned');
           errorMessage({ error: 'User Already Banned...', description: 'User is already banned. Try `+check user <' + service_id + '>`' });
