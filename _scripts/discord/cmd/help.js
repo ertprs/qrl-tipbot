@@ -65,7 +65,6 @@ module.exports = {
       // message.reply(messagedata);
       return;
     }
-    const data = [];
     const name = args[0].toLowerCase();
     if (message.channel.type !== 'dm') {
       if (message.member.roles.cache.some(r=>['admin', 'mod'].includes(r.name))) {
