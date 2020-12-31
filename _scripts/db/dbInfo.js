@@ -3,6 +3,16 @@ const mysql = require('mysql');
 const config = require('../../_config/config.json');
 const wallet = require('../qrl/walletTools');
 
+function toQuanta(number) {
+  const shor = 1000000000;
+  return number / shor;
+}
+function toShor(number) {
+  const shor = 1000000000;
+  return number * shor;
+}
+
+
 // connector to the database
 const callmysql = mysql.createPool({
   connectionLimit: 10,
@@ -44,8 +54,8 @@ async function GetUserWalletBal(args) {
         const NetBalance = wallet.GetBalance;
         NetBalance(wallet_pub).then(function(NetBal) {
           // should have netBal value from the network now, compare them
-          const balance = NetBal.balance / 1000000000 ;
-          const OldBal = wallet_bal / 1000000000;
+          const balance = toQuanta(NetBal.balance);
+          const OldBal = toQuanta(wallet_bal);
           // console.log('balance\'s returned. NetBal: ' + JSON.stringify(NetBal) + ' wallet_bal: ' + wallet_bal+ ' balance: ' + balance + ' OldBal: ' + OldBal);
           if (balance != OldBal) {
             // the balances are different, update the DB
