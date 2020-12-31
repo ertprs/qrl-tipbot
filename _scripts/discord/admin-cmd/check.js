@@ -1,6 +1,6 @@
 module.exports = {
   name: 'check',
-  description: 'Check various functions',
+  description: 'Check various admin functions',
   args: false,
   guildOnly: false,
   aliases: ['check', 'ch'],
