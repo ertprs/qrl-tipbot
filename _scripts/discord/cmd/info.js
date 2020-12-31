@@ -62,8 +62,8 @@ module.exports = {
 
     function totalBalance() {
       return new Promise(resolve => {
-        const getWalletInfo = wallet.getWalletInfo();
-        resolve(getWalletInfo);
+        const totalBalance = wallet.totalBalance();
+        resolve(totalBalance);
       });
     }
 
@@ -415,9 +415,7 @@ module.exports = {
           // has a role, admin stuff here
             const wallet_count = JSON.parse(await count());
             const total_balance = JSON.parse(await totalBalance());
-            const get_wallet_info = JSON.parse(await getWalletInfo());
             console.log('total_balance: ' + JSON.stringify(total_balance));
-            console.log('get_wallet_info: ' + JSON.stringify(get_wallet_info));
             const embed = new Discord.MessageEmbed()
               .setColor('GREEN')
               .setTitle('**QRL Tipbot Info**')
@@ -428,7 +426,6 @@ module.exports = {
                 { name: 'Network Hashrate:', value: '`' + hashrate + '`', inline: true },
                 { name: 'Wallet Count:', value: '`' + wallet_count + '`', inline: true },
                 { name: 'Total Balance:', value: '`' + total_balance + '`', inline: true },
-                { name: 'get_wallet_info:', value: '`' + get_wallet_info + '`', inline: true },
                 // FIX-ME:
                 //    add more information about the bot here
                 //    including how many accounts signed up, total tips sent, servers and other bot stats.
