@@ -333,13 +333,12 @@ module.exports = {
         const nodeBlockHeight = JSON.parse(await getHeight());
         const poolData = JSON.parse(await getPoolInfo());
         const poolBlockheight = poolData.lastblock.height;
-        console.log(poolData);
+        // console.log(poolData);
         const hashrate = getHashRate(poolData.network.difficulty / poolData.config.coinDifficultyTarget) + '/sec';
         const embed = new Discord.MessageEmbed()
           .setColor('GREEN')
           .setTitle('**QRL Project Info**')
           .setURL('https://theqrl.org/')
-
           .addFields(
             { name: 'Quanta distribution: ', value: 'Exponential decay emission schedule over approximately 200 years', inline: false },
             { name: 'Emission: ', value: '`40,000,000 Quanta`', inline: true },

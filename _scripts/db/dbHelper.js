@@ -17,6 +17,10 @@ function toQuanta(number) {
   const shor = 1000000000;
   return number / shor;
 }
+function toShor(number) {
+  const shor = 1000000000;
+  return number * shor;
+}
 // expects { service: service, service_id: service_id }
 // returns { user_found, wallet_pub, wallet_bal, user_id, user_name, opt_out optout_date
 async function GetAllUserInfo(args) {
@@ -586,7 +590,7 @@ async function AddUser(args) {
                   if (futureTipped[0].future_tip_amount == 'NULL') {
                     return futureTipped[0].future_tip_amount;
                   }
-                  const future_tip_amount = futureTipped[0].future_tip_amount * 1000000000;
+                  const future_tip_amount = toShor(futureTipped[0].future_tip_amount);
                   resultsArray.push({ future_tip_amount: future_tip_amount });
                   resolve(resultsArray);
                 });
