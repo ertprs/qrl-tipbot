@@ -27,7 +27,11 @@ module.exports = {
     if (admin == user) {
       console.log('admin triggered by: ' + user);
       if (args != undefined) {
+
+/*
         if (args[0] === 'list' || args[0] === 'ls') {
+
+// THIS IS BROKEN AS IT EXCEEDS THE LIMIT FOR A MESSAGE
           // start typing in discord
           // getWalletInfo();
           const { version, address_count, encrypted, locked } = getWalletInfo();
@@ -51,7 +55,8 @@ module.exports = {
             message.channel.stopTyping();
           });
         }
-        else if (args[0] === 'count' || args[0] === 'cnt') {
+*/
+        if (args[0] === 'count' || args[0] === 'cnt') {
           // start typing in discord
           message.channel.startTyping();
           const { version, address_count, encrypted, locked } = getWalletInfo();
@@ -92,6 +97,7 @@ module.exports = {
             message.channel.stopTyping();
           });
         }
+        /*
         else if (args[0] === 'wallet' || args[0] === 'wal') {
           // start typing in discord
           message.channel.startTyping();
@@ -159,6 +165,7 @@ module.exports = {
           });
           message.channel.stopTyping();
         }
+        */
         else if (args[0] === 'getWalletInfo' || args[0] === 'gwi') {
           // start typing in discord
           message.channel.startTyping();
@@ -179,7 +186,7 @@ module.exports = {
       }
     }
     else {
-      console.log('tool attempt made...')
+      console.log('tool attempt made...');
       console.log('admin\t' + admin);
       console.log('user\t' + user);
     }
