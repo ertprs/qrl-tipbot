@@ -121,7 +121,11 @@ module.exports = {
               else {
                 banned = true;
                 const embed = new Discord.MessageEmbed()
-                  .setColor(0x000000)
+                  .setColor('RED')
+                  .setTitle('**TipBot ADMIN User Info**')
+                  .setDescription('This information is provided as a privilege to moderators and administrators. Please do not abuse it.\
+                  \n\n```css\nUSER IS BANNED```\n\n \
+                  **User Information for:**\n<@' + message.mentions.users.first() + '> User_ID: ' + message.mentions.users.first() )
                   .addField('User_found: ', '`' + found + '`', true)
                   .addField('User_id: ', '`' + id + '`', true)
                   .addField('signup_date: ', '`' + result.signup_date + '`', false)
