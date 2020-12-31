@@ -5,7 +5,7 @@ module.exports = {
   guildOnly: false,
   aliases: ['check', 'ch'],
   cooldown: 0,
-  usage: '\n__**user** ***usr***__ :\t`Check for user`\n__**id**__ :\t`get user_id`\n__**optout** ***oo***__ :\t`Check if user has set opt_out`\n__**signup** ***su***__ :\t`check if user is signed up`\n__**walletPub** ***wp***__ :\t`Get wallet address`\n__**walletBal** ***wb***__\t`Get users wallet balance`',
+  usage: ' user @fr1t2\n__**user** ***usr***__ :\t`Check for user`\n__**id**__ :\t`get user_id`\n__**optout** ***oo***__ :\t`Check if user has set opt_out`\n__**signup** ***su***__ :\t`check if user is signed up`\n__**walletPub** ***wp***__ :\t`Get wallet address`\n__**walletBal** ***wb***__\t`Get users wallet balance`',
 
   // execute(message, args) {
   execute(message, args) {
