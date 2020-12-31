@@ -44,7 +44,7 @@ callmysql.connect(function(err) {
   });
 
   const addTwitUsersTestData = 'INSERT INTO users(twitter_user_id, time_stamp, updated_at) VALUES ?';
-  const TwitUsersvalues = [
+    const TwitUsersvalues = [
     ['1', now, now ],
     ['2', now, now ],
     ['3', now, now ],
