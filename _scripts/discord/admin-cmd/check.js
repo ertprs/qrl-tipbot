@@ -96,11 +96,11 @@ module.exports = {
                       .setColor('GREEN')
                       .setTitle('**TipBot ADMIN User Info**')
                       .setDescription('This information is provided as a privilege to moderators and administrators. Please do not abuse it.\
-                        \n\nUser Information for: `' + message.mentions.users.first() + '` ')
+                        \n\nUser Information for: <@' + message.mentions.users.first() + '> ')
                       .addField('User_found: ', '`' + found + '`', true)
                       .addField('User_id: ', '`' + id + '`', true)
                       .addField('wallet_bal: ', '`' + toQuanta(all_user_data[0].wallet_bal) + '`', true)
-                      .addField('wallet_pub: ', '[`' + all_user_data[0].wallet_pub + '`](' + config.bot_details.explorer_url + '/a/' + all_user_data[0].wallet_pub + ')', true)
+                      .addField('wallet_pub: ', '[`' + all_user_data[0].wallet_pub + '`](' + config.bot_details.explorer_url + '/a/' + all_user_data[0].wallet_pub + ')', false)
                       .addField('user_agree: ', '`' + all_user_data[0].user_agree + '`', true)
                       .addField('pending balance: ', '`' + toQuanta(all_user_data[0].pending) + '`', true)
                       .addField('signup_date: ', '`' + result.signup_date + '`', false)
