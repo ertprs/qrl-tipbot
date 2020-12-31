@@ -124,16 +124,16 @@ module.exports = {
       const userInfo = await getUserInfo({ service: 'discord', user_id: service_id });
       console.log('userInfo: ' + JSON.stringify(userInfo));
       // if the user is found then continue.
-      if (userInfo[0].user_found) {
+      if (userInfo.user_found) {
 
       	// unban the user from the users_info database
-		const removeBan = await removeBanDBWrite(userInfo[0].user_id);
+		const removeBan = await removeBanDBWrite(userInfo.user_id);
 		console.log('User ban removed: ' + JSON.stringify(removeBan));
 
       	// generate a new address and set into database and return to user
 		const addNewAddress = await addAddress();
         const walletPub = addNewAddress;
-		const addAddressToDb = await addUserWallet({ user_id: userInfo[0].user_id, wallet_pub: walletPub })
+		const addAddressToDb = await addUserWallet({ user_id: userInfo.user_id, wallet_pub: walletPub })
 
         const userSecretKeyPromise = secretKey(walletPub);
         userSecretKeyPromise.then(function(userSecrets) {
@@ -162,7 +162,7 @@ module.exports = {
       }
       else {
         // fail on error
-        console.log('userFound: ' + userInfo[0].userFound);
+        console.log('userFound: ' + userInfo.userFound);
         errorMessage({ error: 'User Not Found...', description: 'The user is not found in the tipbot, Have them signup `+add`' });
         const returnArray = [{ check: false }];
         return returnArray;
