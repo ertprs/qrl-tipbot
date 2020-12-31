@@ -46,6 +46,11 @@ module.exports = {
       }
     }
 
+    function toQuanta(number) {
+      const shor = 1000000000;
+      return number / shor;
+    }
+
     function getHeight() {
       return new Promise(resolve => {
         const height = wallet.GetHeight();
@@ -425,7 +430,7 @@ module.exports = {
                 { name: 'Block Height: ', value: '`' + nodeBlockHeight.height + '`', inline: true },
                 { name: 'Network Hashrate:', value: '`' + hashrate + '`', inline: true },
                 { name: 'Wallet Count:', value: '`' + wallet_count + '`', inline: true },
-                { name: 'Total Balance:', value: '`' + total_balance + '`', inline: true },
+                { name: 'Total Balance:', value: '`' + toQuanta(total_balance) + '`', inline: true },
                 // FIX-ME:
                 //    add more information about the bot here
                 //    including how many accounts signed up, total tips sent, servers and other bot stats.
