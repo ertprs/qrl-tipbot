@@ -175,7 +175,7 @@ module.exports = {
 
           checkFaucet(service_id).then(function(faucetCheck) {
             // console.log('faucetCheck results' + JSON.stringify(faucetCheck));
-            if (faucetCheck[0].drip_found == true) {
+            if (faucetCheck[0].drip_found === true) {
               // console.log('user has been found recently, no drips');
               errorMessage({ error: 'User is already Wet...', description: 'You have pulled from the faucet recently\n*Faucet will pay out every  **' + config.faucet.payout_interval + '*** minute(s).' });
               // message.reply(':no_entry_sign: You have pulled from the faucet recently :no_entry_sign:\n*Faucet will pay out once every  **' + config.faucet.payout_interval + ' minutes***.');
