@@ -10,6 +10,7 @@ module.exports = {
     const Discord = require('discord.js');
     const walletTools = require('../../qrl/walletTools');
     const dbHelper = require('../../db/dbHelper');
+    const cgTools = require('../../coinGecko/cgTools');
     const config = require('../../../_config/config.json');
     const emojiCharacters = require('../../emojiCharacters');
     const Balance = walletTools.GetBalance;
@@ -54,6 +55,18 @@ module.exports = {
         message.delete();
       }
     }
+
+    function toQuanta(number) {
+      const shor = 1000000000;
+      return number / shor;
+    }
+    function getCgData() {
+      return new Promise(resolve => {
+        const cgdata = cgTools.cgData();
+        resolve(cgdata);
+      });
+    }
+
     // check for args and if found give that wallet balance
     if (args.length) {
       // given a user not an address we just fail.
@@ -79,30 +92,44 @@ module.exports = {
         const BalancePromise = Balance(givenAddress);
         // assign this to a promise and get the function into a result
         BalancePromise.then(function(balanceResult) {
-          const results = balanceResult.balance;
-          const res = ((results / 1000000000).toFixed(9));
-          // console.log('res: ' + res + '\nresults: ' + results);
-          const embed = new Discord.MessageEmbed()
-            .setColor(0x000000)
-            .setTitle('**Address Balance**')
-            .setDescription('Details from the balance query.')
-            .addField('QRL Address Balance:', `\`${res}\``, true)
-            .addField('QRL Address:', '[' + givenAddress + '](' + config.bot_details.explorer_url + '/a/' + givenAddress + ')')
-            .setFooter('  .: Tipbot provided by The QRL Contributors :.');
-          message.author.send({ embed })
-            .then(() => {
-              if (message.channel.type === 'dm') return;
-              deleteMessage();
-              message.channel.stopTyping(true);
-              ReplyMessage('\n:moneybag: Balance is in your DM :moneybag:');
-            })
-            .catch(error => {
-              // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-              errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
-              // ReplyMessage('it seems like I can\'t DM you! Do you have DMs disabled?');
-              return;
-            });
-          message.channel.stopTyping(true);
+          getCgData().then(function(cg) {
+            console.log(JSON.stringify(cg));
+            const usdValue = cg.market_data.current_price.usd;
+            const btcValue = cg.market_data.current_price.btc;
+
+            const results = balanceResult.balance;
+            const res = toQuanta(results).toFixed(9);
+            const userBTCValue = (res * btcValue).toFixed(9);
+            const userUSDValue = (res * usdValue).toFixed(3);
+
+
+            // console.log('res: ' + res + '\nresults: ' + results);
+            const embed = new Discord.MessageEmbed()
+              .setColor(0x000000)
+              .setTitle('**Address Balance**')
+              .setDescription('Details from the balance query.')
+              .addField('QRL Address Balance:', `\`${res}\``, true)
+              .addField('QRL/USD Balance:', userUSDValue, true)
+              .addField('QRL/BTC Balance:', userBTCValue, true)
+              .addField('QRL Address:', '[' + givenAddress + '](' + config.bot_details.explorer_url + '/a/' + givenAddress + ')')
+              .setFooter('  .: Tipbot provided by The QRL Contributors :.');
+            message.author.send({ embed })
+              .then(() => {
+                if (message.channel.type === 'dm') return;
+                deleteMessage();
+                message.channel.stopTyping(true);
+                ReplyMessage('\n:moneybag: Balance is in your DM :moneybag:');
+              })
+              .catch(error => {
+                // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+                errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
+                // ReplyMessage('it seems like I can\'t DM you! Do you have DMs disabled?');
+                return;
+              });
+            message.channel.stopTyping(true);
+
+
+          });
         });
       }
     }
@@ -137,56 +164,70 @@ module.exports = {
         const UserAddress = result[0].wallet_pub;
         // assign this to a promise and get the function into a result
         // console.log(UserBalance);
-        const res = ((output[0].wallet_bal / 1000000000).toFixed(9));
-        const pending = ((output[0].pending / 1000000000).toFixed(9));
-        message.channel.stopTyping(true);
-        if (pending > 0) {
+        const res = toQuanta(output[0].wallet_bal).toFixed(9);
+        const pending = toQuanta(output[0].pending).toFixed(9);
 
-          const embed = new Discord.MessageEmbed()
-            .setColor(0x000000)
-            .setTitle('Tipbot Balance - ' + res + ' QRL \n*Transactions may take a some time to post. Please be patient*')
-            .addField('Balance:', `\`${res} QRL\``, true)
-            .addField('Approx Pending TXn\'s:', '`' + pending + ' QRL`', true)
-            .addField('QRL Address:', '[' + UserAddress + '](' + config.bot_details.explorer_url + '/a/' + UserAddress + ')')
-            // .addField('Transactions may take a some time to post. Please be patient')
-            .setFooter('  .: Tipbot provided by The QRL Contributors :.');
-          message.author.send({ embed })
-            .then(() => {
-              if (message.channel.type === 'dm') return;
-              message.channel.stopTyping(true);
-              // ReplyMessage('\n:moneybag: Balance is in your DM :moneybag:');
-            })
-            .catch(error => {
-              errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
-              // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-              // ReplyMessage('it seems like I can\'t DM you! Do you have DMs disabled?');
-            });
-        }
-        else {
+        getCgData().then(function(cg) {
+          console.log(JSON.stringify(cg));
+          const usdValue = cg.market_data.current_price.usd;
+          const btcValue = cg.market_data.current_price.btc;
 
-          const embed = new Discord.MessageEmbed()
-            .setColor(0x000000)
-            .setTitle('Tipbot Balance - ' + res + ' QRL \n*Transactions may take a some time to post. Please be patient*')
-            .addField('Balance:', `\`${res} QRL\``, true)
-            .addField('QRL Address:', '[' + UserAddress + '](' + config.bot_details.explorer_url + '/a/' + UserAddress + ')')
-            // .addField('Transactions may take a some time to post. Please be patient')
-            .setFooter('  .: Tipbot provided by The QRL Contributors :.');
-          message.author.send({ embed })
-            .then(() => {
-              if (message.channel.type === 'dm') return;
-              message.channel.stopTyping(true);
-              // ReplyMessage('\n:moneybag: Balance is in your DM :moneybag:');
-            })
-            .catch(error => {
-              errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
-              // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-              // ReplyMessage('it seems like I can\'t DM you! Do you have DMs disabled?');
-            });
-        }
-        message.react(emojiCharacters.q)
-          .then(() => message.react(emojiCharacters.r))
-          .then(() => message.react(emojiCharacters.l))
-          .catch(() => console.error('One of the emojis failed to react.'));
+          const userBTCValue = (res * btcValue).toFixed(9);
+          const userUSDValue = (res * usdValue).toFixed(3);
+
+
+          if (pending > 0) {
+
+            const embed = new Discord.MessageEmbed()
+              .setColor(0x000000)
+              .setTitle('Tipbot Balance - ' + res + ' QRL \n*Transactions may take a some time to post. Please be patient*')
+              .addField('Balance:', `\`${res} QRL\``, true)
+              .addField('QRL/USD Balance:', userUSDValue, true)
+              .addField('QRL/BTC Balance:', userBTCValue, true)
+              .addField('Approx Pending TXn\'s:', '`' + pending + ' QRL`', true)
+              .addField('QRL Address:', '[' + UserAddress + '](' + config.bot_details.explorer_url + '/a/' + UserAddress + ')')
+              // .addField('Transactions may take a some time to post. Please be patient')
+              .setFooter('  .: Tipbot provided by The QRL Contributors :.');
+            message.author.send({ embed })
+              .then(() => {
+                if (message.channel.type === 'dm') return;
+                message.channel.stopTyping(true);
+                // ReplyMessage('\n:moneybag: Balance is in your DM :moneybag:');
+              })
+              .catch(error => {
+                errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
+                // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+                // ReplyMessage('it seems like I can\'t DM you! Do you have DMs disabled?');
+              });
+          }
+          else {
+
+            const embed = new Discord.MessageEmbed()
+              .setColor(0x000000)
+              .setTitle('Tipbot Balance - ' + res + ' QRL \n*Transactions may take a some time to post. Please be patient*')
+              .addField('Balance:', `\`${res} QRL\``, true)
+              .addField('QRL/USD Balance:', userUSDValue, true)
+              .addField('QRL/BTC Balance:', userBTCValue, true)
+              .addField('QRL Address:', '[' + UserAddress + '](' + config.bot_details.explorer_url + '/a/' + UserAddress + ')')
+              // .addField('Transactions may take a some time to post. Please be patient')
+              .setFooter('  .: Tipbot provided by The QRL Contributors :.');
+            message.author.send({ embed })
+              .then(() => {
+                if (message.channel.type === 'dm') return;
+                message.channel.stopTyping(true);
+                // ReplyMessage('\n:moneybag: Balance is in your DM :moneybag:');
+              })
+              .catch(error => {
+                errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
+                // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+                // ReplyMessage('it seems like I can\'t DM you! Do you have DMs disabled?');
+              });
+          }
+          message.react(emojiCharacters.q)
+            .then(() => message.react(emojiCharacters.r))
+            .then(() => message.react(emojiCharacters.l))
+            .catch(() => console.error('One of the emojis failed to react.'));
+        });
       });
     }
   },

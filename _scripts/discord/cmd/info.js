@@ -433,12 +433,8 @@ module.exports = {
                 { name: 'Block Height: ', value: '`' + nodeBlockHeight.height + '`', inline: true },
                 { name: 'Network Hashrate:', value: '`' + hashrate + '`', inline: true },
                 { name: 'Wallet Count:', value: '`' + wallet_count + '`', inline: true },
-                { name: 'Total Users Balance:', value: '`' + toQuanta(Number(total_balance) - Number(faucet_balance.balance)) + '`', inline: true },
-                // FIX-ME:
-                //    add more information about the bot here
-                //    including how many accounts signed up, total tips sent, servers and other bot stats.
-
-              // { name: 'Bot Transaction Fees:', value: '`\u0024 ' + botFee + '`', inline: true },
+                { name: 'Total Users Balance:', value: '`' + toQuanta(Number(total_balance) - Number(faucet_balance.balance)) + '`', inline: false },
+                { name: 'Faucet Balance:', value: '`' + toQuanta(Number(faucet_balance.balance)) + ' QRL`', inline: false },
               )
               .setTimestamp()
               .setFooter('  .: Tipbot provided by The QRL Contributors :.');
