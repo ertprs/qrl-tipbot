@@ -488,7 +488,7 @@ module.exports = {
           const transferOutPut = JSON.parse(sendData);
           // console.log('transferOutPut: ' + JSON.stringify(transferOutPut));
 
-          if (transferOutPut.code != 1) {
+          if (transferOutPut.code !== 1) {
             const tx_hash = transferOutPut.tx.transaction_hash;
             const txInfo = { tip_id: FinalInfo[3], tx_type: 'tip', tx_hash: tx_hash };
             dbHelper.addTransaction(txInfo).then(function() {

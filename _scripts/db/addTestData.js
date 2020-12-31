@@ -9,10 +9,10 @@ const now = new Date();
 
 // connector to the database
 const callmysql = mysql.createConnection({
-  host: `${config.database.db_host}`,
-  user: `${config.database.db_user}`,
-  password: `${config.database.db_pass}`,
-  database: `${config.database.db_name}`,
+    host: `${config.database.db_host}`,
+    user: `${config.database.db_user}`,
+    password: `${config.database.db_pass}`,
+    database: `${config.database.db_name}`,
 });
 console.log(`database info
   DB Host: ${config.database.db_host}
@@ -23,50 +23,50 @@ console.log(`database info
 
 // connect to the MySQL server
 callmysql.connect(function(err) {
-  if (err) {
-    return console.error('error: ' + err.message);
-  }
-  // add test data to the database
-  // users data
-  const addDisUsersTestData = 'INSERT INTO users(discord_user_id, time_stamp, updated_at) VALUES ?';
-  const DisUsersvalues = [
+    if (err) {
+        return console.error('error: ' + err.message);
+    }
+    // add test data to the database
+    // users data
+    const addDisUsersTestData = 'INSERT INTO users(discord_user_id, time_stamp, updated_at) VALUES ?';
+    const DisUsersvalues = [
+      ['1', now, now ],
+      ['2', now, now ],
+      ['3', now, now ],
+    ];
+    callmysql.query(addDisUsersTestData, [DisUsersvalues], function(err, results) {
+    if (err) {
+        console.log(err.message);
+    }
+      // log the output of sql command
+      console.log('addDisUsersTestData results:');
+      console.log(results);
+  });
+
+    const addTwitUsersTestData = 'INSERT INTO users(twitter_user_id, time_stamp, updated_at) VALUES ?';
+    const TwitUsersvalues = [
     ['1', now, now ],
     ['2', now, now ],
     ['3', now, now ],
   ];
-  callmysql.query(addDisUsersTestData, [DisUsersvalues], function(err, results) {
+    callmysql.query(addTwitUsersTestData, [TwitUsersvalues], function(err, results) {
     if (err) {
       console.log(err.message);
     }
     // log the output of sql command
-    console.log('addDisUsersTestData results:');
+        console.log('addTwitUsersTestData results:');
     console.log(results);
   });
 
-  const addTwitUsersTestData = 'INSERT INTO users(twitter_user_id, time_stamp, updated_at) VALUES ?';
-  const TwitUsersvalues = [
-    ['1', now, now ],
-    ['2', now, now ],
-    ['3', now, now ],
-  ];
-  callmysql.query(addTwitUsersTestData, [TwitUsersvalues], function(err, results) {
-    if (err) {
-      console.log(err.message);
-    }
-    // log the output of sql command
-    console.log('addTwitUsersTestData results:');
-    console.log(results);
-  });
-
-  // createUsersInfo data
-  const createUsersInfoData = 'INSERT INTO users_info(user_id, user_key, user_auto_created, auto_create_date, signed_up_from, signup_date, opt_out, optout_date, updated_at) VALUES ?';
-  const createUsersInfovalues = [
-    ['1', '$2a$25$C4vmgNUyZKgW3mBLtazpMO', '0', now, 'discord', now, '1', now, now ],
-    ['2', '$2a$25$RLDMO8OD3Yuxm0qyg.mOme', '1', now, 'discord', now, '1', now, now ],
-    ['3', '$2a$25$QRahS9/IWNPyb5nwpaZb.O', '0', now, 'discord', now, '1', now, now ],
-    ['4', 'pvifjodinusd7hvnsd7222222', '1', now, 'discord', now, '0', now, now ],
-    ['5', 'pvifjodinusd7hvnsd7333333', '0', now, 'discord', now, '1', now, now ],
-    ['6', 'pvifjodinusd7hvnsd7444444', '0', now, 'discord', now, '0', now, now ],
+    // createUsersInfo data
+    const createUsersInfoData = 'INSERT INTO users_info(user_id, user_key, user_auto_created, auto_create_date, signed_up_from, signup_date, opt_out, optout_date, updated_at) VALUES ?';
+    const createUsersInfovalues = [
+      ['1', '$2a$25$C4vmgNUyZKgW3mBLtazpMO', '0', now, 'discord', now, '1', now, now ],
+      ['2', '$2a$25$RLDMO8OD3Yuxm0qyg.mOme', '1', now, 'discord', now, '1', now, now ],
+      ['3', '$2a$25$QRahS9/IWNPyb5nwpaZb.O', '0', now, 'discord', now, '1', now, now ],
+      ['4', 'pvifjodinusd7hvnsd7222222', '1', now, 'discord', now, '0', now, now ],
+      ['5', 'pvifjodinusd7hvnsd7333333', '0', now, 'discord', now, '1', now, now ],
+      ['6', 'pvifjodinusd7hvnsd7444444', '0', now, 'discord', now, '0', now, now ],
   ];
 
   callmysql.query(createUsersInfoData, [createUsersInfovalues], function(err, results) {
@@ -78,21 +78,21 @@ callmysql.connect(function(err) {
     console.log(results);
   });
 
-  // discord_users data
-  const addDiscordUsersTestData = 'INSERT INTO discord_users(user_name, discord_id, time_stamp) VALUES ?';
-  const DiscordUsersvalues = [
-    ['fr1t2', '@3286114177101835', now ],
-    ['QRL_TIP_BOT', '@610522468456857631', now ],
-    ['tip-bot', '@516270974501519401', now ],
+    // discord_users data
+    const addDiscordUsersTestData = 'INSERT INTO discord_users(user_name, discord_id, time_stamp) VALUES ?';
+    const DiscordUsersvalues = [
+      ['fr1t2', '@3286114177101835', now ],
+      ['QRL_TIP_BOT', '@610522468456857631', now ],
+      ['tip-bot', '@516270974501519401', now ],
   ];
 
-  callmysql.query(addDiscordUsersTestData, [DiscordUsersvalues], function(err, results) {
+    callmysql.query(addDiscordUsersTestData, [DiscordUsersvalues], function(err, results) {
     if (err) {
       console.log(err.message);
     }
     // log the output of sql command
-    console.log('addDiscordUsersTestData results:');
-    console.log(results);
+        console.log('addDiscordUsersTestData results:');
+        console.log(results);
   });
 
 

@@ -7,7 +7,7 @@ This is where the backup files will be once the backup.sh script is run.
 Set backup.sh in crontab to run daily `0 01 * * * $HOME/qrl-tips/_scripts/backup/backup.sh`
 this will create a encrypted file ready to be transfered to another backup location
 
-**Encrypted Tar File**
+### Encrypted Tar File
 
 this is the encryption script that secures the backup files.
 
