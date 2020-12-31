@@ -124,7 +124,7 @@ module.exports = {
                   .setColor('RED')
                   .setTitle('**TipBot ADMIN User Info**')
                   .setDescription('This information is provided as a privilege to moderators and administrators. Please do not abuse it.\
-                  \n\n```yaml\nUSER IS BANNED```\n\n \
+                  \n\n```css\nUSER IS BANNED```\n\n \
                   **User Information for:**\n<@' + message.mentions.users.first() + '> User_ID: ' + message.mentions.users.first() )
                   .addField('User_found: ', '`' + found + '`', true)
                   .addField('User_id: ', '`' + id + '`', true)
