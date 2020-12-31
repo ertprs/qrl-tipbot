@@ -1,7 +1,7 @@
 #!/usr/bin/python3.6
 # ****************************************************************
 #                 FaucetPayout Script
-# 
+#
 # Script reads from the tipbot database to find any valid faucet requests. These
 # requests will be in the DB.faucet_payments table. The request is marked {paid: false} to start
 # Using the user_id from this table to lookup the wallet_pub
