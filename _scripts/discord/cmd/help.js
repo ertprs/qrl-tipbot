@@ -87,6 +87,18 @@ module.exports = {
         if (command.usage) data.push(`**Usage:** ${config.discord.prefix}${command.name} ${command.usage}`);
 
       }
+      else {
+        const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name));
+        if (!command) {
+          errorMessage({ error: 'Not a valid command...', description: 'You have entered an invalid command for help' });
+          // message.reply('that\'s not a valid command!');
+          return;
+        }
+        data.push(`\n**Name:** ${command.name}`);
+        // if (command.aliases) data.push(`**Aliases:** ${command.aliases.join(', ')}`);
+        if (command.description) data.push(`**Description:** ${command.description}`);
+        if (command.usage) data.push(`**Usage:** ${config.discord.prefix}${command.name} ${command.usage}`);
+      }
 
     }
 
