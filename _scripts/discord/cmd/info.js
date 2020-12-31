@@ -420,7 +420,7 @@ module.exports = {
           // has a role, admin stuff here
             const wallet_count = JSON.parse(await count());
             const total_balance = JSON.parse(await totalBalance());
-            const faucet_balance = JSON.parse(await faucetWalletBalance());
+            const faucet_balance = await faucetWalletBalance();
 
             console.log('total_balance: ' + JSON.stringify(total_balance));
             const embed = new Discord.MessageEmbed()
