@@ -45,7 +45,7 @@ module.exports = {
       messagedata.push('```');
       // add the adminCommands as well to the help fiule for mods and admib
       if (message.channel.type !== 'dm') {
-        if(message.member.roles.cache.some(r=>['admin', 'mod'].includes(r.name))) {
+        if(message.member.roles.cache.some(r=>[config.discord.admin_role, config.discord.mod_role].includes(r.name))) {
           // has one of the roles
           // console.log('hey hey roles: ');
           const { adminCommands } = message.client;
@@ -70,7 +70,7 @@ module.exports = {
 
     if (message.channel.type !== 'dm') {
       console.log('not a DM')
-      if (message.member.roles.cache.some(r=>['admin', 'mod'].includes(r.name))) {
+      if (message.member.roles.cache.some(r=>[config.discord.admin_role, config.discord.mod_role].includes(r.name))) {
         // has a role, admin stuff here
         const { adminCommands } = message.client;
         const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name)) || adminCommands.get(name) || adminCommands.find(c => c.aliases && c.aliases.includes(name));

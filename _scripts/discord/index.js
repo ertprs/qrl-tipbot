@@ -332,26 +332,26 @@ client.on('message', message => {
 
   if (message.channel.type !== 'dm') {
     // Check if they have one of many roles
-    if(message.member.roles.cache.some(r=>["admin", "mod"].includes(r.name)) ) {
-      console.log('hey hey roles: ')
+    if(message.member.roles.cache.some(r=>[config.discord.admin_role, config.discord.mod_role].includes(r.name)) ) {
+      // console.log('hey hey roles: ')
       command = (client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName))) || (client.adminCommands.get(commandName) || client.adminCommands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName)));
 
       // has one of the roles
     }
     else {
     // has none of the roles
-    console.log('boo roles: ')
+    // console.log('boo roles: ')
     command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
     }
   }
   else {
     // has none of the roles
-    console.log('boo roles: ')
+    // console.log('boo roles: ')
     command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
   }
   // get the command name set to command either from admin commands or user commands.
   // const command = (client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName))) || (client.adminCommands.get(commandName) || client.adminCommands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName)));
-  console.log('command: ' + JSON.stringify(command));
+  // console.log('command: ' + JSON.stringify(command));
   if (!command) return;
   // ///////////////////////////////////////////////////////
   //
