@@ -93,7 +93,7 @@ module.exports = {
         // assign this to a promise and get the function into a result
         BalancePromise.then(function(balanceResult) {
           getCgData().then(function(cg) {
-            console.log(JSON.stringify(cg));
+            // console.log(JSON.stringify(cg));
             const usdValue = cg.market_data.current_price.usd;
             const btcValue = cg.market_data.current_price.btc;
 
@@ -168,7 +168,7 @@ module.exports = {
         const pending = toQuanta(output[0].pending).toFixed(9);
 
         getCgData().then(function(cg) {
-          console.log(JSON.stringify(cg));
+          // console.log(JSON.stringify(cg));
           const usdValue = cg.market_data.current_price.usd;
           const btcValue = cg.market_data.current_price.btc;
 
