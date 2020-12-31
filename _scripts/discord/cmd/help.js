@@ -91,7 +91,7 @@ module.exports = {
     }
 
     else {
-      console.log('not a DM')
+      console.log('a DM')
       const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name));
       if (!command) {
         errorMessage({ error: 'Not a valid command...', description: 'You have entered an invalid command for help' });
