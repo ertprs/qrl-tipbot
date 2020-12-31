@@ -139,7 +139,7 @@ module.exports = {
           user.send({ embed })
             .then(() => {
               if (message.channel.type === 'dm') return;
-              ReplyMessage('Users keys sent');
+              ReplyMessage('User has been banned.');
             })
             .catch(error => {
             // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
