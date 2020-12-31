@@ -111,8 +111,8 @@ module.exports = {
             // console.log('res: ' + res + '\nresults: ' + results);
             const embed = new Discord.MessageEmbed()
               .setColor(0x000000)
-              .setTitle('**Address Balance**')
-              .setDescription('Details from the balance query.')
+              .setTitle('Address Balance - ' + res + ' QRL')
+              .setDescription('Details from the balance query. \n*Transactions may take a some time to post. Please be patient*')
               .addField('QRL Address Balance:', `\`${res}\``, true)
               .addField('QRL/USD Balance:', '`\u0024' + thousandths(userUSDValue) + '`', true)
               .addField('QRL/BTC Balance:', '`\u0024' + thousandths(userBTCValue) + '`', true)
@@ -186,7 +186,8 @@ module.exports = {
 
             const embed = new Discord.MessageEmbed()
               .setColor(0x000000)
-              .setTitle('Tipbot Balance - ' + res + ' QRL \n*Transactions may take a some time to post. Please be patient*')
+              .setTitle('Tipbot Balance - ' + res + ' QRL')
+              .setDescription('Details from the balance query. \n*Transactions may take a some time to post. Please be patient*')
               .addField('Balance:', `\`${res} QRL\``, true)
               .addField('QRL/USD Balance:', '`\u0024' + thousandths(userUSDValue) + '`', true)
               .addField('QRL/BTC Balance:', '`\u0024' + thousandths(userBTCValue) + '`', true)
@@ -210,7 +211,8 @@ module.exports = {
 
             const embed = new Discord.MessageEmbed()
               .setColor(0x000000)
-              .setTitle('Tipbot Balance - ' + res + ' QRL \n*Transactions may take a some time to post. Please be patient*')
+              .setTitle('Tipbot Balance - ' + res + ' QRL')
+              .setDescription('Details from the balance query. \n*Transactions may take a some time to post. Please be patient*')
               .addField('Balance:', `\`${res} QRL\``, true)
               .addField('QRL/USD Balance:', '`\u0024' + thousandths(userUSDValue) + '`', true)
               .addField('QRL/BTC Balance:', '`\u0024' + thousandths(userBTCValue) + '`', true)
