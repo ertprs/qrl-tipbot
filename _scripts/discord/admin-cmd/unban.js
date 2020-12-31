@@ -111,14 +111,18 @@ module.exports = {
         // user is banning them self
         console.log('Mentioned self in ban, fail and warn mod');
         errorMessage({ error: 'Mentioned Self...', description: 'You cannot ban yourself. try again' });
-        // return;
+        return;
       }
 
       const userInfo = await getUserInfo({ service: 'discord', user_id: service_id });
       console.log('userInfo: ' + JSON.stringify(userInfo));
       // if the user is found then continue.
       if (userInfo.user_found) {
-
+      	if (!userInfo.banned) {
+      		// user is not banned fail and return the user data
+      		console.log('user is not banned');
+      		return;
+      	}
         // unban the user from the users_info database
         const removeBan = await removeBanDBWrite(userInfo.user_id);
         console.log('User ban removed: ' + JSON.stringify(removeBan));
