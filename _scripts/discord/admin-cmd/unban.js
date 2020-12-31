@@ -1,15 +1,15 @@
 module.exports = {
   name: 'unban',
-  description: 'Print your secret keys to a private message',
+  description: 'Removes the ban status from a user and creates a new wallet for them.',
   args: false,
   aliases: ['unkick', 'un-ban', 'unBan', 'remove-ban', 'removeban' ],
   guildOnly: false,
-  usage: 'Command will remove a ban on a user, and generate a new adress to use.',
+  usage: '@fr1t2\nCommand will remove the ban on a user, and generate a new address to use. Use this if the user has been reinstated to the server or banned by accident',
 
   execute(message) {
   /*
     Take a user name and if found to be banned, remove the ban from the user and re-issue an address.
-	write a new entry to the wallets db 
+  write a new entry to the wallets db
 
     Once new address is setup send details to user
   */
@@ -17,9 +17,8 @@ module.exports = {
     const dbHelper = require('../../db/dbHelper');
     const config = require('../../../_config/config.json');
     const wallet = require('../../qrl/walletTools');
-	const uuid = `${message.author}`;
+    const uuid = `${message.author}`;
     const UUID = uuid.slice(1, -1);
-    const secretKey = wallet.GetSecretKeys;
 
     // use to send a reply to user with delay and stop typing
     // ReplyMessage(' Check your DM\'s');
@@ -44,11 +43,6 @@ module.exports = {
       }, 1000);
     }
 
-    function toQuanta(number) {
-      const shor = 1000000000;
-      return number / shor;
-    }
-
     // Get user info.
     async function getUserInfo(usrInfo) {
       return new Promise(resolve => {
@@ -56,7 +50,6 @@ module.exports = {
         resolve(data);
       });
     }
-
 
     // remove the ban from the users_info database
     async function removeBanDBWrite(userArgs) {
@@ -71,7 +64,7 @@ module.exports = {
       });
     }
 
-    // add the new wallet address to teh wallets database
+    // add the new wallet address to the wallets database
     async function addUserWallet(walletArgs) {
       return new Promise(resolve => {
         // {user_id: user_id} - id from database not discord suer uuid
@@ -107,7 +100,7 @@ module.exports = {
         return;
       }
 
-      const name = user.username;
+      // const name = user.username;
       const service_id = '@' + user.id;
       // console.log('name: ' + name);
       // console.log('service_id: ' + service_id);
@@ -115,8 +108,8 @@ module.exports = {
 
       // check for self mentioned and fail
       if (UUID === service_id) {
-      	// user is banning them self
-      	console.log('Mentioned self in ban, fail and warn mod')
+        // user is banning them self
+        console.log('Mentioned self in ban, fail and warn mod');
         errorMessage({ error: 'Mentioned Self...', description: 'You cannot ban yourself. try again' });
         // return;
       }
@@ -126,39 +119,34 @@ module.exports = {
       // if the user is found then continue.
       if (userInfo.user_found) {
 
-      	// unban the user from the users_info database
-		const removeBan = await removeBanDBWrite(userInfo.user_id);
-		console.log('User ban removed: ' + JSON.stringify(removeBan));
+        // unban the user from the users_info database
+        const removeBan = await removeBanDBWrite(userInfo.user_id);
+        console.log('User ban removed: ' + JSON.stringify(removeBan));
 
-      	// generate a new address and set into database and return to user
-		const addNewAddress = await addAddress();
+        // generate a new address and set into database and return to user
+        const addNewAddress = await addAddress();
         const walletPub = addNewAddress;
-		const addAddressToDb = await addUserWallet({ user_id: userInfo.user_id, wallet_pub: walletPub })
-
-        const userSecretKeyPromise = secretKey(walletPub);
-        userSecretKeyPromise.then(function(userSecrets) {
-          const keys = JSON.parse(userSecrets);
-          // console.log('keys: ' + JSON.stringify(keys));
-          const embed = new Discord.MessageEmbed()
-            .setColor('RED')
-            .setTitle('**TipBot Ban Removed**')
-            .setDescription('The ban has been removed from the server.\n\n \
-                Below is your new tipbot address.\n \
-                Your old address has been retired and is no longer used. If there are any funds left in the old address they are lost and will be claimed by the faucet.')
-            .addField('Public Address: ', '[`' + walletPub + '`](' + config.bot_details.explorer_url + ')')
-            .setFooter('.: Tipbot provided by The QRL Contributors :.');
-          user.send({ embed })
-            .then(() => {
-              if (message.channel.type === 'dm') return;
-              ReplyMessage('Users keys sent');
-            })
-            .catch(error => {
-            // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-              errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
-              // ReplyMessage('it seems like I can\'t DM you! Enable DM and try again...');
-            });
-          return;
-        });
+        const addAddressToDb = await addUserWallet({ user_id: userInfo.user_id, wallet_pub: walletPub });
+        // console.log('keys: ' + JSON.stringify(keys));
+        const embed = new Discord.MessageEmbed()
+          .setColor('RED')
+          .setTitle('**TipBot Ban Removed**')
+          .setDescription('The ban has been removed from the server.\n\n \
+              Below is your new tipbot address.\n \
+              Your old address has been retired and is no longer used. If there are any funds left in the old address they are lost and will be claimed by the faucet.')
+          .addField('Public Address: ', '[`' + walletPub + '`](' + config.bot_details.explorer_url + ')')
+          .setFooter('.: Tipbot provided by The QRL Contributors :.');
+        user.send({ embed })
+          .then(() => {
+            if (message.channel.type === 'dm') return;
+            ReplyMessage('Users keys sent');
+          })
+          .catch(error => {
+          // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+            errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
+            // ReplyMessage('it seems like I can\'t DM you! Enable DM and try again...');
+          });
+        return;
       }
       else {
         // fail on error

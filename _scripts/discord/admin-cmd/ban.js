@@ -1,10 +1,10 @@
 module.exports = {
   name: 'ban',
-  description: 'Print your secret keys to a private message',
+  description: 'Bans a user from using the tipbot and sends their private keys to them in a DM',
   args: false,
   aliases: ['kick' ],
   guildOnly: false,
-  usage: '{*alias*: kick}\nCommand will send a DM with TipBot private keys to the user mentioned.',
+  usage: '@fr1t2 \nCommand will send a DM with TipBot private keys to the user mentioned. This will remove any access to the tipbot and should only be used if user is also banned from the server.',
 
   execute(message) {
   /*
