@@ -173,7 +173,7 @@ module.exports = {
         const pending = toQuanta(output[0].pending).toFixed(9);
 
         getCgData().then(function(cg) {
-          console.log(cg);
+          // console.log(cg);
           const data = JSON.parse(cg);
           const usdValue = data.market_data.current_price.usd;
           const btcValue = data.market_data.current_price.btc;
@@ -188,8 +188,8 @@ module.exports = {
               .setColor(0x000000)
               .setTitle('Tipbot Balance - ' + res + ' QRL \n*Transactions may take a some time to post. Please be patient*')
               .addField('Balance:', `\`${res} QRL\``, true)
-              .addField('QRL/USD Balance:', userUSDValue, true)
-              .addField('QRL/BTC Balance:', userBTCValue, true)
+              .addField('QRL/USD Balance:', '`\u0024' + thousandths(userBTCValue) + '`', true)
+              .addField('QRL/BTC Balance:', '`\u0024' + thousandths(userUSDValue) + '`', true)
               .addField('Approx Pending TXn\'s:', '`' + pending + ' QRL`', true)
               .addField('QRL Address:', '[' + UserAddress + '](' + config.bot_details.explorer_url + '/a/' + UserAddress + ')')
               // .addField('Transactions may take a some time to post. Please be patient')
@@ -212,8 +212,8 @@ module.exports = {
               .setColor(0x000000)
               .setTitle('Tipbot Balance - ' + res + ' QRL \n*Transactions may take a some time to post. Please be patient*')
               .addField('Balance:', `\`${res} QRL\``, true)
-              .addField('QRL/USD Balance:', userUSDValue, true)
-              .addField('QRL/BTC Balance:', userBTCValue, true)
+              .addField('QRL/USD Balance:', '`\u0024' + thousandths(userBTCValue) + '`', true)
+              .addField('QRL/BTC Balance:', '`\u0024' + thousandths(userUSDValue) + '`', true)
               .addField('QRL Address:', '[' + UserAddress + '](' + config.bot_details.explorer_url + '/a/' + UserAddress + ')')
               // .addField('Transactions may take a some time to post. Please be patient')
               .setFooter('  .: Tipbot provided by The QRL Contributors :.');
