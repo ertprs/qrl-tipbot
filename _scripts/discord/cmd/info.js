@@ -422,7 +422,7 @@ module.exports = {
             const total_balance = JSON.parse(await totalBalance());
             const faucet_balance = await faucetWalletBalance();
             console.log('wallet_count: ' + wallet_count);
-            console.log('faucet_balance: ' + faucet_balance);
+            console.log('faucet_balance: ' + JSON.stringify(faucet_balance));
             console.log('total_balance: ' + JSON.stringify(total_balance));
             const embed = new Discord.MessageEmbed()
               .setColor('GREEN')
