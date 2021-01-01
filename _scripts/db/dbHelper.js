@@ -789,7 +789,7 @@ async function addTipTo(args) {
   // exepct { tip_id: fromTipDB, user_id: user_id, tip_amt: tip_amt, future_tip_id: future_tip_id }
   return new Promise(resolve => {
     const txArray = [];
-    // const input = JSON.parse(JSON.stringify(args));
+    const input = JSON.parse(JSON.stringify(args));
     const tip_id = args.tip_id;
     const user_id = args.user_id;
     const tip_amt = args.tip_amt;

@@ -124,7 +124,7 @@ module.exports = {
       // send the users data to future_tips for when they sign up
       return new Promise(resolve => {
         // console.log('tipToDBWrite tipToInfo' + JSON.stringify(tipToInfo));
-        const addToTipsToDBinfo = { tip_id: tipToInfo.tip_id, from_user_id: userID, user_id: tipToInfo.user_id, tip_amt: toQuanta(tipToInfo.tip_amt), future_tip_id: tipToInfo.future_tip_id, time_stamp: new Date() };
+        const addToTipsToDBinfo = { tip_id: tipToInfo.tip_id, user_id: tipToInfo.user_id, from_user_id: tipToInfo.from_user_id, tip_amt: toQuanta(tipToInfo.tip_amt), future_tip_id: tipToInfo.future_tip_id, time_stamp: new Date() };
         console.log('tipToDBWrite addToTipsToDBinfo: ' + JSON.stringify(addToTipsToDBinfo));
         const addToTipsToDBinfoWrite = dbHelper.addTipTo(addToTipsToDBinfo);
         resolve(addToTipsToDBinfoWrite);
@@ -443,7 +443,7 @@ module.exports = {
         // /////////////////////////////////////////////// //
 
         for(let i = 0, l = tippedUserInfo.length; i < l; i++) {
-          const addTipToInfo = { tip_id: tip_id, tip_amt: givenTip, user_id: tippingUserUser_Id };
+          const addTipToInfo = { tip_id: tip_id, tip_amt: givenTip, user_id: tippedUserServiceIDs[i], from_user_id: tippingUserUser_Id };
           // console.log('addTipToInfo: ' + JSON.stringify(addTipToInfo));
 
           // eslint-disable-next-line
@@ -457,7 +457,7 @@ module.exports = {
         // /////////////////////////////////////////////// //
 
         for(let i = 0, l = futureTippedUserInfo.length; i < l; i++) {
-          const addFutureTipToInfo = { user_id: futureTippedUserInfo[i].service_user_ID, user_name: futureTippedUserInfo[i].userName, tip_id: tip_id, tip_from: userID, tip_amount: givenTip };
+          const addFutureTipToInfo = { user_id: futureTippedUserIDs[i], user_name: futureTippedUserInfo[i].userName, tip_id: tip_id, tip_from: userID, tip_amount: givenTip };
           const addFutureTipToCall = await futureTipsDBWrite(addFutureTipToInfo);
           const future_tip_id = addFutureTipToCall[0].tip_id;
           const addTipToInfo = { tip_id: tip_id, tip_amt: givenTip, user_id: tippedUserServiceIDs[i], future_tip_id: future_tip_id };
