@@ -681,6 +681,7 @@ async function addTip(args) {
     const from_service = args.from_service;
     const time_stamp = args.time_stamp;
     const addTip_Values = [ [from_user_id, tip_amount, from_service, time_stamp]];
+    console.log('addTip_Values: ' + addTip_Values)
     const addTip_info = 'INSERT INTO tips(from_user_id, tip_amount, from_service, time_stamp ) VALUES ?';
     callmysql.query(addTip_info, [addTip_Values], function(err, addTip_ValuesResult) {
       if (err) {
