@@ -91,7 +91,7 @@ async function GetAllUserInfo(args) {
           // resolve(foundResArray);
         // }
 
-        CheckPendingTx({ user_id: args.service_id }).then(function(pendingBal) {
+        CheckPendingTx({ user_id: user_id }).then(function(pendingBal) {
           // console.log('pending BAl Request: ' + JSON.stringify(pendingBal));
 
       // update the balance in the wallet database and refresh info

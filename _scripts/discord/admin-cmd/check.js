@@ -490,7 +490,7 @@ module.exports = {
         });
       }
       else {
-
+        // no args given, show state and quit
         getNodeInfo().then(function(info) {
           // console.log('info: ' + info);
           const parsedInfo = JSON.parse(info);

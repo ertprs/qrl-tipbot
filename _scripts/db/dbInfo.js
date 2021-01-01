@@ -90,6 +90,24 @@ async function tipBotInfo(args) {
   });
 }
 
+
+
+
+async function getUserTips(args) {
+  // from user id get user tip info
+  // count of all tips sent, count of all tips recieved, users tipped to & from, total tipped, last 10 tips
+  // expect { user_id: 1 }
+  const id = args.user_id;
+  const searchDB = 'SELECT wallets.wallet_bal AS wallet_bal, wallets.wallet_pub AS wallet_pub FROM users INNER JOIN wallets ON users.id = wallets.user_id WHERE wallets.user_id = "' + id + '"';
+
+}
+
+
+
+
+
+
+
 module.exports = {
   GetUserWalletBal : GetUserWalletBal,
   tipBotInfo : tipBotInfo,

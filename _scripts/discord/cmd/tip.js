@@ -27,7 +27,7 @@ module.exports = {
     let tippingUserUser_Found = false;
     let tippingUserUser_agree = false;
     let tippingUserOpt_Out = true;
-    
+
     message.channel.startTyping();
 
     // use to send a reply to user with delay and stop typing
@@ -59,14 +59,6 @@ module.exports = {
       return;
     }
 
-
-    function deleteMessage() {
-      // Delete the previous message
-      if(message.guild != null) {
-        message.channel.stopTyping(true);
-        message.delete();
-      }
-    }
 
     function toShor(number) {
       const shor = 1000000000;
@@ -430,7 +422,7 @@ module.exports = {
         // arrays are full, now send the transactions and set database.
 
         // add users to the tips db and create a tip_id to track this tip through
-        const addTipInfo = { from_user_id: userID, tip_amount: givenTip };
+        const addTipInfo = { from_user_id: tippingUserUser_Id, tip_amount: givenTip };
         const addTipResults = await tipDBWrite(addTipInfo);
         const tip_id = addTipResults[0].tip_id;
         // check for tx_id to be created...
