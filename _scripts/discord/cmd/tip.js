@@ -423,6 +423,7 @@ module.exports = {
 
         // add users to the tips db and create a tip_id to track this tip through
         const addTipInfo = { from_user_id: tippingUserUser_Id, tip_amount: givenTip };
+        console.log('addTipInfo: ' + addTipInfo)
         const addTipResults = await tipDBWrite(addTipInfo);
         const tip_id = addTipResults[0].tip_id;
         // check for tx_id to be created...
