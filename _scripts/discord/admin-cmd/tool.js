@@ -107,7 +107,8 @@ module.exports = {
 
           getNodeInfo().then(function(info) {
             console.log('info: ' + info);
-            console.log(info.version + ', ' + info.num_connections + ', ' + info.num_known_peers + ', ' + info.uptime + ', ' + info.block_height + ', ' + info.block_last_hash + ', ' + info.network_id);
+            const parsedInfo = JSON.parse(info);
+            console.log(parsedInfo.version + ', ' + parsedInfo.num_connections + ', ' + parsedInfo.num_known_peers + ', ' + parsedInfo.uptime + ', ' + parsedInfo.block_height + ', ' + parsedInfo.block_last_hash + ', ' + info.network_id);
 
           });
 
