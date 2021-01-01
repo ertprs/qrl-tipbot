@@ -116,11 +116,11 @@ module.exports = {
               .setDescription('Details from the QRL Node running the tipbot')
               .addField('Version', '```yaml\n' + parsedInfo.version + '```', true)
               .addField('Network ID', '```yaml\n' + parsedInfo.network_id + '```', true)
-              .addField('Number of Connections', '```yaml\n' + parsedInfo.num_connections + '```', true)
-              .addField('Number of Known Peers', '```yaml\n' + parsedInfo.num_known_peers + '```', true)
+              .addField('Number of Connections', '```yaml\n' + parsedInfo.num_connections + '```', false)
+              .addField('Number of Known Peers', '```yaml\n' + parsedInfo.num_known_peers + '```', false)
               .addField('Node Uptime', '```yaml\n' + parsedInfo.uptime + '```', true)
               .addField('Block Height', '```yaml\n' + parsedInfo.block_height + '```', true)
-              .addField('Block Last Hash', '```yaml\n' + parsedInfo.block_last_hash + '```', true)
+              .addField('Block Last Hash', '```yaml\n' + parsedInfo.block_last_hash + '```', false)
               .setFooter('  .: Tipbot provided by The QRL Contributors :.');
             message.reply({ embed })
               .then(() => {
