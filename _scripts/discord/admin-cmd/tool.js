@@ -9,6 +9,7 @@ module.exports = {
   // execute(message, args) {
   execute(message, args) {
     // require the state file to get the state of the node
+    const Discord = require('discord.js');
     const walletTools = require('../../qrl/walletTools');
     const config = require('../../../_config/config.json');
     // const list = walletTools.list;
