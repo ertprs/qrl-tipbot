@@ -113,7 +113,7 @@ module.exports = {
       return new Promise(resolve => {
         // console.log('tipDBWrite tipInfo' + JSON.stringify(tipInfo));
         const addToTipsDBinfo = { from_user_id: tipInfo.from_user_id, tip_amount: toQuanta(tipInfo.tip_amount), from_service: 'discord', time_stamp: new Date() };
-        // console.log('tipDBWrite addToTipsDBinfo: ' + JSON.stringify(addToTipsDBinfo));
+        console.log('tipDBWrite addToTipsDBinfo: ' + JSON.stringify(addToTipsDBinfo));
         const addToTipsDBinfoWrite = dbHelper.addTip(addToTipsDBinfo);
         resolve(addToTipsDBinfoWrite);
       });
