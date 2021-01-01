@@ -13,12 +13,14 @@ module.exports = {
     const dbHelper = require('../../db/dbHelper');
     const checkUser = dbHelper.CheckUser;
     const config = require('../../../_config/config.json');
+    const walletTools = require('../../qrl/walletTools');
     // const getUserId = dbHelper.GetUserID;
     const checkOptOut = dbHelper.CheckUserOptOut;
     const checkSignedup = dbHelper.CheckUserSignup;
     const checkUserWalletPub = dbHelper.GetUserWalletPub;
     const checkUserWalletBal = dbHelper.GetUserWalletBal;
     const checkUserWalletQr = dbHelper.GetUserWalletQR;
+    const getNodeInfo = walletTools.GetNodeInfo;
     const username = `${message.author}`;
     const userID = username.slice(1, -1);
     const userToCheck = { service: 'discord', user_id: userID };
@@ -485,6 +487,34 @@ module.exports = {
         checkUserWalletqr().then(function(result) {
           // console.log('result: ' + result);
           return result;
+        });
+      }
+      else {
+
+        getNodeInfo().then(function(info) {
+          // console.log('info: ' + info);
+          const parsedInfo = JSON.parse(info);
+          // console.log(parsedInfo.version + ', ' + parsedInfo.num_connections + ', ' + parsedInfo.num_known_peers + ', ' + parsedInfo.uptime + ', ' + parsedInfo.block_height + ', ' + parsedInfo.block_last_hash + ', ' + parsedInfo.network_id);
+          const embed = new Discord.MessageEmbed()
+            .setColor(0x000000)
+            .setTitle('Tipbot Node State')
+            .setDescription('Details from the QRL Node running the tipbot')
+            .addField('Version', '```yaml\n' + parsedInfo.version + '```', false)
+            .addField('Node Uptime', '```yaml\n' + parsedInfo.uptime + '```', true)
+            .addField('Block Height', '```yaml\n' + parsedInfo.block_height + '```', true)
+            .addField('Network ID', '```yaml\n' + parsedInfo.network_id + '```', false)
+            .addField('Number of Connections', '```yaml\n' + parsedInfo.num_connections + '```', true)
+            .addField('Number of Known Peers', '```yaml\n' + parsedInfo.num_known_peers + '```', true)
+            .addField('Block Last Hash', '```yaml\n' + parsedInfo.block_last_hash + '```', false)
+            .setFooter('  .: Tipbot provided by The QRL Contributors :.');
+          message.reply({ embed })
+            .then(() => {
+              message.channel.stopTyping(true);
+            })
+            .catch(error => {
+              console.error('Could not send message\n', error);
+              // ReplyMessage('it seems like I can\'t DM you! Do you have DMs disabled?');
+            });
         });
       }
     }
