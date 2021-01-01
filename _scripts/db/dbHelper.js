@@ -797,7 +797,7 @@ async function addTipTo(args) {
     const from_user_id = args.from_user_id;
     // insert data into transactions db
     const tip_info_values = [ [tip_id, user_id, from_user_id, future_tip_id, tip_amt, new Date()] ];
-    const addto_tips_to_table = 'INSERT INTO tips_to(tip_id, user_id, future_tip_id, tip_amt, time_stamp) VALUES ?';
+    const addto_tips_to_table = 'INSERT INTO tips_to(tip_id, user_id, from_user_id, future_tip_id, tip_amt, time_stamp) VALUES ?';
     callmysql.query(addto_tips_to_table, [tip_info_values], function(err, addFutureTipRes) {
       if (err) {
         console.log('[mysql error]', err);
