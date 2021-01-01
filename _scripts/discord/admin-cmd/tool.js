@@ -108,8 +108,27 @@ module.exports = {
           getNodeInfo().then(function(info) {
             console.log('info: ' + info);
             const parsedInfo = JSON.parse(info);
-            console.log(parsedInfo.version + ', ' + parsedInfo.num_connections + ', ' + parsedInfo.num_known_peers + ', ' + parsedInfo.uptime + ', ' + parsedInfo.block_height + ', ' + parsedInfo.block_last_hash + ', ' + info.network_id);
-
+            console.log(parsedInfo.version + ', ' + parsedInfo.num_connections + ', ' + parsedInfo.num_known_peers + ', ' + parsedInfo.uptime + ', ' + parsedInfo.block_height + ', ' + parsedInfo.block_last_hash + ', ' + parsedInfo.network_id);
+            const embed = new Discord.MessageEmbed()
+              .setColor(0x000000)
+              .setTitle('Tipbot Node State')
+              .setDescription('Details from the QRL Node running the tipbot')
+              .addField('parsedInfo.version', parsedInfo.version, true)
+              .addField('parsedInfo.network_id', parsedInfo.network_id, true)
+              .addField('parsedInfo.num_connections', parsedInfo.num_connections, true)
+              .addField('parsedInfo.num_known_peers', parsedInfo.num_known_peers, true)
+              .addField('parsedInfo.uptime', parsedInfo.uptime, true)
+              .addField('parsedInfo.block_height', parsedInfo.block_height, true)
+              .addField('parsedInfo.block_last_hash', parsedInfo.block_last_hash, true)
+              .setFooter('  .: Tipbot provided by The QRL Contributors :.');
+            message.reply({ embed })
+              .then(() => {
+                message.channel.stopTyping(true);
+              })
+              .catch(error => {
+                console.error(`Could not send message\n`, error);
+                // ReplyMessage('it seems like I can\'t DM you! Do you have DMs disabled?');
+              });
           });
 
 
