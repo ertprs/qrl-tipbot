@@ -113,7 +113,7 @@ module.exports = {
       return new Promise(resolve => {
         // console.log('tipDBWrite tipInfo' + JSON.stringify(tipInfo));
         const addToTipsDBinfo = { from_user_id: tipInfo.from_user_id, tip_amount: toQuanta(tipInfo.tip_amount), from_service: 'discord', time_stamp: new Date() };
-        console.log('tipDBWrite addToTipsDBinfo: ' + JSON.stringify(addToTipsDBinfo));
+        // console.log('tipDBWrite addToTipsDBinfo: ' + JSON.stringify(addToTipsDBinfo));
         const addToTipsDBinfoWrite = dbHelper.addTip(addToTipsDBinfo);
         resolve(addToTipsDBinfoWrite);
       });
@@ -125,7 +125,7 @@ module.exports = {
       return new Promise(resolve => {
         // console.log('tipToDBWrite tipToInfo' + JSON.stringify(tipToInfo));
         const addToTipsToDBinfo = { tip_id: tipToInfo.tip_id, from_user_id: userID, user_id: tipToInfo.user_id, tip_amt: toQuanta(tipToInfo.tip_amt), future_tip_id: tipToInfo.future_tip_id, time_stamp: new Date() };
-        // console.log('tipToDBWrite addToTipsToDBinfo: ' + JSON.stringify(addToTipsToDBinfo));
+        console.log('tipToDBWrite addToTipsToDBinfo: ' + JSON.stringify(addToTipsToDBinfo));
         const addToTipsToDBinfoWrite = dbHelper.addTipTo(addToTipsToDBinfo);
         resolve(addToTipsToDBinfoWrite);
       });
@@ -397,6 +397,7 @@ module.exports = {
               // user found and not opted out, add to array and move on
               const tipToUserUserId = ' <@!' + filteredTipList[i].service_user_ID + '>';
               const tippedUserServiceID = filteredTipList[i].userid;
+              console.log('tippedUserServiceID: ' + tippedUserServiceID);
               const tippedUserUsername = filteredTipList[i].userName;
               const tipToUserUserWalletPub = tipToUserInfo[0].wallet_pub;
               // push user data to arrays for tipping
@@ -459,7 +460,7 @@ module.exports = {
           const addFutureTipToInfo = { user_id: futureTippedUserInfo[i].service_user_ID, user_name: futureTippedUserInfo[i].userName, tip_id: tip_id, tip_from: userID, tip_amount: givenTip };
           const addFutureTipToCall = await futureTipsDBWrite(addFutureTipToInfo);
           const future_tip_id = addFutureTipToCall[0].tip_id;
-          const addTipToInfo = { tip_id: tip_id, tip_amt: givenTip, user_id: tippingUserUser_Id, future_tip_id: future_tip_id };
+          const addTipToInfo = { tip_id: tip_id, tip_amt: givenTip, user_id: tippedUserServiceIDs[i], future_tip_id: future_tip_id };
           // eslint-disable-next-line
           const addTipToCall = await tipToDBWrite(addTipToInfo);
         // console.log('addTipToCall' + JSON.stringify(addTipToCall));

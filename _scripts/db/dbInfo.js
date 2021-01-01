@@ -98,10 +98,11 @@ async function getUserTips(args) {
   // count of all tips sent, count of all tips recieved, users tipped to & from, total tipped, last 10 tips
   // expect { user_id: 1 }
   const id = args.user_id;
-  const searchDB = 'SELECT tips.*, transactions.*, tips_to.*  FROM users INNER JOIN tips ON users.id = tips.from_user_id WHERE tips.from_user_id = "' + id + '" AND transactions.tip_id = tips.id AND tips_to.tip_id = tips.id';
+  const searchDB = 'SELECT tips.*, transactions.*, tips_to.*  FROM users, tips, transactions, tips_to WHERE tips.from_user_id = "' + id + '" AND transactions.tip_id = tips.id AND tips_to.tip_id = tips.id';
   return new Promise(resolve => {
     searchDB.then(function(results) {
-
+      console.log(JSON.stringify(results));
+      for
     })
   });
 }
