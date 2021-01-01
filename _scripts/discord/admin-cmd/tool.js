@@ -106,6 +106,7 @@ module.exports = {
           // from module.exports = {  qrlState : qrlState, }; // we import the function qrlState('')
 
           getNodeInfo().then(function(info) {
+            console.log('info: ' + info);
             console.log(info.version + ', ' + info.num_connections + ', ' + info.num_known_peers + ', ' + info.uptime + ', ' + info.block_height + ', ' + info.block_last_hash + ', ' + info.network_id);
 
           });
