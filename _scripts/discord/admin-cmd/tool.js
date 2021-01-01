@@ -5,20 +5,20 @@ module.exports = {
   guildOnly: false,
   aliases: ['tool', 'wallet_tool'],
   cooldown: 2,
-  usage: ' -->\nbalance || bal - List Balance in all wallets,\nlist - Print all wallet addresses\ncount - count of all addresses\nencrypt - encrypt the wallet with config.wallet.passphrase\nlock - locks the wallet with the passphrase\nunlock - unlocks the wallet\ngetWalletInfo - gets the wallet info\nwallet creates a new wallet... ',
+  usage: ' \nbalance || bal - List Balance in all wallets,\ncount - count of all addresses\ngetWalletInfo - gets the wallet info\nwallet creates a new wallet... ',
   // execute(message, args) {
   execute(message, args) {
     // require the state file to get the state of the node
     const walletTools = require('../../qrl/walletTools');
     const config = require('../../../_config/config.json');
-    const list = walletTools.list;
+    // const list = walletTools.list;
     const count = walletTools.count;
     const balance = walletTools.totalBalance;
-    const encrypt = walletTools.encrypt;
-    const lock = walletTools.lock;
-    const unlock = walletTools.unlock;
+    // const encrypt = walletTools.encrypt;
+    // const lock = walletTools.lock;
+    // const unlock = walletTools.unlock;
     const getWalletInfo = walletTools.getWalletInfo;
-    const createWallet = walletTools.CreateQRLWallet;
+    // const createWallet = walletTools.CreateQRLWallet;
     const admin = config.discord.bot_admin;
     const user = message.author.id;
     // check for admin user, if not admin fail
@@ -28,7 +28,7 @@ module.exports = {
       console.log('admin triggered by: ' + user);
       if (args != undefined) {
 
-/*
+        /*
         if (args[0] === 'list' || args[0] === 'ls') {
 
 // THIS IS BROKEN AS IT EXCEEDS THE LIMIT FOR A MESSAGE
@@ -96,6 +96,14 @@ module.exports = {
             // stop typing in discord
             message.channel.stopTyping();
           });
+        }
+        else if (args[0] === 'state' || args[0] === 'node') {
+          // start typing in discord
+          message.channel.startTyping();
+          from module.exports = {  qrlState : qrlState, }; // we import the function qrlState('')
+          console.log(qrlState);
+
+          message.channel.stopTyping();
         }
         /*
         else if (args[0] === 'wallet' || args[0] === 'wal') {

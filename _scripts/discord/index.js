@@ -33,9 +33,6 @@ for (const file of adminCommandFiles) {
   client.adminCommands.set(adminCommand.name, adminCommand);
 }
 
-
-// console.log('client.commands:' + JSON.stringify(client.commands));
-// console.log('client.adminCommands:' + JSON.stringify(client.adminCommands));
 // define cooldowns const
 const cooldowns = new Discord.Collection();
 // start the bot
@@ -228,7 +225,6 @@ async function cgData() {
 const escapeRegex = str => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const wallet_Info = wallet.getWalletInfo;
 
-// const locked = [];
 wallet_Info().then(function(Info) {
   const info = JSON.parse(Info);
   // console.log('info: ' + JSON.stringify(info));
@@ -312,16 +308,6 @@ client.on('message', message => {
   //  if (!client.commands.has(commandName)) return;
   //    const command = client.commands.get(commandName);
 
-
-
-
-
-
-
-
-
-
-
   /*
     if(message.member.roles.find(r => r.name === config.discord.admin_role) || message.member.roles.find(r => rname === config.discord.mod_role)){
         //Rest of your code
@@ -333,10 +319,9 @@ client.on('message', message => {
   if (message.channel.type !== 'dm') {
     // Check if they have one of many roles
     if(message.member.roles.cache.some(r=>[config.discord.admin_role, config.discord.mod_role].includes(r.name)) ) {
+      // has one of the roles
       // console.log('hey hey roles: ')
       command = (client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName))) || (client.adminCommands.get(commandName) || client.adminCommands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName)));
-
-      // has one of the roles
     }
     else {
     // has none of the roles
@@ -345,8 +330,7 @@ client.on('message', message => {
     }
   }
   else {
-    // has none of the roles
-    // console.log('boo roles: ')
+    // Is not a DM
     command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
   }
   // get the command name set to command either from admin commands or user commands.
@@ -358,7 +342,7 @@ client.on('message', message => {
   // LOG ALL THE THINGS
   //
   // ///////////////////////////////////////////////////////
-  // log everthing with ${config.discord.prefix} to console
+  // log everthing with ${config.discord.prefix} or BOT user mention to console
   // ///////////////////////////////////////////////////////
   if (message.channel.type === 'dm') {
     console.log(chalk.yellow('Message Recieved:..') +
@@ -431,7 +415,7 @@ client.on('message', message => {
   }
   catch (error) {
     console.error(error);
-    errorMessage({ error: 'It appears I have been observed...', description: ' My superposition has collapsed and I landed in another state. Please reach out to my bot owner ' + config.discord.bot_admin + ' for assistance.' });
+    errorMessage({ error: 'It appears I have been observed...', description: ' My superposition has collapsed and I landed in another state. Please reach out to my bot owner <@' + config.discord.bot_admin + '> for assistance.' });
     // message.reply('there was an error trying to execute that command!');
   }
 

@@ -267,3 +267,4 @@ module.exports = {
   GetSecretKeys : GetSecretKeys,
   GetTxInfo : GetTxInfo,
 };
+
