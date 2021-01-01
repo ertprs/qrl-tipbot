@@ -17,6 +17,7 @@ module.exports = {
     // const encrypt = walletTools.encrypt;
     // const lock = walletTools.lock;
     // const unlock = walletTools.unlock;
+    const getNodeInfo = walletTools.GetNodeInfo;
     const getWalletInfo = walletTools.getWalletInfo;
     // const createWallet = walletTools.CreateQRLWallet;
     const admin = config.discord.bot_admin;
@@ -100,8 +101,10 @@ module.exports = {
         else if (args[0] === 'state' || args[0] === 'node') {
           // start typing in discord
           message.channel.startTyping();
-          from module.exports = {  qrlState : qrlState, }; // we import the function qrlState('')
-          console.log(qrlState);
+          // from module.exports = {  qrlState : qrlState, }; // we import the function qrlState('')
+          const { version, num_connections, num_known_peers, uptime, block_height, block_last_hash, network_id } = getNodeInfo();
+
+          console.log(version + ', ' + num_connections + ', ' + num_known_peers + ', ' + uptime + ', ' + block_height + ', ' + block_last_hash + ', ' + network_id);
 
           message.channel.stopTyping();
         }
