@@ -107,9 +107,9 @@ module.exports = {
           // from module.exports = {  qrlState : qrlState, }; // we import the function qrlState('')
 
           getNodeInfo().then(function(info) {
-            console.log('info: ' + info);
+            // console.log('info: ' + info);
             const parsedInfo = JSON.parse(info);
-            console.log(parsedInfo.version + ', ' + parsedInfo.num_connections + ', ' + parsedInfo.num_known_peers + ', ' + parsedInfo.uptime + ', ' + parsedInfo.block_height + ', ' + parsedInfo.block_last_hash + ', ' + parsedInfo.network_id);
+            // console.log(parsedInfo.version + ', ' + parsedInfo.num_connections + ', ' + parsedInfo.num_known_peers + ', ' + parsedInfo.uptime + ', ' + parsedInfo.block_height + ', ' + parsedInfo.block_last_hash + ', ' + parsedInfo.network_id);
             const embed = new Discord.MessageEmbed()
               .setColor(0x000000)
               .setTitle('Tipbot Node State')
