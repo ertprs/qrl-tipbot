@@ -60,7 +60,9 @@ module.exports = {
         if (args[0] === 'count' || args[0] === 'cnt') {
           // start typing in discord
           message.channel.startTyping();
+
           const { version, address_count, encrypted, locked } = getWalletInfo();
+
           console.error('output... ' + version + address_count + encrypted + locked);
           if (locked !== true) {
             console.log('wallet lock check is good, unlocked');
@@ -102,9 +104,12 @@ module.exports = {
           // start typing in discord
           message.channel.startTyping();
           // from module.exports = {  qrlState : qrlState, }; // we import the function qrlState('')
-          const { version, num_connections, num_known_peers, uptime, block_height, block_last_hash, network_id } = getNodeInfo();
 
-          console.log(version + ', ' + num_connections + ', ' + num_known_peers + ', ' + uptime + ', ' + block_height + ', ' + block_last_hash + ', ' + network_id);
+          getNodeInfo().then(function(info) {
+            console.log(info.version + ', ' + info.num_connections + ', ' + info.num_known_peers + ', ' + info.uptime + ', ' + info.block_height + ', ' + info.block_last_hash + ', ' + info.network_id);
+
+          });
+
 
           message.channel.stopTyping();
         }
